@@ -1,0 +1,2 @@
+# PlatformDiagnosticCollector
+Platform Diagnostic Collector
