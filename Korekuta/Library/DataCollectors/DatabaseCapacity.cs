@@ -16,6 +16,7 @@ namespace Library
     public class DatabaseCapacity
     {
         #region Object Properties
+
         // Set Object Fields to Columns -- copy from Satellite API
         public System.DateTime execution_runtime { get; set; }
         public string artical_name { get; set; }
@@ -26,11 +27,12 @@ namespace Library
         public Nullable<decimal> available_capacity_percentage { get; set; }
         public Nullable<decimal> average_capacity_growth { get; set; }
         public Nullable<decimal> capacity_threshold { get; set; }
+        
         #endregion
 
         #region Data Collection Method
         // Data Collection Method
-        public static void DataCollection(string url, string connectionString)
+        public static void DataCollection(string url, string connectionString, string serviceName, string environmentName)
         {
             // Setup HttpClient Instance
             HttpClient client = new HttpClient();
@@ -57,19 +59,21 @@ namespace Library
                     {
 
                         // SQLCommand & Command Type
-                        SqlCommand command = new SqlCommand("usp_DatabaseCapacity_Insert_vNext", connection);
+                        SqlCommand command = new SqlCommand("usp_DatabaseCapacity_Insert_vNext2", connection);
                         command.CommandType = System.Data.CommandType.StoredProcedure;
 
                         // Data Capacity Columns -- example: command.Parameters.AddWithValue("Value1", Value1);
-                        command.Parameters.AddWithValue("execution_runtime", item.execution_runtime);
-                        command.Parameters.AddWithValue("artical_name", item.artical_name);
-                        command.Parameters.AddWithValue("database_name", item.database_name);
-                        command.Parameters.AddWithValue("allocated_capacity", item.allocated_capacity);
-                        command.Parameters.AddWithValue("utilized_capacity", item.utilized_capacity);
-                        command.Parameters.AddWithValue("available_capacity", item.available_capacity);
-                        command.Parameters.AddWithValue("available_capacity_percentage", item.available_capacity_percentage);
-                        command.Parameters.AddWithValue("average_capacity_growth", item.average_capacity_growth);
-                        command.Parameters.AddWithValue("capacity_threshold", item.capacity_threshold);
+                        command.Parameters.AddWithValue("dt_session", item.execution_runtime);
+                        command.Parameters.AddWithValue("nvc_service", serviceName);
+                        command.Parameters.AddWithValue("nvc_enviroment", environmentName);
+                        command.Parameters.AddWithValue("nvc_machine", item.artical_name);
+                        command.Parameters.AddWithValue("nvc_database", item.database_name);
+                        command.Parameters.AddWithValue("d_allocated_capacity", item.allocated_capacity);
+                        command.Parameters.AddWithValue("d_utilized_capacity", item.utilized_capacity);
+                        command.Parameters.AddWithValue("d_available_capacity", item.available_capacity);
+                        command.Parameters.AddWithValue("d_available_capacity_percentage", item.available_capacity_percentage);
+                        command.Parameters.AddWithValue("d_capacity_growth", item.average_capacity_growth);
+                        command.Parameters.AddWithValue("d_capacity_threshold", item.capacity_threshold);
 
                         // Execute SQL
                         connection.Open();

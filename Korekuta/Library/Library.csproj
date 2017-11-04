@@ -45,23 +45,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConnectionController\ConnectionController.cs" />
+    <Compile Include="Controllers\ConnectionController.cs" />
     <Compile Include="DataCollectors\Certificate.cs" />
-    <Compile Include="DataCollectors\DatabaseCapacity2.cs" />
     <Compile Include="DataCollectors\DatabaseCapacity.cs" />
+    <Compile Include="DataCollectors\StorageArray.cs" />
+    <Compile Include="Storage\DatabaseCapacityOld.cs" />
     <Compile Include="DataCollectors\SQLAvailability.cs" />
     <Compile Include="DataCollectors\Replication.cs" />
     <Compile Include="DataCollectors\ServiceAccount.cs" />
-    <Compile Include="ExecutionController\ExecutionController.cs" />
-    <Compile Include="Logging\ExecutionLog.cs" />
-    <Compile Include="Logging\ServiceLog.cs" />
+    <Compile Include="Controllers\ExecutionController.cs" />
+    <Compile Include="Utility\ExecutionLog.cs" />
+    <Compile Include="Utility\ServiceLog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Storage\DataCollectorTemplate.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="ConnectionController\" />
+    <Folder Include="ExecutionController\" />
+    <Folder Include="Logging\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
