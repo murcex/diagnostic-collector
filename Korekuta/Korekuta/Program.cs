@@ -66,17 +66,17 @@ namespace Korekuta
             if (generationOneDataCollection == true)
             {
                 // Data Collection Method -- URI One
-                DatabaseCapacity2.DataCollection(apiCollectionOneDatabaseCapacity, connectionSQL, apiCollectionOneService, apiCollectionOneEnvironment);
+                DatabaseCapacity.DataCollection(apiCollectionOneDatabaseCapacity, connectionSQL, apiCollectionOneService, apiCollectionOneEnvironment);
                 Replication.DataCollection(apiCollectionOneReplication, connectionSQL, apiCollectionOneService, apiCollectionOneEnvironment);
                 SQLAvailability.DataCollection(apiCollectionOneSQLAvailability, connectionSQL, apiCollectionOneService, apiCollectionOneEnvironment);
 
                 // Data Collection Method -- URI Two
-                DatabaseCapacity2.DataCollection(apiCollectionTwoDatabaseCapacity, connectionSQL, apiCollectionTwoService, apiCollectionTwoEnvironment);
+                DatabaseCapacity.DataCollection(apiCollectionTwoDatabaseCapacity, connectionSQL, apiCollectionTwoService, apiCollectionTwoEnvironment);
                 Replication.DataCollection(apiCollectionTwoReplication, connectionSQL, apiCollectionTwoService, apiCollectionTwoEnvironment);
                 SQLAvailability.DataCollection(apiCollectionSQLAvailability, connectionSQL, apiCollectionTwoService, apiCollectionTwoEnvironment);
 
                 // Data Collection Method -- URI Three
-                DatabaseCapacity2.DataCollection(apiCollectionThreeDatabaseCapacity, connectionSQL, apiCollectionThreeService, apiCollectionThreeEnvironment);
+                DatabaseCapacity.DataCollection(apiCollectionThreeDatabaseCapacity, connectionSQL, apiCollectionThreeService, apiCollectionThreeEnvironment);
                 Replication.DataCollection(apiCollectionThreeReplication, connectionSQL, apiCollectionThreeService, apiCollectionThreeEnvironment);
                 SQLAvailability.DataCollection(apiCollectionThreeSQLAvailability, connectionSQL, apiCollectionThreeService, apiCollectionThreeEnvironment);
 
