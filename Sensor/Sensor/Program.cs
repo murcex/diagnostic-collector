@@ -13,33 +13,17 @@ namespace Sensor
 {
 	class Program
 	{
-        //public static class Global
-        //{
-        //    public static readonly String SQLConnectionString = ConfigurationManager.AppSettings["sensor"].ToString();
-        //    public static readonly String SensorLocation = ConfigurationManager.AppSettings["sql"].ToString();
-        //    public static readonly DateTime SessionDatetime = DateTime.Now.ToUniversalTime();
-        //}
-
         static void Main(string[] args)
 		{
-			// Master debug switch
-			int debugSwitch = 1;
-
-			// Import App.Config values
-			//TODO: Static Global class
-			//var source = ConfigurationManager.AppSettings["sensor"].ToString();
-			//var connectionString = ConfigurationManager.AppSettings["sql"].ToString();
-			//DateTime sensorSession = DateTime.Now.ToUniversalTime();
-
 			// Master Sensor collection
 			List<Sensor> sensorCollection = new List<Sensor>();
 
 			#region debug-master.switch
 
-			if (debugSwitch == 1)
+			if (Global.DebugMode == 1)
 			{
                 Console.WriteLine("-- Connection String Check --");
-                Console.WriteLine("Connection String: {0}",Global.SQLConnectionString);
+                Console.WriteLine("Connection String: {0} \r\n", Global.SQLConnectionString);
 			}
 
             #endregion
@@ -55,14 +39,14 @@ namespace Sensor
 			#endregion
 
 			#region debug-hostname.import.check
-			if (debugSwitch == 1)
+			if (Global.DebugMode == 1)
 			{
                 Console.WriteLine("-- Import Check --");
 
                 foreach (var testhost in targetList)
 				{
-					Console.WriteLine("DNS Name: {0}",testhost.DNSName);
-					Console.WriteLine("DNS Probe: {0}",testhost.DNSProbe);
+					Console.WriteLine("DNS Name: {0}", testhost.DNSName);
+					Console.WriteLine("DNS Probe: {0} \r\n", testhost.DNSProbe);
 				}
 			}
 
@@ -93,12 +77,12 @@ namespace Sensor
 
 				#region debug-collect.http.check
 
-				if (debugSwitch == 1)
+				if (Global.DebugMode == 1)
 				{
                     Console.WriteLine("-- Collection Check --");
                     Console.WriteLine("HTTP Web Response Address: {0}", address);
 					Console.WriteLine("HTTP Web Response Status: {0}", response.StatusDescription);
-					Console.WriteLine("HTTP Web Response Latency: {0}", timeTaken);
+					Console.WriteLine("HTTP Web Response Latency: {0} \r\n", timeTaken);
 				}
 
 				#endregion
@@ -113,33 +97,16 @@ namespace Sensor
 
 			#region SQLInsert
 
-			foreach (var upsert in sensorCollection)
-			{
-				#region debug3
-
-				if (debugSwitch == 1)
-				{
-                    Console.WriteLine("-- SQL Upsert Check --");
-                    Console.WriteLine(upsert.dt_session);
-					Console.WriteLine(upsert.nvc_source);
-					Console.WriteLine(upsert.nvc_dns);
-					Console.WriteLine(upsert.nvc_ip);
-					Console.WriteLine(upsert.nvc_status);
-					Console.WriteLine(upsert.i_latency);
-				}
-
-				#endregion
-
-				Injector.SQLUpsert(upsert, Global.SQLConnectionString);
-			}
+            TargetDispatch.SQLUpsert(sensorCollection);
 
 			#endregion
 
 			#region debug-console.read
 
-			if (debugSwitch == 1)
+			if (Global.DebugMode == 1)
 			{
-				Console.Read();
+                Console.WriteLine("-- Operation Complete --");
+                Console.Read();
 			}
 			
 			#endregion
@@ -147,6 +114,8 @@ namespace Sensor
 			Environment.Exit(0);
 		}
 
+        // Auto generated methods
+        //TODO: Move to classes, clean-up
 		private static void CollectHTTPRequest(TargetAcquisition.Target hostname, Sensor sensor, out string address, out HttpWebResponse response, out TimeSpan timeTaken)
 		{
 			string uriHeader = "https://";
