@@ -11,7 +11,7 @@ namespace Sensor
     {
         public static readonly String SensorLocation = ConfigurationManager.AppSettings["sensor"].ToString();
         public static readonly String SQLConnectionString = ConfigurationManager.AppSettings["sql"].ToString();
+        public static readonly String DebugMode = ConfigurationManager.AppSettings["debug"].ToString();
         public static readonly DateTime SessionDatetime = DateTime.Now.ToUniversalTime();
-        public static readonly Int32 DebugMode = 1;
     }
 }

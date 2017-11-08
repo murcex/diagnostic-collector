@@ -7,7 +7,6 @@ using System.Data.SqlClient;
 
 namespace Sensor
 {
-    //TODO: Clean-up - remove legacy connectionString commented ref
     class TargetAcquisition
     {
 		public class Target
@@ -16,13 +15,12 @@ namespace Sensor
 			public string DNSProbe { get; set; }
 			public string DNSConfiguration { get; set; }
 		}
-		public static List<Target> GetTargetList() //(string connectionString)
+		public static List<Target> GetTargetList()
 		{
 			var targetList = new List<Target>();
 
 			var target = new Target();
 
-            //using (var connection = new System.Data.SqlClient.SqlConnection(connectionString))
             using (var connection = new System.Data.SqlClient.SqlConnection(Global.SQLConnectionString))
             {
                 var cmd = new SqlCommand("usp_Sensor_HostNames_Load", connection);
