@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Configuration;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using Newtonsoft.Json;
 
 namespace Sensor
 {
@@ -20,27 +21,20 @@ namespace Sensor
 
 			#region debug-master.switch
 
-			if (Global.DebugMode == 1)
-			{
+			//if (Global.DebugMode == 1)
+			//{
                 Console.WriteLine("-- Connection String Check --");
                 Console.WriteLine("Connection String: {0} \r\n", Global.SQLConnectionString);
-			}
+			//}
 
             #endregion
 
             // ADD COLLECTION ALL targetList FROM SQL
-            //TODO: Clean-up GetTargetList class
             var targetList = TargetAcquisition.GetTargetList();
 
-			#region JSONTesting
-
-			//
-
-			#endregion
-
 			#region debug-hostname.import.check
-			if (Global.DebugMode == 1)
-			{
+			//if (Global.DebugMode == 1)
+			//{
                 Console.WriteLine("-- Import Check --");
 
                 foreach (var testhost in targetList)
@@ -48,7 +42,7 @@ namespace Sensor
 					Console.WriteLine("DNS Name: {0}", testhost.DNSName);
 					Console.WriteLine("DNS Probe: {0} \r\n", testhost.DNSProbe);
 				}
-			}
+			//}
 
 			#endregion
 
@@ -77,13 +71,13 @@ namespace Sensor
 
 				#region debug-collect.http.check
 
-				if (Global.DebugMode == 1)
-				{
+				//if (Global.DebugMode == 1)
+				//{
                     Console.WriteLine("-- Collection Check --");
                     Console.WriteLine("HTTP Web Response Address: {0}", address);
 					Console.WriteLine("HTTP Web Response Status: {0}", response.StatusDescription);
 					Console.WriteLine("HTTP Web Response Latency: {0} \r\n", timeTaken);
-				}
+				//}
 
 				#endregion
 
@@ -103,7 +97,7 @@ namespace Sensor
 
 			#region debug-console.read
 
-			if (Global.DebugMode == 1)
+			if (Global.DebugMode == "1")
 			{
                 Console.WriteLine("-- Operation Complete --");
                 Console.Read();
@@ -153,8 +147,28 @@ namespace Sensor
 					sensor.nvc_ip = ip.ToString();
 				}
 
-				// find datacenter from json object with json.ip == sensor.nvc_ip
-			}
+                Console.WriteLine("-- DataCenter Mapping --");
+
+                //if (hostname.DNSConfiguration != "NOTMAPPED")
+                if (hostname.DNSConfiguration.Contains("IpAddress"))
+                {
+                    var jsonObject = JsonConvert.DeserializeObject<List<Endpoint>>(hostname.DNSConfiguration);
+
+                    foreach (Endpoint checkIpAddress in jsonObject)
+                    {
+                       Console.WriteLine("DataCenter Check: {0}", checkIpAddress.DataCenter);
+                    }
+
+                    var matchDatacenter = jsonObject.Where(x => x.IpAddress == sensor.nvc_ip).Select(x => x.DataCenter).FirstOrDefault();
+
+                    Console.WriteLine("Datacenter Match: {0} \r\n", matchDatacenter);
+                }
+
+                else
+                {
+                    Console.WriteLine("DataCenter Match: NONE \r\n");
+                }
+            }
 
 			else
 			{

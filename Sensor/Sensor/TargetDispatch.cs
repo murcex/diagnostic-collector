@@ -13,9 +13,8 @@ namespace Sensor
 		{
             foreach (var target in transferCase)
             {
-                //TODO: Add console debug
-                if (Global.DebugMode == 1)
-                {
+                //if (Global.DebugMode == 1)
+                //{
                     Console.WriteLine("-- SQL Upsert Check --");
                     Console.WriteLine("Session: {0}", target.dt_session);
                     Console.WriteLine("Source: {0}", target.nvc_source);
@@ -23,7 +22,7 @@ namespace Sensor
                     Console.WriteLine("IPAddress: {0}", target.nvc_ip);
                     Console.WriteLine("Status: {0}", target.nvc_status);
                     Console.WriteLine("Latency: {0} \r\n", target.i_latency);
-                }
+                //}
 
                 using (SqlConnection connection = new SqlConnection(Global.SQLConnectionString))
                 {
