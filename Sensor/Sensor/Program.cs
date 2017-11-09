@@ -160,12 +160,20 @@ namespace Sensor
                     }
 
                     var matchDatacenter = jsonObject.Where(x => x.IpAddress == sensor.nvc_ip).Select(x => x.DataCenter).FirstOrDefault();
+                    var matchDatacenterTag = jsonObject.Where(x => x.IpAddress == sensor.nvc_ip).Select(x => x.DataCenterTag).FirstOrDefault();
 
-                    Console.WriteLine("Datacenter Match: {0} \r\n", matchDatacenter);
+                    sensor.nvc_datacenter = matchDatacenter;
+                    sensor.nvc_datacentertag = matchDatacenterTag;
+
+                    Console.WriteLine("Datacenter Match: {0}", matchDatacenter);
+                    Console.WriteLine("Datacenter Tag Match: {0} \r\n", matchDatacenterTag);
                 }
 
                 else
                 {
+                    sensor.nvc_datacenter = "UNKNOWN";
+                    sensor.nvc_datacentertag = "UNK";
+
                     Console.WriteLine("DataCenter Match: NONE \r\n");
                 }
             }
