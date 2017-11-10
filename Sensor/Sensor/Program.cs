@@ -19,30 +19,25 @@ namespace Sensor
 			// Master Sensor collection
 			List<Sensor> sensorCollection = new List<Sensor>();
 
-			#region debug-master.switch
+			#region console.connectionstring
 
-			//if (Global.DebugMode == 1)
-			//{
                 Console.WriteLine("-- Connection String Check --");
                 Console.WriteLine("Connection String: {0} \r\n", Global.SQLConnectionString);
-			//}
 
             #endregion
 
             // ADD COLLECTION ALL targetList FROM SQL
             var targetList = TargetAcquisition.GetTargetList();
 
-			#region debug-hostname.import.check
-			//if (Global.DebugMode == 1)
-			//{
-                Console.WriteLine("-- Import Check --");
+            #region console.importcheck
 
-                foreach (var testhost in targetList)
-				{
-					Console.WriteLine("DNS Name: {0}", testhost.DNSName);
-					Console.WriteLine("DNS Probe: {0} \r\n", testhost.DNSProbe);
-				}
-			//}
+            Console.WriteLine("-- Import Check --");
+
+            foreach (var targetCheck in targetList)
+			{
+				Console.WriteLine("DNS Name: {0}", targetCheck.DNSName);
+				Console.WriteLine("DNS Probe: {0} \r\n", targetCheck.DNSProbe);
+			}
 
 			#endregion
 
@@ -50,148 +45,136 @@ namespace Sensor
 			foreach (var target in targetList)
 			{
 				Sensor sensor = new Sensor();
+                System.Diagnostics.Stopwatch timer = new Stopwatch();
 
-				#region IPCollect
+                sensor.dt_session = Global.SessionDatetime;
+                sensor.nvc_source = Global.SensorLocation;
+                sensor.nvc_dns = target.DNSName;
 
-				//TODO: Create IPCollect method
-				CollectIP(target, sensor);
+                //TODO: Create IPCollect method
+                //CollectIP(target, sensor);
+                Collection.CollectIP(target, sensor);
 
-				#endregion
+                //TODO: Create HTTPCollect method
+                //string address;
+                //HttpWebResponse response;
+                //TimeSpan timeTaken;
 
-				#region HTTPCollect
+                //CollectHTTPRequest(target, sensor, out address, out response, out timeTaken);
+                //Console.WriteLine("Starting Collection Method");
+                Console.WriteLine("-- HTTP Timer --");
+                Console.WriteLine("Starting Request Method: {0}",timer.Elapsed);
+                Collection.CollectHTTPRequest(target, sensor, timer);
 
-				//TODO: Create HTTPCollect method
-				string address;
-				HttpWebResponse response;
-				TimeSpan timeTaken;
+                //Console.WriteLine("-- Collection Check --");
+                //Console.WriteLine("HTTP Web Response Address: {0}", address);
+                //Console.WriteLine("HTTP Web Response Status: {0}", response.StatusDescription);
+                //Console.WriteLine("HTTP Web Response Latency: {0} \r\n", timeTaken);
 
-				CollectHTTPRequest(target, sensor, out address, out response, out timeTaken);
+                // set object with collected data
+                //LoadSensor(Global.SessionDatetime, Global.SensorLocation, sensorCollection, target, sensor);
 
-				#endregion
-
-				#region debug-collect.http.check
-
-				//if (Global.DebugMode == 1)
-				//{
-                    Console.WriteLine("-- Collection Check --");
-                    Console.WriteLine("HTTP Web Response Address: {0}", address);
-					Console.WriteLine("HTTP Web Response Status: {0}", response.StatusDescription);
-					Console.WriteLine("HTTP Web Response Latency: {0} \r\n", timeTaken);
-				//}
-
-				#endregion
-
-				#region CompilesensorObject
-
-				// set object with collected data
-				LoadSensor(Global.SessionDatetime, Global.SensorLocation, sensorCollection, target, sensor, response);
-
-				#endregion
-			}
-
-			#region SQLInsert
+                sensorCollection.Add(sensor);
+            }
 
             TargetDispatch.SQLUpsert(sensorCollection);
-
-			#endregion
-
-			#region debug-console.read
 
 			if (Global.DebugMode == "1")
 			{
                 Console.WriteLine("-- Operation Complete --");
                 Console.Read();
 			}
-			
-			#endregion
 
 			Environment.Exit(0);
 		}
 
+        #region legacy methods
+
         // Auto generated methods
         //TODO: Move to classes, clean-up
-		private static void CollectHTTPRequest(TargetAcquisition.Target hostname, Sensor sensor, out string address, out HttpWebResponse response, out TimeSpan timeTaken)
-		{
-			string uriHeader = "https://";
-			address = uriHeader + hostname.DNSName + hostname.DNSProbe;
-			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(address);
+        //private static void CollectHTTPRequest(TargetAcquisition.Target hostname, Sensor sensor, out string address, out HttpWebResponse response, out TimeSpan timeTaken)
+        //{
+        //	string uriHeader = "https://";
+        //	address = uriHeader + hostname.DNSName + hostname.DNSProbe;
+        //	HttpWebRequest request = (HttpWebRequest)WebRequest.Create(address);
 
-			System.Diagnostics.Stopwatch timer = new Stopwatch();
+        //	System.Diagnostics.Stopwatch timer = new Stopwatch();
 
-			timer.Start();
+        //	timer.Start();
 
-			response = (HttpWebResponse)request.GetResponse();
+        //	response = (HttpWebResponse)request.GetResponse();
 
-			timer.Stop();
+        //	timer.Stop();
 
-			timeTaken = timer.Elapsed;
-			if (timeTaken.TotalMilliseconds > 1000)
-			{
-				sensor.i_latency = 1000;
-			}
+        //	timeTaken = timer.Elapsed;
+        //	if (timeTaken.TotalMilliseconds > 1000)
+        //	{
+        //		sensor.i_latency = 1000;
+        //	}
 
-			else
-			{
-				sensor.i_latency = timeTaken.TotalMilliseconds;
-			}
-		}
+        //	else
+        //	{
+        //		sensor.i_latency = timeTaken.TotalMilliseconds;
+        //	}
+        //}
 
-		private static void CollectIP(TargetAcquisition.Target hostname, Sensor sensor)
-		{
-			IPAddress[] ips = Dns.GetHostAddresses(hostname.DNSName);
+        //private static void CollectIP(TargetAcquisition.Target hostname, Sensor sensor)
+        //{
+        //	IPAddress[] ips = Dns.GetHostAddresses(hostname.DNSName);
 
-			if (ips.Length < 2)
-			{
-				foreach (var ip in ips)
-				{
-					sensor.nvc_ip = ip.ToString();
-				}
+        //	if (ips.Length < 2)
+        //	{
+        //		foreach (var ip in ips)
+        //		{
+        //			sensor.nvc_ip = ip.ToString();
+        //		}
 
-                Console.WriteLine("-- DataCenter Mapping --");
+        //              Console.WriteLine("-- DataCenter Mapping --");
 
-                //if (hostname.DNSConfiguration != "NOTMAPPED")
-                if (hostname.DNSConfiguration.Contains("IpAddress"))
-                {
-                    var jsonObject = JsonConvert.DeserializeObject<List<Endpoint>>(hostname.DNSConfiguration);
+        //              //if (hostname.DNSConfiguration != "NOTMAPPED")
+        //              if (hostname.DNSConfiguration.Contains("IpAddress"))
+        //              {
+        //                  var jsonObject = JsonConvert.DeserializeObject<List<Endpoint>>(hostname.DNSConfiguration);
 
-                    foreach (Endpoint checkIpAddress in jsonObject)
-                    {
-                       Console.WriteLine("DataCenter Check: {0}", checkIpAddress.DataCenter);
-                    }
+        //                  foreach (Endpoint checkIpAddress in jsonObject)
+        //                  {
+        //                     Console.WriteLine("DataCenter Check: {0}", checkIpAddress.DataCenter);
+        //                  }
 
-                    var matchDatacenter = jsonObject.Where(x => x.IpAddress == sensor.nvc_ip).Select(x => x.DataCenter).FirstOrDefault();
-                    var matchDatacenterTag = jsonObject.Where(x => x.IpAddress == sensor.nvc_ip).Select(x => x.DataCenterTag).FirstOrDefault();
+        //                  var matchDatacenter = jsonObject.Where(x => x.IpAddress == sensor.nvc_ip).Select(x => x.DataCenter).FirstOrDefault();
+        //                  var matchDatacenterTag = jsonObject.Where(x => x.IpAddress == sensor.nvc_ip).Select(x => x.DataCenterTag).FirstOrDefault();
 
-                    sensor.nvc_datacenter = matchDatacenter;
-                    sensor.nvc_datacentertag = matchDatacenterTag;
+        //                  sensor.nvc_datacenter = matchDatacenter;
+        //                  sensor.nvc_datacentertag = matchDatacenterTag;
 
-                    Console.WriteLine("Datacenter Match: {0}", matchDatacenter);
-                    Console.WriteLine("Datacenter Tag Match: {0} \r\n", matchDatacenterTag);
-                }
+        //                  Console.WriteLine("Datacenter Match: {0}", matchDatacenter);
+        //                  Console.WriteLine("Datacenter Tag Match: {0} \r\n", matchDatacenterTag);
+        //              }
 
-                else
-                {
-                    sensor.nvc_datacenter = "UNKNOWN";
-                    sensor.nvc_datacentertag = "UNK";
+        //              else
+        //              {
+        //                  sensor.nvc_datacenter = "UNKNOWN";
+        //                  sensor.nvc_datacentertag = "UNK";
 
-                    Console.WriteLine("DataCenter Match: NONE \r\n");
-                }
-            }
+        //                  Console.WriteLine("DataCenter Match: NONE \r\n");
+        //              }
+        //          }
 
-			else
-			{
-				sensor.nvc_ip = "0.0.0.0";
-			}
-		}
+        //	else
+        //	{
+        //		sensor.nvc_ip = "0.0.0.0";
+        //	}
+        //}
 
-		private static void LoadSensor(DateTime sensorSession, string source, List<Sensor> sensorCollection, TargetAcquisition.Target hostname, Sensor sensor, HttpWebResponse response)
-		{
-			sensor.dt_session = sensorSession;
-			sensor.nvc_source = source;
-			sensor.nvc_dns = hostname.DNSName;
-			sensor.nvc_status = response.StatusDescription;
+        //private static void LoadSensor(DateTime sensorSession, string source, List<Sensor> sensorCollection, TargetAcquisition.Target hostname, Sensor sensor)
+        //{
+        //	sensor.dt_session = sensorSession;
+        //	sensor.nvc_source = source;
+        //  sensor.nvc_dns = hostname.DNSName;
 
-			sensorCollection.Add(sensor);
-		}
-	}
+        //	sensorCollection.Add(sensor);
+        //}
+
+        #endregion
+    }
 }
