@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collection.cs" />
     <Compile Include="DataObjects\Endpoint.cs" />
     <Compile Include="DataAccess\TargetAcquisition.cs" />
     <Compile Include="Core\Global.cs" />
