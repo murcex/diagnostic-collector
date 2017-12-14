@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Diagnostics;
 using Newtonsoft.Json;
+// HTTP Request 2
+using System.Net.Http;
+using System.Net.Http.Headers;
 
 namespace Sensor
 {
@@ -13,8 +16,10 @@ namespace Sensor
     {
         public static void CollectIP(TargetAcquisition.Target hostname, Sensor sensor)
         {
+            // Collect IP's from hostname
             IPAddress[] ips = Dns.GetHostAddresses(hostname.DNSName);
 
+            // Check number of IP's
             if (ips.Length < 2)
             {
                 foreach (var ip in ips)
@@ -24,7 +29,7 @@ namespace Sensor
 
                 Console.WriteLine("-- DataCenter Mapping --");
 
-                //if (hostname.DNSConfiguration != "NOTMAPPED")
+                // Check if configuration data exsits and deserialize
                 if (hostname.DNSConfiguration.Contains("IpAddress"))
                 {
                     var jsonObject = JsonConvert.DeserializeObject<List<Endpoint>>(hostname.DNSConfiguration);
@@ -34,9 +39,11 @@ namespace Sensor
                         Console.WriteLine("DataCenter Check: {0}", checkIpAddress.DataCenter);
                     }
 
+                    // Match IPAddress with Data Center
                     var matchDatacenter = jsonObject.Where(x => x.IpAddress == sensor.nvc_ip).Select(x => x.DataCenter).FirstOrDefault();
                     var matchDatacenterTag = jsonObject.Where(x => x.IpAddress == sensor.nvc_ip).Select(x => x.DataCenterTag).FirstOrDefault();
 
+                    // Set sensor with Data Center
                     sensor.nvc_datacenter = matchDatacenter;
                     sensor.nvc_datacentertag = matchDatacenterTag;
 
@@ -66,19 +73,11 @@ namespace Sensor
 
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(address);
 
-            //System.Diagnostics.Stopwatch timer = new Stopwatch();
-
-            Console.WriteLine("Pre-Start Timer: {0}",timer.Elapsed);
-
             timer.Start();
-
-            Console.WriteLine("Started Timer: {0}",timer.Elapsed);
 
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
             timer.Stop();
-
-            Console.WriteLine("Stopping Timer {0}",timer.Elapsed);
 
             TimeSpan timeTaken2 = timer.Elapsed;
             if (timeTaken2.TotalMilliseconds > 1000)
@@ -91,10 +90,27 @@ namespace Sensor
                 sensor.i_latency = timeTaken2.TotalMilliseconds;
             }
 
-            Console.WriteLine("Time Normal: {0}",timeTaken2.Milliseconds);
-            Console.WriteLine("Time Total: {0} \r\n",timeTaken2.TotalMilliseconds);
-
             sensor.nvc_status = response.StatusDescription;
+        }
+
+        public static void CollectHTTPRequestTesting(TargetAcquisition.Target target)
+        {
+            HttpClient client1 = new HttpClient();
+            HttpClient client2 = new HttpClient();
+
+            string uriHeader1 = "https://";
+            string address1 = uriHeader1 + target.DNSName + target.DNSProbe;
+
+            string uriHeader2 = "http://";
+            string address2 = uriHeader2 + target.DNSName + target.DNSProbe;
+
+            HttpResponseMessage response1 = client1.GetAsync(address1).Result;
+            HttpResponseMessage response2 = client2.GetAsync(address2).Result;
+
+            Console.WriteLine("HttpResponseMessage 1: {0}", response1.IsSuccessStatusCode);
+            Console.WriteLine("HttpResponseMessage 2: {0}", response2.IsSuccessStatusCode);
+
+            Console.Read();
         }
     }
 }
