@@ -3,19 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Net;
-using System.Diagnostics;
-using Newtonsoft.Json;
-// HTTP Request 2
 using System.Net.Http;
-using System.Net.Http.Headers;
+using System.Net;
+using Newtonsoft.Json;
 
 namespace Sensor
 {
-    class Collection
+    public class DNSCollector
     {
-        public static void CollectIP(TargetAcquisition.Target hostname, Sensor sensor)
+        public static void Execute(Target hostname, DNSSensor sensor)
         {
+            //TODO: Add ipaddress list
+            //TODO: Add Dns loop with counter, load into list
             // Collect IP's from hostname
             IPAddress[] ips = Dns.GetHostAddresses(hostname.DNSName);
 
@@ -60,57 +59,14 @@ namespace Sensor
                 }
             }
 
+            //TODO: Add check for 0 ips - dns failure
+            //TODO: Add status = true if passing
+            //TODO: Test DNS failure, repro results
+
             else
             {
                 sensor.nvc_ip = "0.0.0.0";
             }
-        }
-
-        public static void CollectHTTPRequest(TargetAcquisition.Target target, Sensor sensor, Stopwatch timer)
-        {
-            string uriHeader = "https://";
-            string address = uriHeader + target.DNSName + target.DNSProbe;
-
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(address);
-
-            timer.Start();
-
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-
-            timer.Stop();
-
-            TimeSpan timeTaken2 = timer.Elapsed;
-            if (timeTaken2.TotalMilliseconds > 1000)
-            {
-                sensor.i_latency = 1000;
-            }
-
-            else
-            {
-                sensor.i_latency = timeTaken2.TotalMilliseconds;
-            }
-
-            sensor.nvc_status = response.StatusDescription;
-        }
-
-        public static void CollectHTTPRequestTesting(TargetAcquisition.Target target)
-        {
-            HttpClient client1 = new HttpClient();
-            HttpClient client2 = new HttpClient();
-
-            string uriHeader1 = "https://";
-            string address1 = uriHeader1 + target.DNSName + target.DNSProbe;
-
-            string uriHeader2 = "http://";
-            string address2 = uriHeader2 + target.DNSName + target.DNSProbe;
-
-            HttpResponseMessage response1 = client1.GetAsync(address1).Result;
-            HttpResponseMessage response2 = client2.GetAsync(address2).Result;
-
-            Console.WriteLine("HttpResponseMessage 1: {0}", response1.IsSuccessStatusCode);
-            Console.WriteLine("HttpResponseMessage 2: {0}", response2.IsSuccessStatusCode);
-
-            Console.Read();
         }
     }
 }

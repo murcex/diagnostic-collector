@@ -16,32 +16,38 @@ namespace Sensor
 	{
         static void Main(string[] args)
 		{
-			// Master Sensor collection
-			List<Sensor> sensorCollection = new List<Sensor>();
+            #region Target List
 
-			#region console.connectionstring
+            // Get Target List
+            var targetList = DataDownload.GetTargetList();
+            
+            #region console.importcheck
+
+            Console.WriteLine("-- Import Check --");
+            foreach (var targetCheck in targetList)
+            {
+                Console.WriteLine("DNS Name: {0}", targetCheck.DNSName);
+                Console.WriteLine("DNS Probe: {0} \r\n", targetCheck.DNSProbe);
+            }
+
+            #endregion
+
+            #endregion
+
+            #region Sensor v1
+
+            // Master Sensor collection
+            List<Sensor> sensorCollection = new List<Sensor>();
+
+            #region console.connectionstring
 
             Console.WriteLine("-- Connection String Check --");
             Console.WriteLine("Connection String: {0} \r\n", Global.SQLConnectionString);
 
             #endregion
 
-            // Get Target List
-            var targetList = TargetAcquisition.GetTargetList();
-
-            #region console.importcheck
-
-            Console.WriteLine("-- Import Check --");
-            foreach (var targetCheck in targetList)
-			{
-				Console.WriteLine("DNS Name: {0}", targetCheck.DNSName);
-				Console.WriteLine("DNS Probe: {0} \r\n", targetCheck.DNSProbe);
-			}
-
-			#endregion
-
-			// Loop target list, collect data and load sensor object
-			foreach (var target in targetList)
+            // Loop target list, collect data and load sensor object
+            foreach (var target in targetList)
 			{
                 // Create object and set timer
                 // TODO: Add target.DNSName into object creation
@@ -65,8 +71,39 @@ namespace Sensor
                 sensorCollection.Add(sensor);
             }
 
-            // Upsert collection to SQL
-            TargetDispatch.SQLUpsert(sensorCollection);
+            // Upsert default collection to SQL
+            DataUpload.SQLUpsert(sensorCollection);
+
+            #endregion
+
+            #region Sensor v2 : DNS
+
+            // DNS Sensor Collection
+            List<DNSSensor> sensorDnsCollection = new List<DNSSensor>();
+
+            // Loop target list, collect dns data and load sensor object
+            foreach (var target in targetList)
+            {
+                // Create DNS sensor object
+                DNSSensor sensorDns = new DNSSensor(target.DNSName);
+
+                // Pre-collect set
+                //TODO: remove once confirmed
+                //sensorDns.dt_session = Global.SessionDatetime;
+                //sensorDns.nvc_source = Global.SensorLocation;
+                //sensorDns.nvc_dns = target.DNSName;
+
+                // Collect DNS
+                DNSCollector.Execute(target, sensorDns);
+
+                // Add to DNS collection to SQL
+                sensorDnsCollection.Add(sensorDns);
+            }
+
+            // Upsert default collection to SQL
+            DataUpload.DNSUpsert(sensorDnsCollection);
+
+            #endregion
 
             #region console.debug
 
@@ -77,7 +114,7 @@ namespace Sensor
             }
 
             #endregion
-            
+
             // Close application
             Environment.Exit(0);
 		}
