@@ -7,14 +7,15 @@ using System.Data.SqlClient;
 
 namespace Sensor
 {
-    class TargetAcquisition
+    class DataDownload
     {
-		public class Target
-		{
-			public string DNSName { get; set; }
-			public string DNSProbe { get; set; }
-			public string DNSConfiguration { get; set; }
-		}
+		//public class Target
+		//{
+		//	public string DNSName { get; set; }
+		//	public string DNSProbe { get; set; }
+		//	public string DNSConfiguration { get; set; }
+		//}
+
 		public static List<Target> GetTargetList()
 		{
 			var targetList = new List<Target>();

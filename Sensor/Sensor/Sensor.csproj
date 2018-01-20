@@ -48,11 +48,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Collection.cs" />
+    <Compile Include="Collectors\Collection.cs" />
+    <Compile Include="Collectors\DNSCollector.cs" />
     <Compile Include="DataObjects\Endpoint.cs" />
-    <Compile Include="DataAccess\TargetAcquisition.cs" />
+    <Compile Include="DataAccess\DataDownload.cs" />
     <Compile Include="Core\Global.cs" />
-    <Compile Include="DataAccess\TargetDispatch.cs" />
+    <Compile Include="DataAccess\DataUpload.cs" />
+    <Compile Include="DataObjects\Target.cs" />
+    <Compile Include="DataObjects\DNSSensor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DataObjects\Sensor.cs" />
