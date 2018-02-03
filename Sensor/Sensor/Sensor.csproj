@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataObjects\Article.cs" />
     <Compile Include="Collectors\Collection.cs" />
     <Compile Include="Collectors\DNSCollector.cs" />
     <Compile Include="DataObjects\Endpoint.cs" />
