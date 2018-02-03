@@ -9,13 +9,6 @@ namespace Sensor
 {
     class DataDownload
     {
-		//public class Target
-		//{
-		//	public string DNSName { get; set; }
-		//	public string DNSProbe { get; set; }
-		//	public string DNSConfiguration { get; set; }
-		//}
-
 		public static List<Target> GetTargetList()
 		{
 			var targetList = new List<Target>();
@@ -42,5 +35,32 @@ namespace Sensor
                 return targetList;
             }
 		}
-	}
+
+        // Sensor v2 - Get Articles
+        public static List<Article> GetArticle()
+        {
+            var targetList = new List<Article>();
+
+            var target = new Target();
+
+            using (var connection = new System.Data.SqlClient.SqlConnection(Global.SQLConnectionStringv2))
+            {
+                var cmd = new SqlCommand("usp_DNS_Catalog_Select", connection);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                connection.Open();
+
+                var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    var item = new Article();
+                    item.DNSName = (string)reader["nvc_dns"];
+                    item.DNSConfiguration = (string)reader["nvc_configuration"];
+                    targetList.Add(item);
+                }
+
+                return targetList;
+            }
+        }
+    }
 }

@@ -11,10 +11,9 @@ namespace Sensor
 {
     public class DNSCollector
     {
-        public static void Execute(Target hostname, DNSSensor sensor)
+        public static void Execute(Article hostname, DNSSensor sensor)
         {
-            //TODO: Add ipaddress list
-            //TODO: Add Dns loop with counter, load into list
+            //TODO: vNext; Add Loop with Counter
             // Collect IP's from hostname
             IPAddress[] ips = Dns.GetHostAddresses(hostname.DNSName);
 
@@ -59,14 +58,16 @@ namespace Sensor
                 }
             }
 
-            //TODO: Add check for 0 ips - dns failure
+            //TODO: Add ips.Count == 0 {status=fail}
             //TODO: Add status = true if passing
-            //TODO: Test DNS failure, repro results
+            //TODO: Add expection for DNS failure
 
             else
             {
                 sensor.nvc_ip = "0.0.0.0";
             }
+
+            sensor.nvc_status = "ONLINE";
         }
     }
 }

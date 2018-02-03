@@ -9,7 +9,8 @@ namespace Sensor
 {
 	class DataUpload
 	{
-		public static void SQLUpsert(List<Sensor> transferCase)
+        // v1 Insert
+        public static void SQLUpsert(List<Sensor> transferCase)
 		{
             foreach (var target in transferCase)
             {
@@ -47,7 +48,7 @@ namespace Sensor
             }
 		}
 
-        //TODO: Create SQL Proc, fit Method
+        // v2 Insert
         public static void DNSUpsert(List<DNSSensor> transferCase)
         {
             foreach (var target in transferCase)
@@ -60,12 +61,12 @@ namespace Sensor
                 Console.WriteLine("DataCenter Tag: {0}", target.nvc_datacentertag);
                 Console.WriteLine("DNS: {0}", target.nvc_dns);
                 Console.WriteLine("IPAddress: {0}", target.nvc_ip);
-                Console.WriteLine("Status: {0}", target.nvc_status);
+                Console.WriteLine("Status: {0}\n", target.nvc_status);
 
-                using (SqlConnection connection = new SqlConnection(Global.SQLConnectionString))
+                using (SqlConnection connection = new SqlConnection(Global.SQLConnectionStringv2))
                 {
                     // SQLCommand & Command Type -- Add SQL Insert Stored Procedure
-                    SqlCommand command = new SqlCommand("usp_Sensor_DNS_Staging_Upsert", connection);
+                    SqlCommand command = new SqlCommand("usp_DNS_Stage_Insert", connection);
                     command.CommandType = System.Data.CommandType.StoredProcedure;
 
                     // Data Capacity Columns -- example: command.Parameters.AddWithValue("Value1", Value1);
