@@ -1,0 +1,3 @@
+masterswitch=false
+set=true
+smoketest-proc-insert.sql
