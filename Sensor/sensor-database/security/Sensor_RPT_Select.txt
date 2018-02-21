@@ -14,3 +14,13 @@
 
 -- Grant Login to Objects
 --GRANT SELECT ON [dbo].[vw_DNS_Article] TO [<sensorReadOnlyLoginHere>]
+
+--GRANT SELECT ON [dbo].[vw_DNS_Aggregate_Current] TO [<sensorReadOnlyLoginHere>]
+
+--GRANT SELECT ON [dbo].[vw_DNS_Discrete_10Min] TO [<sensorReadOnlyLoginHere>]
+
+--GRANT SELECT ON [dbo].[vw_DNS_Discrete_1Day] TO [<sensorReadOnlyLoginHere>]
+
+--GRANT SELECT ON [dbo].[vw_DNS_Discrete_7Day] TO [<sensorReadOnlyLoginHere>]
+
+--GRANT SELECT ON [dbo].[vw_Sensor_Fabric] TO [<sensorReadOnlyLoginHere>]
