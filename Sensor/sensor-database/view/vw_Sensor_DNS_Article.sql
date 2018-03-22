@@ -1,4 +1,7 @@
-CREATE VIEW [dbo].[vw_DNS_Article] AS
+CREATE VIEW [dbo].[vw_Sensor_DNS_Article]
+
+AS
+
 SELECT
 [dt_session] AS [Session]
 ,[nvc_source] AS [Source]
@@ -7,4 +10,4 @@ SELECT
 ,[nvc_dns] AS [DNS]
 ,[nvc_ip] AS [IPAddress]
 ,[nvc_status] AS [Status]
-FROM [dbo].[tbl_DNS_Stage]
+FROM [dbo].[tbl_Sensor_DNS_Stage]
