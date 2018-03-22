@@ -45,7 +45,7 @@ namespace Sensor
 
             using (var connection = new System.Data.SqlClient.SqlConnection(Global.SQLConnectionStringv2))
             {
-                var cmd = new SqlCommand("usp_DNS_Catalog_Select", connection);
+                var cmd = new SqlCommand("usp_Sensor_DNS_Catalog_Select", connection);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
                 connection.Open();
