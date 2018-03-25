@@ -13,8 +13,8 @@
 --END
 
 -- Grant Login to Objects
---GRANT EXECUTE ON [dbo].[usp_DNS_Catalog_Select] TO [<sensorExecuteLoginHere>]
+--GRANT EXECUTE ON [dbo].[usp_Sensor_DNS_Catalog_Select] TO [<sensorExecuteLoginHere>]
 
---GRANT EXECUTE ON [dbo].[usp_DNS_Stage_Insert] TO [<sensorExecuteLoginHere>]
+--GRANT EXECUTE ON [dbo].[usp_Sensor_DNS_Stage_Insert] TO [<sensorExecuteLoginHere>]
 
---GRANT EXECUTE ON [dbo].[usp_DNS_Stage_Retention] TO [<sensorExecuteLoginHere>]
+--GRANT EXECUTE ON [dbo].[usp_Sensor_DNS_Stage_Retention] TO [<sensorExecuteLoginHere>]

@@ -1,6 +1,6 @@
-IF (OBJECT_ID(N'[dbo].[tbl_DNS_Stage]', 'U') IS NULL)
+IF (OBJECT_ID(N'[dbo].[tbl_Sensor_DNS_Stage]', 'U') IS NULL)
 BEGIN
-  CREATE TABLE [dbo].[tbl_DNS_Stage]
+  CREATE TABLE [dbo].[tbl_Sensor_DNS_Stage]
   ([dt_session] [smalldatetime] NULL
 	,[nvc_source] [nvarchar](50) NULL
 	,[nvc_datacenter] [nvarchar](50) NULL

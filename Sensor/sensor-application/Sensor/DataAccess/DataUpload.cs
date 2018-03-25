@@ -66,7 +66,7 @@ namespace Sensor
                 using (SqlConnection connection = new SqlConnection(Global.SQLConnectionStringv2))
                 {
                     // SQLCommand & Command Type -- Add SQL Insert Stored Procedure
-                    SqlCommand command = new SqlCommand("usp_DNS_Stage_Insert", connection);
+                    SqlCommand command = new SqlCommand("usp_Sensor_DNS_Stage_Insert", connection);
                     command.CommandType = System.Data.CommandType.StoredProcedure;
 
                     // Data Capacity Columns -- example: command.Parameters.AddWithValue("Value1", Value1);

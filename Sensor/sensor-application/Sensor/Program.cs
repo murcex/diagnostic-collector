@@ -16,23 +16,14 @@ namespace Sensor
 	{
         static void Main(string[] args)
 		{
-            #region Target List
-
-            // Get Target List
-            var targetList = DataDownload.GetTargetList();
-
-
-
-            #endregion
-
             #region console.importcheck
 
-            Console.WriteLine("-- Import Check --");
-            foreach (var targetCheck in targetList)
-            {
-                Console.WriteLine("DNS Name: {0}", targetCheck.DNSName);
-                Console.WriteLine("DNS Probe: {0} \r\n", targetCheck.DNSProbe);
-            }
+            //Console.WriteLine("-- Import Check --");
+            //foreach (var targetCheck in targetList)
+            //{
+            //    Console.WriteLine("DNS Name: {0}", targetCheck.DNSName);
+            //    Console.WriteLine("DNS Probe: {0} \r\n", targetCheck.DNSProbe);
+            //}
 
             #endregion
 
@@ -40,8 +31,11 @@ namespace Sensor
 
             if (Global.Version == "v1")
             {
-                // Master Sensor collection
-                List<Sensor> sensorCollection = new List<Sensor>();
+				// Get Target List
+				var targetList = DataDownload.GetTargetList();
+
+				// Master Sensor collection
+				List<Sensor> sensorCollection = new List<Sensor>();
 
                 #region console.connectionstring
 

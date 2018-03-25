@@ -1,4 +1,4 @@
-CREATE PROCEDURE [dbo].[usp_DNS_Stage_Insert]
+CREATE PROCEDURE [dbo].[usp_Sensor_DNS_Stage_Insert]
 
 @dt_session smalldatetime
 ,@nvc_source nvarchar(50)
@@ -11,7 +11,7 @@ CREATE PROCEDURE [dbo].[usp_DNS_Stage_Insert]
 AS
 
 BEGIN
-  INSERT INTO [dbo].[tbl_DNS_Stage]
+  INSERT INTO [dbo].[tbl_Sensor_DNS_Stage]
   ([dt_session]
   ,[nvc_source]
   ,[nvc_datacenter]

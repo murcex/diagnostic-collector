@@ -1,4 +1,7 @@
-CREATE VIEW [dbo].[vw_Sensor_Fabric] AS
+CREATE VIEW [dbo].[vw_Sensor_Fabric]
+
+AS
+
 SELECT
 [nvc_sensor] AS [Sensor]
 ,[nvc_region] AS [Region]
