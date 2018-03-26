@@ -34,14 +34,18 @@ namespace Crane
 					var check = e.ToString();
 					if (check.Contains("There is already an object named"))
 					{
-						Console.WriteLine("\t\t<!> Success (Object Exists)");
-					}
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("\t\t<!> Success (Object Exists)");
+                        Console.ResetColor();
+                    }
 
 					// Return All Other Exceptions
 					else
 					{
-						Console.WriteLine("\t\tResult: Failure (SQL Exception)");
-					}
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("\t\tResult: Failure (SQL Exception)");
+                        Console.ResetColor();
+                    }
 				}
 			}
 		}
