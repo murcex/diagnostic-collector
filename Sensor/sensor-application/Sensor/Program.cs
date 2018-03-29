@@ -12,10 +12,10 @@ using Newtonsoft.Json;
 
 namespace Sensor
 {
-	class Program
-	{
+    class Program
+    {
         static void Main(string[] args)
-		{
+        {
             #region console.importcheck
 
             //Console.WriteLine("-- Import Check --");
@@ -29,51 +29,55 @@ namespace Sensor
 
             #region Sensor v1
 
-            if (Global.Version == "v1")
-            {
-				// Get Target List
-				var targetList = DataDownload.GetTargetList();
+            /// <summary>
+            /// Turning off "version 1" Sensor
+            /// </summary>
+            //if (Global.Version == "v1")
+            //{
+                // Get Target List
+                //var targetList = DataDownload.GetTargetList();
 
-				// Master Sensor collection
-				List<Sensor> sensorCollection = new List<Sensor>();
+                // Master Sensor collection
+                //List<Sensor> sensorCollection = new List<Sensor>();
 
                 #region console.connectionstring
 
-                Console.WriteLine("-- Connection String Check --");
-                Console.WriteLine("Connection String: {0} \r\n", Global.SQLConnectionString);
+                //Console.WriteLine("-- Connection String Check --");
+                //Console.WriteLine("Connection String: {0} \r\n", Global.SQLConnectionString);
 
                 #endregion
 
                 // Loop target list, collect data and load sensor object
-                foreach (var target in targetList)
-                {
+                //foreach (var target in targetList)
+                //{
                     // Create object and set timer
-                    Sensor sensor = new Sensor();
-                    System.Diagnostics.Stopwatch timer = new Stopwatch();
+                    //Sensor sensor = new Sensor();
+                    //System.Diagnostics.Stopwatch timer = new Stopwatch();
 
                     // Pre-collect set
-                    sensor.dt_session = Global.SessionDatetime;
-                    sensor.nvc_source = Global.SensorLocation;
-                    sensor.nvc_dns = target.DNSName;
+                    //sensor.dt_session = Global.SessionDatetime;
+                    //sensor.nvc_source = Global.SensorLocation;
+                    //sensor.nvc_dns = target.DNSName;
 
                     // Collect IP
-                    Collection.CollectIP(target, sensor);
+                    //Collection.CollectIP(target, sensor);
 
                     // Collect HTTP Request
-                    Collection.CollectHTTPRequest(target, sensor, timer);
+                    //Collection.CollectHTTPRequest(target, sensor, timer);
 
                     // Add to collection
-                    sensorCollection.Add(sensor);
-                }
+                    //sensorCollection.Add(sensor);
+                //}
 
                 // Upsert default collection to SQL
-                DataUpload.SQLUpsert(sensorCollection);
-            }
+                //DataUpload.SQLUpsert(sensorCollection);
+            //}
+
             #endregion
 
-            #region Sensor v2 : DNS
+            #region agent mode
 
-            if (Global.Version == "v2")
+            if (Global.Agent == "1")
             {
                 // Get Target List
                 var articleList = DataDownload.GetArticle();
@@ -97,6 +101,20 @@ namespace Sensor
                 // Upsert default collection to SQL
                 DataUpload.DNSUpsert(sensorDnsCollection);
             }
+
+            #endregion
+
+            #region principal mode
+
+            if (Global.Principal == "1")
+            {
+                //TODO: Detect Activity Method
+
+                //TODO: Detect Failover Method
+
+                //TODO: Retention Method
+            }
+
             #endregion
 
             #region console.debug
@@ -111,6 +129,6 @@ namespace Sensor
 
             // Close application
             Environment.Exit(0);
-		}
+        }
     }
 }

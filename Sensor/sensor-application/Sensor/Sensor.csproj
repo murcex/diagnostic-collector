@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Prinicpal\Activity.cs" />
     <Compile Include="DataObjects\Article.cs" />
     <Compile Include="Collectors\Collection.cs" />
     <Compile Include="Collectors\DNSCollector.cs" />
@@ -57,9 +58,11 @@
     <Compile Include="DataAccess\DataUpload.cs" />
     <Compile Include="DataObjects\Target.cs" />
     <Compile Include="DataObjects\DNSSensor.cs" />
+    <Compile Include="Prinicpal\Failover.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DataObjects\Sensor.cs" />
+    <Compile Include="Prinicpal\Retention.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Core\App.config" />
