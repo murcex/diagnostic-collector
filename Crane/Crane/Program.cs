@@ -10,52 +10,76 @@ namespace Crane
 	{
 		static void Main(string[] args)
 		{
-			#region Console Display
-			
-			//TODO: Move to Class
-			Console.WriteLine("\n  Crane : SQL Server Database Deployment Tool\n");
-			Console.WriteLine("\t<!> Deployment Settings");
-			Console.WriteLine("\n\t\t-> Source: {0}", Global.Build);
-			Console.WriteLine("\t\t-> Type: Azure SQL Server");
-			Console.WriteLine("\n");
-			Console.WriteLine("\t<!> Target Settings");
-			Console.WriteLine("\n\t\t-> Instance: {0}", Global.Instance);
-			Console.WriteLine("\t\t-> Database: {0}", Global.Database);
-			Console.WriteLine("\t\t-> Account: {0}", Global.Account);
-			Console.WriteLine("\n");
-			Console.Write("\t<!> DEPLOYMENT (Y/N) -> ");
+            bool operate = true;
+            string loopCheck;
 
-			// Check Y/N Deployment
-			string deployCheck = Console.ReadLine();
+            while (operate)
+            {
+                #region Console Display
 
-			deployCheck = deployCheck.ToUpper();
+                //TODO: Move to Class
+                Console.WriteLine("\n  Crane : SQL Server Database Deployment Tool\n");
+                Console.WriteLine("\t<!> Deployment Settings");
+                Console.WriteLine("\n\t\t-> Source: {0}", Global.Build);
+                Console.WriteLine("\t\t-> Type: Azure SQL Server");
+                Console.WriteLine("\n");
+                Console.WriteLine("\t<!> Target Settings");
+                Console.WriteLine("\n\t\t-> Instance: {0}", Global.Instance);
+                Console.WriteLine("\t\t-> Database: {0}", Global.Database);
+                Console.WriteLine("\t\t-> Account: {0}", Global.Account);
+                Console.WriteLine("\n");
+                Console.Write("\t<!> DEPLOYMENT (Y/N) -> ");
 
-			if (deployCheck != "Y")
-			{
-				Console.Clear();
-				Console.WriteLine("\n\t--- Closing ---");
-				System.Threading.Thread.Sleep(2000);
-				Environment.Exit(0);
-			}
+                // Check Y/N Deployment
+                string deployCheck = Console.ReadLine();
 
-			Console.Clear();
-			Console.WriteLine("\n\t--- Deploying ---\n");
+                deployCheck = deployCheck.ToUpper();
 
-			#endregion
+                if (deployCheck != "Y")
+                {
+                    Console.Clear();
+                    Console.WriteLine("\n\t--- Closing ---");
+                    System.Threading.Thread.Sleep(2000);
+                    Environment.Exit(0);
+                }
 
-			#region Constructor
+                Console.Clear();
+                Console.WriteLine("\n\t--- Deploying ---\n");
 
-			Constructor.Execute();
+                #endregion
 
-			#endregion
+                #region Constructor
 
-			// Application Complete
-			Console.WriteLine("\n\t--- Complete ---");
-			Console.WriteLine("\t\t<!> Log: <addlocationhere>");
-			Console.ReadKey();
+                Constructor.Execute();
 
-			// Close Application
-			Environment.Exit(0);
+                #endregion
+
+                // Application Complete
+                Console.WriteLine("\n\t--- Complete ---");
+                Console.WriteLine("\t\t<!> Log: <addlocationhere>");
+
+                // Loop Check
+                Console.Write("\n\t<!> LOOP? (Y/N) -> ");
+
+                // Check Y/N Loop
+                loopCheck = Console.ReadLine();
+                loopCheck = loopCheck.ToUpper();
+
+                if (loopCheck != "Y")
+                {
+                    Console.WriteLine("\n\t--- Closing ---");
+                    System.Threading.Thread.Sleep(2000);
+                    Console.Clear();
+                    Environment.Exit(0);
+                }
+
+                else
+                {
+                    Console.WriteLine("\n\t--- Looping ---");
+                    System.Threading.Thread.Sleep(1000);
+                    Console.Clear();
+                }
+            }
 		}
 	}
 }
