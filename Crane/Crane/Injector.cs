@@ -23,9 +23,9 @@ namespace Crane
 					SqlDataReader reader = command.ExecuteReader();
 
 					// Return Results to Console
-					if (reader.RecordsAffected == -1) { Console.WriteLine("\t\t<!> Success"); }
-					if (reader.RecordsAffected > 0) { Console.WriteLine("\t\t<!> Success (Rows Affected: {0})", reader.RecordsAffected); }
-					if (reader.RecordsAffected == 0) { Console.WriteLine("\t\t<!> Failure"); }
+					if (reader.RecordsAffected == -1) { Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("\t\t<!> Success"); Console.ResetColor(); }
+					if (reader.RecordsAffected > 0) { Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("\t\t<!> Success (Rows Affected: {0})", reader.RecordsAffected); Console.ResetColor(); }
+					if (reader.RecordsAffected == 0) { Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("\t\t<!> Failure"); Console.ResetColor(); }
 				}
 
 				catch (Exception e)

@@ -55,7 +55,9 @@ namespace Crane
                 #endregion
 
                 // Application Complete
+                Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("\n\t--- Complete ---");
+                Console.ResetColor();
                 Console.WriteLine("\t\t<!> Log: <addlocationhere>");
 
                 // Loop Check

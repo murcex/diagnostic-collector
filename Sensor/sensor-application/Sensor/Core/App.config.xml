@@ -6,6 +6,8 @@
     <add key="sqlv2" value="" />
     <add key="debug" value="" />
     <add key="version" value="" />
+    <add key="principal" value="" />
+    <add key="agent" value="" />
   </appSettings>
   <startup>
     <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.5.2" />
