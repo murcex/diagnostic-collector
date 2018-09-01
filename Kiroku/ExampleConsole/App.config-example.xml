@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <!-- Add this to the host application -->
+  <configSections>
+    <section name="Kiroku" type="System.Configuration.AppSettingsSection" />
+  </configSections>
+  <startup>
+    <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.5.2" />
+  </startup>
+  <Kiroku>
+    <!--WriterSwitch-->
+    <add key="local" value="0" />
+    <add key="collector" value="0" />
+    <!--GUID-->
+    <add key="applicationid" value="00000000-0000-0000-0000-000000000000" />
+    <add key="trackid" value="00000000-0000-0000-0000-000000000000" />
+    <!--EventSwitch-->
+    <add key="verbose" value="0" />
+    <add key="trace" value="0" />
+    <add key="info" value="0" />
+    <add key="warning" value="0" />
+    <add key="error" value="0" />
+    <!--FilePath-->
+    <add key="filepath" value="C:\\Temp\\Log\\MyApp\\" />
+    <add key="StorageConnectionString" value="DefaultEndpointsProtocol=https;AccountName=myStorageBlobAccountName;AccountKey=myStorageBlobAccountKey" />
+  </Kiroku>
+</configuration>
