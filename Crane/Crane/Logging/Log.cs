@@ -3,26 +3,41 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace Crane
 {
-    class Log
+    /// <summary>
+    /// 
+    /// </summary>
+    static class Log
     {
-        // build session time stamp file name
-
-        // stream
-
-        public void Logger(String lines)
+        public static void Info(string logData)
         {
+            // Add formatting
+            AppendLogEntry(logData);
+        }
 
-            // Write the string to a file.append mode is enabled so that the log
-            // lines get appended to  test.txt than wiping content and writing the log
+        public static void Error(string logData)
+        {
+            // Add formatting
+            AppendLogEntry(logData);
+        }
 
-            //System.IO.StreamWriter file = new System.IO.StreamWriter("c:\\test.txt", true);
-            //file.WriteLine(lines);
+        public static void CreateLog()
+        {
+            using (StreamWriter file = new StreamWriter(Global.FullLogPath, true))
+            {
+                file.WriteLine("");
+            }
+        }
 
-            //file.Close();
-
+        public static void AppendLogEntry(String entry)
+        {
+            using (StreamWriter file = File.AppendText(Global.FullLogPath))
+            {
+                file.WriteLine(entry);
+            }
         }
     }
 }
