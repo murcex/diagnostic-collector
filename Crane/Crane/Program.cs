@@ -54,6 +54,8 @@ namespace Crane
 
                 #endregion
 
+                #region Closing / Reloop
+
                 // Application Complete
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("\n\t--- Complete ---");
@@ -81,7 +83,9 @@ namespace Crane
                     System.Threading.Thread.Sleep(1000);
                     Console.Clear();
                 }
+                
+                #endregion
             }
-		}
+        }
 	}
 }

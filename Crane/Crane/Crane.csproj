@@ -33,9 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Kiroku">
-      <HintPath>..\..\..\CSharpKnowledgeBase\CSharp\laboratory\Kiroku\Kiroku\bin\Release\Kiroku.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />

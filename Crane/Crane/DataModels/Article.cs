@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Crane
 {
+    /// <summary>
+    /// 
+    /// </summary>
 	class Article
 	{
 		public string ObjectName { get; set; }

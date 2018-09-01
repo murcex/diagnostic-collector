@@ -9,10 +9,9 @@ namespace Crane
 {
     class Audit
     {
-        // check power in sql instance ?
-        public static void Build()
+        public static void Verify()
         {
-            // check source folder and for all object folders
+            // TODO: check source folders are available
             string path = Directory.GetCurrentDirectory();
 
             foreach (KeyValuePair<int, string> objectType in Global.ObjectType)
@@ -28,7 +27,7 @@ namespace Crane
                 }
             }
 
-            // check sql instance connection
+            // TODO: check sql instance connection + user prem
         }
     }
 }
