@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleConsole", "ExampleConsole\ExampleConsole.csproj", "{E3E2B99A-59AD-4B48-B448-AB13A199E5FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kiroku", "Kiroku\Kiroku.csproj", "{E89D6CFC-10D2-4788-B11A-AFEDC87DDE35}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E3E2B99A-59AD-4B48-B448-AB13A199E5FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3E2B99A-59AD-4B48-B448-AB13A199E5FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3E2B99A-59AD-4B48-B448-AB13A199E5FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3E2B99A-59AD-4B48-B448-AB13A199E5FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E89D6CFC-10D2-4788-B11A-AFEDC87DDE35}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E89D6CFC-10D2-4788-B11A-AFEDC87DDE35}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E89D6CFC-10D2-4788-B11A-AFEDC87DDE35}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E89D6CFC-10D2-4788-B11A-AFEDC87DDE35}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

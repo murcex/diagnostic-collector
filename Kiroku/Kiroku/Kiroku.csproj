@@ -4,17 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4BBDDBBE-8B96-41CC-9029-8E2806321934}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{E89D6CFC-10D2-4788-B11A-AFEDC87DDE35}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sensor</RootNamespace>
-    <AssemblyName>Sensor</AssemblyName>
+    <RootNamespace>Kiroku</RootNamespace>
+    <AssemblyName>Kiroku</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -33,8 +30,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -48,33 +45,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Agent\IPAddressTagger.cs" />
-    <Compile Include="Prinicpal\Activity.cs" />
-    <Compile Include="DataModels\Article.cs" />
-    <Compile Include="Legacy\Collection.cs" />
-    <Compile Include="Agent\Collector.cs" />
-    <Compile Include="DataModels\Endpoint.cs" />
-    <Compile Include="DataAccessors\DataDownload.cs" />
-    <Compile Include="Core\Global.cs" />
-    <Compile Include="DataAccessors\DataUpload.cs" />
-    <Compile Include="DataModels\Target.cs" />
-    <Compile Include="DataModels\DNSSensor.cs" />
-    <Compile Include="Prinicpal\Failover.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="API\KLog.cs" />
+    <Compile Include="DataReferences\LogConfiguration.cs" />
+    <Compile Include="DataModels\LogRecord.cs" />
+    <Compile Include="DataWriters\LogFileWriter.cs" />
+    <Compile Include="API\KManager.cs" />
+    <Compile Include="DataReferences\LogType.cs" />
+    <Compile Include="DataWriters\LogRecordInjector.cs" />
+    <Compile Include="DataModels\LogInstance.cs" />
+    <Compile Include="DataWriters\LogVerboseWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Legacy\Sensor.cs" />
-    <Compile Include="Prinicpal\Retention.cs" />
-    <Compile Include="Agent\DNSEvaluation.cs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <None Include="Core\App.config" />
-    <None Include="Core\packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Core\App.config.xml" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\Microsoft.Web.WebJobs.Publish.1.0.7\tools\webjobs.targets" Condition="Exists('..\packages\Microsoft.Web.WebJobs.Publish.1.0.7\tools\webjobs.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

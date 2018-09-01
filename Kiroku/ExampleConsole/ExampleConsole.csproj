@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4BBDDBBE-8B96-41CC-9029-8E2806321934}</ProjectGuid>
+    <ProjectGuid>{E3E2B99A-59AD-4B48-B448-AB13A199E5FC}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sensor</RootNamespace>
-    <AssemblyName>Sensor</AssemblyName>
+    <RootNamespace>ExampleConsole</RootNamespace>
+    <AssemblyName>ExampleConsole</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -33,10 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -48,33 +44,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Agent\IPAddressTagger.cs" />
-    <Compile Include="Prinicpal\Activity.cs" />
-    <Compile Include="DataModels\Article.cs" />
-    <Compile Include="Legacy\Collection.cs" />
-    <Compile Include="Agent\Collector.cs" />
-    <Compile Include="DataModels\Endpoint.cs" />
-    <Compile Include="DataAccessors\DataDownload.cs" />
-    <Compile Include="Core\Global.cs" />
-    <Compile Include="DataAccessors\DataUpload.cs" />
-    <Compile Include="DataModels\Target.cs" />
-    <Compile Include="DataModels\DNSSensor.cs" />
-    <Compile Include="Prinicpal\Failover.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Legacy\Sensor.cs" />
-    <Compile Include="Prinicpal\Retention.cs" />
-    <Compile Include="Agent\DNSEvaluation.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Core\App.config" />
-    <None Include="Core\packages.config" />
+    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Core\App.config.xml" />
+    <ProjectReference Include="..\Kiroku\Kiroku.csproj">
+      <Project>{e89d6cfc-10d2-4788-b11a-afedc87dde35}</Project>
+      <Name>Kiroku</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App.config-example.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\Microsoft.Web.WebJobs.Publish.1.0.7\tools\webjobs.targets" Condition="Exists('..\packages\Microsoft.Web.WebJobs.Publish.1.0.7\tools\webjobs.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

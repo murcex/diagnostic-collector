@@ -17,5 +17,7 @@ namespace Sensor
 
         // Switch
         public static readonly String Version = ConfigurationManager.AppSettings["version"].ToString();
+        public static readonly String Principal = ConfigurationManager.AppSettings["principal"].ToString();
+        public static readonly String Agent = ConfigurationManager.AppSettings["agent"].ToString();
     }
 }
