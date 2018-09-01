@@ -1,23 +1,25 @@
-# PlatformDiagnosticCollector
+# Diagnostic Collector
 Platform Diagnostic Collector
 
-# Components
-## sentry-database
-SQL Server data collector
-- T-SQL
+## Components
+### Sentry
+- sentry-agent
+    - SQL Server Agent jobs designed to collect instance data (T-SQL)
+- sentry-api
+    - Web API for extracting Sentry data (CSharp)
+- sentry-korekuta
+    - Sentry data collector, insert data into Azure SQL Server (CSharp)
 
-## sentry-api
-Web API for extracting Sentry data
-- C#
+### Sensor
+- sensor-application
+    - DNS scanner worker (CSharp)
+- sensor-database
+    - Sensor database (T-SQL)
 
-## korekuta
-Sentry data collector worker, insert data into Centrifuge
-- C#
+### Crane
+- crane-deploysql
+    - T-SQL database deployment tool (CSharp)
 
-## centrifuge
-Azure SQL Server database / data warehouse
-- T-SQL
-
-## sensor
-DNS scanner
-- C#
+### Kiroku
+- kiroku-library
+    - embedded logging reference (CSharp)
