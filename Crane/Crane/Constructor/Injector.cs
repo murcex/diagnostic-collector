@@ -9,7 +9,7 @@ namespace Crane
 {
 	class Injector
 	{
-		public static void Execute(string articleCase)
+		public static string Execute(string articleCase)
 		{
 			using (SqlConnection connection = new SqlConnection(Global.SQLConnectionString))
 			{
@@ -26,6 +26,8 @@ namespace Crane
 					if (reader.RecordsAffected == -1) { Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("\t\t<!> Success"); Console.ResetColor(); }
 					if (reader.RecordsAffected > 0) { Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("\t\t<!> Success (Rows Affected: {0})", reader.RecordsAffected); Console.ResetColor(); }
 					if (reader.RecordsAffected == 0) { Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("\t\t<!> Failure"); Console.ResetColor(); }
+
+                    return "Success";
 				}
 
 				catch (Exception e)
@@ -37,6 +39,8 @@ namespace Crane
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("\t\t<!> Success (Object Exists)");
                         Console.ResetColor();
+
+                        return "Success (Object Exists)";
                     }
 
 					// Return All Other Exceptions
@@ -45,6 +49,8 @@ namespace Crane
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("\t\tResult: Failure (SQL Exception)");
                         Console.ResetColor();
+
+                        return $"Failure (SQL Exception): {e.ToString()}";
                     }
 				}
 			}

@@ -49,7 +49,7 @@ namespace Sensor
 		}
 
         // v2 Insert
-        public static void DNSUpsert(List<DNSSensor> transferCase)
+        public static void UpsertSensor(List<DNSSensor> transferCase)
         {
             foreach (var target in transferCase)
             {

@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Kiroku">
+      <HintPath>..\..\..\CSharpKnowledgeBase\CSharp\laboratory\Kiroku\Kiroku\bin\Release\Kiroku.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -44,20 +47,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Article.cs" />
-    <Compile Include="Audit.cs" />
-    <Compile Include="Constructor.cs" />
-    <Compile Include="Global.cs" />
-    <Compile Include="Injector.cs" />
+    <Compile Include="DataModels\Article.cs" />
+    <Compile Include="Utility\Audit.cs" />
+    <Compile Include="Constructor\Constructor.cs" />
+    <Compile Include="Core\Global.cs" />
+    <Compile Include="Constructor\Injector.cs" />
+    <Compile Include="Logging\Log.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Template.cs" />
+    <Compile Include="Utility\Template.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <Content Include="Core\App.config.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App.config.xml" />
+    <None Include="Core\App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

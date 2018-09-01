@@ -85,21 +85,31 @@ namespace Sensor
                 // DNS Sensor Collection
                 List<DNSSensor> sensorDnsCollection = new List<DNSSensor>();
 
+                // TODO: find total articles and build task array
+                var tasks = new Task[articleList.Count()];
+                var taskCounter = 0;
+
                 // Loop target list, collect dns data and load sensor object
                 foreach (var article in articleList)
                 {
                     // Create DNS sensor object
-                    DNSSensor sensorDns = new DNSSensor(article.DNSName);
+                    //DNSSensor sensorDns = new DNSSensor(article.DNSName);
 
+                    List<DNSSensor> sensorSubCollection = new List<DNSSensor>();
+                    
                     // Collect DNS
-                    DNSCollector.Execute(article, sensorDns);
+                    tasks[taskCounter] = Task.Run(() => sensorDnsCollection.AddRange(sensorSubCollection = Collector.Execute(article)));
 
                     // Add to DNS collection to SQL
-                    sensorDnsCollection.Add(sensorDns);
+                    //sensorDnsCollection.AddRange(sensorSubCollection);
+
+                    taskCounter++;
                 }
 
+                Task.WaitAll(tasks);
+
                 // Upsert default collection to SQL
-                DataUpload.DNSUpsert(sensorDnsCollection);
+                DataUpload.UpsertSensor(sensorDnsCollection);
             }
 
             #endregion
@@ -113,6 +123,7 @@ namespace Sensor
                 //TODO: Detect Failover Method
 
                 //TODO: Retention Method
+                DataDownload.DataRetention();
             }
 
             #endregion
