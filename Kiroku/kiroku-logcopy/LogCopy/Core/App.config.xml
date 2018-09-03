@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <configSections>
+    <section name="Kiroku" type="System.Configuration.AppSettingsSection" />
+  </configSections>
+  <startup>
+    <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.5.2" />
+  </startup>
+  <appSettings>
+    <add key="debug" value="0" />
+    <add key="localDir" value="" />
+    <add key="azureContainer" value="" />
+    <add key="retentionDays" value="" />
+    <add key="cleanseHours" value="" />
+    <add key="StorageConnectionString" value="" />
+  </appSettings>
+  <Kiroku>
+    <!--WriterSwitch-->
+    <add key="local" value="0" />
+    <add key="collector" value="0" />
+    <!--GUID-->
+    <add key="applicationid" value="guid" />
+    <add key="trackid" value="guid" />
+    <!--EventSwitch-->
+    <add key="verbose" value="0" />
+    <add key="trace" value="0" />
+    <add key="info" value="0" />
+    <add key="warning" value="0" />
+    <add key="error" value="0" />
+    <!--FilePath-->
+    <add key="filepath" value="C:\\Temp\Log\\MyLogSender\\" />
+    <add key="StorageConnectionString" value="DefaultEndpointsProtocol=https;AccountName=_AccountName_;AccountKey=_AccountKey_" />
+  </Kiroku>
+  <runtime>
+    <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+      <dependentAssembly>
+        <assemblyIdentity name="Newtonsoft.Json" publicKeyToken="30ad4fe6b2a6aeed" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-11.0.0.0" newVersion="11.0.0.0" />
+      </dependentAssembly>
+    </assemblyBinding>
+  </runtime>
+</configuration>
