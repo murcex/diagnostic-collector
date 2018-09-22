@@ -4,6 +4,7 @@
 		<supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.5.2" />
 	</startup>
 	<appSettings>
+    <add key="type" value="1" />
 		<add key="build" value="C:\Source\myDatabaseFiles" />
 		<add key="database" value="myDatabase" />
 		<add key="instance" value="myAccount.database.windows.net" />
