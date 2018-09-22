@@ -44,12 +44,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Utility\ConsoleDisplay.cs" />
     <Compile Include="DataModels\Article.cs" />
     <Compile Include="Utility\Audit.cs" />
     <Compile Include="Constructor\Constructor.cs" />
     <Compile Include="Core\Global.cs" />
     <Compile Include="Constructor\Injector.cs" />
-    <Compile Include="Logging\Log.cs" />
+    <Compile Include="Utility\Log.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility\Template.cs" />

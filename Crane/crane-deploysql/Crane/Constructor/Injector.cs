@@ -30,19 +30,19 @@ namespace Crane
                     {
                         Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("\t\t<!> Success");
                         Console.ResetColor();
-                        Log.Info("Success");
+                        Log.Info("|-> Success");
                     }
 					if (reader.RecordsAffected > 0)
                     {
                         Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("\t\t<!> Success (Rows Affected: {0})", reader.RecordsAffected);
                         Console.ResetColor();
-                        Log.Info($"Success (Rows Affected: {reader.RecordsAffected})");
+                        Log.Info($"|-> Success (Rows Affected: {reader.RecordsAffected})");
                     }
 					if (reader.RecordsAffected == 0)
                     {
                         Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("\t\t<!> Failure");
                         Console.ResetColor();
-                        Log.Error("Failure");
+                        Log.Error("|-> Failure");
                     }
 
                     return "Success";
@@ -57,7 +57,7 @@ namespace Crane
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("\t\t<!> Success (Object Exists)");
                         Console.ResetColor();
-                        Log.Info("Success (Object Exists)");
+                        Log.Info("|-> Success (Object Exists)");
 
                         return "Success (Object Exists)";
                     }
@@ -68,7 +68,7 @@ namespace Crane
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("\t\tResult: Failure (SQL Exception)");
                         Console.ResetColor();
-                        Log.Error($"\r\nFailure (SQL Exception): {e.ToString()}");
+                        Log.Error($"\r\n|-> Failure (SQL Exception): {e.ToString()}");
 
                         return $"Failure (SQL Exception): {e.ToString()}";
                     }

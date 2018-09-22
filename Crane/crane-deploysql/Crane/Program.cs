@@ -10,6 +10,8 @@ namespace Crane
 	{
 		static void Main(string[] args)
 		{
+            Global.Set();
+
             bool operate = true;
             string loopCheck;
 
@@ -21,14 +23,10 @@ namespace Crane
                 Console.WriteLine("\n  Crane : SQL Server Database Deployment Tool\n");
                 Console.WriteLine("\t<!> Deployment Settings");
                 Console.WriteLine("\n\t\t-> Source: {0}", Global.Build);
-                Console.WriteLine("\t\t-> Type: Azure SQL Server");
+                Console.WriteLine("\t\t-> Type: {0}", Global.TypeName);
                 Console.WriteLine("\n");
-                Console.WriteLine("\t<!> Target Settings");
-                Console.WriteLine("\n\t\t-> Instance: {0}", Global.Instance);
-                Console.WriteLine("\t\t-> Database: {0}", Global.Database);
-                Console.WriteLine("\t\t-> Account: {0}", Global.Account);
-                Console.WriteLine("\n");
-                Console.Write("\t<!> DEPLOYMENT (Y/N) -> ");
+
+                ConsoleDisplay.DisplayTargetSettings();
 
                 // Check Y/N Deployment
                 string deployCheck = Console.ReadLine();
@@ -50,6 +48,7 @@ namespace Crane
 
                 #region Constructor
 
+                Log.CreateLog();
                 Constructor.Execute();
 
                 #endregion
@@ -60,7 +59,7 @@ namespace Crane
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("\n\t--- Complete ---");
                 Console.ResetColor();
-                Console.WriteLine("\t\t<!> Log: <addlocationhere>");
+                Console.WriteLine("\n\t\t<!> Log: {0}", Log.GetLogFileName());
 
                 // Loop Check
                 Console.Write("\n\t<!> LOOP? (Y/N) -> ");

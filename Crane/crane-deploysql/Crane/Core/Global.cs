@@ -15,17 +15,37 @@ namespace Crane
 	{
         // Set Deployment Variables
         static readonly string _session = DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss");
+        public static readonly string _type = ConfigurationManager.AppSettings["type"].ToString();
         public static readonly string Build = ConfigurationManager.AppSettings["build"].ToString();
 		public static readonly string Database = ConfigurationManager.AppSettings["database"].ToString();
 		public static readonly string Instance = ConfigurationManager.AppSettings["instance"].ToString();
 		public static readonly string Account = ConfigurationManager.AppSettings["account"].ToString();
 		public static readonly string Key = ConfigurationManager.AppSettings["key"].ToString();
+        public static string SQLConnectionString;
+        public static int Type;
+        public static string TypeName;
 
-        // Create SQL Connection String
-        public static readonly String SQLConnectionString = "Server=tcp:" + Global.Instance + ",1433; Initial Catalog=" + Global.Database + "; Persist Security Info=False; User ID=" + Global.Account + "; Password=" + Global.Key + "; MultipleActiveResultSets=False;";
+        // Create Azure SQL Server Connection String
+        private static readonly String _azureConnectionString = "Server=tcp:" + Global.Instance + ",1433; Initial Catalog=" + Global.Database + "; Persist Security Info=False; User ID=" + Global.Account + "; Password=" + Global.Key + "; MultipleActiveResultSets=False;";
 
-        // Create Full Log Path
-        public static readonly string FullLogPath = Directory.GetCurrentDirectory() + @"\CraneLog-" + _session + ".txt";
+        // Create Local SQL Server Connection String
+        private static readonly String _localConnectionString = "Integrated Security=SSPI; Persist Security Info=False; Initial Catalog=" + Global.Database + "; Data Source=localhost";
+
+        public static void Set()
+        {
+            if (_type == "1")
+            {
+                SQLConnectionString = _azureConnectionString;
+                Type = 1;
+                TypeName = "Azure SQL Server";
+            }
+            else
+            {
+                SQLConnectionString = _localConnectionString;
+                Type = 0;
+                TypeName = "Local SQL Server";
+            }
+        }
 
         // Create Object Type Dictionary
         public static readonly Dictionary<int, string> ObjectType = new Dictionary<int, string>
