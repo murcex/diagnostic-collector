@@ -1,0 +1,16 @@
+-- (1) Replace <kirokuExecuteLoginHere> with your proper login
+-- (2) Convert to .sql
+-- (3) Remove these headers and uncomment cmds below
+-- Check and Create Database Login
+--DECLARE @check INT
+
+--SELECT @check = COUNT(*) FROM [sys].[database_principals] WHERE [type] = 'S' AND [name] = N'<kirokuExecuteLoginHere>'
+
+--IF @check = 0
+--BEGIN
+  --CREATE USER [<kirokuExecuteLoginHere>]
+  --FOR LOGIN [<kirokuExecuteLoginHere>]
+--END
+
+-- Grant Login to Objects
+--GRANT EXECUTE ON [dbo].[x] TO [<kirokuExecuteLoginHere>]
