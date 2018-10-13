@@ -1,7 +1,11 @@
+-- How to grant access
 -- (1) Replace <kirokuExecuteLoginHere> with your proper login
 -- (2) Convert to .sql
 -- (3) Remove these headers and uncomment cmds below
--- Check and Create Database Login
+
+-- ========[ UNCOMMENT BELOW ]========
+
+---- Check and Create Database Login
 --DECLARE @check INT
 
 --SELECT @check = COUNT(*) FROM [sys].[database_principals] WHERE [type] = 'S' AND [name] = N'<kirokuExecuteLoginHere>'
@@ -12,5 +16,17 @@
   --FOR LOGIN [<kirokuExecuteLoginHere>]
 --END
 
--- Grant Login to Objects
---GRANT EXECUTE ON [dbo].[x] TO [<kirokuExecuteLoginHere>]
+---- Grant Login to Objects
+--GRANT EXECUTE ON [dbo].[usp_Kiroku_KBlocks_InsertStart] TO [<kirokuExecuteLoginHere>]
+
+--GRANT EXECUTE ON [dbo].[usp_Kiroku_KBlocks_UpdateEmptyStop] TO [<kirokuExecuteLoginHere>]
+
+--GRANT EXECUTE ON [dbo].[usp_Kiroku_KBlocks_UpdateStop] TO [<kirokuExecuteLoginHere>]
+
+--GRANT EXECUTE ON [dbo].[usp_Kiroku_KInstances_InsertStart] TO [<kirokuExecuteLoginHere>]
+
+--GRANT EXECUTE ON [dbo].[usp_Kiroku_KInstances_SelectCheck] TO [<kirokuExecuteLoginHere>]
+
+--GRANT EXECUTE ON [dbo].[usp_Kiroku_KInstances_UpdateStop] TO [<kirokuExecuteLoginHere>]
+
+--GRANT EXECUTE ON [dbo].[usp_Kiroku_KLogs_InsertAdd] TO [<kirokuExecuteLoginHere>]
