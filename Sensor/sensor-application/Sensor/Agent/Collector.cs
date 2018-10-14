@@ -18,11 +18,11 @@ namespace Sensor
 
             List<DNSSensor> sensorDnsSubCollection = new List<DNSSensor>();
 
-            IPAddress[] ips;
+            //IPAddress[] ips;
 
             try
             {
-                ips = Dns.GetHostAddresses(hostname.DNSName);
+                //ips = Dns.GetHostAddresses(hostname.DNSName);
 
                 var ips2 = DNSEvaluation.Execute(hostname.DNSName);
 
