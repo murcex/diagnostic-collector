@@ -10,6 +10,10 @@ namespace Sensor
 {
     public class IPAddressTagger
     {
+        private static string unknownDataCenter = "UNKNOWN";
+
+        private static string unknownDataCenterTag = "UNK";
+
         public static DNSSensor Execute(Article hostname, IPAddress ip)
         {
             DNSSensor sensor = new DNSSensor(hostname.DNSName);
@@ -35,12 +39,10 @@ namespace Sensor
                 // Set sensor with Data Center
                 //sensor.nvc_datacenter = matchDatacenter;
                 //sensor.nvc_datacentertag = matchDatacenterTag;
-                sensor.nvc_status = "ONLINE";
+                    sensor.nvc_status = "ONLINE";
 
                 Console.WriteLine("Datacenter Match: {0}", sensor.nvc_datacenter);
                 Console.WriteLine("Datacenter Tag Match: {0} \r\n", sensor.nvc_datacentertag);
-
-                return sensor;
             }
             else
             {
@@ -48,10 +50,18 @@ namespace Sensor
                 sensor.nvc_datacentertag = "UNK";
                 sensor.nvc_status = "NOMATCH";
 
-                Console.WriteLine("DataCenter Match: NONE \r\n");
-
-                return sensor;
+                Console.WriteLine("DataCenter Match: NONE \r\n"); 
             }
+
+            if (sensor.nvc_datacenter == null)
+            {
+                sensor.nvc_datacenter = unknownDataCenter;
+                sensor.nvc_datacentertag = unknownDataCenterTag;
+
+                Console.WriteLine("IpAddress exist, but there is no DataCenter match");
+            }
+
+            return sensor;
         }
     }
 }
