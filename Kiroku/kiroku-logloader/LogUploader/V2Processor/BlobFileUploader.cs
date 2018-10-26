@@ -185,6 +185,15 @@ namespace KLOGLoader
                                 {
                                     var record = JsonConvert.DeserializeObject<LogRecordModel>(line);
 
+                                    if (record.LogData.Length > Global.MessageLength)
+                                    {
+                                        var messageCap = Global.MessageLength - 20;
+                                        var cleanLogData = "[ERROR-MAX-"+ Global.MessageLength  + "]";
+                                        cleanLogData += record.LogData.Substring(1, messageCap);                                        
+                                        record.LogData = cleanLogData;
+                                        record.LogType = "Error";
+                                    }
+
                                     recordModelList.Add(record);
                                 }
                                 catch

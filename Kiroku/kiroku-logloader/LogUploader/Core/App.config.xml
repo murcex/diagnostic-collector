@@ -10,6 +10,7 @@
     <add key="Debug" value="1" />
     <add key="azureContainer" value="mycontainer" />
     <add key="retentionDays" value="-15" />
+    <add key="messageLength" value="250" />
     <add key="sql" value="" />
     <add key="StorageConnectionString" value="DefaultEndpointsProtocol=https;AccountName=;AccountKey=" />
   </appSettings>
