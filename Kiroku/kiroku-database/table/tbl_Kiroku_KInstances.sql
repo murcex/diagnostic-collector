@@ -1,4 +1,4 @@
-CREATE TABLE [dbo].[tlb_Kiroku_KInstances](
+CREATE TABLE [dbo].[tbl_Kiroku_KInstances](
 	[ui_instanceid] [uniqueidentifier] NULL,
 	[dt_instancestart] [datetime] NULL,
 	[dt_instancestop] [datetime] NULL,

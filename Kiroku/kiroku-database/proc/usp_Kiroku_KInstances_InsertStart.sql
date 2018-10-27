@@ -11,7 +11,7 @@ AS
 	SET NOCOUNT ON
 	SET XACT_ABORT ON
 	
-	INSERT INTO dbo.tlb_Kiroku_KInstances
+	INSERT INTO dbo.tbl_Kiroku_KInstances
 	(
 		ui_instanceid, dt_instancestart, 
 		--dt_instancestop, 

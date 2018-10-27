@@ -8,7 +8,7 @@ AS
 	SET XACT_ABORT ON
 	
 	BEGIN TRANSACTION
-		UPDATE dbo.tlb_Kiroku_KInstances
+		UPDATE dbo.tbl_Kiroku_KInstances
 		SET   
 		dt_instancestop = @dt_instancestop 
 		WHERE ui_instanceid = @ui_instanceid
