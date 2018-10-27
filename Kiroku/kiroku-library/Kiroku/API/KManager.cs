@@ -31,8 +31,8 @@ namespace Kiroku
 
                     switch (configKey.ToString())
                     {
-                        case "local":
-                            LogConfiguration.Local = configValue;
+                        case "write":
+                            LogConfiguration.WriteLog = configValue;
                             break;
 
                         case "applicationid":
@@ -44,7 +44,7 @@ namespace Kiroku
                             break;
 
                         case "verbose":
-                            LogConfiguration.Verbose = configValue;
+                            LogConfiguration.WriteVerbose = configValue;
                             break;
 
                         case "trace":

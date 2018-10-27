@@ -30,7 +30,7 @@ namespace Kiroku
                     file.WriteLine(LogType.InstanceStatusTag + _logInstancestring);
                 }
 
-                if (LogConfiguration.Verbose == "1")
+                if (LogConfiguration.WriteVerbose == "1")
                 {
                     LogVerboseWriter.Write(logInstance);
                 }
@@ -56,7 +56,7 @@ namespace Kiroku
                     file.WriteLine(LogType.InstanceStatusTag + _logInstancestring);
                 }
 
-                if (LogConfiguration.Verbose == "1")
+                if (LogConfiguration.WriteVerbose == "1")
                 {
                     LogVerboseWriter.Write(logInstance);
                 }

@@ -8,10 +8,10 @@ namespace Kiroku
     static class LogConfiguration
     {        
         // Set Log Write Type
-        public static string Local;
+        public static string WriteLog;
 
         // Set Logging Types
-        public static string Verbose;
+        public static string WriteVerbose;
         public static string Trace;
         public static string Info;
         public static string Warning;
@@ -23,7 +23,7 @@ namespace Kiroku
         public static Guid InstanceID;
 
         // Set LogConfiguration Values
-        public const string Version = "KLOG_VERSION_2018070601"; // Removed KLOG_S<#> Counter
+        public const string Version = "KLOG_VERSION_20181026"; // Removed KLOG_S<#> Counter
         public static string Datetime;
         public static string RootFilePath;
         public static string FullFilePath;
