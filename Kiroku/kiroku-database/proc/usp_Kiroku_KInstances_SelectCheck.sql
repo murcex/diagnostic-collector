@@ -7,7 +7,7 @@ AS
 	BEGIN TRANSACTION
 
 	SELECT TOP 1 ui_instanceid
-	FROM dbo.tlb_Kiroku_KInstances
+	FROM dbo.tbl_Kiroku_KInstances
 	WHERE ui_instanceid = @ui_instanceid
 
 	COMMIT
