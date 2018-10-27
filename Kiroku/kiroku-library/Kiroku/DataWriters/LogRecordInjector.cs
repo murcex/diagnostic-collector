@@ -30,12 +30,12 @@ namespace Kiroku
                 logBase.BlockName = blockName;
                 logBase.LogData = logData;
 
-                if (LogConfiguration.Local == "1")
+                if (LogConfiguration.WriteLog == "1")
                 {
                     LogFileWriter.AddRecord(logBase);
                 }
 
-                if (LogConfiguration.Verbose == "1")
+                if (LogConfiguration.WriteVerbose == "1")
                 {
                     LogVerboseWriter.Write(logBase);
                 }
