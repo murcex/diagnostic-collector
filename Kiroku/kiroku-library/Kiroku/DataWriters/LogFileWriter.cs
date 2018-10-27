@@ -21,19 +21,26 @@ namespace Kiroku
         /// <param name="instanceStatus"></param>
         public static void StartInstance(string instanceStatus)
         {
-            using (LogInstance logInstance = new LogInstance(instanceStatus))
+            try
             {
-                var _logInstancestring = JsonConvert.SerializeObject(logInstance);
-
-                using (StreamWriter file = new StreamWriter(LogConfiguration.FullFilePath, true))
+                using (LogInstance logInstance = new LogInstance(instanceStatus))
                 {
-                    file.WriteLine(LogType.InstanceStatusTag + _logInstancestring);
-                }
+                    var _logInstancestring = JsonConvert.SerializeObject(logInstance);
 
-                if (LogConfiguration.WriteVerbose == "1")
-                {
-                    LogVerboseWriter.Write(logInstance);
+                    using (StreamWriter file = new StreamWriter(LogConfiguration.FullFilePath, true))
+                    {
+                        file.WriteLine(LogType.InstanceStatusTag + _logInstancestring);
+                    }
+
+                    if (LogConfiguration.WriteVerbose == "1")
+                    {
+                        LogVerboseWriter.Write(logInstance);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Log.CriticalError(ex.ToString());
             }
         }
 
@@ -47,19 +54,26 @@ namespace Kiroku
         /// <param name="instanceStatus"></param>
         public static void StopInstance(string instanceStatus)
         {
-            using (LogInstance logInstance = new LogInstance(instanceStatus))
+            try
             {
-                var _logInstancestring = JsonConvert.SerializeObject(logInstance);
-
-                using (StreamWriter file = File.AppendText(LogConfiguration.FullFilePath))
+                using (LogInstance logInstance = new LogInstance(instanceStatus))
                 {
-                    file.WriteLine(LogType.InstanceStatusTag + _logInstancestring);
-                }
+                    var _logInstancestring = JsonConvert.SerializeObject(logInstance);
 
-                if (LogConfiguration.WriteVerbose == "1")
-                {
-                    LogVerboseWriter.Write(logInstance);
+                    using (StreamWriter file = File.AppendText(LogConfiguration.FullFilePath))
+                    {
+                        file.WriteLine(LogType.InstanceStatusTag + _logInstancestring);
+                    }
+
+                    if (LogConfiguration.WriteVerbose == "1")
+                    {
+                        LogVerboseWriter.Write(logInstance);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Log.CriticalError(ex.ToString());
             }
         }
 
@@ -73,11 +87,18 @@ namespace Kiroku
         /// <param name="logRecordPayload"></param>
         public static void AddRecord(LogRecord logRecordPayload)
         {
-            var _logRecordEntry = JsonConvert.SerializeObject(logRecordPayload);
-
-            using (StreamWriter file = File.AppendText(LogConfiguration.FullFilePath))
+            try
             {
-                file.WriteLine(_logRecordEntry);
+                var _logRecordEntry = JsonConvert.SerializeObject(logRecordPayload);
+
+                using (StreamWriter file = File.AppendText(LogConfiguration.FullFilePath))
+                {
+                    file.WriteLine(_logRecordEntry);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.CriticalError(ex.ToString());
             }
         }
 
