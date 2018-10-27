@@ -54,6 +54,7 @@
     <Compile Include="DataWriters\LogRecordInjector.cs" />
     <Compile Include="DataModels\LogInstance.cs" />
     <Compile Include="DataWriters\LogVerboseWriter.cs" />
+    <Compile Include="Utility\Log.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

@@ -22,69 +22,77 @@ namespace Kiroku
         /// <param name="hostValueCollection"></param>
         public static void Online(NameValueCollection hostValueCollection)
         {
-            // Prase App.Config\Kiroku and Set
-            if (hostValueCollection != null)
+            try
             {
-                foreach (var configKey in hostValueCollection.AllKeys)
+                // Prase App.Config\Kiroku and Set
+                if (hostValueCollection != null)
                 {
-                    string configValue = hostValueCollection.GetValues(configKey).FirstOrDefault().ToString();
-
-                    switch (configKey.ToString())
+                    foreach (var configKey in hostValueCollection.AllKeys)
                     {
-                        case "write":
-                            LogConfiguration.WriteLog = configValue;
-                            break;
+                        string configValue = hostValueCollection.GetValues(configKey).FirstOrDefault().ToString();
 
-                        case "applicationid":
-                            LogConfiguration.ApplicationID = new Guid(configValue);
-                            break;
+                        switch (configKey.ToString())
+                        {
+                            case "write":
+                                LogConfiguration.WriteLog = configValue;
+                                break;
 
-                        case "trackid":
-                            LogConfiguration.TrackID = new Guid(configValue);
-                            break;
+                            case "applicationid":
+                                LogConfiguration.ApplicationID = new Guid(configValue);
+                                break;
 
-                        case "verbose":
-                            LogConfiguration.WriteVerbose = configValue;
-                            break;
+                            case "trackid":
+                                LogConfiguration.TrackID = new Guid(configValue);
+                                break;
 
-                        case "trace":
-                            LogConfiguration.Trace = configValue;
-                            break;
+                            case "verbose":
+                                LogConfiguration.WriteVerbose = configValue;
+                                break;
 
-                        case "info":
-                            LogConfiguration.Info = configValue;
-                            break;
+                            case "trace":
+                                LogConfiguration.Trace = configValue;
+                                break;
 
-                        case "warning":
-                            LogConfiguration.Warning = configValue;
-                            break;
+                            case "info":
+                                LogConfiguration.Info = configValue;
+                                break;
 
-                        case "error":
-                            LogConfiguration.Error = configValue;
-                            break;
+                            case "warning":
+                                LogConfiguration.Warning = configValue;
+                                break;
 
-                        case "filepath":
-                            LogConfiguration.RootFilePath = configValue;
-                            break;
+                            case "error":
+                                LogConfiguration.Error = configValue;
+                                break;
 
-                        default:
-                            {
-                                System.Console.WriteLine("Not Hit: {0}", configKey);
-                            }
-                            break;
+                            case "filepath":
+                                LogConfiguration.RootFilePath = configValue;
+                                break;
+
+                            default:
+                                {
+                                    System.Console.WriteLine("Not Hit: {0}", configKey);
+                                }
+                                break;
+                        }
                     }
-                }
 
-                // Rest of Setup
-                // Set Session Date
-                LogConfiguration.Datetime = DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss");
-                // Set Instance GUID
-                LogConfiguration.InstanceID = Guid.NewGuid();
-                // Creat File Path
-                LogConfiguration.FullFilePath = LogConfiguration.RootFilePath + LogType.WritingToLog + LogConfiguration.InstanceID + ".txt";
-                
-                // Trigger file creation and first write -- as header
-                LogFileWriter.StartInstance(LogType.InstanceStart);
+                    // Set session date
+                    LogConfiguration.Datetime = DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss");
+                    
+                    // Set instance GUID
+                    LogConfiguration.InstanceID = Guid.NewGuid();
+                    
+                    // Create file path
+                    LogConfiguration.FullFilePath = LogConfiguration.RootFilePath + LogType.WritingToLog + LogConfiguration.InstanceID + ".txt";
+
+                    // Trigger file creation and first write -- as header
+                    LogFileWriter.StartInstance(LogType.InstanceStart);
+                }
+            }
+            catch (Exception ex)
+            {
+                //
             }
         }
 
@@ -99,8 +107,15 @@ namespace Kiroku
         {
             LogFileWriter.StopInstance(LogType.InstanceStop);
 
-            // Rename from KLOG_W_$(guid) to KLOG_S_$(guid) -- this will maket the log available for transmission
-            File.Move(LogConfiguration.FullFilePath, (LogConfiguration.RootFilePath + LogType.ReadyToSend + LogConfiguration.InstanceID + ".txt"));
+            try
+            {
+                // Rename from KLOG_W_$(guid) to KLOG_S_$(guid) -- this will maket the log available for transmission
+                File.Move(LogConfiguration.FullFilePath, (LogConfiguration.RootFilePath + LogType.ReadyToSend + LogConfiguration.InstanceID + ".txt"));
+            }
+            catch (Exception ex)
+            {
+                Log.CriticalError(ex.ToString());
+            }
         }
 
         #endregion
