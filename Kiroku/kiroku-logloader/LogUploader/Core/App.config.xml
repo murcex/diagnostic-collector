@@ -11,6 +11,14 @@
     <add key="azureContainer" value="mycontainer" />
     <add key="retentionDays" value="-15" />
     <add key="messageLength" value="250" />
+    <!--LoadCheck-->
+    <add key="instance" value="0" />
+    <add key="block" value="0" />
+    <add key="trace" value="0" />
+    <add key="info" value="0" />
+    <add key="warning" value="0" />
+    <add key="error" value="0" />
+    <!--ConnectionStrings-->
     <add key="sql" value="" />
     <add key="StorageConnectionString" value="DefaultEndpointsProtocol=https;AccountName=;AccountKey=" />
   </appSettings>
