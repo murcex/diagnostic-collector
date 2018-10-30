@@ -72,6 +72,7 @@ namespace KLOGLoader
 
                                             break;
                                         }
+
                                     }
                                     catch (Exception ex)
                                     {
@@ -188,13 +189,16 @@ namespace KLOGLoader
                                     if (record.LogData.Length > Global.MessageLength)
                                     {
                                         var messageCap = Global.MessageLength - 20;
-                                        var cleanLogData = "[ERROR-MAX-"+ Global.MessageLength  + "]";
-                                        cleanLogData += record.LogData.Substring(1, messageCap);                                        
+                                        var cleanLogData = "[ERROR-MAX-" + Global.MessageLength + "]";
+                                        cleanLogData += record.LogData.Substring(1, messageCap);
                                         record.LogData = cleanLogData;
                                         record.LogType = "Error";
                                     }
 
-                                    recordModelList.Add(record);
+                                    if (CheckWriteByType(record.LogType))
+                                    {
+                                        recordModelList.Add(record);
+                                    }
                                 }
                                 catch
                                 {
@@ -212,6 +216,29 @@ namespace KLOGLoader
                 {
                     uploaderLog.Error($"BlobFileUploader Exception: {ex.ToString()}");
                 }
+            }
+        }
+
+        private static bool CheckWriteByType(string type)
+        {
+            switch (type.ToLower())
+            {
+                case "trace":
+                    return Global.Trace ? true : false;
+
+                case "info":
+                    return Global.Info ? true : false;
+
+                case "warning":
+                    return Global.Warning ? true : false;
+
+                case "error":
+                    return Global.Error ? true : false;
+
+                default:
+                    {
+                        return true;
+                    }
             }
         }
     }

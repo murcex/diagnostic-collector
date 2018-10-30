@@ -18,8 +18,9 @@ namespace KLOGLoader
     {
         static void Main(string[] args)
         {
-            // Start instance level logging
-            KManager.Online((NameValueCollection)ConfigurationManager.GetSection("Kiroku"));
+            Global.SetLoadValues();
+
+            Global.StartLogging();
 
             BlobClient.Set();
 
@@ -31,8 +32,7 @@ namespace KLOGLoader
 
             BlobFileRetention.Execute();
 
-            // End instance level logging
-            KManager.Offline();
+            Global.StopLogging();
 
             Global.CheckDebug();
         }
