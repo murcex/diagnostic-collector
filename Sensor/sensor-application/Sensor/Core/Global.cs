@@ -19,5 +19,12 @@ namespace Sensor
         public static readonly String Version = ConfigurationManager.AppSettings["version"].ToString();
         public static readonly String Principal = ConfigurationManager.AppSettings["principal"].ToString();
         public static readonly String Agent = ConfigurationManager.AppSettings["agent"].ToString();
+
+        // Constants Strings
+        public static readonly string IpAddress = "IpAddress";
+        public static readonly string UnknownDataCenter = "UNKNOWN";
+        public static readonly string UnknownDataCenterTag = "UNK";
+        public static readonly string StatusOnline = "ONLINE";
+        public static readonly string StatusNoMatch = "NOMATCH";
     }
 }

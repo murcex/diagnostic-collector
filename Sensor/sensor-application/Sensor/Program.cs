@@ -1,116 +1,47 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Net;
-using System.Diagnostics;
-using System.Configuration;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using Newtonsoft.Json;
-
-namespace Sensor
+﻿namespace Sensor
 {
+    using System;
+
     class Program
     {
         static void Main(string[] args)
         {
-            #region console.importcheck
-
-            //Console.WriteLine("-- Import Check --");
-            //foreach (var targetCheck in targetList)
-            //{
-            //    Console.WriteLine("DNS Name: {0}", targetCheck.DNSName);
-            //    Console.WriteLine("DNS Probe: {0} \r\n", targetCheck.DNSProbe);
-            //}
-
-            #endregion
-
-            #region Sensor v1
-
-            /// <summary>
-            /// Turning off "version 1" Sensor
-            /// </summary>
-            //if (Global.Version == "v1")
-            //{
-                // Get Target List
-                //var targetList = DataDownload.GetTargetList();
-
-                // Master Sensor collection
-                //List<Sensor> sensorCollection = new List<Sensor>();
-
-                #region console.connectionstring
-
-                //Console.WriteLine("-- Connection String Check --");
-                //Console.WriteLine("Connection String: {0} \r\n", Global.SQLConnectionString);
-
-                #endregion
-
-                // Loop target list, collect data and load sensor object
-                //foreach (var target in targetList)
-                //{
-                    // Create object and set timer
-                    //Sensor sensor = new Sensor();
-                    //System.Diagnostics.Stopwatch timer = new Stopwatch();
-
-                    // Pre-collect set
-                    //sensor.dt_session = Global.SessionDatetime;
-                    //sensor.nvc_source = Global.SensorLocation;
-                    //sensor.nvc_dns = target.DNSName;
-
-                    // Collect IP
-                    //Collection.CollectIP(target, sensor);
-
-                    // Collect HTTP Request
-                    //Collection.CollectHTTPRequest(target, sensor, timer);
-
-                    // Add to collection
-                    //sensorCollection.Add(sensor);
-                //}
-
-                // Upsert default collection to SQL
-                //DataUpload.SQLUpsert(sensorCollection);
-            //}
-
-            #endregion
-
             #region agent mode
+
+            // StartLogging();
+
+            // SetGlobalValues();
 
             if (Global.Agent == "1")
             {
-                // Get Target List
-                var articleList = DataDownload.GetArticle();
+                GetArticles.Execute();
 
-                // DNS Sensor Collection
-                List<DNSSensor> sensorDnsCollection = new List<DNSSensor>();
+                GetIPAddress.Execute();
 
-                // TODO: find total articles and build task array
-                var tasks = new Task[articleList.Count()];
-                var taskCounter = 0;
+                TagIPAddress.Execute();
 
-                // Loop target list, collect dns data and load sensor object
-                foreach (var article in articleList)
-                {
-                    // Create DNS sensor object
-                    //DNSSensor sensorDns = new DNSSensor(article.DNSName);
-
-                    List<DNSSensor> sensorSubCollection = new List<DNSSensor>();
-                    
-                    // Collect DNS
-                    tasks[taskCounter] = Task.Run(() => sensorDnsCollection.AddRange(sensorSubCollection = Collector.Execute(article)));
-
-                    // Add to DNS collection to SQL
-                    //sensorDnsCollection.AddRange(sensorSubCollection);
-
-                    taskCounter++;
-                }
-
-                Task.WaitAll(tasks);
-
-                // Upsert default collection to SQL
-                DataUpload.UpsertSensor(sensorDnsCollection);
+                UploadCollection.Execute();
             }
+            
+            //{
+            //    // TODO: find total articles and build task array
+            //    var tasks = new Task[articleList.Count()];
+            //    var taskCounter = 0;
+            //
+            //    // Loop target list, collect dns data and load sensor object
+            //    foreach (var article in articleList)
+            //    {
+            //        List<DNSSensor> sensorSubCollection = new List<DNSSensor>();
+            //
+            //        // Collect DNS
+            //        tasks[taskCounter] = Task.Run(() => sensorDnsCollection.AddRange(sensorSubCollection = Collector.Execute(article)));
+            //
+            //        taskCounter++;
+            //    }
+            //
+            //    Task.WaitAll(tasks);
+            //
+            //}
 
             #endregion
 
