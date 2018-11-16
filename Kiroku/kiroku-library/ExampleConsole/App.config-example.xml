@@ -7,6 +7,28 @@
   <startup>
     <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.5.2" />
   </startup>
+  <!--KFlowSettings-->
+  <appSettings>
+    <!--Main-->
+    <add key="instanceloop" value="1" />
+    <add key="blockloop" value="1" />
+    <!--Trace-->
+    <add key="trace" value="1" />
+    <add key="traceloop" value="1" />
+    <add key="tracechar" value="1" />
+    <!--Info-->
+    <add key="info" value="1" />
+    <add key="infoloop" value="1" />
+    <add key="infochar" value="1" />
+    <!--Warning-->
+    <add key="warning" value="1" />
+    <add key="warningloop" value="1" />
+    <add key="warningchar" value="1" />
+    <!--Error-->
+    <add key="error" value="1" />
+    <add key="errorloop" value="1" />
+    <add key="errorchar" value="1" />
+  </appSettings>
   <Kiroku>
     <!--WriterSwitch-->
     <add key="write" value="0" />
