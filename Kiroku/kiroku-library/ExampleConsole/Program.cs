@@ -1,60 +1,75 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Configuration;
-using System.Collections.Specialized;
-
-// Kiroku Logging Library
-using Kiroku;
-
-namespace ExampleConsole
+﻿namespace KFlow
 {
+    using System;
+    using System.Configuration;
+    using System.Collections.Specialized;
+
+    // Kiroku Logging Library
+    using Kiroku;
+
     class Program
     {
         static void Main(string[] args)
         {
-            KManager.Online((NameValueCollection)ConfigurationManager.GetSection("Kiroku"));
+            Global.SetValues();
 
-            // Method 1
-            ExampleClass.Test1();
+            for (int i = 1; i <= Global.InstanceLoop; i++)
+            {
+                KManager.Online((NameValueCollection)ConfigurationManager.GetSection("Kiroku"));
 
-            // Method 2
-            ExampleClass.Test2();
+                for (int y = 1; y <= Global.BlockLoop; y++)
+                {
+                    using (KLog klog = new KLog($"Block-{i}-{y}"))
+                    {
+                        // Trace
+                        if (Global.TraceOn)
+                        {
+                            try
+                            {
+                                for (int traceMeter = 1; traceMeter <= Global.TraceLoopCount; traceMeter++)
+                                {
+                                    klog.Trace(Generator.Execute(Global.TraceCharCount));
+                                }
 
-            KManager.Offline();
+                                // Info
+                                if (Global.InfoOn)
+                                {
+                                    for (int infoMeter = 1; infoMeter <= Global.InfoLoopCount; infoMeter++)
+                                    {
+                                        klog.Info(Generator.Execute(Global.InfoCharCount));
+                                    }
+                                }
+
+                                // Warning
+                                if (Global.WarningOn)
+                                {
+                                    for (int warningMeter = 1; warningMeter <= Global.WarningLoopCount; warningMeter++)
+                                    {
+                                        klog.Warning(Generator.Execute(Global.WarningCharCount));
+                                    }
+                                }
+
+                                // Error
+                                if (Global.ErrorOn)
+                                {
+                                    for (int errorMeter = 1; errorMeter <= Global.ErrorLoopCount; errorMeter++)
+                                    {
+                                        klog.Error(Generator.Execute(Global.ErrorCharCount));
+                                    }
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                klog.Error($"KFlow Exception: {e.ToString()}");
+                            }
+                        }
+                    }
+                }
+
+                KManager.Offline();
+            }
 
             Console.ReadKey();
-        }
-    }
-
-    class ExampleClass
-    {
-        public static void Test1()
-        {
-            using (KLog Test1 = new KLog("Test1"))
-            {
-                for (int a = 10; a < 20; a = a + 1)
-                {
-                    Test1.Info(a.ToString());
-                }
-            }
-        }
-
-        public static void Test2()
-        {
-            using (KLog test2 = new KLog("Test2"))
-            {
-                int i, j;
-
-                for (i = 2; i < 100; i++)
-                {
-                    for (j = 2; j <= (i / j); j++)
-                        if ((i % j) == 0) break; // if factor found, not prime
-                    test2.Info(i.ToString());
-                }
-            }
         }
     }
 }
