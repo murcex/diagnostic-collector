@@ -21,11 +21,11 @@
                 {
                     using (KLog klog = new KLog($"Block-{i}-{y}"))
                     {
-                        // Trace
                         if (Global.TraceOn)
                         {
                             try
                             {
+                                // Trace
                                 for (int traceMeter = 1; traceMeter <= Global.TraceLoopCount; traceMeter++)
                                 {
                                     klog.Trace(Generator.Execute(Global.TraceCharCount));
@@ -68,8 +68,6 @@
 
                 KManager.Offline();
             }
-
-            Console.ReadKey();
         }
     }
 }
