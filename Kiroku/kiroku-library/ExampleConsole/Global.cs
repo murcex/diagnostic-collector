@@ -49,7 +49,7 @@
         public static bool WarningOn;
         public static int WarningLoopCount;
         public static int WarningCharCount;
-        
+
         // Error
         public static bool ErrorOn;
         public static int ErrorLoopCount;
