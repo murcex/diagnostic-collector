@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Sensor
 {
-    public class DNSRecord
+    public class DNSResolution
     {
         // Constructor
-        public DNSRecord(string source)
+        public DNSResolution(string source)
         {
             dt_session = Global.SessionDatetime;
             nvc_source = Global.SensorLocation;

@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Net;
+    using System.Threading;
 
     public static class GetIPAddress
     {
@@ -11,65 +12,74 @@
         {
             List<IPRecord> ipRecordTransferList = new List<IPRecord>();
 
-            List<DNSCount> dnsCountList = new List<DNSCount>();
+            List<DNSDistribution> dnsCountList = new List<DNSDistribution>();
 
-            foreach (var article in Capsule.Articles)
+            try
             {
-                try
+                foreach (var article in Capsule.Articles)
                 {
-                    var count = 0;
-                    List<IPRecord> ipRecordQuickList = new List<IPRecord>();
-
-                    while (count < 30)
+                    try
                     {
-                        var ips = Dns.GetHostAddresses(article.DNSName);
+                        var count = 0;
+                        List<IPRecord> ipRecordQuickList = new List<IPRecord>();
 
-                        foreach (var ip in ips)
+                        while (count < 10)
                         {
-                            IPRecord record = new IPRecord();
+                            var ips = Dns.GetHostAddresses(article.DNSName);
 
-                            record.IP = ip;
-                            record.HostName = article.DNSName;
-                            
-                            ipRecordQuickList.Add(record);
+                            foreach (var ip in ips)
+                            {
+                                IPRecord record = new IPRecord();
+
+                                record.IP = ip;
+                                record.HostName = article.DNSName;
+
+                                ipRecordQuickList.Add(record);
+                            }
+
+                            Thread.Sleep(25);
+
+                            count++;
                         }
 
-                        count++;
+                        var ipRecordDistinctList = ipRecordQuickList.GroupBy(ip => ip.IP).Select(y => y.First());
+
+                        foreach (var ipRecord in ipRecordDistinctList)
+                        {
+                            var hitCount = ipRecordQuickList.Select(x => x.IP == ipRecord.IP).Count();
+
+                            DNSDistribution dnsCount = new DNSDistribution();
+                            dnsCount.IP = ipRecord.IP;
+                            dnsCount.HostName = ipRecord.HostName;
+                            dnsCount.Count = hitCount;
+
+                            dnsCountList.Add(dnsCount);
+
+                            ipRecordTransferList.Add(ipRecord);
+                        }
+
+                        Capsule.IPRecords = ipRecordTransferList;
+
+                        Capsule.DNSDistributionRecords = dnsCountList;
                     }
-
-                    var ipRecordDistinctList = ipRecordQuickList.GroupBy(ip => ip.IP).Select(y => y.First());
-
-                    foreach (var ipRecord in ipRecordDistinctList)
+                    catch (Exception ex)
                     {
-                        var hitCount = ipRecordQuickList.Select(x => x.IP == ipRecord.IP).Count();
+                        if (ex.ToString().Contains("No such host is known"))
+                        {
+                            Console.WriteLine("Exception: Unknow Host. ({0})", article.DNSName);
+                        }
+                        else
+                        {
+                            Console.WriteLine("Exception: {0}", ex.ToString());
+                        }
 
-                        DNSCount dnsCount = new DNSCount();
-                        dnsCount.IP = ipRecord.IP;
-                        dnsCount.HostName = ipRecord.HostName;
-                        dnsCount.Count = hitCount;
-
-                        dnsCountList.Add(dnsCount);
-
-                        ipRecordTransferList.Add(ipRecord);
+                        IPAddress[] address = { IPAddress.Parse("0.0.0.0") };
                     }
-
-                    Capsule.IPRecords = ipRecordTransferList;
-
-                    Capsule.DNSCounts = dnsCountList;
                 }
-                catch (Exception ex)
-                {
-                    if (ex.ToString().Contains("No such host is known"))
-                    {
-                        Console.WriteLine("Exception: Unknow Host. ({0})", article.DNSName);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Exception: {0}", ex.ToString());
-                    }
-
-                    IPAddress[] address = { IPAddress.Parse("0.0.0.0") };
-                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"GetIPAddress - Exception: {e.ToString()}");
             }
         }
     }

@@ -15,8 +15,6 @@ namespace Sensor
 
             try
             {
-                //var target = new Target();
-
                 using (var connection = new System.Data.SqlClient.SqlConnection(Global.SQLConnectionStringv2))
                 {
                     var cmd = new SqlCommand("usp_Sensor_DNS_Catalog_Select", connection);
@@ -50,7 +48,7 @@ namespace Sensor
             {
                 using (var connection = new System.Data.SqlClient.SqlConnection(Global.SQLConnectionStringv2))
                 {
-                    var cmd = new SqlCommand("usp_Sensor_DNS_Catalog_Select", connection); // TODO: Add Retention Proc here.
+                    var cmd = new SqlCommand("usp_Sensor_DNS_Stage_Retention", connection);
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
                     connection.Open();
