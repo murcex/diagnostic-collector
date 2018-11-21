@@ -9,7 +9,7 @@ namespace Sensor
 {
 	class DataUpload
 	{
-        public static void UpsertSensor(List<DNSRecord> transferCase)
+        public static void UpsertSensor(List<DNSResolution> transferCase)
         {
             try
             {

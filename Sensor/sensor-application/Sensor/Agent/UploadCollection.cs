@@ -10,13 +10,27 @@ namespace Sensor
     {
         public static void Execute()
         {
-            DataUpload.UpsertSensor(Capsule.DNSRecords);
+            DataUpload.UpsertSensor(Capsule.DNSResolutionRecords);
 
-            // TODO: Add sql table, proc and csharp logic
-            foreach (var x in Capsule.DNSCounts)
+            // TODO: Add sql table, proc and csharp logic for both loops
+
+            Console.WriteLine("DNS Count:");
+            foreach (var x in Capsule.DNSDistributionRecords)
             {
-                //Console.WriteLine($"{x.HostName},{x.IP},{x.Count}");
+                Console.WriteLine($"{x.HostName},{x.IP},{x.Count}");
             }
+
+            AddDNSDistribution.Execute(Capsule.DNSDistributionRecords);
+
+            Console.WriteLine("");
+            Console.WriteLine("TCP Latency:");
+
+            foreach (var x in Capsule.TCPLatencyRecords)
+            {
+                Console.WriteLine($"{x.HostName},{x.IP},{x.Latency}");
+            }
+
+            AddTCPLatency.Execute(Capsule.TCPLatencyRecords);
         }
     }
 }

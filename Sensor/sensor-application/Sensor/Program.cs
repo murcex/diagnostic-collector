@@ -20,6 +20,8 @@
 
                 TagIPAddress.Execute();
 
+                GetTCPLatency.Execute();
+
                 UploadCollection.Execute();
             }
             

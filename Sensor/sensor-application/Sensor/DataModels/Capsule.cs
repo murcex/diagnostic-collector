@@ -12,15 +12,10 @@ namespace Sensor
 
         public static List<IPRecord> IPRecords { get; set; }
 
-        public static List<DNSRecord> DNSRecords { get; set; }
+        public static List<DNSResolution> DNSResolutionRecords { get; set; }
 
-        public static List<DNSCount> DNSCounts { get; set; }
+        public static List<DNSDistribution> DNSDistributionRecords { get; set; }
 
-        //public static int ArticleCount()
-        //{
-        //    var count = Articles.Count();
-
-        //    return count;
-        //}
+        public static List<TCPLatency> TCPLatencyRecords { get; set; }
     }
 }

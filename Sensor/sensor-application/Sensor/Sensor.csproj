@@ -48,7 +48,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataModels\DNSCount.cs" />
+    <Compile Include="DataAccessors\AddTCPLatency.cs" />
+    <Compile Include="DataAccessors\AddDNSDistribution.cs" />
+    <Compile Include="DataModels\DNSDistribution.cs" />
+    <Compile Include="Agent\GetTCPLatency.cs" />
     <Compile Include="Legacy\IPAddressTagger.cs" />
     <Compile Include="Agent\GetArticles.cs" />
     <Compile Include="Agent\GetIPAddress.cs" />
@@ -60,15 +63,16 @@
     <Compile Include="DataAccessors\DataDownload.cs" />
     <Compile Include="Core\Global.cs" />
     <Compile Include="DataAccessors\DataUpload.cs" />
-    <Compile Include="DataModels\DNSRecord.cs" />
+    <Compile Include="DataModels\DNSResolution.cs" />
     <Compile Include="Prinicpal\Failover.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DataModels\Sensor.cs" />
+    <Compile Include="DataModels\Capsule.cs" />
     <Compile Include="Prinicpal\Retention.cs" />
     <Compile Include="Legacy\DNSEvaluation.cs" />
     <Compile Include="Agent\TagIPAddress.cs" />
     <Compile Include="Agent\UploadCollection.cs" />
+    <Compile Include="DataModels\TCPLatency.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Core\App.config" />
