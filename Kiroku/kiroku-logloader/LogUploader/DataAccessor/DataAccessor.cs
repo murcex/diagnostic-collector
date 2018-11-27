@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data.SqlClient;
-using System.Data;
-using static KLOGLoader.Program;
-
-namespace KLOGLoader
+﻿namespace KLOGLoader
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Data.SqlClient;
+    using System.Data;
+
     class DataAccessor
     {
         // TODO: Add try/catch to all methods

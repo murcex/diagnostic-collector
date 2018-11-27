@@ -24,8 +24,7 @@
   </appSettings>
   <Kiroku>
     <!--WriterSwitch-->
-    <add key="local" value="0" />
-    <add key="collector" value="0" />
+    <add key="write" value="0" />
     <!--GUID-->
     <add key="applicationid" value="" />
     <add key="trackid" value="" />

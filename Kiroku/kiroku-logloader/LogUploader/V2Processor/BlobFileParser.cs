@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-// Kiroku
-using Kiroku;
-
-namespace KLOGLoader
+﻿namespace KLOGLoader
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    // Kiroku
+    using Kiroku;
+
     public class BlobFileParser
     {
         // this should pass in a single List<BlobFileModel>
