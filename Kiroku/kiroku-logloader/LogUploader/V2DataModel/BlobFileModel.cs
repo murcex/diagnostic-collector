@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace KLOGLoader
+﻿namespace KLOGLoader
 {
+    using System;
+
     public class BlobFileModel
     {
         public string Container { get; set; }

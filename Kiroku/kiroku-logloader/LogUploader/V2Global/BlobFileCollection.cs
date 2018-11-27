@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace KLOGLoader
+﻿namespace KLOGLoader
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
     public static class BlobFileCollection
     {
         internal static List<BlobFileModel> blobFileCollection = new List<BlobFileModel>();

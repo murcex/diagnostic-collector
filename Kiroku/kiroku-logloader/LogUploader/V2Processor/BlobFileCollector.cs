@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Azure;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Blob;
-
-// Kiroku
-using Kiroku;
-
-namespace KLOGLoader
+﻿namespace KLOGLoader
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Microsoft.WindowsAzure.Storage.Blob;
+
+    // Kiroku
+    using Kiroku;
+
     public static class BlobFileCollector
     {
         public static void Execute()

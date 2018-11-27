@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-// Kiroku
-using Kiroku;
+﻿
 
 namespace KLOGLoader
 {
+    using System;
+
+    // Kiroku
+    using Kiroku;
+
     class BlobFileRetention
     {
         public static void Execute()

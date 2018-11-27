@@ -1,12 +1,12 @@
-﻿using System;
-using System.Configuration;
-using System.Collections.Specialized;
-
-// Kiroku
-using Kiroku;
-
-namespace KLOGLoader
+﻿namespace KLOGLoader
 {
+    using System;
+    using System.Configuration;
+    using System.Collections.Specialized;
+
+    // Kiroku
+    using Kiroku;
+
     class Global
     {
         public static readonly String Debug = ConfigurationManager.AppSettings["debug"].ToString();

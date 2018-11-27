@@ -63,13 +63,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Uploader\ReadFile.cs" />
+    <Compile Include="Uploader\AddLogToCollection.cs" />
+    <Compile Include="Uploader\UploadAllLogs.cs" />
+    <Compile Include="Uploader\UploadFirstLine.cs" />
+    <Compile Include="Uploader\UploadLastLine.cs" />
+    <Compile Include="Uploader\UploadInstanceStop.cs" />
     <Compile Include="V2DataModel\SQLResponse.cs" />
     <Compile Include="V2Processor\BlobFileRetention.cs" />
     <Compile Include="V2Processor\BlobFileCheck.cs" />
     <Compile Include="V2Processor\BlobFileCollector.cs" />
     <Compile Include="V2DataModel\BlobFileModel.cs" />
     <Compile Include="V2Processor\BlobFileParser.cs" />
-    <Compile Include="V2Processor\BlobFileUploader.cs" />
+    <Compile Include="Uploader\BlobFileUploader.cs" />
     <Compile Include="DataAccessor\DataAccessor.cs" />
     <Compile Include="Core\Global.cs" />
     <Compile Include="DataModels\InstanceModel.cs" />
