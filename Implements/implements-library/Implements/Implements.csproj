@@ -50,8 +50,8 @@
     <Compile Include="Deserializer\Deserializer.cs" />
     <Compile Include="Deserializer\KVP.cs" />
     <Compile Include="Encryption\Encryption.cs" />
-    <Compile Include="Log\LogConfiguration.cs" />
-    <Compile Include="Log\Log.cs" />
+    <Compile Include="Logger\LogConfiguration.cs" />
+    <Compile Include="Logger\Log.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
