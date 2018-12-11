@@ -107,6 +107,9 @@
         {
             SQLResponse response = new SQLResponse();
 
+            // Add blocktracker dictionary
+            Dictionary<Guid, LogRecordModel> blockCache = new Dictionary<Guid, LogRecordModel>();
+
             try
             {
                 foreach (var record in logCollection)
@@ -115,11 +118,30 @@
                     {
                         if (record.LogData.Contains("KLOG_BLOCK_START"))
                         {
-                            var emptyResponse = AddBlockStart(record, instanceId);
+                            //var emptyResponse = AddBlockStart(record, instanceId);
+
+                            blockCache.Add(record.BlockID, record);
                         }
                         else if (record.LogData.Contains("KLOG_BLOCK_STOP"))
                         {
-                            var emptyResponse = UpdateBlockStop(record);
+                            //var emptyResponse = UpdateBlockStop(record);
+
+                            var startBlock = blockCache[record.BlockID];
+
+                            if (startBlock != null)
+                            {
+                                var emptyResponse = AddBlock(record, startBlock, instanceId);
+                            }
+                            else
+                            {
+                                // TODO: Add Error
+                            }
+
+                            // TODO: Remove dictionary entry
+                        }
+                        else
+                        {
+                            // TODO: Add Error, should never reach.
                         }
                     }
                     else
@@ -155,6 +177,42 @@
             response.Successful();
 
             return response;
+        }
+
+        public static SQLResponse AddBlock(LogRecordModel logRecord, LogRecordModel startRecord, Guid instanceId)
+        {
+            SQLResponse response = new SQLResponse();
+
+            try
+            {
+                using (var connection = new SqlConnection(Global.SqlConnetionString))
+                {
+                    var cmd = new SqlCommand("usp_Kiroku_KBlocks_InsertBlock", connection);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    // Data Capacity Columns -- example: command.Parameters.AddWithValue("Value1", Value1);
+                    // Example: command.Parameters.AddWithValue("execution_runtime", item.execution_runtime);
+                    cmd.Parameters.AddWithValue("ui_instanceid", instanceId);
+                    cmd.Parameters.AddWithValue("ui_blockid", logRecord.BlockID);
+                    cmd.Parameters.AddWithValue("nvc_blockname", logRecord.BlockName);
+                    cmd.Parameters.AddWithValue("dt_blockstart", startRecord.EventTime);
+                    cmd.Parameters.AddWithValue("dt_blockstop", logRecord.EventTime);
+
+                    connection.Open();
+
+                    var reader = cmd.ExecuteReader();
+
+                    response.Successful();
+
+                    return response;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Failure(ex.ToString());
+
+                return response;
+            }
         }
 
         public static SQLResponse AddBlockStart(LogRecordModel logRecord, Guid instanceId)
