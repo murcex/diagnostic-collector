@@ -17,6 +17,8 @@
 --END
 
 ---- Grant Login to Objects
+--GRANT EXECUTE ON [dbo].[usp_Kiroku_KBlocks_InsertBlock] TO [<kirokuExecuteLoginHere>]
+
 --GRANT EXECUTE ON [dbo].[usp_Kiroku_KBlocks_InsertStart] TO [<kirokuExecuteLoginHere>]
 
 --GRANT EXECUTE ON [dbo].[usp_Kiroku_KBlocks_UpdateEmptyStop] TO [<kirokuExecuteLoginHere>]
