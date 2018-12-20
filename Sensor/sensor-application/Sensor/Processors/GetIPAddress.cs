@@ -12,11 +12,11 @@
         {
             List<IPRecord> ipRecordTransferList = new List<IPRecord>();
 
-            List<DNSDistribution> dnsCountList = new List<DNSDistribution>();
+            List<DNSDistributionRecord> dnsCountList = new List<DNSDistributionRecord>();
 
             try
             {
-                foreach (var article in Capsule.Articles)
+                foreach (var article in Capsule.DNSRecords)
                 {
                     try
                     {
@@ -48,7 +48,7 @@
                         {
                             var hitCount = ipRecordQuickList.Select(x => x.IP == ipRecord.IP).Count();
 
-                            DNSDistribution dnsCount = new DNSDistribution();
+                            DNSDistributionRecord dnsCount = new DNSDistributionRecord();
                             dnsCount.IP = ipRecord.IP;
                             dnsCount.HostName = ipRecord.HostName;
                             dnsCount.Count = hitCount;

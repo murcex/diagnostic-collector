@@ -3,9 +3,7 @@
   <appSettings>
     <add key="sensor" value="" />
     <add key="sql" value="" />
-    <add key="sqlv2" value="" />
     <add key="debug" value="" />
-    <add key="version" value="" />
     <add key="principal" value="" />
     <add key="agent" value="" />
   </appSettings>

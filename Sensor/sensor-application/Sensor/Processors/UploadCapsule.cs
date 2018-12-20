@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 namespace Sensor
 {
-    public static class UploadCollection
+    public static class UploadCapsule
     {
         public static void Execute()
         {
-            DataUpload.UpsertSensor(Capsule.DNSResolutionRecords);
+            //DataUpload.UpsertSensor(Capsule.DNSResolutionRecords);
+
+            AddSensorCollection.UpsertSensor(Capsule.DNSResolutionRecords);
 
             // TODO: Add sql table, proc and csharp logic for both loops
 

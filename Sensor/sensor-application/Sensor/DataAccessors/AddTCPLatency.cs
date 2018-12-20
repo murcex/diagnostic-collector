@@ -9,7 +9,7 @@ namespace Sensor
 {
 	class AddTCPLatency
     {
-        public static void Execute(List<TCPLatency> transferCase)
+        public static void Execute(List<TCPLatencyRecord> transferCase)
         {
             var session = Global.SessionDatetime;
             var source = Global.SensorLocation;
@@ -26,7 +26,7 @@ namespace Sensor
                     Console.WriteLine("IPAddress: {0}", target.IP);
                     Console.WriteLine("Latency: {0}\n", target.Latency);
 
-                    using (SqlConnection connection = new SqlConnection(Global.SQLConnectionStringv2))
+                    using (SqlConnection connection = new SqlConnection(Global.SQLConnectionString))
                     {
                         // SQLCommand & Command Type -- Add SQL Insert Stored Procedure
                         SqlCommand command = new SqlCommand("usp_Sensor_TCPLatency_Insert", connection);

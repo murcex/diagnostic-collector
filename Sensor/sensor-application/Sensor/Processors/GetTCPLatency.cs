@@ -19,13 +19,13 @@ namespace Sensor
             // 3 because, remove 1 min, remove 1 max, atleast one remains as "base" value.
 
             // create transfer case of TCPRecord
-            List<TCPLatency> tcpRecordList = new List<TCPLatency>();
+            List<TCPLatencyRecord> tcpRecordList = new List<TCPLatencyRecord>();
 
             try
             {
                 foreach (var ipRecord in Capsule.IPRecords)
                 {
-                    TCPLatency tcpRecord = new TCPLatency();
+                    TCPLatencyRecord tcpRecord = new TCPLatencyRecord();
                     tcpRecord.HostName = ipRecord.HostName;
                     tcpRecord.IP = ipRecord.IP;
 
