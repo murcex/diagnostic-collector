@@ -9,7 +9,7 @@ namespace Sensor
 {
 	class AddDNSDistribution
     {
-        public static void Execute(List<DNSDistribution> transferCase)
+        public static void Execute(List<DNSDistributionRecord> transferCase)
         {
             var session = Global.SessionDatetime;
             var source = Global.SensorLocation;
@@ -26,7 +26,7 @@ namespace Sensor
                     Console.WriteLine("IPAddress: {0}", target.IP);
                     Console.WriteLine("Count: {0}\n", target.Count);
 
-                    using (SqlConnection connection = new SqlConnection(Global.SQLConnectionStringv2))
+                    using (SqlConnection connection = new SqlConnection(Global.SQLConnectionString))
                     {
                         // SQLCommand & Command Type -- Add SQL Insert Stored Procedure
                         SqlCommand command = new SqlCommand("usp_Sensor_DNSDistribution_Insert", connection);

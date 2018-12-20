@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sensor
 {
-    public class Endpoint
+    public class EndpointRecord
     {
         public string IpAddress { get; set; }
         public string DataCenter { get; set; }

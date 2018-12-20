@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sensor
 {
-    public class Article
+    public class DNSRecord
     {
         public string DNSName { get; set; }
         public string DNSConfiguration { get; set; }

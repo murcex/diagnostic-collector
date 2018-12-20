@@ -10,7 +10,9 @@ namespace Sensor
     {
         public static void Execute()
         {
-            DataDownload.DataRetention();
+            //DataDownload.DataRetention();
+
+            DataRetention.Execute();
         }
     }
 }

@@ -8,14 +8,14 @@ namespace Sensor
 {
 	public static class Capsule
 	{
-        public static List<Article> Articles { get; set; }
+        public static List<DNSRecord> DNSRecords { get; set; }
 
         public static List<IPRecord> IPRecords { get; set; }
 
-        public static List<DNSResolution> DNSResolutionRecords { get; set; }
+        public static List<DNSResolutionRecord> DNSResolutionRecords { get; set; }
 
-        public static List<DNSDistribution> DNSDistributionRecords { get; set; }
+        public static List<DNSDistributionRecord> DNSDistributionRecords { get; set; }
 
-        public static List<TCPLatency> TCPLatencyRecords { get; set; }
+        public static List<TCPLatencyRecord> TCPLatencyRecords { get; set; }
     }
 }

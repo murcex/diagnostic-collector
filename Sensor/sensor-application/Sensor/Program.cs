@@ -22,7 +22,7 @@
 
                 GetTCPLatency.Execute();
 
-                UploadCollection.Execute();
+                UploadCapsule.Execute();
             }
             
             //{
@@ -56,7 +56,9 @@
                 //TODO: Detect Failover Method
 
                 //TODO: Retention Method
-                DataDownload.DataRetention();
+                //DataDownload.DataRetention();
+
+                DataRetention.Execute();
             }
 
             #endregion

@@ -10,7 +10,9 @@ namespace Sensor
     {
         public static void Execute()
         {
-            Capsule.Articles = DataDownload.GetArticle();
+            //Capsule.DNSRecords = DataDownload.GetArticle();
+
+            Capsule.DNSRecords = GetDNSRecords.GetArticle();
         }
     }
 }
