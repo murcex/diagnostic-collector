@@ -20,45 +20,45 @@
             /// Deserializer Example
             ///
 
-            Config cfg = new Config();
+            Dictionary<string, List<KeyValuePair<string, string>>> test_collection;
+            List<KeyValuePair<string, string>> test_tag;
+            string test_value1,test_value2;
+            List<string> test_values;
 
             try
             {
                 using (Deserializer deserializer = new Deserializer())
                 {
-                    cfg.Collection = deserializer.Execute(@"C:\Temp\MyConfig\MyConfigFile.txt", true, true);
+                    deserializer.Execute(@"C:\Temp\MyConfig\MyConfigFile.txt", true, true);
 
-                    Dictionary<string, List<KeyValuePair<string, string>>> test11 = deserializer.GetCollection();
-                    List<KeyValuePair<string, string>> test12 = deserializer.GetTag("app_first");
-                    string test13 = deserializer.GetValue("app_first", "appname");
-                    List<string> test14 = deserializer.GetValues("apps_index", "app");
+                    test_collection = deserializer.GetCollection();
+                    test_tag = deserializer.GetTag("app_first");
+                    test_value1 = deserializer.GetValue("app_first", "appname");
+                    test_value2 = deserializer.GetValue("app_second", "type");
+                    test_values = deserializer.GetValues("apps_index", "app");
 
                     Console.WriteLine("");
                     Console.WriteLine("--- Program.cs Check ---");
 
-                    foreach (var item in cfg.Collection)
+                    foreach (var item in test_collection)
                     {
                         Console.WriteLine("");
                         Console.WriteLine($"Tag: {item.Key}");
 
                         foreach (var pair in item.Value)
                         {
-                            Console.WriteLine($"PartA: {pair.Key} = PartB: {pair.Value}");
+                            Console.WriteLine($"Key: {pair.Key} = Value: {pair.Value}");
                         }
                     }
                 }
 
-                var test1 = cfg.GetValue("app_first", "appname");
-                var test2 = cfg.GetValue("app_second", "type");
-                var test3 = cfg.GetValues("apps_index", "app");
-
                 Console.WriteLine("");
                 Console.WriteLine("Test Value Select:");
-                Console.WriteLine($"Test Select: {test1}");
-                Console.WriteLine($"Test Select: {test2}");
+                Console.WriteLine($"Test Select: {test_value1}");
+                Console.WriteLine($"Test Select: {test_value2}");
                 Console.WriteLine("");
                 Console.WriteLine("Test Values Select:");
-                foreach (var item in test3)
+                foreach (var item in test_values)
                 {
                     Console.WriteLine($"Test Select: {item}");
                 }

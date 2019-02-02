@@ -34,7 +34,7 @@
         /// <param name="logOperation"></param>
         /// <param name="logValidation"></param>
         /// <returns></returns>
-        public Dictionary<string, List<KeyValuePair<string, string>>> Execute(string fileName, bool logOperation = false, bool logValidation = false)
+        public void Execute(string fileName, bool logOperation = false, bool logValidation = false)
         {
             if (logOperation || logValidation)
             {
@@ -232,7 +232,6 @@
             }
 
             _tagCollection = tagCollection;
-            return tagCollection;
         }
 
         /// <summary>
