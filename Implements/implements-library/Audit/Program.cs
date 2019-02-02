@@ -20,42 +20,62 @@
             /// Deserializer Example
             ///
 
-            Config cfg = new Config();
+            Dictionary<string, List<KeyValuePair<string, string>>> test_collection;
+            List<KeyValuePair<string, string>> test_tag;
+            string test_value1,test_value2;
+            List<string> test_values;
 
             try
             {
                 using (Deserializer deserializer = new Deserializer())
                 {
-                    cfg.Collection = deserializer.Execute(@"C:\Temp\MyConfig\MyConfigFile.txt", true, true);
+                    deserializer.Execute(@"C:\Temp\MyConfig\MyConfigFile.txt", true, true);
 
+                    test_collection = deserializer.GetCollection();
+                    test_tag = deserializer.GetTag("app_first");
+                    test_value1 = deserializer.GetValue("app_first", "appname");
+                    test_value2 = deserializer.GetValue("app_second", "type");
+                    test_values = deserializer.GetValues("apps_index", "app"); 
+                }
+
+                Console.WriteLine("");
+                Console.WriteLine("--- Program.cs Check ---");
+                Console.WriteLine("");
+                Console.WriteLine("-> Collection Check:");
+
+                foreach (var item in test_collection)
+                {
                     Console.WriteLine("");
-                    Console.WriteLine("--- Program.cs Check ---");
+                    Console.WriteLine($"Tag: {item.Key}");
 
-                    foreach (var item in cfg.Collection)
+                    foreach (var pair in item.Value)
                     {
-                        Console.WriteLine("");
-                        Console.WriteLine($"Tag: {item.Key}");
-
-                        foreach (var pair in item.Value)
-                        {
-                            Console.WriteLine($"PartA: {pair.A} = PartB: {pair.B}");
-                        }
+                        Console.WriteLine($"Key: {pair.Key} = Value: {pair.Value}");
                     }
                 }
 
-                var test1 = cfg.GetValue("app_first", "appname");
-                var test2 = cfg.GetValue("app_second", "type");
-                var test3 = cfg.GetValues("apps_index", "app");
+                Console.WriteLine("");
+                Console.WriteLine("-> Tag Check:");
+                Console.WriteLine("");
+
+                foreach (var kvp in test_tag)
+                {
+                    Console.WriteLine($"Key: {kvp.Key} = Value: {kvp.Value}");
+                }
 
                 Console.WriteLine("");
-                Console.WriteLine("Test Value Select:");
-                Console.WriteLine($"Test Select: {test1}");
-                Console.WriteLine($"Test Select: {test2}");
+                Console.WriteLine("-> Value Check:");
                 Console.WriteLine("");
-                Console.WriteLine("Test Values Select:");
-                foreach (var item in test3)
+                Console.WriteLine($"Value 1: {test_value1}");
+                Console.WriteLine($"Value 2: {test_value2}");
+                Console.WriteLine("");
+                Console.WriteLine("-> Values Check:");
+                Console.WriteLine("");
+                var counter = 1;
+                foreach (var item in test_values)
                 {
-                    Console.WriteLine($"Test Select: {item}");
+                    Console.WriteLine($"Value {counter}: {item}");
+                    counter++;
                 }
             }
             catch (Exception e)
@@ -84,6 +104,7 @@
 
                     Console.WriteLine("");
                     Console.WriteLine("-- Encrypt Test --");
+                    Console.WriteLine("");
 
                     foreach (string line in encrList)
                     {
@@ -102,6 +123,7 @@
 
                     Console.WriteLine("");
                     Console.WriteLine("-- Decrypt Test --");
+                    Console.WriteLine("");
 
                     foreach (string line in myNewList)
                     {
