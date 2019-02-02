@@ -8,7 +8,7 @@
         /// <summary>
         /// dictionary output collection from the deserializer.
         /// </summary>
-        public Dictionary<string, List<KVPModel>> Collection { get; set; }
+        public Dictionary<string, List<KeyValuePair<string, string>>> Collection { get; set; }
 
         /// <summary>
         /// Get a single Value from within the current output collection by providing the group Tag and Key.
@@ -18,12 +18,12 @@
         /// <returns></returns>
         public string GetValue(string _tag, string _key)
         {
-            List<KVPModel> _tagList = new List<KVPModel>();
+            List<KeyValuePair<string, string>> _tagList = new List<KeyValuePair<string, string>>();
             string _value = null;
 
             _tagList = Collection.Where(x => x.Key == _tag).Select(x => x.Value).FirstOrDefault();
 
-            _value = _tagList.Where(x => x.A == _key).Select(x => x.B).FirstOrDefault();
+            _value = _tagList.Where(x => x.Key == _key).Select(x => x.Value).FirstOrDefault();
 
             return _value;
         }
@@ -36,12 +36,12 @@
         /// <returns></returns>
         public List<string> GetValues(string _tag, string _key)
         {
-            List<KVPModel> _tagList = new List<KVPModel>();
+            List<KeyValuePair<string, string>> _tagList = new List<KeyValuePair<string, string>>();
             List<string> _value = new List<string>();
 
             _tagList = Collection.Where(x => x.Key == _tag).Select(x => x.Value).FirstOrDefault();
 
-            _value = _tagList.Where(x => x.A == _key).Select(x => x.B).ToList();
+            _value = _tagList.Where(x => x.Key == _key).Select(x => x.Value).ToList();
 
             return _value;
         }

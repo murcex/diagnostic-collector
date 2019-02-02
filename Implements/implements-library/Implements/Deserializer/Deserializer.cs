@@ -3,9 +3,15 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
 
     public class Deserializer : IDisposable
     {
+        /// <summary>
+        /// Internal collection of deserialized information, in a dictionary of Tags to their lists of KeyValuePair sets.
+        /// </summary>
+        Dictionary<string, List<KeyValuePair<string, string>>> _tagCollection { get; set; }
+
         /// <summary>
         /// Flag used by the rule engine to determine if a Tag has been identified.
         /// </summary>
@@ -28,7 +34,7 @@
         /// <param name="logOperation"></param>
         /// <param name="logValidation"></param>
         /// <returns></returns>
-        public Dictionary<string, List<KVPModel>> Execute(string fileName, bool logOperation = false, bool logValidation = false)
+        public Dictionary<string, List<KeyValuePair<string, string>>> Execute(string fileName, bool logOperation = false, bool logValidation = false)
         {
             if (logOperation || logValidation)
             {
@@ -65,9 +71,9 @@
             /// --- DESERIALIZER RULE ENGINE ---
             ///
 
-            Dictionary<string, List<KVPModel>> tagCollection = new Dictionary<string, List<KVPModel>>();
+            Dictionary<string, List<KeyValuePair<string, string>>> tagCollection = new Dictionary<string, List<KeyValuePair<string, string>>>();
 
-            List<KVPModel> tagList = new List<KVPModel>();
+            List<KeyValuePair<string, string>> tagList = new List<KeyValuePair<string, string>>();
 
             try
             {
@@ -89,7 +95,7 @@
 
                             tagCollection.Add(CurrentTagName, tagList);
 
-                            tagList = new List<KVPModel>();
+                            tagList = new List<KeyValuePair<string, string>>();
 
                             CurrentTagName = tagName;
 
@@ -143,11 +149,8 @@
                                 }
                             }
 
-                            KVPModel kvpModel = new KVPModel();
-
-                            kvpModel.A = firstValue;
-                            kvpModel.B = secondValue;
-
+                            KeyValuePair<string, string> kvpModel = new KeyValuePair<string, string>(firstValue, secondValue);
+                            
                             tagList.Add(kvpModel);
 
                             if (logOperation)
@@ -218,7 +221,7 @@
 
                         foreach (var pair in tag.Value)
                         {
-                            Log.Info($"A: {pair.A} = B: {pair.B}");
+                            Log.Info($"Key: {pair.Key} = Value: {pair.Value}");
                         }
                     }
                 }
@@ -228,6 +231,7 @@
                 }
             }
 
+            _tagCollection = tagCollection;
             return tagCollection;
         }
 
@@ -242,6 +246,65 @@
             tagName = tagName.Replace("]", "");
 
             return tagName;
+        }
+
+        /// <summary>
+        /// Get the complete collection of Tags and their KeyValuePair lists.
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<string, List<KeyValuePair<string, string>>> GetCollection()
+        {
+            return _tagCollection;
+        }
+
+        /// <summary>
+        /// Get a single Tag and it's KeyValuePair list.
+        /// </summary>
+        /// <param name="_tag"></param>
+        /// <returns></returns>
+        public List<KeyValuePair<string, string>> GetTag(string _tag)
+        {
+            List<KeyValuePair<string, string>> _tagList = new List<KeyValuePair<string, string>>();
+
+            _tagList = _tagCollection.Where(x => x.Key == _tag).Select(x => x.Value).FirstOrDefault();
+
+            return _tagList;
+        }
+
+        /// <summary>
+        /// Get a single Value from within the current output collection by providing the group Tag and Key.
+        /// </summary>
+        /// <param name="_tag"></param>
+        /// <param name="_key"></param>
+        /// <returns></returns>
+        public string GetValue(string _tag, string _key)
+        {
+            List<KeyValuePair<string, string>> _tagList = new List<KeyValuePair<string, string>>();
+            string _value = null;
+
+            _tagList = _tagCollection.Where(x => x.Key == _tag).Select(x => x.Value).FirstOrDefault();
+
+            _value = _tagList.Where(x => x.Key == _key).Select(x => x.Value).FirstOrDefault();
+
+            return _value;
+        }
+
+        /// <summary>
+        /// Get multiple Values from within the current output collection by providing the group Tag and Key.
+        /// </summary>
+        /// <param name="_tag"></param>
+        /// <param name="_key"></param>
+        /// <returns></returns>
+        public List<string> GetValues(string _tag, string _key)
+        {
+            List<KeyValuePair<string, string>> _tagList = new List<KeyValuePair<string, string>>();
+            List<string> _value = new List<string>();
+
+            _tagList = _tagCollection.Where(x => x.Key == _tag).Select(x => x.Value).FirstOrDefault();
+
+            _value = _tagList.Where(x => x.Key == _key).Select(x => x.Value).ToList();
+
+            return _value;
         }
 
         /// <summary>

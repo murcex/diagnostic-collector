@@ -28,6 +28,11 @@
                 {
                     cfg.Collection = deserializer.Execute(@"C:\Temp\MyConfig\MyConfigFile.txt", true, true);
 
+                    Dictionary<string, List<KeyValuePair<string, string>>> test11 = deserializer.GetCollection();
+                    List<KeyValuePair<string, string>> test12 = deserializer.GetTag("app_first");
+                    string test13 = deserializer.GetValue("app_first", "appname");
+                    List<string> test14 = deserializer.GetValues("apps_index", "app");
+
                     Console.WriteLine("");
                     Console.WriteLine("--- Program.cs Check ---");
 
@@ -38,7 +43,7 @@
 
                         foreach (var pair in item.Value)
                         {
-                            Console.WriteLine($"PartA: {pair.A} = PartB: {pair.B}");
+                            Console.WriteLine($"PartA: {pair.Key} = PartB: {pair.Value}");
                         }
                     }
                 }
