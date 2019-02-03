@@ -290,6 +290,10 @@ __pycache__/
 
 # App.config
 App.config
+
+# Config.ini
+Config.ini
+
 # BizTalk build output
 *.btp.cs
 *.btm.cs
