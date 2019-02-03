@@ -77,6 +77,9 @@
 
             try
             {
+                int counter = 1;
+                int lineCount = lines.Count;
+
                 foreach (var line in lines)
                 {
                     if (logOperation)
@@ -155,8 +158,8 @@
 
                             if (logOperation)
                             {
-                                Log.Info($"Tag Member Detected: {line} -- Adding to {CurrentTagName} list.");
-                                Log.Info($"Part A: {firstValue} Part B: {secondValue}");
+                                Log.Info($"Tag Member Detected: {line} -> Adding to [{CurrentTagName}] list.");
+                                Log.Info($"New KVP - Key: {firstValue} Value: {secondValue}");
                             }
                         }
                     }
@@ -199,6 +202,16 @@
                                 Log.Info($"Unknown Hit: {line}");
                             }
                         }
+                    }
+
+                    // check for last line -- ensure current open tag is added to collection
+                    if (counter == lineCount)
+                    {
+                        tagCollection.Add(CurrentTagName, tagList);
+                    }
+                    else
+                    {
+                        counter++;
                     }
                 }
             }
