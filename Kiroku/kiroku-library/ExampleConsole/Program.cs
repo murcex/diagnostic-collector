@@ -11,12 +11,6 @@
     {
         static void Main(string[] args)
         {
-            //Global.SetValues();
-
-            //var initialize = Global.Initialize;
-
-            //var test = 1;
-
             for (int instanceIteration = 1; instanceIteration <= Global.InstanceLoop; instanceIteration++)
             {
                 //KManager.Online((NameValueCollection)ConfigurationManager.GetSection("Kiroku"));

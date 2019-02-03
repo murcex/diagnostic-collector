@@ -27,7 +27,6 @@
             using (Deserializer deserilaizer = new Deserializer())
             {
                 var _path = Directory.GetCurrentDirectory() + @"\Config.ini";
-                var _path2 = @"E:\02_CLOUD\GitHub\PlatformDiagnosticCollector\Kiroku\kiroku-library\ExampleConsole\Config.ini";
 
                 deserilaizer.Execute(_path);
 
@@ -91,6 +90,7 @@
 
                     default:
                         {
+                            // TODO: Add log
                             System.Console.WriteLine("Not Hit: {0}", kvp.Value);
                         }
                         break;
