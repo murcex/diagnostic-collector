@@ -11,16 +11,20 @@
     {
         static void Main(string[] args)
         {
-            Global.SetValues();
+            //Global.SetValues();
 
-            for (int i = 1; i <= Global.InstanceLoop; i++)
+            //var initialize = Global.Initialize;
+
+            //var test = 1;
+
+            for (int instanceIteration = 1; instanceIteration <= Global.InstanceLoop; instanceIteration++)
             {
                 //KManager.Online((NameValueCollection)ConfigurationManager.GetSection("Kiroku"));
-                KManager.Online(Global.GetConfigValues("kiroku"));
+                KManager.Online(Global.KirokuTagList);
 
-                for (int y = 1; y <= Global.BlockLoop; y++)
+                for (int blockIteration = 1; blockIteration <= Global.BlockLoop; blockIteration++)
                 {
-                    using (KLog klog = new KLog($"Block-{i}-{y}"))
+                    using (KLog klog = new KLog($"Block-{instanceIteration}-{blockIteration}"))
                     {
                         if (Global.TraceOn)
                         {

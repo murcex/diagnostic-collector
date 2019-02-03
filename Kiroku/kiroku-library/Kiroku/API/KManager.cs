@@ -20,55 +20,74 @@ namespace Kiroku
         /// <param name="config"></param>
         public static void Online(List<KeyValuePair<string, string>> config)
         {
-            if (config != null)
+            try
             {
-                foreach (var kvp in config)
+                if (config != null)
                 {
-                    switch (kvp.Key.ToString())
+                    foreach (var kvp in config)
                     {
-                        case "write":
-                            LogConfiguration.WriteLog = kvp.Value;
-                            break;
+                        switch (kvp.Key.ToString())
+                        {
+                            case "write":
+                                LogConfiguration.WriteLog = kvp.Value;
+                                break;
 
-                        case "applicationid":
-                            LogConfiguration.ApplicationID = new Guid(kvp.Value);
-                            break;
+                            case "applicationid":
+                                LogConfiguration.ApplicationID = new Guid(kvp.Value);
+                                break;
 
-                        case "trackid":
-                            LogConfiguration.TrackID = new Guid(kvp.Value);
-                            break;
+                            case "trackid":
+                                LogConfiguration.TrackID = new Guid(kvp.Value);
+                                break;
 
-                        case "verbose":
-                            LogConfiguration.WriteVerbose = kvp.Value;
-                            break;
+                            case "verbose":
+                                LogConfiguration.WriteVerbose = kvp.Value;
+                                break;
 
-                        case "trace":
-                            LogConfiguration.Trace = kvp.Value;
-                            break;
+                            case "trace":
+                                LogConfiguration.Trace = kvp.Value;
+                                break;
 
-                        case "info":
-                            LogConfiguration.Info = kvp.Value;
-                            break;
+                            case "info":
+                                LogConfiguration.Info = kvp.Value;
+                                break;
 
-                        case "warning":
-                            LogConfiguration.Warning = kvp.Value;
-                            break;
+                            case "warning":
+                                LogConfiguration.Warning = kvp.Value;
+                                break;
 
-                        case "error":
-                            LogConfiguration.Error = kvp.Value;
-                            break;
+                            case "error":
+                                LogConfiguration.Error = kvp.Value;
+                                break;
 
-                        case "filepath":
-                            LogConfiguration.RootFilePath = kvp.Value;
-                            break;
+                            case "filepath":
+                                LogConfiguration.RootFilePath = kvp.Value;
+                                break;
 
-                        default:
-                            {
-                                System.Console.WriteLine("Not Hit: {0}", kvp.Value);
-                            }
-                            break;
+                            default:
+                                {
+                                    System.Console.WriteLine("Not Hit: {0}", kvp.Value);
+                                }
+                                break;
+                        }
                     }
+
+                    // Set session date
+                    LogConfiguration.Datetime = DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss");
+
+                    // Set instance GUID
+                    LogConfiguration.InstanceID = Guid.NewGuid();
+
+                    // Create file path
+                    LogConfiguration.FullFilePath = LogConfiguration.RootFilePath + LogType.WritingToLog + LogConfiguration.InstanceID + ".txt";
+
+                    // Trigger file creation and first write -- as header
+                    LogFileWriter.StartInstance(LogType.InstanceStart);
                 }
+            }
+            catch (Exception ex)
+            {
+                //
             }
         }
 
