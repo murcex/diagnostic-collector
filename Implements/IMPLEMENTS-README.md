@@ -9,35 +9,94 @@ Reuseable library for: AES Encryption, Config Deserializer and Logging.
 
 ---
 
-# How to use the Deserializer
+# Deserializer
 ## 1. Add references
 
 ```csharp
 using Implements;
 ```
 
-## 2. Create Config object to import data into, and then query
+## 2. Create variables to import data into before the deserializer using statement. Below are the four supported types of extraction.
 
 ```csharp
-Config cfg = new Config();
+Dictionary<string, List<KeyValuePair<string, string>>> myCollection;
+
+List<KeyValuePair<string, string>> myTag;
+
+string myValue;
+
+List<string> myValues;
 ```
 
-## 3. Inside a using statement, deserializer the config.ini file, loading the content into the config. Please note, the __execute__ method will take options for logging and validation. In this example, they're both skipping using the default values of false.
+## 3. Inside a using statement, deserializer the config.ini file. Use the Get methods to load the contents. 
+
+**Please note, the __execute__ method will take options for logging and validation. In this example, they're both skipping using the default values of false.**
 
 ```csharp
 using (Deserializer deserializer = new Deserializer())
 {
-    cfg.Collection = deserializer.Execute(@"C:\Temp\MyConfig\MyConfigFile.txt");
+    deserializer.Execute(@"C:\Temp\MyConfig\MyConfigFile.txt");
+
+    myCollection = deserializer.GetCollection();
+    myTag = deserializer.GetTag("tagName");
+    myValue = deserializer.GetValue("tagName", "keyName");
+    myValues = deserializer.GetValues("tagName", "keyName");
 }
 ```
 
-## 4. Use the Config object to extract the contents. Two methods on extraction: (a) single value and (b) list of values.
+## Supported Extraction Methods
 
-### Get Value
+---
+
+### 1. Get Collection
 
 ```csharp
-// test1 == "first" (string)
-var test1 = cfg.GetValue("app_first", "appname");
+Dictionary<string, List<KeyValuePair<string, string>>> myCollection = deserializer.GetCollection();
+// myCollection == tag1 with kvp, tag2 with kvp -- the whole config.ini file ..
+```
+
+Config Source:
+
+```ini
+[tag1]
+key1=value
+key2=value
+key2=value
+
+[tag2]
+key1=value
+key2=value
+key3=value
+```
+
+---
+
+### 2. Get Tag
+
+```csharp
+List<KeyValuePair<string, string>> myTag = deserializer.GetTag("tagName");
+// myTag == [appname="first"],[collection="logs"] ..
+```
+
+Config Source:
+
+```ini
+[app_first]
+appname=first
+collection=logs
+type=json
+retention=30
+index=serviceid
+index=status
+```
+
+---
+
+### 3. Get Value
+
+```csharp
+string myValue = deserializer.GetValue("app_first", "appname");
+// myValue == "first"
 ```
 
 Config Source:
@@ -53,11 +112,13 @@ index=serviceid
 index=status
 ```
 
-### Get Values
+---
+
+### 4. Get Values
 
 ```csharp
-// var test3 = "first","second","third" (List<string>)
-var test3 = cfg.GetValues("apps_index", "app");
+List<string> myValues = deserializer.GetValues("apps_index", "app");
+// myValues == "first","second","third"
 ```
 
 Config Source:

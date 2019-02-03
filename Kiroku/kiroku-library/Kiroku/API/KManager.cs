@@ -14,6 +14,64 @@ namespace Kiroku
     /// </summary>
     public class KManager
     {
+        /// <summary>
+        /// Version 2 -- Testing
+        /// </summary>
+        /// <param name="config"></param>
+        public static void Online(List<KeyValuePair<string, string>> config)
+        {
+            if (config != null)
+            {
+                foreach (var kvp in config)
+                {
+                    switch (kvp.Key.ToString())
+                    {
+                        case "write":
+                            LogConfiguration.WriteLog = kvp.Value;
+                            break;
+
+                        case "applicationid":
+                            LogConfiguration.ApplicationID = new Guid(kvp.Value);
+                            break;
+
+                        case "trackid":
+                            LogConfiguration.TrackID = new Guid(kvp.Value);
+                            break;
+
+                        case "verbose":
+                            LogConfiguration.WriteVerbose = kvp.Value;
+                            break;
+
+                        case "trace":
+                            LogConfiguration.Trace = kvp.Value;
+                            break;
+
+                        case "info":
+                            LogConfiguration.Info = kvp.Value;
+                            break;
+
+                        case "warning":
+                            LogConfiguration.Warning = kvp.Value;
+                            break;
+
+                        case "error":
+                            LogConfiguration.Error = kvp.Value;
+                            break;
+
+                        case "filepath":
+                            LogConfiguration.RootFilePath = kvp.Value;
+                            break;
+
+                        default:
+                            {
+                                System.Console.WriteLine("Not Hit: {0}", kvp.Value);
+                            }
+                            break;
+                    }
+                }
+            }
+        }
+
         #region Online
 
         /// <summary>
@@ -71,6 +129,7 @@ namespace Kiroku
 
                             default:
                                 {
+                                    // TODO: move to logger
                                     System.Console.WriteLine("Not Hit: {0}", configKey);
                                 }
                                 break;

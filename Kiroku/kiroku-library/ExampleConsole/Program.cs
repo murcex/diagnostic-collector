@@ -15,7 +15,8 @@
 
             for (int i = 1; i <= Global.InstanceLoop; i++)
             {
-                KManager.Online((NameValueCollection)ConfigurationManager.GetSection("Kiroku"));
+                //KManager.Online((NameValueCollection)ConfigurationManager.GetSection("Kiroku"));
+                KManager.Online(Global.GetConfigValues("kiroku"));
 
                 for (int y = 1; y <= Global.BlockLoop; y++)
                 {

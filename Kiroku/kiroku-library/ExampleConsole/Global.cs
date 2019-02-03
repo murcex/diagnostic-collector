@@ -2,9 +2,36 @@
 {
     using System;
     using System.Configuration;
+    using System.IO;
+    using System.Collections.Generic;
+
+    // Implements Utility Library
+    using Implements;
+
 
     public static class Global
     {
+
+        public static List<KeyValuePair<string, string>> GetConfigValues(string _tag)
+        {
+            List<KeyValuePair<string, string>> _tagList;
+
+            using (Deserializer deserilaizer = new Deserializer())
+            {
+                var _path = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "Config.ini");
+
+                Log.Initialize();
+
+                deserilaizer.Execute(@"E:\02_CLOUD\GitHub\PlatformDiagnosticCollector\Kiroku\kiroku-library\ExampleConsole\Config.ini", true, true);
+
+                var test = deserilaizer.GetCollection();
+
+                _tagList = deserilaizer.GetTag(_tag);
+            }
+
+            return _tagList;
+        }
+
         // Private
         // Main
         public static readonly string _instanceloop = ConfigurationManager.AppSettings["instanceloop"].ToString();
