@@ -55,9 +55,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <EmbeddedResource Include="Config.ini">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
     <EmbeddedResource Include="Config-example.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
