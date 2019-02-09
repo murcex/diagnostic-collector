@@ -87,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Core\App.config" />
+    <None Include="Core\Config.ini" />
     <None Include="Core\packages.config" />
     <None Include="packages.config" />
   </ItemGroup>
