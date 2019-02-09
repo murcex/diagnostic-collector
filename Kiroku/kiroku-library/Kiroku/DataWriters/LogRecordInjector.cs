@@ -23,23 +23,23 @@ namespace Kiroku
         /// <param name="logData">Log data payload</param>
         public static void Execute(Guid blockID, string blockName, string logType, string logData)
         {
-            using (LogRecord logBase = new LogRecord())
-            {
-                logBase.BlockID = blockID;
-                logBase.LogType = logType;
-                logBase.BlockName = blockName;
-                logBase.LogData = logData;
+            //using (LogRecord logBase = new LogRecord())
+            //{
+            //    logBase.BlockID = blockID;
+            //    logBase.LogType = logType;
+            //    logBase.BlockName = blockName;
+            //    logBase.LogData = logData;
 
-                if (LogConfiguration.WriteLog == "1")
-                {
-                    LogFileWriter.AddRecord(logBase);
-                }
+            //    if (LogConfiguration.WriteLog == "1")
+            //    {
+            //        LogFileWriter.AddRecord(logBase);
+            //    }
 
-                if (LogConfiguration.WriteVerbose == "1")
-                {
-                    LogVerboseWriter.Write(logBase);
-                }
-            }
+            //    if (LogConfiguration.WriteVerbose == "1")
+            //    {
+            //        LogVerboseWriter.Write(logBase);
+            //    }
+            //}
         }
 
         #endregion

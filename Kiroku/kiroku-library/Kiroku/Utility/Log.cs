@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 
 namespace Kiroku
@@ -11,7 +7,7 @@ namespace Kiroku
     {
         private static string LogFileName;
         private static string FullLogPath;
-        private static int EventCounter = 0;
+        private static bool EventCounter = false;
 
         /// <summary>
         /// 
@@ -33,19 +29,13 @@ namespace Kiroku
 
         public static void CriticalError(string logData)
         {
-            if (EventCounter == 0)
+            if (EventCounter)
+            {
+                AppendLogEntry(logData);
+            }
+            else
             {
                 CreateLog(logData);
-            }
-
-            if (EventCounter == 1)
-            {
-                AppendLogEntry(logData);
-            }
-
-            if (EventCounter == 2)
-            {
-                AppendLogEntry(logData);
             }
         }
 
@@ -59,6 +49,8 @@ namespace Kiroku
                 {
                     file.WriteLine(logData);
                 }
+
+                EventCounter = true;
             }
             catch (Exception ex)
             {

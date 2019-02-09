@@ -4,11 +4,11 @@
     {
         static void Main(string[] args)
         {
-            Global.SetLoadValues();
+            Global.SetLoadValues(); // new config
 
             Global.StartLogging();
 
-            BlobClient.Set();
+            BlobClient.Set(); // move into global
 
             BlobFileCollector.Execute();
 

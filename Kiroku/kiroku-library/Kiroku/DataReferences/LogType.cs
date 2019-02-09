@@ -1,6 +1,4 @@
-﻿// No using
-
-namespace Kiroku
+﻿namespace Kiroku
 {
     /// <summary>
     /// CLASS: Contains global constant Kiroku values.

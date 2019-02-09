@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
-using Newtonsoft.Json;
-
-namespace Kiroku
+﻿namespace Kiroku
 {
+    using System;
+    using System.IO;
+    using Newtonsoft.Json;
+
     /// <summary>
     /// CLASS: Contains all local I/O write operations.
     /// </summary>

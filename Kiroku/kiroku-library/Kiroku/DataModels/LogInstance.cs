@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Kiroku
+﻿namespace Kiroku
 {
+    using System;
+
     /// <summary>
     /// DATA MODEL: Instance Model used to contain the instance header and footer.
     /// </summary>
@@ -19,8 +15,11 @@ namespace Kiroku
         bool dispose = false;
         public string Version { get; set; }
         public Nullable<System.DateTime> EventTime { get; set; }
-        public Guid ApplicationID { get; set; }
-        public Guid TrackID { get; set; }
+        public string ApplicationID { get; set; }
+        public string TrackID { get; set; }
+        public string RegionID { get; set; }
+        public string ClusterID { get; set; }
+        public string DeviceID { get; set; }
         public Guid InstanceID { get; set; }
         public string InstanceStatus { get; set; }
 
@@ -38,6 +37,9 @@ namespace Kiroku
             EventTime = DateTime.Now.ToUniversalTime();
             ApplicationID = LogConfiguration.ApplicationID;
             TrackID = LogConfiguration.TrackID;
+            RegionID = LogConfiguration.RegionID;
+            ClusterID = LogConfiguration.ClusterID;
+            DeviceID = LogConfiguration.DeviceID;
             InstanceID = LogConfiguration.InstanceID;
             InstanceStatus = instanceStatus;
         }
