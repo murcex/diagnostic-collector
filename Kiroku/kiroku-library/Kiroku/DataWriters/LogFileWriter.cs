@@ -4,6 +4,8 @@
     using System.IO;
     using Newtonsoft.Json;
 
+    using Implements;
+
     /// <summary>
     /// CLASS: Contains all local I/O write operations.
     /// </summary>
@@ -36,7 +38,7 @@
             }
             catch (Exception ex)
             {
-                Log.CriticalError(ex.ToString());
+                Log.Error($"[LogFileWriter].[StartInstance] - Exception: {ex.ToString()}");
             }
         }
 
@@ -69,7 +71,7 @@
             }
             catch (Exception ex)
             {
-                Log.CriticalError(ex.ToString());
+                Log.Error($"[LogFileWriter].[StopInstance] - Exception: {ex.ToString()}");
             }
         }
 
@@ -94,7 +96,7 @@
             }
             catch (Exception ex)
             {
-                Log.CriticalError(ex.ToString());
+                Log.Error($"[LogFileWriter].[AddRecord] - Exception: {ex.ToString()}");
             }
         }
 

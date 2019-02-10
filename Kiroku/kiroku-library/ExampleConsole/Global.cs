@@ -7,7 +7,6 @@
     // Implements Utility Library
     using Implements;
 
-
     public static class Global
     {
         /// <summary>
@@ -26,9 +25,7 @@
         {
             using (Deserializer deserilaizer = new Deserializer())
             {
-                var _path = Directory.GetCurrentDirectory() + @"\Config.ini";
-
-                deserilaizer.Execute(_path);
+                deserilaizer.Execute();
 
                 _kflowTagList = deserilaizer.GetTag("kflow");
 

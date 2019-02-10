@@ -26,7 +26,7 @@
         public static string DeviceID;
 
         // Set LogConfiguration Values
-        public const string Version = "KLOG_VERSION_20181026"; // Removed KLOG_S<#> Counter
+        public static string Version;
         public static string Datetime;
         public static string RootFilePath;
         public static string FullFilePath;

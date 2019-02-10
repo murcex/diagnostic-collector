@@ -2,7 +2,10 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.IO;
+
+    using Implements;
 
     /// <summary>
     /// CLASS: Starts and Stops Kiroku instance opertaions.
@@ -81,6 +84,9 @@
                         }
                     }
 
+                    // Set kiroku.dll version
+                    LogConfiguration.Version = FileVersionInfo.GetVersionInfo("Kiroku.dll").FileVersion;
+
                     // Set session date
                     LogConfiguration.Datetime = DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss");
 
@@ -96,7 +102,7 @@
             }
             catch (Exception ex)
             {
-                //
+                Log.Error($"[KManager].[Online] - Exception: {ex.ToString()}");
             }
         }
 
@@ -118,7 +124,7 @@
             }
             catch (Exception ex)
             {
-                Log.CriticalError(ex.ToString());
+                Log.Error($"[KManager].[Offline] - Exception: {ex.ToString()}");
             }
         }
 
