@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
 
     // Implements
     using Implements;
@@ -14,28 +15,32 @@
             /// Logging
             ///
 
+            var cfg = Log.GenerateConfig();
+            cfg.LogName = "ExampleLog";
+
             Log.Initialize();
-            
+
             ///
             /// Deserializer Example
             ///
 
             Dictionary<string, List<KeyValuePair<string, string>>> test_collection;
             List<KeyValuePair<string, string>> test_tag;
-            string test_value1,test_value2;
+            string test_value1, test_value2;
             List<string> test_values;
 
             try
             {
                 using (Deserializer deserializer = new Deserializer())
                 {
-                    deserializer.Execute(@"C:\Temp\MyConfig\MyConfigFile.txt", true, true);
+                    var configPath = Directory.GetCurrentDirectory() + @"\MyConfigFile.ini";
+                    deserializer.Execute(configPath, true, true);
 
                     test_collection = deserializer.GetCollection();
                     test_tag = deserializer.GetTag("app_first");
                     test_value1 = deserializer.GetValue("app_first", "appname");
                     test_value2 = deserializer.GetValue("app_second", "type");
-                    test_values = deserializer.GetValues("apps_index", "app"); 
+                    test_values = deserializer.GetValues("apps_index", "app");
                 }
 
                 Console.WriteLine("");
@@ -115,7 +120,7 @@
                 ///
                 /// Encryption.Decrypt();
                 ///
-                
+
                 using (Encryption encr_2 = new Encryption(key, iv))
                 {
 

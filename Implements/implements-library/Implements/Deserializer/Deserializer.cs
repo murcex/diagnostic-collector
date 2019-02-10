@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Text.RegularExpressions;
 
     public class Deserializer : IDisposable
     {
@@ -34,8 +35,13 @@
         /// <param name="logOperation"></param>
         /// <param name="logValidation"></param>
         /// <returns></returns>
-        public void Execute(string fileName, bool logOperation = false, bool logValidation = false)
+        public void Execute(string fileName = null, bool logOperation = false, bool logValidation = false)
         {
+            if (fileName == null)
+            {
+                fileName = Directory.GetCurrentDirectory() + @"\Config.ini";
+            }
+
             if (logOperation || logValidation)
             {
                 if (!Log.Status)
@@ -88,7 +94,9 @@
                         Log.Info($"Line Check: {line}");
                     }
 
-                    if (TagFilterSwitch && line != string.Empty && !line.Contains(";"))
+                    var commentLine = CheckLineForComment(line);
+
+                    if (TagFilterSwitch && line != string.Empty && !commentLine)
                     {
                         if (line.Contains("[") && line.Contains("]"))
                         {
@@ -112,18 +120,18 @@
                         }
                         else
                         {
-                            var SecondValueSwitch = false;
-
+                            bool SecondValueSwitch = false;
                             string firstValue = string.Empty;
                             string secondValue = string.Empty;
+                            char checkForEquals = '=';
+                            char checkForQuotation = '"';
 
-                            char checkthis = '=';
-
+                            // scan foreach char in line
                             foreach (var chr in line)
                             {
                                 if (!SecondValueSwitch)
                                 {
-                                    if (chr == checkthis)
+                                    if (chr == checkForEquals)
                                     {
                                         SecondValueSwitch = true;
                                     }
@@ -141,20 +149,23 @@
                                 }
                                 else
                                 {
-                                    if (secondValue == string.Empty)
+                                    if (chr != checkForQuotation)
                                     {
-                                        secondValue = chr.ToString();
-                                    }
-                                    else
-                                    {
-                                        secondValue = string.Concat(secondValue, chr.ToString());
+                                        if (secondValue == string.Empty)
+                                        {
+                                            secondValue = chr.ToString();
+                                        }
+                                        else
+                                        {
+                                            secondValue = string.Concat(secondValue, chr.ToString());
+                                        }
                                     }
                                 }
                             }
 
-                            KeyValuePair<string, string> kvpModel = new KeyValuePair<string, string>(firstValue, secondValue);
-                            
-                            tagList.Add(kvpModel);
+                            KeyValuePair<string, string> kvp = new KeyValuePair<string, string>(firstValue, secondValue);
+
+                            tagList.Add(kvp);
 
                             if (logOperation)
                             {
@@ -163,7 +174,7 @@
                             }
                         }
                     }
-                    else if (!line.Contains(";"))
+                    else if (!commentLine)
                     {
                         if (line.Contains("[") && line.Contains("]"))
                         {
@@ -188,7 +199,7 @@
                     }
                     else
                     {
-                        if (line.Contains(";"))
+                        if (commentLine)
                         {
                             if (logOperation)
                             {
@@ -258,6 +269,25 @@
             tagName = tagName.Replace("]", "");
 
             return tagName;
+        }
+
+        /// <summary>
+        /// Check if line is a comment.
+        /// </summary>
+        /// <param name="line"></param>
+        /// <returns></returns>
+        private bool CheckLineForComment(string line)
+        {
+            var compactedLine = Regex.Replace(line, @"\s+", "");
+
+            if (compactedLine.Contains(";") && compactedLine[0] == ';')
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         /// <summary>
