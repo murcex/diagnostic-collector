@@ -56,6 +56,17 @@
         public static bool Status { get { return Initialized; } }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static LogConfiguration GenerateConfig()
+        {
+            var cfg = new LogConfiguration();
+
+            return cfg;
+        }
+
+        /// <summary>
         /// Initializes the log for function. Creates the log file with a first entry.
         /// </summary>
         /// <param name="cfg"></param>
@@ -78,38 +89,6 @@
             catch (Exception e)
             {
                 throw new Exception($"Log Exception [Log].[Initialize()]: {e.ToString()}");
-            }
-        }
-
-        /// <summary>
-        /// Apply Type Info data to the log.
-        /// </summary>
-        /// <param name="logData"></param>
-        public static void Info(string logData)
-        {
-            if (Initialized)
-            {
-                AddLogEntry(TypeInfo, logData);
-            }
-            else
-            {
-                throw new Exception($"Log Exception [Log].[Info()]: Logger is not initialized.");
-            }
-        }
-
-        /// <summary>
-        /// Apply Type Error data to the log.
-        /// </summary>
-        /// <param name="logData"></param>
-        public static void Error(string logData)
-        {
-            if (Initialized)
-            {
-                AddLogEntry(TypeError, logData);
-            }
-            else
-            {
-                throw new Exception($"Log Exception [Log].[Error()]: Logger is not initialized.");
             }
         }
 
@@ -156,12 +135,35 @@
         }
 
         /// <summary>
+        /// Apply Type Info data to the log.
+        /// </summary>
+        /// <param name="logData"></param>
+        public static void Info(string logData)
+        {
+            AddLogEntry(TypeInfo, logData);
+        }
+
+        /// <summary>
+        /// Apply Type Error data to the log.
+        /// </summary>
+        /// <param name="logData"></param>
+        public static void Error(string logData)
+        {
+            AddLogEntry(TypeError, logData);
+        }
+
+        /// <summary>
         /// Writes data to the console and write data to log.
         /// </summary>
         /// <param name="type"></param>
         /// <param name="entry"></param>
         private static void AddLogEntry(string type, string entry)
         {
+            if (!Initialized)
+            {
+                Initialize();
+            }
+
             var transferCase = $"{DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss")}{Delimiter}{type}{Delimiter}{entry}";
 
             try
@@ -183,6 +185,46 @@
             {
                 throw new Exception($"Log Exception [Log].[AddLogEntry()]: {e.ToString()}");
             }
+        }
+    }
+
+    public class LogConfiguration
+    {
+        /// <summary>
+        /// The log file prefix name.
+        /// </summary>
+        public string LogName { get; set; }
+
+        /// <summary>
+        /// The directory the log will be written to.
+        /// </summary>
+        public string Directory { get; set; }
+
+        /// <summary>
+        /// The delimiter used to separate log data columns.
+        /// </summary>
+        public string Delimiter { get; set; }
+
+        /// <summary>
+        /// Flag to write data to the console.
+        /// </summary>
+        public bool WriteToConsole { get; set; }
+
+        /// <summary>
+        /// Flag to write data to the log.
+        /// </summary>
+        public bool WriteToLog { get; set; }
+
+        /// <summary>
+        /// Log Constructor - sets default values.
+        /// </summary>
+        public LogConfiguration()
+        {
+            LogName = "AppLog";
+            Directory = "default";
+            Delimiter = ",";
+            WriteToConsole = true;
+            WriteToLog = true;
         }
     }
 }
