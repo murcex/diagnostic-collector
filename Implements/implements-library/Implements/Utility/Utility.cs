@@ -1,15 +1,16 @@
 ﻿namespace Implements
 {
     using System;
+    using System.Diagnostics;
 
-    class Utility
+    public class Utility
     {
         /// <summary>
         /// Utility to convert string to int.
         /// </summary>
         /// <param name="inputValue"></param>
         /// <returns></returns>
-        private static int ConvertValueToInt(string inputValue)
+        public static int ConvertValueToInt(string inputValue)
         {
             int outputValue;
 
@@ -30,7 +31,7 @@
         /// </summary>
         /// <param name="inputValue"></param>
         /// <returns></returns>
-        private static bool ConvertValueToBool(string inputValue)
+        public static bool ConvertValueToBool(string inputValue)
         {
             bool outputValue;
 
@@ -44,6 +45,22 @@
             }
 
             return outputValue;
+        }
+
+        public static string GetAssemblyVersion(string dllName)
+        {
+            string version;
+
+            try
+            {
+                version = FileVersionInfo.GetVersionInfo(dllName + ".dll").FileVersion;
+            }
+            catch
+            {
+                version = null;
+            }
+
+            return version;
         }
     }
 }

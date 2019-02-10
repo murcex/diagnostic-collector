@@ -11,6 +11,9 @@
     {
         static void Main(string[] args)
         {
+
+            var curImplVer = Utility.GetAssemblyVersion("Implements");
+
             ///
             /// Logging
             ///
@@ -19,6 +22,9 @@
             cfg.LogName = "ExampleLog";
 
             Log.Initialize();
+
+            Log.Info($"Current Implement.dll Version: {curImplVer}");
+            Log.Info("");
 
             ///
             /// Deserializer Example
