@@ -323,6 +323,10 @@ obj/
 # Security SQL Files
 **/security/*.sql
 
+# Allow dlls
+!Assemblies/Implements.dll
+!Assemblies/Kiroku.dll
+
 # Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
 # should NOT be excluded as they contain compiler settings and other important
 # information for Eclipse / Flash Builder.
