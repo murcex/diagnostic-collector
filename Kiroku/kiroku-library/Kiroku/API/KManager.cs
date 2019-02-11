@@ -2,9 +2,9 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.IO;
 
+    // Implements Utility Library
     using Implements;
 
     /// <summary>
@@ -85,7 +85,7 @@
                     }
 
                     // Set kiroku.dll version
-                    LogConfiguration.Version = FileVersionInfo.GetVersionInfo("Kiroku.dll").FileVersion;
+                    LogConfiguration.Version = Utility.GetAssemblyVersion("kiroku");
 
                     // Set session date
                     LogConfiguration.Datetime = DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss");

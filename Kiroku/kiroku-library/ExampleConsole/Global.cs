@@ -87,8 +87,7 @@
 
                     default:
                         {
-                            // TODO: Add log
-                            System.Console.WriteLine("Not Hit: {0}", kvp.Value);
+                            Log.Error($"Not Hit: {kvp.Value}");
                         }
                         break;
                 }
@@ -105,28 +104,28 @@
         public static List<KeyValuePair<string, string>> KirokuTagList { get { return _kirokuTagList; } }
 
         // Main
-        public static int InstanceLoop { get { return ConvertValueToInt(_instanceloop); } }
-        public static int BlockLoop { get { return ConvertValueToInt(_blockloop); } }
+        public static int InstanceLoop { get { return Utility.ConvertValueToInt(_instanceloop); } }
+        public static int BlockLoop { get { return Utility.ConvertValueToInt(_blockloop); } }
 
         // Trace
-        public static bool TraceOn { get { return ConvertValueToBool(_trace); } }
-        public static int TraceLoopCount { get { return ConvertValueToInt(_traceloop); } }
-        public static int TraceCharCount { get { return ConvertValueToInt(_tracechar); } }
+        public static bool TraceOn { get { return Utility.ConvertValueToBool(_trace); } }
+        public static int TraceLoopCount { get { return Utility.ConvertValueToInt(_traceloop); } }
+        public static int TraceCharCount { get { return Utility.ConvertValueToInt(_tracechar); } }
 
         // Info
-        public static bool InfoOn { get { return ConvertValueToBool(_info); } }
-        public static int InfoLoopCount { get { return ConvertValueToInt(_infoloop); } }
-        public static int InfoCharCount { get { return ConvertValueToInt(_infochar); } }
+        public static bool InfoOn { get { return Utility.ConvertValueToBool(_info); } }
+        public static int InfoLoopCount { get { return Utility.ConvertValueToInt(_infoloop); } }
+        public static int InfoCharCount { get { return Utility.ConvertValueToInt(_infochar); } }
 
         // Warning
-        public static bool WarningOn { get { return ConvertValueToBool(_warning); } }
-        public static int WarningLoopCount { get { return ConvertValueToInt(_warningloop); } }
-        public static int WarningCharCount { get { return ConvertValueToInt(_warningchar); } }
+        public static bool WarningOn { get { return Utility.ConvertValueToBool(_warning); } }
+        public static int WarningLoopCount { get { return Utility.ConvertValueToInt(_warningloop); } }
+        public static int WarningCharCount { get { return Utility.ConvertValueToInt(_warningchar); } }
 
         // Error
-        public static bool ErrorOn { get { return ConvertValueToBool(_error); } }
-        public static int ErrorLoopCount { get { return ConvertValueToInt(_errorloop); } }
-        public static int ErrorCharCount { get { return ConvertValueToInt(_errorchar); } }
+        public static bool ErrorOn { get { return Utility.ConvertValueToBool(_error); } }
+        public static int ErrorLoopCount { get { return Utility.ConvertValueToInt(_errorloop); } }
+        public static int ErrorCharCount { get { return Utility.ConvertValueToInt(_errorchar); } }
 
         /// <summary>
         /// Private backing fields
@@ -159,47 +158,5 @@
         private static string _error;
         private static string _errorloop;
         private static string _errorchar;
-
-        /// <summary>
-        /// Utility to convert string to int
-        /// </summary>
-        /// <param name="inputValue"></param>
-        /// <returns></returns>
-        private static int ConvertValueToInt(string inputValue)
-        {
-            int outputValue;
-
-            try
-            {
-                outputValue = Int32.Parse(inputValue);
-            }
-            catch
-            {
-                outputValue = 0;
-            }
-
-            return outputValue;
-        }
-
-        /// <summary>
-        /// Utility to convert string to bool
-        /// </summary>
-        /// <param name="inputValue"></param>
-        /// <returns></returns>
-        private static bool ConvertValueToBool(string inputValue)
-        {
-            bool outputValue;
-
-            if (inputValue == "1")
-            {
-                outputValue = true;
-            }
-            else
-            {
-                outputValue = false;
-            }
-
-            return outputValue;
-        }
     }
 }
