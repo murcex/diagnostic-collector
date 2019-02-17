@@ -51,6 +51,10 @@
                     cmd.Parameters.AddWithValue("ui_instanceid", instanceHeader.InstanceID);
                     cmd.Parameters.AddWithValue("dt_instancestart", instanceHeader.EventTime);
                     cmd.Parameters.AddWithValue("ui_applicationid", instanceHeader.ApplicationID);
+                    cmd.Parameters.AddWithValue("nvc_trackid", instanceHeader.TrackID);
+                    cmd.Parameters.AddWithValue("nvc_regionid", instanceHeader.RegionID);
+                    cmd.Parameters.AddWithValue("nvc_clusterid", instanceHeader.ClusterID);
+                    cmd.Parameters.AddWithValue("nvc_deviceid", instanceHeader.DeviceID);
                     cmd.Parameters.AddWithValue("nvc_klogversion", instanceHeader.Version);
 
                     connection.Open();

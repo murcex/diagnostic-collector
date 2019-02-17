@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Implements">
+      <HintPath>..\..\..\Assemblies\Implements.dll</HintPath>
+    </Reference>
     <Reference Include="Kiroku">
       <HintPath>..\..\kiroku-library\Kiroku\bin\Debug\Kiroku.dll</HintPath>
     </Reference>
@@ -63,6 +66,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Core\App.config" />
+    <EmbeddedResource Include="Core\Config.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Include="Core\packages.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Core\Global.cs" />
+    <Compile Include="Core\BlobClient.cs" />
     <Compile Include="Uploader\ReadFile.cs" />
     <Compile Include="Uploader\AddLogToCollection.cs" />
     <Compile Include="Uploader\UploadAllLogs.cs" />
@@ -77,19 +90,11 @@
     <Compile Include="Processor\BlobFileParser.cs" />
     <Compile Include="Processor\BlobFileUploader.cs" />
     <Compile Include="DataAccessor\DataAccessor.cs" />
-    <Compile Include="Core\Global.cs" />
     <Compile Include="DataModels\InstanceModel.cs" />
     <Compile Include="DataModels\LogRecordModel.cs" />
-    <Compile Include="Core\BlobClient.cs" />
     <Compile Include="Core\BlobFileCollection.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Core\App.config" />
-    <None Include="Core\Config.ini" />
-    <None Include="Core\packages.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Core\App.config.xml" />

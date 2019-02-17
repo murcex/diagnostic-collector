@@ -1,19 +1,17 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Configuration;
-using System.Collections.Specialized;
-
-// Kiroku Logging Library
-using Kiroku;
-
-namespace KLOGCopy
+﻿namespace KLOGCopy
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
+    // Kiroku Logging Library
+    using Kiroku;
+
     class Program
     {
         static void Main(string[] args)
-        {            
+        {
             // Start instance level logging
-            KManager.Online((NameValueCollection)ConfigurationManager.GetSection("Kiroku"));
+            Global.StartLogging();
 
             // Log global properties
             using (KLog logConfig = new KLog("ClassProgram-LogicConfig"))
@@ -85,7 +83,7 @@ namespace KLOGCopy
             }
 
             // End instance level logging
-            KManager.Offline();
+            Global.StopLogging();
 
             Global.CheckDebug();
         }

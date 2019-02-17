@@ -1,7 +1,5 @@
 ﻿namespace KFlow
 {
-    using System;
-    using System.IO;
     using System.Collections.Generic;
 
     // Implements Utility Library
@@ -14,8 +12,8 @@
         /// </summary>
         static Global()
         {
-                GetConfigs();
-                SetKFlowConfig();
+            GetConfigs();
+            SetKFlowConfig();
         }
 
         /// <summary>
@@ -130,7 +128,7 @@
         /// <summary>
         /// Private backing fields
         /// </summary>
-        
+
         // Configs
         private static List<KeyValuePair<string, string>> _kflowTagList;
         private static List<KeyValuePair<string, string>> _kirokuTagList;

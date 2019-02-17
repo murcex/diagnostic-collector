@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Azure;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Blob;
-using System.IO;
-
-// Kiroku Logging Library
-using Kiroku;
-
-namespace KLOGCopy
+﻿namespace KLOGCopy
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Microsoft.WindowsAzure.Storage;
+    using Microsoft.WindowsAzure.Storage.Blob;
+    using System.IO;
+
+    // Kiroku Logging Library
+    using Kiroku;
+
     public static class Processor
     {
         #region Sort (offline)
@@ -55,7 +54,7 @@ namespace KLOGCopy
                     foreach (var sendFile in sendFiles)
                     {
                         // Parse connection string
-                        CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("StorageConnectionString"));
+                        CloudStorageAccount storageAccount = CloudStorageAccount.Parse(Global.AzureStorage);
 
                         // Create the blob client
                         CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();

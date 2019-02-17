@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Implements">
+      <HintPath>..\..\..\Assemblies\Implements.dll</HintPath>
+    </Reference>
     <Reference Include="Kiroku, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\kiroku-library\Kiroku\bin\Debug\Kiroku.dll</HintPath>
@@ -73,6 +76,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Core\App.config" />
+    <EmbeddedResource Include="Core\Config.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Include="Core\packages.config" />
   </ItemGroup>
   <ItemGroup>

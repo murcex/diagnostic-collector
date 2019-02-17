@@ -1,14 +1,15 @@
 ﻿namespace KLOGLoader
 {
+    using Kiroku;
+    using System.Threading;
+
     class Program
     {
         static void Main(string[] args)
         {
-            Global.SetLoadValues(); // new config
-
             Global.StartLogging();
 
-            BlobClient.Set(); // move into global
+            BlobClient.Set(); // move into global?
 
             BlobFileCollector.Execute();
 
@@ -18,9 +19,9 @@
 
             BlobFileRetention.Execute();
 
-            Global.StopLogging();
+            Global.StopLogging(); // move into "shutdown" method
 
-            Global.CheckDebug();
+            Global.CheckDebug(); // move into "shutdown" method
         }
     }
 }
