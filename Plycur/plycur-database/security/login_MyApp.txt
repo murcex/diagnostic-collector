@@ -17,10 +17,12 @@
 --END
 
 ---- Grant Login to Objects
---GRANT EXECUTE ON [dbo].[usp_Plycur_MyApp_Add] TO [<plycurMyAppExecuteLoginHere>]
+--GRANT EXECUTE ON [dbo].[usp_Plycur_MyApp_Insert] TO [<plycurMyAppExecuteLoginHere>]
 
---GRANT EXECUTE ON [dbo].[usp_Plycur_MyApp_Get] TO [<plycurMyAppExecuteLoginHere>]
+--GRANT EXECUTE ON [dbo].[usp_Plycur_MyApp_Select] TO [<plycurMyAppExecuteLoginHere>]
 
 --GRANT EXECUTE ON [dbo].[usp_Plycur_MyApp_Update] TO [<plycurMyAppExecuteLoginHere>]
 
---GRANT EXECUTE ON [dbo].[usp_Plycur_MyApp_Delete] TO [<plycurMyAppExecuteLoginHere>]
+--GRANT EXECUTE ON [dbo].[usp_Plycur_MyApp_Delete] TO [<plycurMyAppExecuteLoginHere>]\
+
+--GRANT EXECUTE ON [dbo].[usp_Plycur_MyApp_Verify] TO [<plycurMyAppExecuteLoginHere>]

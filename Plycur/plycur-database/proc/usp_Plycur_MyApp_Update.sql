@@ -1,5 +1,5 @@
 CREATE PROCEDURE [dbo].[usp_Plycur_MyApp_Update]
-(
+    (
     @dt_created [smalldatetime],
     --@dt_updated [smalldatetime],
     @ui_key [uniqueidentifier],

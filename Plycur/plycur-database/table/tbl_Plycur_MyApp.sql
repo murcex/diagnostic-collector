@@ -1,9 +1,9 @@
-CREATE TABLE [dbo].[tbl_Plycur_MyApp](
+CREATE TABLE [dbo].[tbl_Plycur_MyApp]
+(
 	[dt_created] [smalldatetime] NULL,
 	[dt_updated] [smalldatetime] NULL,
-	[ui_key] [uniqueidentifier] NULL,
 	[i_status] [int] NULL,
+	[nvc_key] [nvarchar](50) NOT NULL,
 	[nvc_value] [nvarchar](250) NULL
-) ON [PRIMARY]
-
-
+) 
+ON [PRIMARY]
