@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.IO;
-
-// Kiroku Logging Library
-using Kiroku;
-
-
-namespace KLOGCopy
+﻿namespace KLOGCopy
 {
-    public static class FileCollector
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.IO;
+
+    // Kiroku Logging Library
+    using Kiroku;
+
+    public static class CollectLogs
     {
         /// <summary>
         /// Collect and tag all local "KLOG_$(tag)_$(guid).txt" files from provided filepath.

@@ -72,6 +72,10 @@
                                 LogConfiguration.Error = kvp.Value;
                                 break;
 
+                            case "metric":
+                                LogConfiguration.Metric = kvp.Value;
+                                break;
+
                             case "filepath":
                                 LogConfiguration.RootFilePath = kvp.Value;
                                 break;

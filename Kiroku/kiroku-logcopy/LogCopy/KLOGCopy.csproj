@@ -67,12 +67,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Collector\FileCollection.cs" />
+    <Compile Include="Core\Capsule.cs" />
+    <Compile Include="Processors\CleanseLogs.cs" />
+    <Compile Include="Processors\CollectLogs.cs" />
     <Compile Include="DataModel\FileModel.cs" />
     <Compile Include="Core\Global.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Processor\Processor.cs" />
+    <Compile Include="Processors\SendLogs.cs" />
+    <Compile Include="Processors\DeleteLogs.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Core\App.config" />

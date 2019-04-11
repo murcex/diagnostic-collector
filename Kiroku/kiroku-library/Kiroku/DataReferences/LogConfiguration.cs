@@ -16,6 +16,7 @@
         public static string Info;
         public static string Warning;
         public static string Error;
+        public static string Metric;
 
         // Set GUIDs
         public static string ApplicationID;

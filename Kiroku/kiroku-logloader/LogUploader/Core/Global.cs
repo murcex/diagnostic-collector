@@ -18,6 +18,9 @@
             SetConfig();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public static void GetConfigs()
         {
             using (Deserializer deserilaizer = new Deserializer())
@@ -32,6 +35,9 @@
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private static void SetConfig()
         {
             foreach (var kvp in KLoaderTagList)
@@ -74,6 +80,12 @@
                     case "error":
                         _error = kvp.Value;
                         break;
+                    case "metric":
+                        _metric = kvp.Value;
+                        break;
+                    case "result":
+                        _result = kvp.Value;
+                        break;
 
                     default:
                         {
@@ -92,7 +104,7 @@
         private static List<KeyValuePair<string, string>> _kloaderTagList;
         private static List<KeyValuePair<string, string>> _kirokuTagList;
 
-        //
+        // Loader settings
         private static string _debug;
         private static string _container;
         private static string _storage;
@@ -100,13 +112,15 @@
         private static string _retentionDays;
         private static string _messageLength;
 
-        // 
+        // Event Switch settings
         private static string _instance;
         private static string _block;
         private static string _trace;
         private static string _info;
         private static string _warning;
         private static string _error;
+        private static string _metric;
+        private static string _result;
 
         /// <summary>
         /// Public readonly properties, backing fields applied with proper conversion
@@ -131,17 +145,28 @@
         public static bool Info { get { return Utility.ConvertValueToBool(_info); } }
         public static bool Warning { get { return Utility.ConvertValueToBool(_warning); } }
         public static bool Error { get { return Utility.ConvertValueToBool(_error); } }
+        public static bool Metric { get { return Utility.ConvertValueToBool(_metric); } }
+        public static bool Result { get { return Utility.ConvertValueToBool(_result); } }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public static void StartLogging()
         {
             KManager.Online(KirokuTagList);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public static void StopLogging()
         {
             KManager.Offline();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public static void CheckDebug()
         {
             if (Debug == "1")

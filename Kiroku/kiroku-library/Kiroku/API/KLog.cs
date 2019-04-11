@@ -1,6 +1,8 @@
 ﻿namespace Kiroku
 {
+    using Newtonsoft.Json;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// DATA MODEL: Contain data for a single log event.
@@ -12,6 +14,7 @@
         bool dispose = false;
         private Guid blockID { get; set; }
         private string blockName { get; set; }
+        private bool resultStatus { get; set; }
 
         #endregion
 
@@ -42,12 +45,18 @@
         /// </summary>
         private void Start()
         {
+            resultStatus = false;
             LogInjector(blockID, blockName, LogType.Start, LogType.StartTag);
         }
 
         // Silent Stop
         private void Stop()
         {
+            if (!resultStatus)
+            {
+                Success("Block Success, Default Disposal");
+            }
+
             LogInjector(blockID, blockName, LogType.Stop, LogType.StopTag);
         }
 
@@ -96,6 +105,83 @@
             {
                 LogInjector(blockID, blockName, LogType.Error, logData);
             }
+        }
+
+        public void Error(Exception ex, string logData)
+        {
+            if (LogConfiguration.Error == "1")
+            {
+                // new logic to pull all inner exceptions in layer, tagging each layer, appending to sting.
+                var ex2 = ex.ToString();
+
+                // pass both the inner exception collection and any additiona information passed in on the method down the injector.
+                var logPayload = "Exception Stack:" + ex + " Additonal information: " + logData;
+
+                LogInjector(blockID, blockName, LogType.Error, logData);
+            }
+        }
+
+        // Metric
+        public void Metric(string metricName, object metricValue)
+        {
+            if (LogConfiguration.Metric == "1")
+            {
+                string logData = "No Metric Type Match";
+
+                if (metricValue.GetType() == typeof(int))
+                {
+                    logData = MetricBuilder(metricName, "int", (int)metricValue);
+                }
+
+                if (metricValue.GetType() == typeof(double))
+                {
+                    logData = MetricBuilder(metricName, "double", (double)metricValue);
+                }
+
+                if (metricValue.GetType() == typeof(bool))
+                {
+                    logData = MetricBuilder(metricName, "bool", (bool)metricValue);
+                }
+
+                LogInjector(blockID, blockName, LogType.Metric, logData);
+            }
+        }
+
+        // Success Result
+        public void Success(string logData = "Block Success")
+        {
+            resultStatus = true;
+            LogInjector(blockID, blockName, LogType.Result, logData);
+        }
+
+        // Failure Result
+        public void Failure(string logData = "Block Failure")
+        {
+            resultStatus = true;
+            LogInjector(blockID, blockName, LogType.Result, logData);
+        }
+
+        #endregion
+
+        #region Metric Builder
+
+        /// <summary>
+        /// Convert a Metric parameters into a single safe JSON string for logging.
+        /// </summary>
+        /// <param name="metricName"></param>
+        /// <param name="metricType"></param>
+        /// <param name="metricValue"></param>
+        /// <returns></returns>
+        private static string MetricBuilder(string metricName, string metricType, object metricValue)
+        {
+            Dictionary<string, string> metricRecord = new Dictionary<string, string>();
+            metricRecord.Add("Metric Name", metricName);
+            metricRecord.Add("Metric Type", metricType);
+            metricRecord.Add("Metric Value", metricValue.ToString());
+
+            var jsonString = JsonConvert.SerializeObject(metricRecord);
+
+            return jsonString.Replace("\"", "#");
         }
 
         #endregion

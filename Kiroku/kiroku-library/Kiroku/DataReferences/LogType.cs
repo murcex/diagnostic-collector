@@ -16,6 +16,8 @@
         public const string Info = "Info";
         public const string Warning = "Warning";
         public const string Error = "Error";
+        public const string Metric = "Metric";
+        public const string Result = "Result";
 
         // Set Instance Log Tags
         public const string InstanceHeaderTag = "#KLOG_INSTANCE_HEADER#";

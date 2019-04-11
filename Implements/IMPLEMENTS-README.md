@@ -16,16 +16,48 @@ Reuseable library for: AES Encryption, Config Deserializer and Logging.
 using Implements;
 ```
 
-## 2. Create variables to import data into before the deserializer using statement. Below are the four supported types of extraction.
+## 2. Example "Global.cs"
+
+Example Global.cs
 
 ```csharp
-Dictionary<string, List<KeyValuePair<string, string>>> myCollection;
+static Global()
+{
+    GetConfigs();
+    SetConfig();
+}
 
-List<KeyValuePair<string, string>> myTag;
+// backing fields
+string _example;
+Dictionary<string, List<KeyValuePair<string, string>>> _myConfigGroup;
 
-string myValue;
+// collect config dictionary by tag
+GetConfigs()
+{
+    using (Deserializer deserilaizer = new Deserializer())
+    { 
+        _myConfigGroup = deserilaizer.GetTag("myConfig"); 
+    }
+}
 
-List<string> myValues;
+// sort config dictionary by kvp into backing fields
+SetConfig()
+private static void SetKFlowConfig()
+{
+  foreach (var kvp in MyConfigGroup)
+  {
+    switch (kvp.Key.ToString())
+    {
+      case "example":
+       _example = kvp.Value;
+       break;
+    }
+  }
+}
+
+// public readonly properties, calling backing fields -- this is used by your service
+string Example { get { return _example; } }
+Dictionary<string, List<KeyValuePair<string, string>>> MyConfigGroup{ get { return _myConfigGroup; } }
 ```
 
 ## 3. Inside a using statement, deserializer the config.ini file. Use the Get methods to load the contents. 

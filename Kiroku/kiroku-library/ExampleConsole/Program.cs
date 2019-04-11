@@ -1,8 +1,6 @@
 ﻿namespace KFlow
 {
     using System;
-    using System.Configuration;
-    using System.Collections.Specialized;
 
     // Kiroku Logging Library
     using Kiroku;
@@ -13,13 +11,14 @@
         {
             for (int instanceIteration = 1; instanceIteration <= Global.InstanceLoop; instanceIteration++)
             {
-                //KManager.Online((NameValueCollection)ConfigurationManager.GetSection("Kiroku"));
                 KManager.Online(Global.KirokuTagList);
 
                 for (int blockIteration = 1; blockIteration <= Global.BlockLoop; blockIteration++)
                 {
                     using (KLog klog = new KLog($"Block-{instanceIteration}-{blockIteration}"))
                     {
+                        klog.Metric("Block Iteration", blockIteration);
+
                         if (Global.TraceOn)
                         {
                             try
@@ -56,10 +55,13 @@
                                         klog.Error(Generator.Execute(Global.ErrorCharCount));
                                     }
                                 }
+
+                                klog.Success();
                             }
                             catch (Exception e)
                             {
                                 klog.Error($"KFlow Exception: {e.ToString()}");
+                                klog.Failure();
                             }
                         }
                     }
