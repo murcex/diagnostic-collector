@@ -1,10 +1,10 @@
 CREATE PROCEDURE [dbo].[usp_Plycur_MyApp_Delete]
 (
-      @ui_key [uniqueidentifier]
+      @nvc_key [nvarchar](50)
 )
 
 AS
 
 DELETE 
-      FROM [dbo].[tbl_Plycur_MyApp]
-      WHERE [ui_key] = @ui_key
+FROM [dbo].[tbl_Plycur_MyApp]
+WHERE [nvc_key] = @nvc_key
