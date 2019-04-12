@@ -1,4 +1,4 @@
-CREATE PROCEDURE [dbo].[usp_Plycur_MyApp_Select]
+CREATE PROCEDURE [dbo].[usp_Plycur_App_Select]
 (
       @nvc_key [nvarchar](50)
 )
@@ -11,5 +11,5 @@ SELECT
 ,[i_status]
 ,[nvc_key]
 ,[nvc_value]
-FROM [Centrifuge].[dbo].[tbl_Plycur_MyApp]
+FROM [dbo].[tbl_Plycur_App]
 WHERE [nvc_key] = @nvc_key

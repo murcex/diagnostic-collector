@@ -1,4 +1,4 @@
-CREATE TABLE [dbo].[tbl_Plycur_MyApp]
+CREATE TABLE [dbo].[tbl_Plycur_App]
 (
 	[dt_created] [smalldatetime] NULL,
 	[dt_updated] [smalldatetime] NULL,

@@ -1,4 +1,4 @@
-CREATE PROCEDURE [dbo].[usp_Plycur_MyApp_Insert]
+CREATE PROCEDURE [dbo].[usp_Plycur_App_Insert]
 (
       @dt_created [smalldatetime],
       @dt_updated [smalldatetime],
@@ -10,7 +10,7 @@ CREATE PROCEDURE [dbo].[usp_Plycur_MyApp_Insert]
 AS
 
 INSERT 
-INTO [dbo].[tbl_Plycur_MyApp]
+INTO [dbo].[tbl_Plycur_App]
 (
       [dt_created]
       ,[dt_updated]
