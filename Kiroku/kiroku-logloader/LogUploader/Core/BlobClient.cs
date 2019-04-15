@@ -10,15 +10,13 @@
 
         public static void Set()
         {
-            //_blobStorageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("StorageConnectionString"));
             var _blobStorageAccount = CloudStorageAccount.Parse(Global.AzureStorage);
             var _blobClient = _blobStorageAccount.CreateCloudBlobClient();
             BlobContainer = _blobClient.GetContainerReference(Global.AzureContainer);
         }
 
-        public static CloudBlob GetPayload(string file)
+        public static CloudBlob GetDocument(string file)
         {
-            //var _blobStorageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("StorageConnectionString"));
             var _blobStorageAccount = CloudStorageAccount.Parse(Global.AzureStorage);
             var _blobClient = _blobStorageAccount.CreateCloudBlobClient();
             BlobContainer = _blobClient.GetContainerReference(Global.AzureContainer);
@@ -28,7 +26,6 @@
 
         public static string DeleteBlobFile(string file)
         {
-            //var _blobStorageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("StorageConnectionString"));
             var _blobStorageAccount = CloudStorageAccount.Parse(Global.AzureStorage);
             var _blobClient = _blobStorageAccount.CreateCloudBlobClient();
             BlobContainer = _blobClient.GetContainerReference(Global.AzureContainer);

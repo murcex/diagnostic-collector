@@ -25,7 +25,6 @@ AS
 		@nvc_blockname,
 		@nvc_logtype,
 		@nvc_logdata
-
 	)
 
 	COMMIT

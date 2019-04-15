@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Data.SqlClient;
     using System.Data;
+    using Newtonsoft.Json;
 
     class DataAccessor
     {
@@ -19,8 +20,6 @@
                 var cmd = new SqlCommand("usp_Kiroku_KInstances_SelectCheck", connection);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                // Data Capacity Columns -- example: command.Parameters.AddWithValue("Value1", Value1);
-                // Example: command.Parameters.AddWithValue("execution_runtime", item.execution_runtime);
                 cmd.Parameters.AddWithValue("ui_instanceid", instanceId.ToString());
 
                 connection.Open();
@@ -46,8 +45,6 @@
                     var cmd = new SqlCommand("usp_Kiroku_KInstances_InsertStart", connection);
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    // Data Capacity Columns -- example: command.Parameters.AddWithValue("Value1", Value1);
-                    // Example: command.Parameters.AddWithValue("execution_runtime", item.execution_runtime);
                     cmd.Parameters.AddWithValue("ui_instanceid", instanceHeader.InstanceID);
                     cmd.Parameters.AddWithValue("dt_instancestart", instanceHeader.EventTime);
                     cmd.Parameters.AddWithValue("ui_applicationid", instanceHeader.ApplicationID);
@@ -85,8 +82,6 @@
                     var cmd = new SqlCommand("usp_Kiroku_KInstances_UpdateStop", connection);
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    // Data Capacity Columns -- example: command.Parameters.AddWithValue("Value1", Value1);
-                    // Example: command.Parameters.AddWithValue("execution_runtime", item.execution_runtime);
                     cmd.Parameters.AddWithValue("ui_instanceid", instanceHeader.InstanceID);
                     cmd.Parameters.AddWithValue("dt_instancestop", instanceHeader.EventTime);
 
@@ -110,8 +105,6 @@
         public static SQLResponse AddLogs(List<LogRecordModel> logCollection, Guid instanceId)
         {
             SQLResponse response = new SQLResponse();
-
-            // Add blocktracker dictionary
             Dictionary<Guid, LogRecordModel> blockCache = new Dictionary<Guid, LogRecordModel>();
 
             try
@@ -122,14 +115,10 @@
                     {
                         if (record.LogData.Contains("KLOG_BLOCK_START"))
                         {
-                            //var emptyResponse = AddBlockStart(record, instanceId);
-
                             blockCache.Add(record.BlockID, record);
                         }
                         else if (record.LogData.Contains("KLOG_BLOCK_STOP"))
                         {
-                            //var emptyResponse = UpdateBlockStop(record);
-
                             var startBlock = blockCache[record.BlockID];
 
                             if (startBlock != null)
@@ -150,23 +139,68 @@
                     }
                     else
                     {
-                        using (var connection = new SqlConnection(Global.SqlConnetionString))
+                        if (record.LogType == "Metric")
                         {
-                            var cmd = new SqlCommand("usp_Kiroku_KLogs_InsertAdd", connection);
-                            cmd.CommandType = CommandType.StoredProcedure;
+                            var jsonString = record.LogData.Replace("#", "\"");
+                            var metric = JsonConvert.DeserializeObject<MetricRecordModel>(jsonString);
 
-                            // Data Capacity Columns -- example: command.Parameters.AddWithValue("Value1", Value1);
-                            // Example: command.Parameters.AddWithValue("execution_runtime", item.execution_runtime);
-                            cmd.Parameters.AddWithValue("dt_session", record.EventTime);
-                            cmd.Parameters.AddWithValue("dt_event", record.EventTime);
-                            cmd.Parameters.AddWithValue("ui_blockid", record.BlockID);
-                            cmd.Parameters.AddWithValue("nvc_blockname", record.BlockName);
-                            cmd.Parameters.AddWithValue("nvc_logtype", record.LogType);
-                            cmd.Parameters.AddWithValue("nvc_logdata", record.LogData);
+                            using (var connection = new SqlConnection(Global.SqlConnetionString))
+                            {
+                                var cmd = new SqlCommand("usp_Kiroku_KMetrics_InsertAdd", connection);
+                                cmd.CommandType = CommandType.StoredProcedure;
 
-                            connection.Open();
+                                cmd.Parameters.AddWithValue("dt_session", record.EventTime);
+                                cmd.Parameters.AddWithValue("dt_event", record.EventTime);
+                                cmd.Parameters.AddWithValue("ui_blockid", record.BlockID);
+                                cmd.Parameters.AddWithValue("nvc_metricname", metric.MetricName);
+                                cmd.Parameters.AddWithValue("nvc_metrictype", metric.MetricType);
+                                cmd.Parameters.AddWithValue("nvc_metricvalue", metric.MetricValue);
 
-                            var reader = cmd.ExecuteReader();
+                                connection.Open();
+
+                                var reader = cmd.ExecuteReader();
+                            }
+                        }
+                        else if (record.LogType == "Result")
+                        {
+                            var jsonString = record.LogData.Replace("#", "\"");
+                            var result = JsonConvert.DeserializeObject<ResultRecordModel>(jsonString);
+
+                            using (var connection = new SqlConnection(Global.SqlConnetionString))
+                            {
+                                var cmd = new SqlCommand("usp_Kiroku_KResults_InsertAdd", connection);
+                                cmd.CommandType = CommandType.StoredProcedure;
+
+                                cmd.Parameters.AddWithValue("dt_session", record.EventTime);
+                                cmd.Parameters.AddWithValue("dt_event", record.EventTime);
+                                cmd.Parameters.AddWithValue("nvc_resulttype", "Block");
+                                cmd.Parameters.AddWithValue("ui_resultid", record.BlockID);
+                                cmd.Parameters.AddWithValue("i_result", result.Result);
+                                cmd.Parameters.AddWithValue("nvc_resultdata", result.ResultData);
+
+                                connection.Open();
+
+                                var reader = cmd.ExecuteReader();
+                            }
+                        }
+                        else
+                        {
+                            using (var connection = new SqlConnection(Global.SqlConnetionString))
+                            {
+                                var cmd = new SqlCommand("usp_Kiroku_KLogs_InsertAdd", connection);
+                                cmd.CommandType = CommandType.StoredProcedure;
+
+                                cmd.Parameters.AddWithValue("dt_session", record.EventTime);
+                                cmd.Parameters.AddWithValue("dt_event", record.EventTime);
+                                cmd.Parameters.AddWithValue("ui_blockid", record.BlockID);
+                                cmd.Parameters.AddWithValue("nvc_blockname", record.BlockName);
+                                cmd.Parameters.AddWithValue("nvc_logtype", record.LogType);
+                                cmd.Parameters.AddWithValue("nvc_logdata", record.LogData);
+
+                                connection.Open();
+
+                                var reader = cmd.ExecuteReader();
+                            }
                         }
                     }
                 }
@@ -194,8 +228,6 @@
                     var cmd = new SqlCommand("usp_Kiroku_KBlocks_InsertBlock", connection);
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    // Data Capacity Columns -- example: command.Parameters.AddWithValue("Value1", Value1);
-                    // Example: command.Parameters.AddWithValue("execution_runtime", item.execution_runtime);
                     cmd.Parameters.AddWithValue("ui_instanceid", instanceId);
                     cmd.Parameters.AddWithValue("ui_blockid", logRecord.BlockID);
                     cmd.Parameters.AddWithValue("nvc_blockname", logRecord.BlockName);
@@ -230,8 +262,6 @@
                     var cmd = new SqlCommand("usp_Kiroku_KBlocks_InsertStart", connection);
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    // Data Capacity Columns -- example: command.Parameters.AddWithValue("Value1", Value1);
-                    // Example: command.Parameters.AddWithValue("execution_runtime", item.execution_runtime);
                     cmd.Parameters.AddWithValue("ui_instanceid", instanceId);
                     cmd.Parameters.AddWithValue("ui_blockid", logRecord.BlockID);
                     cmd.Parameters.AddWithValue("nvc_blockname", logRecord.BlockName);
@@ -265,8 +295,6 @@
                     var cmd = new SqlCommand("usp_Kiroku_KBlocks_UpdateStop", connection);
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    // Data Capacity Columns -- example: command.Parameters.AddWithValue("Value1", Value1);
-                    // Example: command.Parameters.AddWithValue("execution_runtime", item.execution_runtime);
                     cmd.Parameters.AddWithValue("ui_blockid", logRecord.BlockID);
                     cmd.Parameters.AddWithValue("dt_blockstop", logRecord.EventTime);
 
@@ -298,8 +326,6 @@
                     var cmd = new SqlCommand("usp_Kiroku_KBlocks_UpdateEmptyStop", connection);
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    // Data Capacity Columns -- example: command.Parameters.AddWithValue("Value1", Value1);
-                    // Example: command.Parameters.AddWithValue("execution_runtime", item.execution_runtime);
                     cmd.Parameters.AddWithValue("ui_instanceid", instanceId);
                     cmd.Parameters.AddWithValue("dt_blockstop", logRecord.EventTime);
 

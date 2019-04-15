@@ -17,7 +17,9 @@
                 {
                     using (KLog klog = new KLog($"Block-{instanceIteration}-{blockIteration}"))
                     {
-                        klog.Metric("Block Iteration", blockIteration);
+                        klog.Metric("Test Metric One", blockIteration);
+                        klog.Metric("Test Metric Two", true);
+                        klog.Metric("Test Metric Three", 2.33);
 
                         if (Global.TraceOn)
                         {

@@ -1,8 +1,8 @@
 ﻿namespace Kiroku
 {
-    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
+    using Newtonsoft.Json;
 
     /// <summary>
     /// DATA MODEL: Contain data for a single log event.
@@ -147,18 +147,20 @@
             }
         }
 
-        // Success Result
+        // Result - Success
         public void Success(string logData = "Block Success")
         {
             resultStatus = true;
-            LogInjector(blockID, blockName, LogType.Result, logData);
+            var resultData = ResultBuilder(1, logData);
+            LogInjector(blockID, blockName, LogType.Result, resultData);
         }
 
-        // Failure Result
+        // Result - Failure
         public void Failure(string logData = "Block Failure")
         {
             resultStatus = true;
-            LogInjector(blockID, blockName, LogType.Result, logData);
+            var resultData = ResultBuilder(0, logData);
+            LogInjector(blockID, blockName, LogType.Result, resultData);
         }
 
         #endregion
@@ -166,7 +168,7 @@
         #region Metric Builder
 
         /// <summary>
-        /// Convert a Metric parameters into a single safe JSON string for logging.
+        /// Convert Metric parameters into a single safe JSON string for logging.
         /// </summary>
         /// <param name="metricName"></param>
         /// <param name="metricType"></param>
@@ -175,11 +177,32 @@
         private static string MetricBuilder(string metricName, string metricType, object metricValue)
         {
             Dictionary<string, string> metricRecord = new Dictionary<string, string>();
-            metricRecord.Add("Metric Name", metricName);
-            metricRecord.Add("Metric Type", metricType);
-            metricRecord.Add("Metric Value", metricValue.ToString());
+            metricRecord.Add("MetricName", metricName);
+            metricRecord.Add("MetricType", metricType);
+            metricRecord.Add("MetricValue", metricValue.ToString());
 
             var jsonString = JsonConvert.SerializeObject(metricRecord);
+
+            return jsonString.Replace("\"", "#");
+        }
+
+        #endregion
+
+        #region Result Builder
+
+        /// <summary>
+        /// Convert Result parameters into a single safe JSON string for logging.
+        /// </summary>
+        /// <param name="result"></param>
+        /// <param name="resultData"></param>
+        /// <returns></returns>
+        private static string ResultBuilder(int result, string resultData)
+        {
+            Dictionary<string, string> resultRecord = new Dictionary<string, string>();
+            resultRecord.Add("Result", result.ToString());
+            resultRecord.Add("ResultData", resultData);
+
+            var jsonString = JsonConvert.SerializeObject(resultRecord);
 
             return jsonString.Replace("\"", "#");
         }

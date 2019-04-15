@@ -53,6 +53,12 @@
                 case "error":
                     return Global.Error ? true : false;
 
+                case "metric":
+                    return Global.Metric ? true : false;
+
+                case "result":
+                    return Global.Result ? true : false;
+
                 default:
                     {
                         return true;

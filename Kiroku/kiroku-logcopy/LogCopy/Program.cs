@@ -22,7 +22,7 @@
             // Extract all files names
             Capsule.AddLogFiles(CollectLogs.Execute(Global.LocalDirectory));
 
-            // Process each IEnum filter group heir appropriate action method
+            // Process each IEnum filter group in their appropriate action method
             DeleteLogs.Execute();
 
             SendLogs.Execute();

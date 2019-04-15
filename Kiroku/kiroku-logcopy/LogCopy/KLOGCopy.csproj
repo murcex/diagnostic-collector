@@ -78,14 +78,11 @@
     <Compile Include="Processors\DeleteLogs.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Core\App.config" />
+    <None Include="App.config" />
     <EmbeddedResource Include="Core\Config.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <None Include="Core\packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Core\App.config.xml" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

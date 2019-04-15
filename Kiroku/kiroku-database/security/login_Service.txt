@@ -32,3 +32,7 @@
 --GRANT EXECUTE ON [dbo].[usp_Kiroku_KInstances_UpdateStop] TO [<kirokuExecuteLoginHere>]
 
 --GRANT EXECUTE ON [dbo].[usp_Kiroku_KLogs_InsertAdd] TO [<kirokuExecuteLoginHere>]
+
+--GRANT EXECUTE ON [dbo].[usp_Kiroku_KMetrics_InsertAdd] TO [<kirokuExecuteLoginHere>]
+
+--GRANT EXECUTE ON [dbo].[usp_Kiroku_KResults_InsertAdd] TO [<kirokuExecuteLoginHere>]

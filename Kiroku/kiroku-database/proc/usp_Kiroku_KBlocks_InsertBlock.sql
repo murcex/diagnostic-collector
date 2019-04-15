@@ -5,7 +5,6 @@ CREATE PROCEDURE [dbo].[usp_Kiroku_KBlocks_InsertBlock]
 		@nvc_blockname [nchar](50),
 		@dt_blockstart [datetime],
 		@dt_blockstop [datetime]
-		--@dt_duration [datetime]
 	)
 AS
 	SET NOCOUNT ON
@@ -20,7 +19,6 @@ AS
 		nvc_blockname, 
 		dt_blockstart,
 		dt_blockstop
-		--dt_duration
 	)
 	VALUES
 	(
@@ -29,8 +27,6 @@ AS
 		@nvc_blockname,
 		@dt_blockstart,
 		@dt_blockstop
-		--@dt_duration
-
 	)
 
 	COMMIT
