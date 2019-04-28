@@ -6,6 +6,9 @@
     // Kiroku
     using Kiroku;
 
+    /// <summary>
+    /// Check if Blob File already exist in database.
+    /// </summary>
     public class BlobFileCheck
     {
         public static void Execute()
@@ -18,9 +21,15 @@
                     {
                         if (file.FileGuid != Guid.Empty)
                         {
-                            var result = DataAccessor.CheckInstanceId(file.FileGuid);
+                            var resultResponse = DataAccessor.CheckInstanceId(file.FileGuid);
 
-                            if (result != Guid.Empty)
+                            if (!resultResponse.Success)
+                            {
+                                checkLog.Error($"SQL Expection on [BlobFileCheck].[CheckInstance] - Message: {resultResponse.Message}");
+                                break;
+                            }
+
+                            if (resultResponse.Id != Guid.Empty)
                             {
                                 BlobFileCollection.GetFiles().First(d => d.FileGuid == file.FileGuid).Exist = true;
                                 checkLog.Info($"Instance Check => Guid: {file.FileGuid.ToString()} Result: true");
@@ -41,7 +50,6 @@
                 catch (Exception ex)
                 {
                     checkLog.Error($"BlobfileCheck Expection: {ex.ToString()}");
-                    // TODO: Tracker
                 }
             }
         }

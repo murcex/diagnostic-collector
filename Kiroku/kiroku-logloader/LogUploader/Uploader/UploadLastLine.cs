@@ -6,6 +6,9 @@
     // Kiroku
     using Kiroku;
 
+    /// <summary>
+    /// Upload last line (Instance) to database.
+    /// </summary>
     public static class UploadLastLine
     {
         public static bool Execute(string line, KLog uploaderLog)

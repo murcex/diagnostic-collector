@@ -6,6 +6,9 @@
     // Kiroku
     using Kiroku;
 
+    /// <summary>
+    /// Add log line to log collection.
+    /// </summary>
     public static class AddLogToCollection
     {
         public static bool Execute(string line, List<LogRecordModel> recordModelList, KLog uploaderLog)
@@ -37,6 +40,11 @@
             return true;
         }
 
+        /// <summary>
+        /// Check if the log Type can be written to database.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
         private static bool CheckWriteByType(string type)
         {
             switch (type.ToLower())

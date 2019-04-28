@@ -10,6 +10,9 @@
     // Implements Utility Library
     using Implements;
 
+    /// <summary>
+    /// Global Configuration.
+    /// </summary>
     public static class Global
     {
         static Global()
@@ -19,7 +22,7 @@
         }
 
         /// <summary>
-        /// 
+        /// Read Config.ini, staged results.
         /// </summary>
         public static void GetConfigs()
         {
@@ -36,7 +39,7 @@
         }
 
         /// <summary>
-        /// 
+        /// Sort staged Config.ini results into backing fields.
         /// </summary>
         private static void SetConfig()
         {
@@ -65,7 +68,7 @@
                     case "instance":
                         _instance = kvp.Value;
                         break;
-                    case "blockloop":
+                    case "block":
                         _block = kvp.Value;
                         break;
                     case "trace":
@@ -97,7 +100,7 @@
         }
 
         /// <summary>
-        /// Private backing fields
+        /// Private backing fields.
         /// </summary>
 
         // Configs
@@ -123,14 +126,14 @@
         private static string _result;
 
         /// <summary>
-        /// Public readonly properties, backing fields applied with proper conversion
+        /// Public read-only properties, backing fields applied with proper conversion.
         /// </summary>
 
         // Configs
         private static List<KeyValuePair<string, string>> KLoaderTagList { get { return _kloaderTagList; } }
         public static List<KeyValuePair<string, string>> KirokuTagList { get { return _kirokuTagList; } }
 
-        //
+        // Loader settings
         public static String Debug { get { return _debug; } }
         public static String AzureContainer { get { return _container; } }
         public static String AzureStorage { get { return _storage; } }
@@ -138,7 +141,7 @@
         public static Double RetentionDays { get { return Convert.ToDouble(_retentionDays); } }
         public static int MessageLength { get { return Convert.ToInt32(_messageLength); } }
 
-        // 
+        // Event Switch settings
         public static bool Instance { get { return Utility.ConvertValueToBool(_instance); } }
         public static bool Block { get { return Utility.ConvertValueToBool(_block); } }
         public static bool Trace { get { return Utility.ConvertValueToBool(_trace); } }
@@ -149,7 +152,7 @@
         public static bool Result { get { return Utility.ConvertValueToBool(_result); } }
 
         /// <summary>
-        /// 
+        /// Start Kiroku Logging Instance.
         /// </summary>
         public static void StartLogging()
         {
@@ -157,7 +160,7 @@
         }
 
         /// <summary>
-        /// 
+        /// Stop Kiroku Logging Instance.
         /// </summary>
         public static void StopLogging()
         {
@@ -165,7 +168,7 @@
         }
 
         /// <summary>
-        /// 
+        /// Check for local debugging.
         /// </summary>
         public static void CheckDebug()
         {

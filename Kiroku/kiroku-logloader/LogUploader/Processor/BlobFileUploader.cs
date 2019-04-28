@@ -7,6 +7,9 @@
     // Kiroku
     using Kiroku;
 
+    /// <summary>
+    /// Update Blob File contents to database.
+    /// </summary>
     class BlobFileUploader
     {
         public static void Execute()
@@ -51,6 +54,7 @@
                                     if (!checkUploadFirstLine)
                                     {
                                         uploaderLog.Error($"[BlobFileUploader].[checkUploadFirstLine] - GUID: {fileGuid}");
+
                                         break;
                                     }
                                 }
@@ -88,7 +92,6 @@
                                     if (!checkUploadLastLine)
                                     {
                                         uploaderLog.Error($"[BlobFileUploader].[UploadLastLine] - GUID: {fileGuid}");
-                                        //break;
                                     }
                                 }
                                 else
@@ -98,7 +101,6 @@
                                     if (!checkUploadInstanceStop)
                                     {
                                         uploaderLog.Error($"[BlobFileUploader].[UploadInstanceStop] - GUID: {fileGuid}");
-                                        //break;
                                     }
                                 }
 

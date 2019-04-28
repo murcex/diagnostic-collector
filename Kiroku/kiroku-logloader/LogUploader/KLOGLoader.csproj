@@ -83,7 +83,7 @@
     <Compile Include="Uploader\UploadFirstLine.cs" />
     <Compile Include="Uploader\UploadLastLine.cs" />
     <Compile Include="Uploader\UploadInstanceStop.cs" />
-    <Compile Include="Uploader\SQLResponse.cs" />
+    <Compile Include="DataModels\SQLResponse.cs" />
     <Compile Include="Processor\BlobFileRetention.cs" />
     <Compile Include="Processor\BlobFileCheck.cs" />
     <Compile Include="Processor\BlobFileCollector.cs" />
