@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Implements">
+      <HintPath>..\..\..\Assemblies\Implements.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -51,10 +54,8 @@
     <Compile Include="DataWriters\LogFileWriter.cs" />
     <Compile Include="API\KManager.cs" />
     <Compile Include="DataReferences\LogType.cs" />
-    <Compile Include="DataWriters\LogRecordInjector.cs" />
     <Compile Include="DataModels\LogInstance.cs" />
     <Compile Include="DataWriters\LogVerboseWriter.cs" />
-    <Compile Include="Utility\Log.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

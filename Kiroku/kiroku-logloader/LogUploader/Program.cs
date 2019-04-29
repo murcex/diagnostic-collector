@@ -4,8 +4,6 @@
     {
         static void Main(string[] args)
         {
-            Global.SetLoadValues();
-
             Global.StartLogging();
 
             BlobClient.Set();

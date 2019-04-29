@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace Kiroku
+﻿namespace Kiroku
 {
+    using System;
+
     /// <summary>
     /// CLASS: Contains global Kiroku values. To be properly set by the Manager when a instance is started.
     /// </summary>
@@ -16,14 +16,18 @@ namespace Kiroku
         public static string Info;
         public static string Warning;
         public static string Error;
+        public static string Metric;
 
         // Set GUIDs
-        public static Guid ApplicationID;
-        public static Guid TrackID;
+        public static string ApplicationID;
+        public static string TrackID;
         public static Guid InstanceID;
+        public static string RegionID;
+        public static string ClusterID;
+        public static string DeviceID;
 
         // Set LogConfiguration Values
-        public const string Version = "KLOG_VERSION_20181026"; // Removed KLOG_S<#> Counter
+        public static string Version;
         public static string Datetime;
         public static string RootFilePath;
         public static string FullFilePath;

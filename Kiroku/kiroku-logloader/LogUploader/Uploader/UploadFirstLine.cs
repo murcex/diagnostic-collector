@@ -7,6 +7,9 @@
     // Kiroku
     using Kiroku;
 
+    /// <summary>
+    /// Upload first line (Instance) to database.
+    /// </summary>
     public static class UploadFirstLine
     {
         public static bool Execute(string line, KLog uploaderLog)

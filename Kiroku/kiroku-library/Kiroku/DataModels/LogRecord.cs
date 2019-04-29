@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Kiroku
+﻿namespace Kiroku
 {
+    using System;
+
     /// <summary>
     /// CLASS: Single KLOG event. Convertable to a single line of logging data contained within a KLOG Block.
     /// </summary>

@@ -1,43 +1,63 @@
 ﻿namespace KLOGLoader
 {
     using System;
-    using System.Collections.Generic;
     using System.Data.SqlClient;
     using System.Data;
 
+    /// <summary>
+    /// Azure SQL Server Data Accessor.
+    /// </summary>
     class DataAccessor
     {
-        // TODO: Add try/catch to all methods
-        // TODO: Add summary to all methods
-
-        public static Guid CheckInstanceId(Guid instanceId)
+        /// <summary>
+        /// Check if Kiroku logging Instance already exist in database.
+        /// </summary>
+        /// <param name="instanceId"></param>
+        /// <returns></returns>
+        public static SQLResponseModel CheckInstanceId(Guid instanceId)
         {
+            SQLResponseModel response = new SQLResponseModel();
             Guid check = new Guid();
 
-            using (var connection = new SqlConnection(Global.SqlConnetionString))
+            try
             {
-                var cmd = new SqlCommand("usp_Kiroku_KInstances_SelectCheck", connection);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                // Data Capacity Columns -- example: command.Parameters.AddWithValue("Value1", Value1);
-                // Example: command.Parameters.AddWithValue("execution_runtime", item.execution_runtime);
-                cmd.Parameters.AddWithValue("ui_instanceid", instanceId.ToString());
-
-                connection.Open();
-
-                var reader = cmd.ExecuteReader();
-                while (reader.Read())
+                using (var connection = new SqlConnection(Global.SqlConnetionString))
                 {
-                    check = (Guid)reader["ui_instanceid"];
-                }
-            }
+                    var cmd = new SqlCommand("usp_Kiroku_KInstances_SelectCheck", connection);
+                    cmd.CommandType = CommandType.StoredProcedure;
 
-            return check;
+                    cmd.Parameters.AddWithValue("ui_instanceid", instanceId.ToString());
+
+                    connection.Open();
+
+                    var reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        check = (Guid)reader["ui_instanceid"];
+                    }
+                }
+
+                response.Id = check;
+                response.Successful();
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Failure(ex.ToString());
+
+                return response;
+            }
         }
 
-        public static SQLResponse AddInstanceStart(InstanceModel instanceHeader)
+        /// <summary>
+        /// Add the start of the Kiroku logging Instance.
+        /// </summary>
+        /// <param name="instanceHeader"></param>
+        /// <returns></returns>
+        public static SQLResponseModel AddInstanceStart(InstanceModel instanceHeader)
         {
-            SQLResponse response = new SQLResponse();
+            SQLResponseModel response = new SQLResponseModel();
 
             try
             {
@@ -46,11 +66,13 @@
                     var cmd = new SqlCommand("usp_Kiroku_KInstances_InsertStart", connection);
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    // Data Capacity Columns -- example: command.Parameters.AddWithValue("Value1", Value1);
-                    // Example: command.Parameters.AddWithValue("execution_runtime", item.execution_runtime);
                     cmd.Parameters.AddWithValue("ui_instanceid", instanceHeader.InstanceID);
                     cmd.Parameters.AddWithValue("dt_instancestart", instanceHeader.EventTime);
                     cmd.Parameters.AddWithValue("ui_applicationid", instanceHeader.ApplicationID);
+                    cmd.Parameters.AddWithValue("nvc_trackid", instanceHeader.TrackID);
+                    cmd.Parameters.AddWithValue("nvc_regionid", instanceHeader.RegionID);
+                    cmd.Parameters.AddWithValue("nvc_clusterid", instanceHeader.ClusterID);
+                    cmd.Parameters.AddWithValue("nvc_deviceid", instanceHeader.DeviceID);
                     cmd.Parameters.AddWithValue("nvc_klogversion", instanceHeader.Version);
 
                     connection.Open();
@@ -70,9 +92,14 @@
             }
         }
 
-        public static SQLResponse UpdateInstanceStop(InstanceModel instanceHeader)
+        /// <summary>
+        /// Update existing Kiroku logging Instance with the stop time.
+        /// </summary>
+        /// <param name="instanceHeader"></param>
+        /// <returns></returns>
+        public static SQLResponseModel UpdateInstanceStop(InstanceModel instanceHeader)
         {
-            SQLResponse response = new SQLResponse();
+            SQLResponseModel response = new SQLResponseModel();
 
             try
             {
@@ -81,8 +108,6 @@
                     var cmd = new SqlCommand("usp_Kiroku_KInstances_UpdateStop", connection);
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    // Data Capacity Columns -- example: command.Parameters.AddWithValue("Value1", Value1);
-                    // Example: command.Parameters.AddWithValue("execution_runtime", item.execution_runtime);
                     cmd.Parameters.AddWithValue("ui_instanceid", instanceHeader.InstanceID);
                     cmd.Parameters.AddWithValue("dt_instancestop", instanceHeader.EventTime);
 
@@ -103,68 +128,38 @@
             }
         }
 
-        public static SQLResponse AddLogs(List<LogRecordModel> logCollection, Guid instanceId)
+        /// <summary>
+        /// Add Kiroku Metric event.
+        /// </summary>
+        /// <param name="record"></param>
+        /// <param name="metric"></param>
+        /// <param name="instanceId"></param>
+        /// <returns></returns>
+        public static SQLResponseModel AddMetric(LogRecordModel record, MetricRecordModel metric, Guid instanceId)
         {
-            SQLResponse response = new SQLResponse();
-
-            // Add blocktracker dictionary
-            Dictionary<Guid, LogRecordModel> blockCache = new Dictionary<Guid, LogRecordModel>();
+            SQLResponseModel response = new SQLResponseModel();
 
             try
             {
-                foreach (var record in logCollection)
+                using (var connection = new SqlConnection(Global.SqlConnetionString))
                 {
-                    if (record.LogData.Contains("KLOG_BLOCK"))
-                    {
-                        if (record.LogData.Contains("KLOG_BLOCK_START"))
-                        {
-                            //var emptyResponse = AddBlockStart(record, instanceId);
+                    var cmd = new SqlCommand("usp_Kiroku_KMetrics_InsertAdd", connection);
+                    cmd.CommandType = CommandType.StoredProcedure;
 
-                            blockCache.Add(record.BlockID, record);
-                        }
-                        else if (record.LogData.Contains("KLOG_BLOCK_STOP"))
-                        {
-                            //var emptyResponse = UpdateBlockStop(record);
+                    cmd.Parameters.AddWithValue("dt_session", record.EventTime);
+                    cmd.Parameters.AddWithValue("dt_event", record.EventTime);
+                    cmd.Parameters.AddWithValue("ui_blockid", record.BlockID);
+                    cmd.Parameters.AddWithValue("nvc_metricname", metric.MetricName);
+                    cmd.Parameters.AddWithValue("nvc_metrictype", metric.MetricType);
+                    cmd.Parameters.AddWithValue("nvc_metricvalue", metric.MetricValue);
 
-                            var startBlock = blockCache[record.BlockID];
+                    connection.Open();
 
-                            if (startBlock != null)
-                            {
-                                var emptyResponse = AddBlock(record, startBlock, instanceId);
-                            }
-                            else
-                            {
-                                // TODO: Add Error
-                            }
+                    var reader = cmd.ExecuteReader();
 
-                            // TODO: Remove dictionary entry
-                        }
-                        else
-                        {
-                            // TODO: Add Error, should never reach.
-                        }
-                    }
-                    else
-                    {
-                        using (var connection = new SqlConnection(Global.SqlConnetionString))
-                        {
-                            var cmd = new SqlCommand("usp_Kiroku_KLogs_InsertAdd", connection);
-                            cmd.CommandType = CommandType.StoredProcedure;
+                    response.Successful();
 
-                            // Data Capacity Columns -- example: command.Parameters.AddWithValue("Value1", Value1);
-                            // Example: command.Parameters.AddWithValue("execution_runtime", item.execution_runtime);
-                            cmd.Parameters.AddWithValue("dt_session", record.EventTime);
-                            cmd.Parameters.AddWithValue("dt_event", record.EventTime);
-                            cmd.Parameters.AddWithValue("ui_blockid", record.BlockID);
-                            cmd.Parameters.AddWithValue("nvc_blockname", record.BlockName);
-                            cmd.Parameters.AddWithValue("nvc_logtype", record.LogType);
-                            cmd.Parameters.AddWithValue("nvc_logdata", record.LogData);
-
-                            connection.Open();
-
-                            var reader = cmd.ExecuteReader();
-                        }
-                    }
+                    return response;
                 }
             }
             catch (Exception ex)
@@ -173,15 +168,101 @@
 
                 return response;
             }
-
-            response.Successful();
-
-            return response;
         }
 
-        public static SQLResponse AddBlock(LogRecordModel logRecord, LogRecordModel startRecord, Guid instanceId)
+        /// <summary>
+        /// Add Kiroku Result event.
+        /// </summary>
+        /// <param name="record"></param>
+        /// <param name="result"></param>
+        /// <param name="instanceId"></param>
+        /// <returns></returns>
+        public static SQLResponseModel AddResult(LogRecordModel record, ResultRecordModel result, Guid instanceId)
         {
-            SQLResponse response = new SQLResponse();
+            SQLResponseModel response = new SQLResponseModel();
+
+            try
+            {
+                using (var connection = new SqlConnection(Global.SqlConnetionString))
+                {
+                    var cmd = new SqlCommand("usp_Kiroku_KResults_InsertAdd", connection);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("dt_session", record.EventTime);
+                    cmd.Parameters.AddWithValue("dt_event", record.EventTime);
+                    cmd.Parameters.AddWithValue("nvc_resulttype", "Block");
+                    cmd.Parameters.AddWithValue("ui_resultid", record.BlockID);
+                    cmd.Parameters.AddWithValue("i_result", result.Result);
+                    cmd.Parameters.AddWithValue("nvc_resultdata", result.ResultData);
+
+                    connection.Open();
+
+                    var reader = cmd.ExecuteReader();
+
+                    response.Successful();
+
+                    return response;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Failure(ex.ToString());
+
+                return response;
+            }
+        }
+
+        /// <summary>
+        /// Add Kiroku log event.
+        /// </summary>
+        /// <param name="record"></param>
+        /// <param name="instanceId"></param>
+        /// <returns></returns>
+        public static SQLResponseModel AddLog(LogRecordModel record, Guid instanceId)
+        {
+            SQLResponseModel response = new SQLResponseModel();
+
+            try
+            {
+                using (var connection = new SqlConnection(Global.SqlConnetionString))
+                {
+                    var cmd = new SqlCommand("usp_Kiroku_KLogs_InsertAdd", connection);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("dt_session", record.EventTime);
+                    cmd.Parameters.AddWithValue("dt_event", record.EventTime);
+                    cmd.Parameters.AddWithValue("ui_blockid", record.BlockID);
+                    cmd.Parameters.AddWithValue("nvc_blockname", record.BlockName);
+                    cmd.Parameters.AddWithValue("nvc_logtype", record.LogType);
+                    cmd.Parameters.AddWithValue("nvc_logdata", record.LogData);
+
+                    connection.Open();
+
+                    var reader = cmd.ExecuteReader();
+
+                    response.Successful();
+
+                    return response;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Failure(ex.ToString());
+
+                return response;
+            }
+        }
+
+        /// <summary>
+        /// Add Kiroku Block pair.
+        /// </summary>
+        /// <param name="logRecord"></param>
+        /// <param name="startRecord"></param>
+        /// <param name="instanceId"></param>
+        /// <returns></returns>
+        public static SQLResponseModel AddBlock(LogRecordModel logRecord, LogRecordModel startRecord, Guid instanceId)
+        {
+            SQLResponseModel response = new SQLResponseModel();
 
             try
             {
@@ -190,8 +271,6 @@
                     var cmd = new SqlCommand("usp_Kiroku_KBlocks_InsertBlock", connection);
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    // Data Capacity Columns -- example: command.Parameters.AddWithValue("Value1", Value1);
-                    // Example: command.Parameters.AddWithValue("execution_runtime", item.execution_runtime);
                     cmd.Parameters.AddWithValue("ui_instanceid", instanceId);
                     cmd.Parameters.AddWithValue("ui_blockid", logRecord.BlockID);
                     cmd.Parameters.AddWithValue("nvc_blockname", logRecord.BlockName);
@@ -215,77 +294,15 @@
             }
         }
 
-        public static SQLResponse AddBlockStart(LogRecordModel logRecord, Guid instanceId)
+        /// <summary>
+        /// Update Kiroku Block, with an empty stop time.
+        /// </summary>
+        /// <param name="logRecord"></param>
+        /// <param name="instanceId"></param>
+        /// <returns></returns>
+        public static SQLResponseModel UpdateBlockEmptyStop(LogRecordModel logRecord, Guid instanceId)
         {
-            SQLResponse response = new SQLResponse();
-
-            try
-            {
-                using (var connection = new SqlConnection(Global.SqlConnetionString))
-                {
-                    var cmd = new SqlCommand("usp_Kiroku_KBlocks_InsertStart", connection);
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    // Data Capacity Columns -- example: command.Parameters.AddWithValue("Value1", Value1);
-                    // Example: command.Parameters.AddWithValue("execution_runtime", item.execution_runtime);
-                    cmd.Parameters.AddWithValue("ui_instanceid", instanceId);
-                    cmd.Parameters.AddWithValue("ui_blockid", logRecord.BlockID);
-                    cmd.Parameters.AddWithValue("nvc_blockname", logRecord.BlockName);
-                    cmd.Parameters.AddWithValue("dt_blockstart", logRecord.EventTime);
-
-                    connection.Open();
-
-                    var reader = cmd.ExecuteReader();
-
-                    response.Successful();
-
-                    return response;
-                }
-            }
-            catch (Exception ex)
-            {
-                response.Failure(ex.ToString());
-
-                return response;
-            }
-        }
-
-        public static SQLResponse UpdateBlockStop(LogRecordModel logRecord)
-        {
-            SQLResponse response = new SQLResponse();
-
-            try
-            {
-                using (var connection = new SqlConnection(Global.SqlConnetionString))
-                {
-                    var cmd = new SqlCommand("usp_Kiroku_KBlocks_UpdateStop", connection);
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    // Data Capacity Columns -- example: command.Parameters.AddWithValue("Value1", Value1);
-                    // Example: command.Parameters.AddWithValue("execution_runtime", item.execution_runtime);
-                    cmd.Parameters.AddWithValue("ui_blockid", logRecord.BlockID);
-                    cmd.Parameters.AddWithValue("dt_blockstop", logRecord.EventTime);
-
-                    connection.Open();
-
-                    var reader = cmd.ExecuteReader();
-
-                    response.Successful();
-
-                    return response;
-                }
-            }
-            catch (Exception ex)
-            {
-                response.Failure(ex.ToString());
-
-                return response;
-            }
-        }
-
-        public static SQLResponse UpdateBlockEmptyStop(LogRecordModel logRecord, Guid instanceId)
-        {
-            SQLResponse response = new SQLResponse();
+            SQLResponseModel response = new SQLResponseModel();
 
             try
             {
@@ -294,10 +311,43 @@
                     var cmd = new SqlCommand("usp_Kiroku_KBlocks_UpdateEmptyStop", connection);
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    // Data Capacity Columns -- example: command.Parameters.AddWithValue("Value1", Value1);
-                    // Example: command.Parameters.AddWithValue("execution_runtime", item.execution_runtime);
                     cmd.Parameters.AddWithValue("ui_instanceid", instanceId);
                     cmd.Parameters.AddWithValue("dt_blockstop", logRecord.EventTime);
+
+                    connection.Open();
+
+                    var reader = cmd.ExecuteReader();
+
+                    response.Successful();
+
+                    return response;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Failure(ex.ToString());
+
+                return response;
+            }
+        }
+
+        /// <summary>
+        /// Kiroku data Retention, all tables.
+        /// </summary>
+        /// <param name="days"></param>
+        /// <returns></returns>
+        public static SQLResponseModel Retention(double days)
+        {
+            SQLResponseModel response = new SQLResponseModel();
+
+            try
+            {
+                using (var connection = new SqlConnection(Global.SqlConnetionString))
+                {
+                    var cmd = new SqlCommand("usp_Kiroku_Retention", connection);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("i_days", days);
 
                     connection.Open();
 

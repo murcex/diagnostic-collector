@@ -1,9 +1,13 @@
 ﻿namespace KLOGLoader
 {
-    public class SQLResponse
+    using System;
+
+    public class SQLResponseModel
     {
         public bool Success { get; set; }
         public string Message { get; set; }
+
+        public Guid Id { get; set; }
 
         public void Successful()
         {

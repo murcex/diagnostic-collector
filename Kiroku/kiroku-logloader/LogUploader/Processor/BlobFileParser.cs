@@ -7,6 +7,9 @@
     // Kiroku
     using Kiroku;
 
+    /// <summary>
+    /// Parse Blob Name, add to Blob File Collection.
+    /// </summary>
     public class BlobFileParser
     {
         // this should pass in a single List<BlobFileModel>
@@ -47,7 +50,6 @@
                 catch (Exception ex)
                 {
                     parserLog.Error($"BlobFileParser Exception: {ex.ToString()}");
-                    // TODO: Tracker
                 }
             }
         }

@@ -8,6 +8,9 @@
     // Kiroku
     using Kiroku;
 
+    /// <summary>
+    /// Collect all File in Azure Storage Blob.
+    /// </summary>
     public static class BlobFileCollector
     {
         public static void Execute()
@@ -36,7 +39,6 @@
                 catch (Exception ex)
                 {
                     collectorLog.Error($"BlobFileCollector Exception: {ex.ToString()}");
-                    // TODO: Tracker
                 }
             }
         }

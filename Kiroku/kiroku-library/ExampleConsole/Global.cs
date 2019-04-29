@@ -1,112 +1,160 @@
 ﻿namespace KFlow
 {
-    using System;
-    using System.Configuration;
+    using System.Collections.Generic;
+
+    // Implements Utility Library
+    using Implements;
 
     public static class Global
     {
-        // Private
+        /// <summary>
+        /// Initialize Global -- ensure configs are loaded
+        /// </summary>
+        static Global()
+        {
+            GetConfigs();
+            SetKFlowConfig();
+        }
+
+        /// <summary>
+        /// Deserialize Config.ini, load kflow and kiroku objects into backing fields
+        /// </summary>
+        public static void GetConfigs()
+        {
+            using (Deserializer deserilaizer = new Deserializer())
+            {
+                deserilaizer.Execute();
+
+                _kflowTagList = deserilaizer.GetTag("kflow");
+
+                _kirokuTagList = deserilaizer.GetTag("kiroku");
+            }
+        }
+
+        /// <summary>
+        /// Load raw kflow config through switch tree, sorting and loading into the backing fields
+        /// </summary>
+        private static void SetKFlowConfig()
+        {
+            foreach (var kvp in KFlowTagList)
+            {
+                switch (kvp.Key.ToString())
+                {
+                    case "instanceloop":
+                        _instanceloop = kvp.Value;
+                        break;
+                    case "blockloop":
+                        _blockloop = kvp.Value;
+                        break;
+                    case "trace":
+                        _trace = kvp.Value;
+                        break;
+                    case "traceloop":
+                        _traceloop = kvp.Value;
+                        break;
+                    case "tracechar":
+                        _tracechar = kvp.Value;
+                        break;
+                    case "info":
+                        _info = kvp.Value;
+                        break;
+                    case "infoloop":
+                        _infoloop = kvp.Value;
+                        break;
+                    case "infochar":
+                        _infochar = kvp.Value;
+                        break;
+                    case "warning":
+                        _warning = kvp.Value;
+                        break;
+                    case "warningloop":
+                        _warningloop = kvp.Value;
+                        break;
+                    case "warningchar":
+                        _warningchar = kvp.Value;
+                        break;
+                    case "error":
+                        _error = kvp.Value;
+                        break;
+                    case "errorloop":
+                        _errorloop = kvp.Value;
+                        break;
+                    case "errorchar":
+                        _errorchar = kvp.Value;
+                        break;
+
+                    default:
+                        {
+                            Log.Error($"Not Hit: {kvp.Value}");
+                        }
+                        break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Public readonly properties, backing fields applied with proper conversion
+        /// </summary>
+
+        // Configs
+        private static List<KeyValuePair<string, string>> KFlowTagList { get { return _kflowTagList; } }
+
+        public static List<KeyValuePair<string, string>> KirokuTagList { get { return _kirokuTagList; } }
+
         // Main
-        public static readonly string _instanceloop = ConfigurationManager.AppSettings["instanceloop"].ToString();
-        public static readonly string _blockloop = ConfigurationManager.AppSettings["blockloop"].ToString();
+        public static int InstanceLoop { get { return Utility.ConvertValueToInt(_instanceloop); } }
+        public static int BlockLoop { get { return Utility.ConvertValueToInt(_blockloop); } }
 
         // Trace
-        public static readonly string _trace = ConfigurationManager.AppSettings["trace"].ToString();
-        public static readonly string _traceloop = ConfigurationManager.AppSettings["traceloop"].ToString();
-        public static readonly string _tracechar = ConfigurationManager.AppSettings["tracechar"].ToString();
+        public static bool TraceOn { get { return Utility.ConvertValueToBool(_trace); } }
+        public static int TraceLoopCount { get { return Utility.ConvertValueToInt(_traceloop); } }
+        public static int TraceCharCount { get { return Utility.ConvertValueToInt(_tracechar); } }
 
         // Info
-        public static readonly string _info = ConfigurationManager.AppSettings["info"].ToString();
-        public static readonly string _infoloop = ConfigurationManager.AppSettings["infoloop"].ToString();
-        public static readonly string _infochar = ConfigurationManager.AppSettings["infochar"].ToString();
+        public static bool InfoOn { get { return Utility.ConvertValueToBool(_info); } }
+        public static int InfoLoopCount { get { return Utility.ConvertValueToInt(_infoloop); } }
+        public static int InfoCharCount { get { return Utility.ConvertValueToInt(_infochar); } }
 
         // Warning
-        public static readonly string _warning = ConfigurationManager.AppSettings["warning"].ToString();
-        public static readonly string _warningloop = ConfigurationManager.AppSettings["warningloop"].ToString();
-        public static readonly string _warningchar = ConfigurationManager.AppSettings["warningchar"].ToString();
+        public static bool WarningOn { get { return Utility.ConvertValueToBool(_warning); } }
+        public static int WarningLoopCount { get { return Utility.ConvertValueToInt(_warningloop); } }
+        public static int WarningCharCount { get { return Utility.ConvertValueToInt(_warningchar); } }
 
         // Error
-        public static readonly string _error = ConfigurationManager.AppSettings["error"].ToString();
-        public static readonly string _errorloop = ConfigurationManager.AppSettings["errorloop"].ToString();
-        public static readonly string _errorchar = ConfigurationManager.AppSettings["errorchar"].ToString();
+        public static bool ErrorOn { get { return Utility.ConvertValueToBool(_error); } }
+        public static int ErrorLoopCount { get { return Utility.ConvertValueToInt(_errorloop); } }
+        public static int ErrorCharCount { get { return Utility.ConvertValueToInt(_errorchar); } }
 
-        // Public
+        /// <summary>
+        /// Private backing fields
+        /// </summary>
+
+        // Configs
+        private static List<KeyValuePair<string, string>> _kflowTagList;
+        private static List<KeyValuePair<string, string>> _kirokuTagList;
+
         // Main
-        public static int InstanceLoop = ConvertValueToInt(_instanceloop);
-        public static int BlockLoop = ConvertValueToInt(_blockloop);
+        private static string _instanceloop;
+        private static string _blockloop;
 
         // Trace
-        public static bool TraceOn;
-        public static int TraceLoopCount;
-        public static int TraceCharCount;
+        private static string _trace;
+        private static string _traceloop;
+        private static string _tracechar;
 
         // Info
-        public static bool InfoOn;
-        public static int InfoLoopCount;
-        public static int InfoCharCount;
+        private static string _info;
+        private static string _infoloop;
+        private static string _infochar;
 
         // Warning
-        public static bool WarningOn;
-        public static int WarningLoopCount;
-        public static int WarningCharCount;
+        private static string _warning;
+        private static string _warningloop;
+        private static string _warningchar;
 
         // Error
-        public static bool ErrorOn;
-        public static int ErrorLoopCount;
-        public static int ErrorCharCount;
-
-        public static void SetValues()
-        {
-            InstanceLoop = ConvertValueToInt(_instanceloop);
-            BlockLoop = ConvertValueToInt(_blockloop);
-
-            TraceOn = ConvertValueToBool(_trace);
-            TraceLoopCount = ConvertValueToInt(_traceloop);
-            TraceCharCount = ConvertValueToInt(_tracechar);
-
-            InfoOn = ConvertValueToBool(_info);
-            InfoLoopCount = ConvertValueToInt(_infoloop);
-            InfoCharCount = ConvertValueToInt(_infochar);
-
-            WarningOn = ConvertValueToBool(_warning);
-            WarningLoopCount = ConvertValueToInt(_warningloop);
-            WarningCharCount = ConvertValueToInt(_warningchar);
-
-            ErrorOn = ConvertValueToBool(_error);
-            ErrorLoopCount = ConvertValueToInt(_errorloop);
-            ErrorCharCount = ConvertValueToInt(_errorchar);
-        }
-
-        private static int ConvertValueToInt(string inputValue)
-        {
-            int outputValue;
-
-            try
-            {
-                outputValue = Int32.Parse(inputValue);
-            }
-            catch
-            {
-                outputValue = 0;
-            }
-
-            return outputValue;
-        }
-
-        private static bool ConvertValueToBool(string inputValue)
-        {
-            bool outputValue;
-
-            if (inputValue == "1")
-            {
-                outputValue = true;
-            }
-            else
-            {
-                outputValue = false;
-            }
-
-            return outputValue;
-        }
+        private static string _error;
+        private static string _errorloop;
+        private static string _errorchar;
     }
 }

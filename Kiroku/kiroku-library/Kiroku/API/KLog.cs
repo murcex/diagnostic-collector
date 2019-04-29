@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Kiroku
+﻿namespace Kiroku
 {
+    using System;
+    using System.Collections.Generic;
+    using Newtonsoft.Json;
+
     /// <summary>
     /// DATA MODEL: Contain data for a single log event.
     /// </summary>
@@ -16,6 +14,7 @@ namespace Kiroku
         bool dispose = false;
         private Guid blockID { get; set; }
         private string blockName { get; set; }
+        private bool resultStatus { get; set; }
 
         #endregion
 
@@ -35,7 +34,7 @@ namespace Kiroku
 
         #endregion
 
-        #region Start/Stop
+        #region Start/Stop Log Block
         
         /// <summary>
         /// Log Token/Tag for Start/Stop. Used for parsing, tracking and time.
@@ -44,20 +43,26 @@ namespace Kiroku
         /// <summary>
         /// 
         /// </summary>
-        public void Start()
+        private void Start()
         {
-            LogRecordInjector.Execute(blockID, blockName, LogType.Start, LogType.StartTag);
+            resultStatus = false;
+            LogInjector(blockID, blockName, LogType.Start, LogType.StartTag);
         }
 
         // Silent Stop
-        public void Stop()
+        private void Stop()
         {
-            LogRecordInjector.Execute(blockID, blockName, LogType.Stop, LogType.StopTag);
+            if (!resultStatus)
+            {
+                Success("Block Success, Default Disposal");
+            }
+
+            LogInjector(blockID, blockName, LogType.Stop, LogType.StopTag);
         }
 
         #endregion
 
-        #region Types
+        #region Log Event Types
 
         /// <summary>
         /// Log Types; Trace, Info, Warning, Error. 
@@ -70,7 +75,7 @@ namespace Kiroku
         {
             if (LogConfiguration.Trace == "1")
             {
-                LogRecordInjector.Execute(blockID, blockName, LogType.Trace, logData);
+               LogInjector(blockID, blockName, LogType.Trace, logData);
             }
         }
 
@@ -79,7 +84,7 @@ namespace Kiroku
         {
             if (LogConfiguration.Info == "1")
             {
-                LogRecordInjector.Execute(blockID, blockName, LogType.Info, logData);
+                LogInjector(blockID, blockName, LogType.Info, logData);
             }
         }
 
@@ -89,7 +94,7 @@ namespace Kiroku
         {
             if (LogConfiguration.Warning == "1")
             {
-                LogRecordInjector.Execute(blockID, blockName, LogType.Warning, logData);
+                LogInjector(blockID, blockName, LogType.Warning, logData);
             }
         }
 
@@ -98,7 +103,140 @@ namespace Kiroku
         {
             if (LogConfiguration.Error == "1")
             {
-                LogRecordInjector.Execute(blockID, blockName, LogType.Error, logData);
+                LogInjector(blockID, blockName, LogType.Error, logData);
+            }
+        }
+
+        public void Error(Exception ex, string logData)
+        {
+            if (LogConfiguration.Error == "1")
+            {
+                // new logic to pull all inner exceptions in layer, tagging each layer, appending to sting.
+                var ex2 = ex.ToString();
+
+                // pass both the inner exception collection and any additiona information passed in on the method down the injector.
+                var logPayload = "Exception Stack:" + ex + " Additonal information: " + logData;
+
+                LogInjector(blockID, blockName, LogType.Error, logData);
+            }
+        }
+
+        // Metric
+        public void Metric(string metricName, object metricValue)
+        {
+            if (LogConfiguration.Metric == "1")
+            {
+                string logData = "No Metric Type Match";
+
+                if (metricValue.GetType() == typeof(int))
+                {
+                    logData = MetricBuilder(metricName, "int", (int)metricValue);
+                }
+
+                if (metricValue.GetType() == typeof(double))
+                {
+                    logData = MetricBuilder(metricName, "double", (double)metricValue);
+                }
+
+                if (metricValue.GetType() == typeof(bool))
+                {
+                    logData = MetricBuilder(metricName, "bool", (bool)metricValue);
+                }
+
+                LogInjector(blockID, blockName, LogType.Metric, logData);
+            }
+        }
+
+        // Result - Success
+        public void Success(string logData = "Block Success")
+        {
+            resultStatus = true;
+            var resultData = ResultBuilder(1, logData);
+            LogInjector(blockID, blockName, LogType.Result, resultData);
+        }
+
+        // Result - Failure
+        public void Failure(string logData = "Block Failure")
+        {
+            resultStatus = true;
+            var resultData = ResultBuilder(0, logData);
+            LogInjector(blockID, blockName, LogType.Result, resultData);
+        }
+
+        #endregion
+
+        #region Metric Builder
+
+        /// <summary>
+        /// Convert Metric parameters into a single safe JSON string for logging.
+        /// </summary>
+        /// <param name="metricName"></param>
+        /// <param name="metricType"></param>
+        /// <param name="metricValue"></param>
+        /// <returns></returns>
+        private static string MetricBuilder(string metricName, string metricType, object metricValue)
+        {
+            Dictionary<string, string> metricRecord = new Dictionary<string, string>();
+            metricRecord.Add("MetricName", metricName);
+            metricRecord.Add("MetricType", metricType);
+            metricRecord.Add("MetricValue", metricValue.ToString());
+
+            var jsonString = JsonConvert.SerializeObject(metricRecord);
+
+            return jsonString.Replace("\"", "#");
+        }
+
+        #endregion
+
+        #region Result Builder
+
+        /// <summary>
+        /// Convert Result parameters into a single safe JSON string for logging.
+        /// </summary>
+        /// <param name="result"></param>
+        /// <param name="resultData"></param>
+        /// <returns></returns>
+        private static string ResultBuilder(int result, string resultData)
+        {
+            Dictionary<string, string> resultRecord = new Dictionary<string, string>();
+            resultRecord.Add("Result", result.ToString());
+            resultRecord.Add("ResultData", resultData);
+
+            var jsonString = JsonConvert.SerializeObject(resultRecord);
+
+            return jsonString.Replace("\"", "#");
+        }
+
+        #endregion
+
+        #region Log Injector
+
+        /// <summary>
+        /// The log injection funnel is a layer between the Log Type "switch" class and the Logging action classes.
+        /// The entry is evaluated for both a (1) log write action and (2) verbose console feedback action.
+        /// </summary>
+        /// <param name="blockID"> Log block (GUID) ID</param>
+        /// <param name="blockName">Log block name</param>
+        /// <param name="logType">Log type</param>
+        /// <param name="logData">Log data payload</param>
+        private static void LogInjector(Guid blockID, string blockName, string logType, string logData)
+        {
+            using (LogRecord logBase = new LogRecord())
+            {
+                logBase.BlockID = blockID;
+                logBase.LogType = logType;
+                logBase.BlockName = blockName;
+                logBase.LogData = logData;
+
+                if (LogConfiguration.WriteLog == "1")
+                {
+                    LogFileWriter.AddRecord(logBase);
+                }
+
+                if (LogConfiguration.WriteVerbose == "1")
+                {
+                    LogVerboseWriter.Write(logBase);
+                }
             }
         }
 

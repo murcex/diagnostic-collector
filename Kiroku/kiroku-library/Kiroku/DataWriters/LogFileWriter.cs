@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
-using Newtonsoft.Json;
-
-namespace Kiroku
+﻿namespace Kiroku
 {
+    using System;
+    using System.IO;
+    using Newtonsoft.Json;
+
+    // Implements Utility Library
+    using Implements;
+
     /// <summary>
     /// CLASS: Contains all local I/O write operations.
     /// </summary>
@@ -40,7 +39,7 @@ namespace Kiroku
             }
             catch (Exception ex)
             {
-                Log.CriticalError(ex.ToString());
+                Log.Error($"[LogFileWriter].[StartInstance] - Exception: {ex.ToString()}");
             }
         }
 
@@ -73,7 +72,7 @@ namespace Kiroku
             }
             catch (Exception ex)
             {
-                Log.CriticalError(ex.ToString());
+                Log.Error($"[LogFileWriter].[StopInstance] - Exception: {ex.ToString()}");
             }
         }
 
@@ -98,7 +97,7 @@ namespace Kiroku
             }
             catch (Exception ex)
             {
-                Log.CriticalError(ex.ToString());
+                Log.Error($"[LogFileWriter].[AddRecord] - Exception: {ex.ToString()}");
             }
         }
 

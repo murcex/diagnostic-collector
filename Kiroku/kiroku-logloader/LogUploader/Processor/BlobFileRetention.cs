@@ -1,17 +1,18 @@
-﻿
-
-namespace KLOGLoader
+﻿namespace KLOGLoader
 {
     using System;
 
     // Kiroku
     using Kiroku;
 
+    /// <summary>
+    /// Delete Blob File from Azure Storage Blob.
+    /// </summary>
     class BlobFileRetention
     {
         public static void Execute()
         {
-            using (KLog retentionLog = new KLog("ClassBlobFileRetention-MethodExecute"))
+            using (KLog retentionLog = new KLog("BlobFileRetention-MethodExecute"))
             {
                 try
                 {
@@ -28,11 +29,17 @@ namespace KLOGLoader
 
                         retentionLog.Info($"File Deleted => File Name: {file.CloudFile}");
                     }
+
+                    var checkRetention = DataAccessor.Retention(Global.RetentionDays);
+
+                    if (!checkRetention.Success)
+                    {
+                        retentionLog.Error($"SQL Expection on [BlobFileRetention].[Retention] - Message: {checkRetention.Message}");
+                    }
                 }
                 catch (Exception ex)
                 {
                     retentionLog.Error($"BlobFileRetention Exception: {ex.ToString()}");
-                    // TODO: Tracker
                 }
             }
         }

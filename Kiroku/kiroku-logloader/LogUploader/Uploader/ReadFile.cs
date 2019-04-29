@@ -4,6 +4,9 @@
     using System.Collections.Generic;
     using System.IO;
 
+    /// <summary>
+    /// Read Blob File to list of string.
+    /// </summary>
     public static class ReadFile
     {
         public static List<string> Execute(CloudBlob payload)

@@ -15,19 +15,5 @@
         public bool HeaderStatus { get; set; }
         public bool LogStatus { get; set; }
         public bool FooterStatus { get; set; }
-
-        /*
-        container
-        directory
-        filename
-        guid
-        tag
-        exist - empty until check
-        date
-        malformed parse 0
-        malformed header -1
-        malformed log -1
-        malformed footer -1
-        */
     }
 }

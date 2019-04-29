@@ -7,6 +7,9 @@
     // Kiroku
     using Kiroku;
 
+    /// <summary>
+    /// Upload last line, try log type -- not Instance -- then back fill current Instance with a stop time.
+    /// </summary>
     public static class UploadInstanceStop
     {
         public static bool Execute(string line, Guid fileGuid, KLog uploaderLog)
@@ -29,7 +32,6 @@
 
             var newEndTime = record.EventTime;
 
-            // TODO: "package" after creatation
             InstanceModel newInstanceCloser = new InstanceModel();
             newInstanceCloser.InstanceID = fileGuid;
             newInstanceCloser.EventTime = newEndTime;

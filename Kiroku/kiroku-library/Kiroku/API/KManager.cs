@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Configuration;
-using System.Collections.Specialized;
-using System.IO;
-
-namespace Kiroku
+﻿namespace Kiroku
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+
+    // Implements Utility Library
+    using Implements;
+
     /// <summary>
     /// CLASS: Starts and Stops Kiroku instance opertaions.
     /// </summary>
@@ -17,72 +15,88 @@ namespace Kiroku
         #region Online
 
         /// <summary>
-        /// Signals the start of KLog operations for an instance. Reading and setting global configuration values. Writing first log entry.
+        /// Version 2 -- Testing
         /// </summary>
-        /// <param name="hostValueCollection"></param>
-        public static void Online(NameValueCollection hostValueCollection)
+        /// <param name="config"></param>
+        public static void Online(List<KeyValuePair<string, string>> config)
         {
             try
             {
-                // Prase App.Config\Kiroku and Set
-                if (hostValueCollection != null)
+                if (config != null)
                 {
-                    foreach (var configKey in hostValueCollection.AllKeys)
+                    foreach (var kvp in config)
                     {
-                        string configValue = hostValueCollection.GetValues(configKey).FirstOrDefault().ToString();
-
-                        switch (configKey.ToString())
+                        switch (kvp.Key.ToString())
                         {
                             case "write":
-                                LogConfiguration.WriteLog = configValue;
+                                LogConfiguration.WriteLog = kvp.Value;
                                 break;
 
                             case "applicationid":
-                                LogConfiguration.ApplicationID = new Guid(configValue);
+                                LogConfiguration.ApplicationID = kvp.Value;
                                 break;
 
                             case "trackid":
-                                LogConfiguration.TrackID = new Guid(configValue);
+                                LogConfiguration.TrackID = kvp.Value;
+                                break;
+
+                            case "regionid":
+                                LogConfiguration.RegionID = kvp.Value;
+                                break;
+
+                            case "clusterid":
+                                LogConfiguration.ClusterID = kvp.Value;
+                                break;
+
+                            case "deviceid":
+                                LogConfiguration.DeviceID = kvp.Value;
                                 break;
 
                             case "verbose":
-                                LogConfiguration.WriteVerbose = configValue;
+                                LogConfiguration.WriteVerbose = kvp.Value;
                                 break;
 
                             case "trace":
-                                LogConfiguration.Trace = configValue;
+                                LogConfiguration.Trace = kvp.Value;
                                 break;
 
                             case "info":
-                                LogConfiguration.Info = configValue;
+                                LogConfiguration.Info = kvp.Value;
                                 break;
 
                             case "warning":
-                                LogConfiguration.Warning = configValue;
+                                LogConfiguration.Warning = kvp.Value;
                                 break;
 
                             case "error":
-                                LogConfiguration.Error = configValue;
+                                LogConfiguration.Error = kvp.Value;
+                                break;
+
+                            case "metric":
+                                LogConfiguration.Metric = kvp.Value;
                                 break;
 
                             case "filepath":
-                                LogConfiguration.RootFilePath = configValue;
+                                LogConfiguration.RootFilePath = kvp.Value;
                                 break;
 
                             default:
                                 {
-                                    System.Console.WriteLine("Not Hit: {0}", configKey);
+                                    System.Console.WriteLine("Not Hit: {0}", kvp.Value);
                                 }
                                 break;
                         }
                     }
 
+                    // Set kiroku.dll version
+                    LogConfiguration.Version = Utility.GetAssemblyVersion("kiroku");
+
                     // Set session date
                     LogConfiguration.Datetime = DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss");
-                    
-                    // Set instance GUID
+
+                    // Set instance Guid
                     LogConfiguration.InstanceID = Guid.NewGuid();
-                    
+
                     // Create file path
                     LogConfiguration.FullFilePath = LogConfiguration.RootFilePath + LogType.WritingToLog + LogConfiguration.InstanceID + ".txt";
 
@@ -92,7 +106,7 @@ namespace Kiroku
             }
             catch (Exception ex)
             {
-                //
+                Log.Error($"[KManager].[Online] - Exception: {ex.ToString()}");
             }
         }
 
@@ -114,7 +128,7 @@ namespace Kiroku
             }
             catch (Exception ex)
             {
-                Log.CriticalError(ex.ToString());
+                Log.Error($"[KManager].[Offline] - Exception: {ex.ToString()}");
             }
         }
 

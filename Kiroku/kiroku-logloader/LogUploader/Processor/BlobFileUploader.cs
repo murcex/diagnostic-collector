@@ -7,6 +7,9 @@
     // Kiroku
     using Kiroku;
 
+    /// <summary>
+    /// Update Blob File contents to database.
+    /// </summary>
     class BlobFileUploader
     {
         public static void Execute()
@@ -28,15 +31,17 @@
                         List<LogRecordModel> recordModelList = new List<LogRecordModel>();
                         List<string> lines = new List<string>();
 
-                        var payload = BlobClient.GetPayload(cloudFile);
+                        var document = BlobClient.GetDocument(cloudFile);
 
-                        lines = ReadFile.Execute(payload);
+                        lines = ReadFile.Execute(document);
 
                         var lineCountTotal = lines.Count();
 
                         uploaderLog.Info($"Uploader => Starting Upload - Guid: {fileGuid.ToString()} Line Count: {lineCountTotal} ");
 
-                        // Read each line in the log file. Check first and last line for KLog instance data. Break loop on any unexcpted data or failure. 
+                        //
+                        // Read each line in the log file. Check first and last line for KLog instance data. Break loop on any unexcpted data or failure.
+                        //
                         foreach (var line in lines)
                         {
                             // Check first line -- expecting the KLog instane "header"
@@ -49,6 +54,7 @@
                                     if (!checkUploadFirstLine)
                                     {
                                         uploaderLog.Error($"[BlobFileUploader].[checkUploadFirstLine] - GUID: {fileGuid}");
+
                                         break;
                                     }
                                 }
@@ -64,7 +70,9 @@
                                 lineCounter++;
                             }
 
+                            //
                             // Check last line -- expecting the KLog instance "footer" and add all logs.
+                            //
                             else if (lineCounter == lineCountTotal)
                             {
                                 // Post all logs
@@ -84,7 +92,6 @@
                                     if (!checkUploadLastLine)
                                     {
                                         uploaderLog.Error($"[BlobFileUploader].[UploadLastLine] - GUID: {fileGuid}");
-                                        //break;
                                     }
                                 }
                                 else
@@ -94,14 +101,15 @@
                                     if (!checkUploadInstanceStop)
                                     {
                                         uploaderLog.Error($"[BlobFileUploader].[UploadInstanceStop] - GUID: {fileGuid}");
-                                        //break;
                                     }
                                 }
 
                                 uploaderLog.Info($"Log Loaded - Guid: {fileGuid.ToString()}");
                             }
 
+                            //
                             // Check line for "normal" log record, add to collection to bulk add later.
+                            //
                             else
                             {
                                 var checkAddLogToCollection = AddLogToCollection.Execute(line, recordModelList, uploaderLog);

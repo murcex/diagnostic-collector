@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Implements">
+      <HintPath>..\..\..\Assemblies\Implements.dll</HintPath>
+    </Reference>
     <Reference Include="Kiroku, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\kiroku-library\Kiroku\bin\Debug\Kiroku.dll</HintPath>
@@ -64,19 +67,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Collector\FileCollection.cs" />
+    <Compile Include="Core\Capsule.cs" />
+    <Compile Include="Processors\CleanseLogs.cs" />
+    <Compile Include="Processors\CollectLogs.cs" />
     <Compile Include="DataModel\FileModel.cs" />
     <Compile Include="Core\Global.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Processor\Processor.cs" />
+    <Compile Include="Processors\SendLogs.cs" />
+    <Compile Include="Processors\DeleteLogs.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Core\App.config" />
-    <None Include="Core\packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Core\App.config.xml" />
+    <None Include="App.config" />
+    <EmbeddedResource Include="Core\Config.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
