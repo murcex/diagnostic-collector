@@ -12,22 +12,62 @@
         #region Variables 
 
         bool dispose = false;
-        private Guid blockID { get; set; }
-        private string blockName { get; set; }
-        private bool resultStatus { get; set; }
+        private bool entryNode = false;
+        private Guid blockID;
+        private string blockName;
+        private bool resultStatus;
+        public Guid instanceId;
 
         #endregion
 
-        #region Constructor
+        #region Constructors
 
         /// <summary>
-        /// Log constructor, boot strapping block id and block name
+        /// Log constructor, boot strapping block id and block name -- create instance if dynamically logging.
         /// </summary>
-        /// <param name="_eventAction">The friendly block name</param>
-        public KLog(string _eventAction)
+        /// <param name="blockName">The friendly block name</param>
+        public KLog(string blockName)
         {
             blockID = Guid.NewGuid();
-            blockName = _eventAction;
+            this.blockName = blockName;
+
+            if (LogConfiguration.Dynamic)
+            {
+                instanceId = KManager.CreateInstance();
+                entryNode = true;
+            }
+            else
+            {
+                instanceId = LogConfiguration.InstanceID;
+            }
+
+            Start();
+        }
+
+        /// <summary>
+        /// Log constructor, boot strapping dynamic klog block id and block name -- nested inside primary node's instance id.
+        /// </summary>
+        /// <param name="blockName"></param>
+        /// <param name="instance"></param>
+        public KLog(string blockName, Guid instance)
+        {
+            blockID = Guid.NewGuid();
+            this.blockName = blockName;
+            instanceId = instance;
+
+            Start();
+        }
+
+        /// <summary>
+        /// Log constructor, boot strapping dynamic klog block id and block name -- nested inside primary node's instance id.
+        /// </summary>
+        /// <param name="blockName"></param>
+        /// <param name="klog"></param>
+        public KLog(string blockName, KLog klog)
+        {
+            blockID = Guid.NewGuid();
+            this.blockName = blockName;
+            instanceId = klog.instanceId;
 
             Start();
         }
@@ -35,7 +75,7 @@
         #endregion
 
         #region Start/Stop Log Block
-        
+
         /// <summary>
         /// Log Token/Tag for Start/Stop. Used for parsing, tracking and time.
         /// </summary>
@@ -75,7 +115,7 @@
         {
             if (LogConfiguration.Trace == "1")
             {
-               LogInjector(blockID, blockName, LogType.Trace, logData);
+                LogInjector(blockID, blockName, LogType.Trace, logData);
             }
         }
 
@@ -219,7 +259,7 @@
         /// <param name="blockName">Log block name</param>
         /// <param name="logType">Log type</param>
         /// <param name="logData">Log data payload</param>
-        private static void LogInjector(Guid blockID, string blockName, string logType, string logData)
+        private void LogInjector(Guid blockID, string blockName, string logType, string logData)
         {
             using (LogRecord logBase = new LogRecord())
             {
@@ -228,14 +268,29 @@
                 logBase.BlockName = blockName;
                 logBase.LogData = logData;
 
-                if (LogConfiguration.WriteLog == "1")
+                if (LogConfiguration.Dynamic == false)
                 {
-                    LogFileWriter.AddRecord(logBase);
-                }
+                    if (LogConfiguration.WriteLog == "1")
+                    {
+                        LogFileWriter.AddRecord(logBase);
+                    }
 
-                if (LogConfiguration.WriteVerbose == "1")
+                    if (LogConfiguration.WriteVerbose == "1")
+                    {
+                        LogVerboseWriter.Write(logBase);
+                    }
+                }
+                else
                 {
-                    LogVerboseWriter.Write(logBase);
+                    if (LogConfiguration.WriteLog == "1")
+                    {
+                        LogFileWriter.AddRecord(logBase, instanceId);
+                    }
+
+                    if (LogConfiguration.WriteVerbose == "1")
+                    {
+                        LogVerboseWriter.Write(logBase);
+                    }
                 }
             }
         }
@@ -256,8 +311,14 @@
                 {
                     //dispose managed resources
                     Stop();
+
+                    if (entryNode)
+                    {
+                        KManager.EndInstance(instanceId);
+                    }
                 }
             }
+
             //dispose unmanaged resources
             dispose = true;
         }

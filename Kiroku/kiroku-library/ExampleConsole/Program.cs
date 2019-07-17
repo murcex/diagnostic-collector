@@ -1,6 +1,7 @@
 ﻿namespace KFlow
 {
     using System;
+    using System.Threading.Tasks;
 
     // Kiroku Logging Library
     using Kiroku;
@@ -9,6 +10,8 @@
     {
         static void Main(string[] args)
         {
+            #region Dynamic-False
+
             for (int instanceIteration = 1; instanceIteration <= Global.InstanceLoop; instanceIteration++)
             {
                 KManager.Online(Global.KirokuTagList);
@@ -70,6 +73,45 @@
                 }
 
                 KManager.Offline();
+            }
+
+            #endregion
+
+            #region Dynamic-True
+
+            KManager.Configure(Global.KirokuTagList, dynamic: true);
+
+            var items = new string[] { "red", "green", "blue", "yellow" };
+            var tasks = new Task[items.Length];
+            var taskCounter = 0;
+
+            foreach (var item in items)
+            {
+                tasks[taskCounter] = new Task(() => DynamicTest(item));
+
+                taskCounter++;
+            }
+
+            Parallel.ForEach(tasks, (t) => { t.Start(); });
+            Task.WaitAll(tasks);
+
+            #endregion
+        }
+
+        /// <summary>
+        /// Test method for dynamic KLOG creation.
+        /// </summary>
+        /// <param name="instanceIteration"></param>
+        public static void DynamicTest(string instanceIteration)
+        {
+            using (KLog klog = new KLog($"Dynamic KFlow -- Primary Node -- {instanceIteration}"))
+            {
+                klog.Info("Testing primary block");
+
+                using (KLog nestedKLog = new KLog($"Dynamic KFlow -- Nested Node -- {instanceIteration}", klog.instanceId))
+                {
+                    nestedKLog.Info("Testing nested block");
+                }
             }
         }
     }

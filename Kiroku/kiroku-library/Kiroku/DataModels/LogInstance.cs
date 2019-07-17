@@ -28,7 +28,7 @@
         #region Constru
 
         /// <summary>
-        /// 
+        /// Log instance constructor -- dynamic: false.
         /// </summary>
         /// <param name="instanceStatus"></param>
         public LogInstance(string instanceStatus)
@@ -41,6 +41,23 @@
             ClusterID = LogConfiguration.ClusterID;
             DeviceID = LogConfiguration.DeviceID;
             InstanceID = LogConfiguration.InstanceID;
+            InstanceStatus = instanceStatus;
+        }
+
+        /// <summary>
+        /// Log instance constructor -- dynamic: true.
+        /// </summary>
+        /// <param name="instanceStatus"></param>
+        public LogInstance(string instanceStatus, Guid instance)
+        {
+            Version = LogConfiguration.Version;
+            EventTime = DateTime.Now.ToUniversalTime();
+            ApplicationID = LogConfiguration.ApplicationID;
+            TrackID = LogConfiguration.TrackID;
+            RegionID = LogConfiguration.RegionID;
+            ClusterID = LogConfiguration.ClusterID;
+            DeviceID = LogConfiguration.DeviceID;
+            InstanceID = instance;
             InstanceStatus = instanceStatus;
         }
 

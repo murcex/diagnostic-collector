@@ -31,6 +31,9 @@
         public static string Datetime;
         public static string RootFilePath;
         public static string FullFilePath;
+
+        // Mode
+        public static bool Dynamic;
     }
 }
 
