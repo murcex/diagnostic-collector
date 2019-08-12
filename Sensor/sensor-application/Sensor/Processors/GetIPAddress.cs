@@ -5,81 +5,90 @@
     using System.Linq;
     using System.Net;
     using System.Threading;
+    using Kiroku;
 
     public static class GetIPAddress
     {
-        public static void Execute()
+        public static void Execute(ref Capsule capsule)
         {
-            List<IPRecord> ipRecordTransferList = new List<IPRecord>();
-
-            List<DNSDistributionRecord> dnsCountList = new List<DNSDistributionRecord>();
-
-            try
+            using (KLog klog = new KLog("GetIPAddress"))
             {
-                foreach (var article in Capsule.DNSRecords)
+                try
                 {
-                    try
+                    // for each DNS Record
+                    foreach (var article in capsule.DNSRecords)
                     {
-                        var count = 0;
-                        List<IPRecord> ipRecordQuickList = new List<IPRecord>();
-
-                        while (count < 10)
+                        try
                         {
-                            var ips = Dns.GetHostAddresses(article.DNSName);
+                            var count = 0;
+                            List<IPRecord> ipRecordQuickList = new List<IPRecord>();
+                            List<IPRecord> ipRecordTransferList = new List<IPRecord>();
 
-                            foreach (var ip in ips)
+                            // DNS query multiple times
+                            while (count < 3)
                             {
-                                IPRecord record = new IPRecord();
+                                var ips = Dns.GetHostAddresses(article.DNSName);
 
-                                record.IP = ip;
-                                record.HostName = article.DNSName;
+                                klog.Metric($"ipcount-{article.DNSName}", ips.Length);
 
-                                ipRecordQuickList.Add(record);
+                                // DNS query may return more than one ip
+                                foreach (var ip in ips)
+                                {
+                                    IPRecord record = new IPRecord();
+
+                                    record.IP = ip;
+                                    record.IPStatus = "ONLINE";
+
+                                    ipRecordQuickList.Add(record);
+                                }
+
+                                Thread.Sleep(5);
+
+                                count++;
                             }
 
-                            Thread.Sleep(25);
+                            var ipRecordDistinctList = ipRecordQuickList.GroupBy(ip => ip.IP).Select(y => y.First());
 
-                            count++;
+                            foreach (var ipRecord in ipRecordDistinctList)
+                            {
+                                var hitCount = ipRecordQuickList.Select(x => x.IP == ipRecord.IP).Count();
+
+                                ipRecordTransferList.Add(ipRecord);
+                            }
+
+                            article.IPRecords = ipRecordTransferList;
+                            article.DNSStatus = "ONLINE";
                         }
-
-                        var ipRecordDistinctList = ipRecordQuickList.GroupBy(ip => ip.IP).Select(y => y.First());
-
-                        foreach (var ipRecord in ipRecordDistinctList)
+                        catch (Exception ex)
                         {
-                            var hitCount = ipRecordQuickList.Select(x => x.IP == ipRecord.IP).Count();
+                            if (ex.ToString().Contains("No such host is known"))
+                            {
+                                klog.Error($"Exception: Unknow Host. {article.DNSName}");
+                            }
+                            else
+                            {
+                                klog.Error($"Exception: {ex.ToString()}");
+                            }
 
-                            DNSDistributionRecord dnsCount = new DNSDistributionRecord();
-                            dnsCount.IP = ipRecord.IP;
-                            dnsCount.HostName = ipRecord.HostName;
-                            dnsCount.Count = hitCount;
+                            article.DNSStatus = "OFFLINE";
 
-                            dnsCountList.Add(dnsCount);
+                            List<IPRecord> ipRecordQuickList = new List<IPRecord>();
+                            IPRecord record = new IPRecord();
+                            IPAddress address = IPAddress.Parse("0.0.0.0");
 
-                            ipRecordTransferList.Add(ipRecord);
+                            record.IP = address;
+                            record.IPStatus = "OFFLINE";
+
+                            ipRecordQuickList.Add(record);
+
+                            article.IPRecords = ipRecordQuickList;
                         }
-
-                        Capsule.IPRecords = ipRecordTransferList;
-
-                        Capsule.DNSDistributionRecords = dnsCountList;
-                    }
-                    catch (Exception ex)
-                    {
-                        if (ex.ToString().Contains("No such host is known"))
-                        {
-                            Console.WriteLine("Exception: Unknow Host. ({0})", article.DNSName);
-                        }
-                        else
-                        {
-                            Console.WriteLine("Exception: {0}", ex.ToString());
-                        }
-
-                        IPAddress[] address = { IPAddress.Parse("0.0.0.0") };
                     }
                 }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine($"GetIPAddress - Exception: {e.ToString()}");
+                catch (Exception e)
+                {
+                    klog.Error($"GetIPAddress - Exception: {e.ToString()}");
+                }
             }
         }
     }

@@ -1,38 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Sensor
+﻿namespace Sensor
 {
+    using System;
+
+    using Kiroku;
+
     public static class UploadCapsule
     {
-        public static void Execute()
+        public static void Execute(Capsule capsule)
         {
-            //DataUpload.UpsertSensor(Capsule.DNSResolutionRecords);
-
-            AddSensorCollection.UpsertSensor(Capsule.DNSResolutionRecords);
-
-            // TODO: Add sql table, proc and csharp logic for both loops
-
-            Console.WriteLine("DNS Count:");
-            foreach (var x in Capsule.DNSDistributionRecords)
+            using (KLog klog = new KLog("UploadData"))
             {
-                Console.WriteLine($"{x.HostName},{x.IP},{x.Count}");
+                try
+                {
+                    AddRecords.Insert(capsule.GenerateSQLRecords());
+                }
+                catch (Exception ex)
+                {
+                    klog.Error($"UploadCapsule::Execute | {ex.ToString()}");
+                }
             }
-
-            AddDNSDistribution.Execute(Capsule.DNSDistributionRecords);
-
-            Console.WriteLine("");
-            Console.WriteLine("TCP Latency:");
-
-            foreach (var x in Capsule.TCPLatencyRecords)
-            {
-                Console.WriteLine($"{x.HostName},{x.IP},{x.Latency}");
-            }
-
-            AddTCPLatency.Execute(Capsule.TCPLatencyRecords);
         }
     }
 }

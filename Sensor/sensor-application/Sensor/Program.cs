@@ -2,70 +2,61 @@
 {
     using System;
 
+    using Kiroku;
+
     class Program
     {
         static void Main(string[] args)
         {
             #region agent mode
 
-            // StartLogging();
+            KManager.Online(Global.KirokuTagList);
 
-            // SetGlobalValues();
-
-            if (Global.Agent == "1")
+            Capsule capsule = new Capsule
             {
-                GetArticles.Execute();
+                Session = Global.Session,
+                Source = Global.Source
+            };
 
-                GetIPAddress.Execute();
+            if (Global.Agent)
+            {
+                using (KLog klog = new KLog("AgentExecutionStack"))
+                {
+                    capsule.DNSRecords = GetArticles.Execute();
 
-                TagIPAddress.Execute();
+                    GetIPAddress.Execute(ref capsule);
 
-                GetTCPLatency.Execute();
+                    TagIPAddress.Execute(ref capsule);
 
-                UploadCapsule.Execute();
+                    GetTCPLatency.Execute(ref capsule);
+
+                    UploadCapsule.Execute(capsule);
+                }
             }
-            
-            //{
-            //    // TODO: find total articles and build task array
-            //    var tasks = new Task[articleList.Count()];
-            //    var taskCounter = 0;
-            //
-            //    // Loop target list, collect dns data and load sensor object
-            //    foreach (var article in articleList)
-            //    {
-            //        List<DNSSensor> sensorSubCollection = new List<DNSSensor>();
-            //
-            //        // Collect DNS
-            //        tasks[taskCounter] = Task.Run(() => sensorDnsCollection.AddRange(sensorSubCollection = Collector.Execute(article)));
-            //
-            //        taskCounter++;
-            //    }
-            //
-            //    Task.WaitAll(tasks);
-            //
-            //}
 
             #endregion
 
             #region principal mode
 
-            if (Global.Principal == "1")
+            if (Global.Principal)
             {
-                //TODO: Detect Activity Method
+                using (KLog klog = new KLog("PrincipalExecutionStack"))
+                {
+                    //TODO: Detect Activity Method
 
-                //TODO: Detect Failover Method
+                    //TODO: Detect Failover Method
 
-                //TODO: Retention Method
-                //DataDownload.DataRetention();
-
-                DataRetention.Execute();
+                    DataRetention.Execute();
+                }
             }
+
+            KManager.Offline();
 
             #endregion
 
             #region console.debug
 
-            if (Global.DebugMode == "1")
+            if (Global.Debug)
             {
                 Console.WriteLine("-- Operation Complete --");
                 Console.Read();

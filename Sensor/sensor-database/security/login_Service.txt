@@ -23,3 +23,7 @@
 --GRANT EXECUTE ON [dbo].[usp_Sensor_DNSDistribution_Insert] TO [<sensorExecuteLoginHere>]
 
 --GRANT EXECUTE ON [dbo].[usp_Sensor_TCPLatency_Insert] TO [<sensorExecuteLoginHere>]
+
+--GRANT EXECUTE ON [dbo].[usp_Sensor_Stage_Insert] TO [<sensorExecuteLoginHere>]
+
+--GRANT EXECUTE ON [dbo].[usp_Sensor_Stage_Retention] TO [<sensorExecuteLoginHere>]

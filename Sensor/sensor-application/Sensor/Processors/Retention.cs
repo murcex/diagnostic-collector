@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace Sensor
 {
-    class Activity
+    public static class Retention
     {
+        //public static void Execute()
+        //{
+        //    DataRetention.Execute();
+        //}
     }
 }

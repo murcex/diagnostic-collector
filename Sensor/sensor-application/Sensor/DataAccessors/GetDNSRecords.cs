@@ -33,9 +33,7 @@
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Download Article - SQL Expection: {0}", ex.ToString());
-
-                return targetList;
+                throw new Exception($"Download Article - SQL Expection: {ex.ToString()}");
             }
         }
     }
