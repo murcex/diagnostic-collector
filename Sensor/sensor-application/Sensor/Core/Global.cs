@@ -51,8 +51,8 @@
                     case "debug":
                         _debug = kvp.Value;
                         break;
-                    case "principal":
-                        _principal = kvp.Value;
+                    case "worker":
+                        _worker = kvp.Value;
                         break;
                     case "agent":
                         _agent = kvp.Value;
@@ -110,7 +110,7 @@
 
         // Operation Modes
         public static bool Debug { get { return Utility.ConvertValueToBool(_debug); } }
-        public static bool Principal { get { return Utility.ConvertValueToBool(_principal); } }
+        public static bool Worker { get { return Utility.ConvertValueToBool(_worker); } }
         public static bool Agent { get { return Utility.ConvertValueToBool(_agent); } }
 
         /// <summary>
@@ -127,7 +127,7 @@
 
         // Trace
         private static string _debug;
-        private static string _principal;
+        private static string _worker;
         private static string _agent;
     }
 }

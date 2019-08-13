@@ -36,11 +36,11 @@
 
             #endregion
 
-            #region principal mode
+            #region worker mode
 
-            if (Global.Principal)
+            if (Global.Worker)
             {
-                using (KLog klog = new KLog("PrincipalExecutionStack"))
+                using (KLog klog = new KLog("WorkerExecutionStack"))
                 {
                     //TODO: Detect Activity Method
 
