@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Sensor
+﻿namespace Sensor
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Data.SqlClient;
+
     class AddRecords
     {
         public static void Insert(List<SQLRecord> records)
