@@ -7,7 +7,10 @@
 
     public static class GetArticles
     {
-
+        /// <summary>
+        /// Get the Endpoints and their Configs.
+        /// </summary>
+        /// <returns></returns>
         public static List<DNSRecord> Execute()
         {
             using (KLog klog = new KLog("GetEndpointConfigs"))

@@ -6,6 +6,10 @@
 
     public static class UploadCapsule
     {
+        /// <summary>
+        /// Upload all Sensor Capsule records to Azure SQL Server.
+        /// </summary>
+        /// <param name="capsule"></param>
         public static void Execute(Capsule capsule)
         {
             using (KLog klog = new KLog("UploadData"))

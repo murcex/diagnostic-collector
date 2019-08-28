@@ -6,6 +6,10 @@
 
     public class GetDNSRecords
     {
+        /// <summary>
+        /// Get all Sensor endpoint records.
+        /// </summary>
+        /// <returns></returns>
         public static List<DNSRecord> GetArticle()
         {
             var targetList = new List<DNSRecord>();

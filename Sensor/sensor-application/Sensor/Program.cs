@@ -42,10 +42,6 @@
             {
                 using (KLog klog = new KLog("WorkerExecutionStack"))
                 {
-                    //TODO: Detect Activity Method
-
-                    //TODO: Detect Failover Method
-
                     DataRetention.Execute();
                 }
             }
@@ -54,17 +50,8 @@
 
             #endregion
 
-            #region console.debug
-
-            if (Global.Debug)
-            {
-                Console.WriteLine("-- Operation Complete --");
-                Console.Read();
-            }
-
-            #endregion
-
             // Close application
+            Global.CheckDebug();
             Environment.Exit(0);
         }
     }

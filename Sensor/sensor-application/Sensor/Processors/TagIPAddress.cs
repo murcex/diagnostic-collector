@@ -9,6 +9,10 @@
 
     public static class TagIPAddress
     {
+        /// <summary>
+        /// Evaluate IP address for match on a known provided region.
+        /// </summary>
+        /// <param name="capsule"></param>
         public static void Execute(ref Capsule capsule)
         {
             using (KLog klog = new KLog("TagIPAddress"))

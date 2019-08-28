@@ -12,6 +12,10 @@
 
     public static class GetTCPLatency
     {
+        /// <summary>
+        /// TCP Ping IPV4 IP for latency.
+        /// </summary>
+        /// <param name="capsule"></param>
         public static void Execute(ref Capsule capsule)
         {
 
@@ -35,8 +39,7 @@
 
                             if (ip.IPStatus == "OFFLINE")
                             {
-                                tcpRecord.Port = "443";
-                                tcpRecord.Latency = -1;
+                                tcpRecord.SetOffline();
 
                                 ip.TCPRecord = tcpRecord;
 
@@ -60,7 +63,6 @@
                                 stopwatch.Stop();
 
                                 double t = stopwatch.Elapsed.TotalMilliseconds;
-                                //klog.Info("{0:0.00}ms", t);
                                 latencyList.Add(t);
 
                                 sock.Close();

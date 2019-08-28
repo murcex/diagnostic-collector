@@ -6,6 +6,10 @@
 
     class AddRecords
     {
+        /// <summary>
+        /// Add sensor records to Azure SQL Server.
+        /// </summary>
+        /// <param name="records"></param>
         public static void Insert(List<SQLRecord> records)
         {
             try

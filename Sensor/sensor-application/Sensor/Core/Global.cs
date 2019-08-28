@@ -129,5 +129,14 @@
         private static string _debug;
         private static string _worker;
         private static string _agent;
+
+        public static void CheckDebug()
+        {
+            if (Global.Debug)
+            {
+                Console.WriteLine("-- Operation Complete --");
+                Console.Read();
+            }
+        }
     }
 }

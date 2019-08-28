@@ -10,6 +10,10 @@
 
     public static class GetIPAddress
     {
+        /// <summary>
+        /// Preform DNS Query to gather IPV4 IP's.
+        /// </summary>
+        /// <param name="capsule"></param>
         public static void Execute(ref Capsule capsule)
         {
             using (KLog klog = new KLog("GetIPAddress"))
@@ -71,18 +75,7 @@
                                 klog.Error($"Exception: {ex.ToString()}");
                             }
 
-                            article.DNSStatus = "OFFLINE";
-
-                            List<IPRecord> ipRecordQuickList = new List<IPRecord>();
-                            IPRecord record = new IPRecord();
-                            IPAddress address = IPAddress.Parse("0.0.0.0");
-
-                            record.IP = address;
-                            record.IPStatus = "OFFLINE";
-
-                            ipRecordQuickList.Add(record);
-
-                            article.IPRecords = ipRecordQuickList;
+                            article.SetOffline();
                         }
                     }
                 }

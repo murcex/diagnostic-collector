@@ -5,6 +5,9 @@
 
     public class DataRetention
     {
+        /// <summary>
+        /// Sensor data retention on Azure SQL Server staging table.
+        /// </summary>
         public static void Execute()
         {
             try
