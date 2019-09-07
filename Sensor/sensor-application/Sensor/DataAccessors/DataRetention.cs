@@ -14,7 +14,7 @@
             {
                 using (var connection = new System.Data.SqlClient.SqlConnection(Global.SQLConnectionString))
                 {
-                    var cmd = new SqlCommand("usp_Sensor_DNS_Stage_Retention", connection);
+                    var cmd = new SqlCommand("usp_Sensor_Stage_Retention", connection);
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
                     connection.Open();

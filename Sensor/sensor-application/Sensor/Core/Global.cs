@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.IO;
     using Implements;
 
     public static class Global
@@ -23,13 +22,11 @@
         {
             using (Deserializer deserilaizer = new Deserializer())
             {
-                //var _file = Directory.GetCurrentDirectory() + @"\Core\Config.ini";
-
                 deserilaizer.Execute();
 
-                _sensorTagList = deserilaizer.GetTag("sensor");
+                SensorTagList = deserilaizer.GetTag(SensorConfig);
 
-                _kirokuTagList = deserilaizer.GetTag("kiroku");
+                KirokuTagList = deserilaizer.GetTag(KirokuConfig);
             }
         }
 
@@ -46,7 +43,7 @@
                         _source = kvp.Value;
                         break;
                     case "sql":
-                        _sql = kvp.Value;
+                        SQLConnectionString = kvp.Value;
                         break;
                     case "debug":
                         _debug = kvp.Value;
@@ -73,16 +70,18 @@
         public static readonly string UnknownDataCenterTag = "UNK";
         public static readonly string StatusOnline = "ONLINE";
         public static readonly string StatusNoMatch = "NOMATCH";
-
         public static readonly string SensorLocation = "NOMATCH";
+
+        private static readonly string SensorConfig = "sensor";
+        private static readonly string KirokuConfig = "kiroku";
 
         /// <summary>
         /// Public readonly properties, backing fields applied with proper conversion
         /// </summary>
 
         // Configs
-        private static List<KeyValuePair<string, string>> SensorTagList { get { return _sensorTagList; } }
-        public static List<KeyValuePair<string, string>> KirokuTagList { get { return _kirokuTagList; } }
+        private static List<KeyValuePair<string, string>> SensorTagList { get; set; }
+        public static List<KeyValuePair<string, string>> KirokuTagList { get; private set; }
 
         // Core
         public static readonly DateTime Session = DateTime.Now.ToUniversalTime();
@@ -106,7 +105,7 @@
                 }
             }
         }
-        public static string SQLConnectionString { get { return _sql; } }
+        public static string SQLConnectionString { get; private set; }
 
         // Operation Modes
         public static bool Debug { get { return Utility.ConvertValueToBool(_debug); } }
@@ -117,19 +116,14 @@
         /// Private backing fields
         /// </summary>
 
-        // Configs
-        private static List<KeyValuePair<string, string>> _sensorTagList;
-        private static List<KeyValuePair<string, string>> _kirokuTagList;
-
-        // Main
         private static string _source;
-        private static string _sql;
-
-        // Trace
         private static string _debug;
         private static string _worker;
         private static string _agent;
 
+        /// <summary>
+        /// Console Debug Check
+        /// </summary>
         public static void CheckDebug()
         {
             if (Global.Debug)
