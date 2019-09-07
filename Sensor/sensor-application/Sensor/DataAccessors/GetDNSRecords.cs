@@ -6,6 +6,10 @@
 
     public class GetDNSRecords
     {
+        /// <summary>
+        /// Get all Sensor endpoint records.
+        /// </summary>
+        /// <returns></returns>
         public static List<DNSRecord> GetArticle()
         {
             var targetList = new List<DNSRecord>();
@@ -33,9 +37,7 @@
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Download Article - SQL Expection: {0}", ex.ToString());
-
-                return targetList;
+                throw new Exception($"Download Article - SQL Expection: {ex.ToString()}");
             }
         }
     }

@@ -1,18 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Sensor
+﻿namespace Sensor
 {
+    using System;
+    using System.Collections.Generic;
+
+    using Kiroku;
+
     public static class GetArticles
     {
-        public static void Execute()
+        /// <summary>
+        /// Get the Endpoints and their Configs.
+        /// </summary>
+        /// <returns></returns>
+        public static List<DNSRecord> Execute()
         {
-            //Capsule.DNSRecords = DataDownload.GetArticle();
-
-            Capsule.DNSRecords = GetDNSRecords.GetArticle();
+            using (KLog klog = new KLog("GetEndpointConfigs"))
+            {
+                try
+                {
+                    return GetDNSRecords.GetArticle();
+                }
+                catch (Exception ex)
+                {
+                    klog.Error($"GetArticles::Execute | {ex.ToString()}");
+                    return new List<DNSRecord>();
+                }
+            }
         }
     }
 }

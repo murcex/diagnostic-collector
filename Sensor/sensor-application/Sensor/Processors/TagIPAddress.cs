@@ -1,59 +1,82 @@
 ﻿namespace Sensor
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Newtonsoft.Json;
-    using System;
+
+    using Kiroku;
 
     public static class TagIPAddress
     {
-        public static void Execute()
+        /// <summary>
+        /// Evaluate IP address for match on a known provided region.
+        /// </summary>
+        /// <param name="capsule"></param>
+        public static void Execute(ref Capsule capsule)
         {
-            List<DNSResolutionRecord> sensorTransferList = new List<DNSResolutionRecord>();
-
-            try
+            using (KLog klog = new KLog("TagIPAddress"))
             {
-                foreach (var ipRecord in Capsule.IPRecords)
+                foreach (var article in capsule.DNSRecords)
                 {
-                    DNSResolutionRecord sensor = new DNSResolutionRecord(ipRecord.HostName);
+                    var dnsConfig = article.DNSConfiguration;
+                    var ips = article.IPRecords;
 
-                    sensor.IP = ipRecord.IP.ToString();
-
-                    var dnsConfig = Capsule.DNSRecords.Where(x => x.DNSName == ipRecord.HostName).Select(x => x.DNSConfiguration).FirstOrDefault();
-
-                    // Check if configuration data exsits and deserialize
-                    if (dnsConfig.Contains(Global.IpAddress))
+                    try
                     {
-                        var jsonObject = JsonConvert.DeserializeObject<List<EndpointRecord>>(dnsConfig);
+                        foreach (var ipRecord in ips)
+                        {
+                            var ipString = ipRecord.IP.ToString();
 
-                        // Match IPAddress with Data Center
-                        sensor.Datacenter = jsonObject.Where(x => x.IpAddress == sensor.IP).Select(x => x.DataCenter).FirstOrDefault();
-                        sensor.DatacenterTag = jsonObject.Where(x => x.IpAddress == sensor.IP).Select(x => x.DataCenterTag).FirstOrDefault();
+                            if (ipRecord.IPStatus == "OFFLINE")
+                            {
+                                ipRecord.Datacenter = "ERROR";
+                                ipRecord.DatacenterTag = "ERR";
 
-                        // Set sensor with Data Center
-                        sensor.Status = Global.StatusOnline;
+                                break;
+                            }
+
+                            // Check if configuration data exsits and deserialize
+                            if (dnsConfig.Contains(Global.IpAddress))
+                            {
+                                var jsonObject = JsonConvert.DeserializeObject<List<EndpointRecord>>(dnsConfig);
+
+                                // Match IPAddress with Data Center
+                                ipRecord.Datacenter = jsonObject.Where(x => x.IpAddress == ipString).Select(x => x.DataCenter).FirstOrDefault();
+                                ipRecord.DatacenterTag = jsonObject.Where(x => x.IpAddress == ipString).Select(x => x.DataCenterTag).FirstOrDefault();
+
+                                // Set sensor with Data Center
+                                ipRecord.IPStatus = Global.StatusOnline;
+                            }
+                            else
+                            {
+                                if (dnsConfig.Contains("empty"))
+                                {
+                                    klog.Warning($"DNS Config is missing");
+                                }
+                                else
+                                {
+                                    klog.Error($"DNS Config is malformed");
+                                }
+
+                                ipRecord.Datacenter = Global.UnknownDataCenter;
+                                ipRecord.DatacenterTag = Global.UnknownDataCenterTag;
+                            }
+
+                            if (ipRecord.Datacenter == null)
+                            {
+                                ipRecord.Datacenter = Global.UnknownDataCenter;
+                                ipRecord.DatacenterTag = Global.UnknownDataCenterTag;
+                            }
+
+                            klog.Trace($"DNS: {article.DNSName} IP: {ipRecord.IP} Datacenter: {ipRecord.Datacenter} Tag: {ipRecord.DatacenterTag}");
+                        }
                     }
-                    else
+                    catch (Exception e)
                     {
-                        sensor.Datacenter = Global.UnknownDataCenter;
-                        sensor.DatacenterTag = Global.UnknownDataCenterTag;
-                        sensor.Status = Global.StatusNoMatch;
+                        klog.Error($"TagIPAddress - Excepection: {e.ToString()}");
                     }
-
-                    if (sensor.Datacenter == null)
-                    {
-                        sensor.Datacenter = Global.UnknownDataCenter;
-                        sensor.DatacenterTag = Global.UnknownDataCenterTag;
-                    }
-
-                    sensorTransferList.Add(sensor);
                 }
-
-                Capsule.DNSResolutionRecords = sensorTransferList;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine($"TagIPAddress - Excepection: {e.ToString()}");
             }
         }
     }

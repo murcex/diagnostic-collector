@@ -1,86 +1,98 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Net;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace Sensor
+﻿namespace Sensor
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Sockets;
+    using System.Threading;
+
+    using Kiroku;
+
     public static class GetTCPLatency
     {
-        public static void Execute()
+        /// <summary>
+        /// TCP Ping IPV4 IP for latency.
+        /// </summary>
+        /// <param name="capsule"></param>
+        public static void Execute(ref Capsule capsule)
         {
 
             // TODO: Hard code loop size, in future allow for use config. Add logic to check loop count, and check if it's above 3, otherwise enforce 3.
             // 3 because, remove 1 min, remove 1 max, atleast one remains as "base" value.
 
-            // create transfer case of TCPRecord
-            List<TCPLatencyRecord> tcpRecordList = new List<TCPLatencyRecord>();
-
-            try
+            using (KLog klog = new KLog("GetTCPLatency"))
             {
-                foreach (var ipRecord in Capsule.IPRecords)
+                foreach (var article in capsule.DNSRecords)
                 {
-                    TCPLatencyRecord tcpRecord = new TCPLatencyRecord();
-                    tcpRecord.HostName = ipRecord.HostName;
-                    tcpRecord.IP = ipRecord.IP;
+                    klog.Trace($"DNS: {article.DNSName}");
+                    var ips = article.IPRecords;
 
-                    var item = ipRecord.IP.ToString();
-
-                    uint newip = BitConverter.ToUInt32(System.Net.IPAddress.Parse(item).GetAddressBytes(), 0);
-
-                    IPEndPoint ipe = new IPEndPoint(newip, 443);
-
-                    Console.WriteLine($"Target {ipRecord.HostName}");
-
-                    var times = new List<double>();
-
-                    for (int i = 0; i < 4; i++)
+                    try
                     {
-                        var sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                        sock.Blocking = true;
+                        foreach (var ip in ips)
+                        {
+                            TCPRecord tcpRecord = new TCPRecord();
 
-                        var stopwatch = new Stopwatch();
+                            var ipString = ip.IP.ToString();
 
-                        // Measure the Connect call only
-                        stopwatch.Start();
-                        sock.Connect(ipe);
-                        stopwatch.Stop();
+                            if (ip.IPStatus == "OFFLINE")
+                            {
+                                tcpRecord.SetOffline();
 
-                        double t = stopwatch.Elapsed.TotalMilliseconds;
-                        Console.WriteLine("{0:0.00}ms", t);
-                        times.Add(t);
+                                ip.TCPRecord = tcpRecord;
 
-                        sock.Close();
+                                break;
+                            }
 
-                        Thread.Sleep(1000);
+                            uint ipUint = BitConverter.ToUInt32(System.Net.IPAddress.Parse(ipString).GetAddressBytes(), 0);
+                            IPEndPoint ipEndpoint = new IPEndPoint(ipUint, 443);
+
+                            var latencyList = new List<double>();
+                            for (int i = 0; i < 4; i++)
+                            {
+                                var sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                                sock.Blocking = true;
+
+                                var stopwatch = new Stopwatch();
+
+                                // Measure the Connect call only
+                                stopwatch.Start();
+                                sock.Connect(ipEndpoint);
+                                stopwatch.Stop();
+
+                                double t = stopwatch.Elapsed.TotalMilliseconds;
+                                latencyList.Add(t);
+
+                                sock.Close();
+
+                                Thread.Sleep(1000);
+                            }
+
+                            // logic to remove min and max, avg the rest
+                            klog.Trace($"IP: {ipString} Min: {latencyList.Min()}");
+                            latencyList.Remove(latencyList.Min());
+
+                            klog.Trace($"IP: {ipString} Max: {latencyList.Max()}");
+                            latencyList.Remove(latencyList.Max());
+
+                            klog.Trace($"IP: {ipString} Avg: {latencyList.Average()}");
+                            var avgLatency = latencyList.Average();
+
+                            // Add Avg Latency to the IPRecord
+                            tcpRecord.Latency = avgLatency;
+                            tcpRecord.Port = "443";
+
+                            ip.TCPRecord = tcpRecord;
+                        }
                     }
-
-                    // logic to remove min and max, avg the rest
-
-                    times.Remove(times.Min());
-                    times.Remove(times.Max());
-                    var avgLatency = times.Average();
-
-                    Console.WriteLine("{0:0.00} {1:0.00} {2:0.00} {3:0.00}", times.Min(), times.Max(), times.Average(), avgLatency);
-
-                    // Add Avg Latency to the IPRecord
-                    tcpRecord.Latency = avgLatency;
-
-                    tcpRecordList.Add(tcpRecord);
+                    catch (Exception e)
+                    {
+                        klog.Error($"GetTCPLatency - Exception: {e.ToString()}");
+                    }
                 }
             }
-            catch (Exception e)
-            {
-                Console.WriteLine($"GetTCPLatency - Exception: {e.ToString()}");
-            }
-
-            // Add transer case into Cap.TCPRecords
-            Capsule.TCPLatencyRecords = tcpRecordList;
         }
     }
 }

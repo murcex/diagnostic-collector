@@ -2,78 +2,56 @@
 {
     using System;
 
+    using Kiroku;
+
     class Program
     {
         static void Main(string[] args)
         {
             #region agent mode
 
-            // StartLogging();
+            KManager.Online(Global.KirokuTagList);
 
-            // SetGlobalValues();
-
-            if (Global.Agent == "1")
+            Capsule capsule = new Capsule
             {
-                GetArticles.Execute();
+                Session = Global.Session,
+                Source = Global.Source
+            };
 
-                GetIPAddress.Execute();
-
-                TagIPAddress.Execute();
-
-                GetTCPLatency.Execute();
-
-                UploadCapsule.Execute();
-            }
-            
-            //{
-            //    // TODO: find total articles and build task array
-            //    var tasks = new Task[articleList.Count()];
-            //    var taskCounter = 0;
-            //
-            //    // Loop target list, collect dns data and load sensor object
-            //    foreach (var article in articleList)
-            //    {
-            //        List<DNSSensor> sensorSubCollection = new List<DNSSensor>();
-            //
-            //        // Collect DNS
-            //        tasks[taskCounter] = Task.Run(() => sensorDnsCollection.AddRange(sensorSubCollection = Collector.Execute(article)));
-            //
-            //        taskCounter++;
-            //    }
-            //
-            //    Task.WaitAll(tasks);
-            //
-            //}
-
-            #endregion
-
-            #region principal mode
-
-            if (Global.Principal == "1")
+            if (Global.Agent)
             {
-                //TODO: Detect Activity Method
+                using (KLog klog = new KLog("AgentExecutionStack"))
+                {
+                    capsule.DNSRecords = GetArticles.Execute();
 
-                //TODO: Detect Failover Method
+                    GetIPAddress.Execute(ref capsule);
 
-                //TODO: Retention Method
-                //DataDownload.DataRetention();
+                    TagIPAddress.Execute(ref capsule);
 
-                DataRetention.Execute();
+                    GetTCPLatency.Execute(ref capsule);
+
+                    UploadCapsule.Execute(capsule);
+                }
             }
 
             #endregion
 
-            #region console.debug
+            #region worker mode
 
-            if (Global.DebugMode == "1")
+            if (Global.Worker)
             {
-                Console.WriteLine("-- Operation Complete --");
-                Console.Read();
+                using (KLog klog = new KLog("WorkerExecutionStack"))
+                {
+                    DataRetention.Execute();
+                }
             }
+
+            KManager.Offline();
 
             #endregion
 
             // Close application
+            Global.CheckDebug();
             Environment.Exit(0);
         }
     }
