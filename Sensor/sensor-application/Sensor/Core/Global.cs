@@ -24,9 +24,9 @@
             {
                 deserilaizer.Execute();
 
-                SensorTagList = deserilaizer.GetTag(SensorConfig);
+                SensorTagList = deserilaizer.GetTag(s_sensorConfig);
 
-                KirokuTagList = deserilaizer.GetTag(KirokuConfig);
+                KirokuTagList = deserilaizer.GetTag(s_kirokuConfig);
             }
         }
 
@@ -39,19 +39,19 @@
             {
                 switch (kvp.Key.ToString())
                 {
-                    case "source":
+                    case s_source:
                         _source = kvp.Value;
                         break;
-                    case "sql":
+                    case s_sql:
                         SQLConnectionString = kvp.Value;
                         break;
-                    case "debug":
+                    case s_debug:
                         _debug = kvp.Value;
                         break;
-                    case "worker":
+                    case s_worker:
                         _worker = kvp.Value;
                         break;
-                    case "agent":
+                    case s_agent:
                         _agent = kvp.Value;
                         break;
 
@@ -65,15 +65,22 @@
         }
 
         // Constants
-        public static readonly string IpAddress = "IpAddress";
-        public static readonly string UnknownDataCenter = "UNKNOWN";
-        public static readonly string UnknownDataCenterTag = "UNK";
-        public static readonly string StatusOnline = "ONLINE";
-        public static readonly string StatusNoMatch = "NOMATCH";
-        public static readonly string SensorLocation = "NOMATCH";
+        public const string IpAddress = "IpAddress";
+        public const string UnknownDataCenter = "UNKNOWN";
+        public const string UnknownDataCenterTag = "UNK";
+        public const string StatusOnline = "ONLINE";
+        public const string StatusNoMatch = "NOMATCH";
+        public const string SensorLocation = "NOMATCH";
 
-        private static readonly string SensorConfig = "sensor";
-        private static readonly string KirokuConfig = "kiroku";
+        private const string s_sensorConfig = "sensor";
+        private const string s_kirokuConfig = "kiroku";
+        private const string s_source = "source";
+        private const string s_sql = "sql";
+        private const string s_debug = "debug";
+        private const string s_worker = "worker";
+        private const string s_agent = "agent";
+
+        private static readonly string s_localhost = "localhost";
 
         /// <summary>
         /// Public readonly properties, backing fields applied with proper conversion
@@ -89,7 +96,7 @@
         {
             get
             {
-                if (_source == "localhost")
+                if (_source == s_localhost)
                 {
                     var machineName = System.Environment.MachineName;
                     return machineName;
