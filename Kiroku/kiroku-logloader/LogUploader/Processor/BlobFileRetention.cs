@@ -16,9 +16,9 @@
             {
                 try
                 {
-                    var retentionFileCollction = BlobFileCollection.CurrentRetentionCount();
+                    var retentionFileCollection = BlobFileCollection.CurrentRetentionCount();
 
-                    foreach (var file in retentionFileCollction)
+                    foreach (var file in retentionFileCollection)
                     {
                         // for each file, confim check one more
                         retentionLog.Info($"Retention => File Name: {file.CloudFile}");
