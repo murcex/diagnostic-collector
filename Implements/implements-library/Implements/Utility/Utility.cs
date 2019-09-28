@@ -47,6 +47,11 @@
             return outputValue;
         }
 
+        /// <summary>
+        /// Utility to find Assembly Version.
+        /// </summary>
+        /// <param name="dllName"></param>
+        /// <returns></returns>
         public static string GetAssemblyVersion(string dllName)
         {
             string version;
@@ -61,6 +66,23 @@
             }
 
             return version;
+        }
+
+
+        public static string GetBuildVersion()
+        {
+            return "200001010101";
+        }
+
+
+        public static string GetDeploymentVersion()
+        {
+            return "200001010101";
+        }
+
+        public static string GetConfigSignature()
+        {
+            return "asdfg-999";
         }
     }
 }
