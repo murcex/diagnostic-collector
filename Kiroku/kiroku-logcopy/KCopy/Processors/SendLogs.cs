@@ -1,4 +1,4 @@
-﻿namespace KLOGCopy
+﻿namespace KCopy
 {
     using System;
     using System.Collections.Generic;
@@ -18,7 +18,7 @@
         /// <param name="containerName"></param>
         public static void Execute()
         {
-            using (KLog logSend = new KLog("ClassProcessor-MethodSend"))
+            using (KLog logSend = new KLog("ClassSendLogs-MethodExecute"))
             {
                 try
                 {

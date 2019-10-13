@@ -1,6 +1,7 @@
-﻿namespace KLOGLoader
+﻿namespace KLoad
 {
     using System;
+    using System.Collections.Generic;
 
     // Kiroku
     using Kiroku;
@@ -12,34 +13,46 @@
     {
         public static void Execute()
         {
-            using (KLog retentionLog = new KLog("BlobFileRetention-MethodExecute"))
+            // Blob retention
+            using (KLog blobRetention = new KLog("BlobFileRetention-BlobRetention"))
             {
                 try
                 {
-                    var retentionFileCollection = BlobFileCollection.CurrentRetentionCount();
+                    IEnumerable<BlobFileModel> retentionFileCollection = BlobFileCollection.CurrentRetentionCount();
 
-                    foreach (var file in retentionFileCollection)
+                    foreach (BlobFileModel blobFile in retentionFileCollection)
                     {
                         // for each file, confim check one more
-                        retentionLog.Info($"Retention => File Name: {file.CloudFile}");
+                        blobRetention.Info($"Retention => File Name: {blobFile.CloudFile}");
 
-                        var cloudFile = file.CloudFile;
+                        string cloudFile = blobFile.CloudFile;
 
                         BlobClient.DeleteBlobFile(cloudFile);
 
-                        retentionLog.Info($"File Deleted => File Name: {file.CloudFile}");
-                    }
-
-                    var checkRetention = DataAccessor.Retention(Global.RetentionDays);
-
-                    if (!checkRetention.Success)
-                    {
-                        retentionLog.Error($"SQL Expection on [BlobFileRetention].[Retention] - Message: {checkRetention.Message}");
+                        blobRetention.Info($"File Deleted => File Name: {blobFile.CloudFile}");
                     }
                 }
                 catch (Exception ex)
                 {
-                    retentionLog.Error($"BlobFileRetention Exception: {ex.ToString()}");
+                    blobRetention.Error($"BlobFileRetention Exception: {ex.ToString()}");
+                }
+            }
+
+            // SQL Retention
+            using (KLog sqlRetention = new KLog("BlobFileRetention-SQLRetention"))
+            {
+                try
+                {
+                    SQLResponseModel checkRetention = DataAccessor.Retention(Global.RetentionDays);
+
+                    if (!checkRetention.Success)
+                    {
+                        sqlRetention.Error($"SQL Expection on [BlobFileRetention].[Retention] - Message: {checkRetention.Message}");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    sqlRetention.Error($"BlobFileRetention Exception: {ex.ToString()}");
                 }
             }
         }

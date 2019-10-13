@@ -1,4 +1,4 @@
-﻿namespace KLOGCopy
+﻿namespace KCopy
 {
     using Kiroku;
     using System;
@@ -12,7 +12,7 @@
         /// <param name="cleanupFiles"></param>
         public static void Execute()
         {
-            using (KLog logCleanse = new KLog("ClassProcessor-MethodCleanse"))
+            using (KLog logCleanse = new KLog("ClassCleanseLogs-MethodExecute"))
             {
                 try
                 {

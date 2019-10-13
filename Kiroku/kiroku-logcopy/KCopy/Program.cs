@@ -1,4 +1,4 @@
-﻿namespace KLOGCopy
+﻿namespace KCopy
 {
     // Kiroku Logging Library
     using Kiroku;
@@ -11,7 +11,7 @@
             Global.StartLogging();
 
             // Log global properties
-            using (KLog logConfig = new KLog("ClassProgram-LogicConfig"))
+            using (KLog logConfig = new KLog("ClassProgram-RuntimeConfigs"))
             {
                 logConfig.Info($"Config Local Directory: {Global.LocalDirectory}");
                 logConfig.Info($"Config Azure Container: {Global.AzureContainer}");

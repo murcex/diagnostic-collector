@@ -1,4 +1,4 @@
-﻿namespace KLOGLoader
+﻿namespace KLoad
 {
     using Microsoft.WindowsAzure.Storage.Blob;
     using System.Collections.Generic;

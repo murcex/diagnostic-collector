@@ -1,4 +1,4 @@
-﻿namespace KLOGCopy
+﻿namespace KCopy
 {
     using System;
     using System.Collections.Generic;
@@ -19,7 +19,7 @@
         {
             List<FileModel> fileMetadata = new List<FileModel>();
 
-            using (KLog log = new KLog("ClassFileCollector-MethodExecute"))
+            using (KLog log = new KLog("ClassCollectLogs-MethodExecute"))
             {
                 try
                 {

@@ -1,4 +1,4 @@
-﻿namespace KLOGLoader
+﻿namespace KLoad
 {
     using System;
     using Newtonsoft.Json;

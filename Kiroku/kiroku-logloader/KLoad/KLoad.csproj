@@ -7,8 +7,8 @@
     <ProjectGuid>{C1F4D0F6-19D0-48F1-8E48-F8455109D19D}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>KLOGLoader</RootNamespace>
-    <AssemblyName>KLOGLoader</AssemblyName>
+    <RootNamespace>KLoad</RootNamespace>
+    <AssemblyName>KLoad</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

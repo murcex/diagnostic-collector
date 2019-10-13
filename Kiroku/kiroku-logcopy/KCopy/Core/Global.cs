@@ -1,4 +1,4 @@
-﻿namespace KLOGCopy
+﻿namespace KCopy
 {
     using System;
     using System.IO;

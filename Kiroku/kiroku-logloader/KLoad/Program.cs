@@ -1,4 +1,4 @@
-﻿namespace KLOGLoader
+﻿namespace KLoad
 {
     class Program
     {

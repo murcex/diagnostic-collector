@@ -7,8 +7,8 @@
     <ProjectGuid>{C32E5EBD-430C-42C1-899A-94342829A582}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>KLOGCopy</RootNamespace>
-    <AssemblyName>KLOGCopy</AssemblyName>
+    <RootNamespace>KCopy</RootNamespace>
+    <AssemblyName>KCopy</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
