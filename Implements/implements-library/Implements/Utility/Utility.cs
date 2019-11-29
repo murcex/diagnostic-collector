@@ -2,6 +2,7 @@
 {
     using System;
     using System.Diagnostics;
+    using System.IO;
 
     public class Utility
     {
@@ -82,7 +83,27 @@
 
         public static string GetConfigSignature()
         {
-            return "asdfg-999";
+            return "cfg-aehtv-9992";
+        }
+
+        public static bool CreateAppDirectory(string root, string app)
+        {
+            try
+            {
+                string path = root + app;
+
+                if (Directory.Exists(path))
+                {
+                    return true;
+                }
+
+                DirectoryInfo dir = Directory.CreateDirectory(path);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
     }
 }
