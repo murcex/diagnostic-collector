@@ -6,6 +6,7 @@
     <RootNamespace>KQuery</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Configurator" Version="1.0.0" />
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="1.0.27" />
   </ItemGroup>
   <ItemGroup>
@@ -18,9 +19,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Update="ExampleConfig.ini">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Config.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="host.json">

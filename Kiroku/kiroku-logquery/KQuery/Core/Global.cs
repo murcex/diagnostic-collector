@@ -1,7 +1,8 @@
 ﻿namespace KQuery
 {
-    using Implements;
     using System.Collections.Generic;
+    using Implements;
+    using Configurator;
 
     class Global
     {
@@ -13,15 +14,24 @@
 
         public static void GetConfigs()
         {
-            using (Deserializer deserilaizer = new Deserializer())
+            var cfg = CfgManager.GetCfg("kquery");
+
+            if (CfgManager.CheckCfg(cfg, out string errorMsg))
             {
-                var _file = @"D:\home\site\wwwroot\Config.ini";
+                using (Deserializer deserilaizer = new Deserializer())
+                {
+                    var _file = @"D:\home\data\kquery\Config.ini";
 
-                deserilaizer.Execute(_file);
+                    deserilaizer.Execute(_file);
 
-                KQueryTagList = deserilaizer.GetTag("kquery");
+                    KQueryTagList = deserilaizer.GetTag("kquery");
 
-                //_kirokuTagList = deserilaizer.GetTag("kiroku");
+                    //_kirokuTagList = deserilaizer.GetTag("kiroku");
+                }
+            }
+            else
+            {
+                //errorMsg;
             }
         }
 
