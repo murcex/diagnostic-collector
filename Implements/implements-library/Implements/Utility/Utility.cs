@@ -2,6 +2,7 @@
 {
     using System;
     using System.Diagnostics;
+    using System.IO;
 
     public class Utility
     {
@@ -47,6 +48,11 @@
             return outputValue;
         }
 
+        /// <summary>
+        /// Utility to find Assembly Version.
+        /// </summary>
+        /// <param name="dllName"></param>
+        /// <returns></returns>
         public static string GetAssemblyVersion(string dllName)
         {
             string version;
@@ -61,6 +67,43 @@
             }
 
             return version;
+        }
+
+
+        public static string GetBuildVersion()
+        {
+            return "200001010101";
+        }
+
+
+        public static string GetDeploymentVersion()
+        {
+            return "200001010101";
+        }
+
+        public static string GetConfigSignature()
+        {
+            return "cfg-aehtv-9992";
+        }
+
+        public static bool CreateAppDirectory(string root, string app)
+        {
+            try
+            {
+                string path = root + app;
+
+                if (Directory.Exists(path))
+                {
+                    return true;
+                }
+
+                DirectoryInfo dir = Directory.CreateDirectory(path);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
     }
 }
