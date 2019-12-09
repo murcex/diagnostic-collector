@@ -10,6 +10,10 @@ namespace Implements
 {
     class Metadata
     {
+        /// ---
+        /// TODO: finish NanoCur, use Metadata as wrapper over NanoCur engine to drive logic.
+        /// ---
+
         //private Dictionary<string, string> MetadataDictionary
         //{
         //    get

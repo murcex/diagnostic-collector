@@ -3,9 +3,11 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Text;
 
     // Implements
     using Implements;
+    using Implements.Substrate;
 
     class Program
     {
@@ -147,6 +149,74 @@
                 Console.WriteLine($"Encryption Exception: {e.ToString()}");
             }
 
+            Console.WriteLine($"Enter Storage Blob Audit.");
+            Console.ReadKey();
+
+            var account = "";
+            var containerOne = "TestOne";
+            var containerTwo = "TestTwo";
+
+            //Console.WriteLine($": {}");
+
+            Console.WriteLine($"Init: {StorageClient.Initialize(account, containerOne).GetAwaiter().GetResult()} (Assert: True)");
+
+            Console.WriteLine($"Manual Check: Container is Created. \r\n");
+            Console.ReadKey();
+
+            var doc1v1 = StorageClient.StringToByte("Document V1.");
+            var doc1v2 = StorageClient.StringToByte("Document V2.");
+            var doc1v1Name = "Doc1.txt";
+            var doc1v2Name = "Doc2.txt";
+
+            var doc3Data = StorageClient.StringToByte("Document 3.");
+            var doc3 = "Doc3.txt";
+            Console.WriteLine($"Add Doc3: {StorageClient.AddDocument(doc3, doc3Data).GetAwaiter().GetResult()}");
+            var doc4Data = StorageClient.StringToByte("Document 4.");
+            var doc4 = "Test\\Doc4.txt";
+            Console.WriteLine($"Add Doc4: {StorageClient.AddDocument(doc4, doc4Data).GetAwaiter().GetResult()}");
+
+            Console.WriteLine($"Add Doc1: {StorageClient.AddDocument(doc1v1Name, doc1v1).GetAwaiter().GetResult()}");
+            var doc1Output = StorageClient.GetDocument(doc1v1Name).GetAwaiter().GetResult();
+            var doc1String = StorageClient.ByteToString(doc1Output);
+            Console.WriteLine($"Get Doc1: {doc1String}");
+            Console.WriteLine($"Manual Check: Doc1 V1 Added. \r\n");
+            Console.ReadKey();
+
+            Console.WriteLine($"Update Doc1: {StorageClient.UpdateDocument(doc1v1Name, doc1v2).GetAwaiter().GetResult()}");
+            var doc2Output = StorageClient.GetDocument(doc1v1Name).GetAwaiter().GetResult();
+            var doc2String = StorageClient.ByteToString(doc2Output);
+            Console.WriteLine($"Get Doc1: {doc2String}");
+            Console.WriteLine($"Manual Check: Doc1 Updated V2. \r\n");
+            Console.ReadKey();
+
+            Console.WriteLine($"Move Doc: {StorageClient.MoveDocumentInContainer(doc1v1Name, doc1v2Name).GetAwaiter().GetResult()}");
+            Console.WriteLine($"Manual Check: Move Doc1. \r\n");
+            Console.ReadKey();
+
+            Console.WriteLine($"Move Doc From Container: {StorageClient.MoveDocumentFromContainer(containerTwo, doc1v2Name).GetAwaiter().GetResult()}");
+            Console.WriteLine($"Manual Check: Move Doc2 From Container. \r\n");
+            Console.ReadKey();
+
+            //var docList = StorageClient.GetDocumentList();
+            //Console.WriteLine($"Doc List All.");
+            //foreach (var doc in docList)
+            //{
+            //    Console.WriteLine(doc);
+            //}
+
+            //var docList2 = StorageClient.GetDocumentList("Test\\");
+            //Console.WriteLine($"Doc List Test dir.");
+            //foreach (var doc in docList2)
+            //{
+            //    Console.WriteLine(doc);
+            //}
+
+            Console.WriteLine($"Delete Doc1: {StorageClient.DeleteDocument(doc1v2Name).GetAwaiter().GetResult()}");
+            Console.WriteLine($"Manual Check: Doc1 Deleted. \r\n");
+            Console.ReadKey();
+
+            Console.WriteLine($"Delete Container: {StorageClient.DeleteContainer().GetAwaiter().GetResult()}");
+            Console.WriteLine($"Manual Check: Container Deleted. \r\n");
             Console.ReadKey();
         }
     }

@@ -22,8 +22,8 @@
 
             foreach (var line in lines)
             {
-                string[] record = line.Split(_delimiter);
-                collectionDictionary.Add(record[0], record[1]);
+                //string[] record = line.Split(_delimiter);
+                //collectionDictionary.Add(record[0], record[1]);
             }
 
             return collectionDictionary;
