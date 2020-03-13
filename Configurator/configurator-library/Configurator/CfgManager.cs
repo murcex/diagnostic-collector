@@ -13,7 +13,7 @@
         /// <param name="app"></param>
         /// <param name="recycle"></param>
         /// <returns>Config.ini in List of strings.</returns>
-        public static List<string> GetCfg(string app, bool recycle = false)
+        public static List<string> GetCfg(string app = null, bool recycle = false)
         {
             List<string> cfgLines = new List<string>();
 
