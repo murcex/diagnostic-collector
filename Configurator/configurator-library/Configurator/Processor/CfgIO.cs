@@ -22,6 +22,10 @@
             {
                 fileName = Constants.AzureRoot + app + Constants.ConfigFile;
             }
+            else if (azure && string.IsNullOrEmpty(app))
+            {
+                fileName = Constants.DefaultAzureRoot;
+            }
 
             try
             {
@@ -54,28 +58,30 @@
         /// <param name="lines"></param>
         public static string WriteCfg(string app, List<string> lines)
         {
+            string fileName = string.Empty;
+
             string result = string.Empty;
+
+            if (!string.IsNullOrEmpty(app))
+            {
+                fileName = Constants.AzureRoot + app + Constants.ConfigFile;
+            }
+            else
+            {
+                fileName = Constants.DefaultAzureRoot;
+            }
 
             try
             {
-                if (!string.IsNullOrEmpty(app))
+                using (StreamWriter file = new StreamWriter(fileName, true))
                 {
-                    string fileName = Constants.AzureRoot + app + Constants.ConfigFile;
-
-                    using (StreamWriter file = new StreamWriter(fileName, true))
+                    foreach (var line in lines)
                     {
-                        foreach (var line in lines)
-                        {
-                            file.WriteLine(line);
-                        }
+                        file.WriteLine(line);
                     }
+                }
 
-                    result = Constants.PASS;
-                }
-                else
-                {
-                    result = Errors.WRITECFG_APP_NULL;
-                }
+                result = Constants.PASS;
             }
             catch
             {

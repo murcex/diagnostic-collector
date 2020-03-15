@@ -15,6 +15,11 @@
         /// <param name="dict"></param>
         public static string CreateCfgUri(string app, Dictionary<string, string> dict)
         {
+            if (string.IsNullOrEmpty(app))
+            {
+                app = Constants.DefaultAppName;
+            }
+
             string cfgUrl = string.Empty;
 
             bool checkKey = dict.TryGetValue(Constants.CfgKey, out string key);

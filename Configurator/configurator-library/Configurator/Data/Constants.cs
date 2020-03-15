@@ -18,6 +18,10 @@
 
         public const string PASS = "PASS";
 
-        public const string BaseUri = "https://{0}.azurewebsites.net/api/Cfg?key={1}&app={2}";
+        public const string BaseUri = "https://{0}.azurewebsites.net/api/Configurator?key={1}&app={2}";
+
+        public const string DefaultAppName = "default";
+
+        public const string DefaultAzureRoot = @"D:\home\data\app\cfg\Config.ini";
     }
 }
