@@ -30,6 +30,9 @@
 
                     collectorLog.Info($"Collector => Prefix Count: {blobPrefixNames.Count()}");
 
+                    // flush static object
+                    BlobFileCollection.StaticFlush();
+
                     // for each dir in the blob container
                     foreach (var blobPrefixName in blobPrefixNames)
                     {

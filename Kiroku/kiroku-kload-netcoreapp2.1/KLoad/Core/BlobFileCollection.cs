@@ -11,6 +11,21 @@
         internal static List<BlobFileModel> blobFileCollection = new List<BlobFileModel>();
 
         /// <summary>
+        /// Flush the blob file collection as a safety measure to ensure it's clean.
+        /// </summary>
+        /// <returns></returns>
+        public static bool StaticFlush()
+        {
+            if (blobFileCollection.Count > 0)
+            {
+                blobFileCollection.Clear();
+                blobFileCollection = new List<BlobFileModel>();
+            }
+
+            return true;
+        }
+
+        /// <summary>
         /// Add Blob File to Collection.
         /// </summary>
         /// <param name="file"></param>

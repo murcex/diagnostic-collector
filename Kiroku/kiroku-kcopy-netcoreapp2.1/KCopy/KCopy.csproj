@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <ApplicationIcon />
+    <StartupObject />
+    <AssemblyVersion>0.0.5.0</AssemblyVersion>
+    <FileVersion>0.0.5.0</FileVersion>
+    <Version>0.0.5</Version>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Kiroku" Version="0.0.4" />
+    <PackageReference Include="WindowsAzure.Storage" Version="9.3.3" />
+  </ItemGroup>
+
+  <!--!
+  <ItemGroup>
+    <Reference Include="Implements">
+      <HintPath>E:\02_CLOUD\GitHub\PlatformDiagnosticCollector\Assemblies\Implements.dll</HintPath>
+    </Reference>
+    <Reference Include="Kiroku">
+      <HintPath>E:\02_CLOUD\GitHub\PlatformDiagnosticCollector\Assemblies\Kiroku.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  -->
+
+</Project>

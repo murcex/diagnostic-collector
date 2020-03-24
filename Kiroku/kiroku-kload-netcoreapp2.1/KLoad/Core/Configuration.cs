@@ -16,7 +16,12 @@
 
             _kirokuTagList = kirokuConfig;
 
-            return SetKLoadConfigs();
+            if (SetKLoadConfigs())
+            {
+                return SetKirokuConfig();
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -133,11 +138,23 @@
         public static bool Result { get { return Conversion.ConvertValueToBool(_result); } }
 
         /// <summary>
+        /// Set Kiroku Config.
+        /// </summary>
+        /// <returns></returns>
+        private static bool SetKirokuConfig()
+        {
+            KManager.Configure(KirokuTagList);
+
+            return true;
+        }
+
+        /// <summary>
         /// Start Kiroku Logging Instance.
         /// </summary>
         public static void StartLogging()
         {
-            KManager.Online(KirokuTagList);
+            //KManager.Online(KirokuTagList);
+            KManager.Open();
         }
 
         /// <summary>
@@ -145,7 +162,7 @@
         /// </summary>
         public static void StopLogging()
         {
-            KManager.Offline();
+            KManager.Close();
         }
     }
 }
