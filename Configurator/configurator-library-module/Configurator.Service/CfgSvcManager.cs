@@ -17,7 +17,7 @@
         }
 
         /// <summary>
-        /// 
+        /// Get and serve configuration document response.
         /// </summary>
         public static OkObjectResult Execute(HttpRequest req)
         {
@@ -25,8 +25,6 @@
             {
                 try
                 {
-                    //klog.Info($"Storage Client Status: {Set()}");
-
                     string cfkKey = req.Query["key"];
 
                     string cfgApp = req.Query["app"];
@@ -44,6 +42,7 @@
                     }
 
                     klog.Info($"CfgKey: {cfkKey}, CfkApp: {cfgApp}");
+
                     var document = GetCfg(cfkKey, cfgApp);
 
                     if (document != null)

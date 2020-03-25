@@ -9,7 +9,7 @@
     class CfgIO
     {
         /// <summary>
-        /// Read the local Config. Supports Local and Azure Function.
+        /// Read the local Config. Supports Local and Azure Function execution.
         /// </summary>
         /// <param name="app"></param>
         /// <param name="azure"></param>
@@ -52,7 +52,7 @@
         }
 
         /// <summary>
-        /// Write the config locally. Supports Local and Azure Function.
+        /// Write the config locally. Supports Local and Azure Function execution.
         /// </summary>
         /// <param name="app"></param>
         /// <param name="lines"></param>

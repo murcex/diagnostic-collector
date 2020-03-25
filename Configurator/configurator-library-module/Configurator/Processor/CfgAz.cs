@@ -6,7 +6,7 @@
     class CfgAz
     {
         /// <summary>
-        /// Check is operation is running on a Azure Function.
+        /// Check if operation is running on a Azure Function.
         /// </summary>
         public static bool CheckAzureFunc()
         {
@@ -23,7 +23,7 @@
         }
 
         /// <summary>
-        /// Collect the target Cfg Uri and Cfg Key from the Azure Function, used to call the Cfg API.
+        /// Collect the target Cfg Uri and Cfg Key from the Azure Function environment, used to call the Cfg API.
         /// </summary>
         public static Dictionary<string, string> GetAzureVariables()
         {

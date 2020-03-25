@@ -2,6 +2,11 @@
 {
     class CfgIO
     {
+        /// <summary>
+        /// Get configuration document from storage.
+        /// </summary>
+        /// <param name="cfgKey">Configuration Key</param>
+        /// <param name="cfgApp">Configuration Application</param>
         public static byte[] GetCfg(string cfgKey, string cfgApp)
         {
             byte[] document = null;
@@ -16,8 +21,6 @@
             }
             catch
             {
-                //document = Encoding.ASCII.GetBytes("GetCfg Exception.");
-
                 return document;
             }
         }

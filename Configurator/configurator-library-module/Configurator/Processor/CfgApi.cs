@@ -28,7 +28,6 @@
 
             if (checkKey && checkUri)
             {
-                // TODO: format string, add to constants
                 cfgUrl = string.Format(Constants.BaseUri, uri, key, app);
             }
             else
