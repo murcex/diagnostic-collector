@@ -2,8 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    //using Implements;
-    //using Configurator;
     using Configurator.Service;
     using KCopy;
 
@@ -78,6 +76,9 @@
         {
             try
             {
+                // AppendStorageAccount() is a workaround..
+                // ..the Storage config contains a special char..
+                // ..which breaks the normal GetConfig() deserializer.
                 _kcopyAppCfg = AppendStorageAccount(GetConfig("KCOPY_APP"));
 
                 _kcopyKLogCfg = GetConfig("KCOPY_LOG");
@@ -121,7 +122,7 @@
         }
 
         /// <summary>
-        /// Get a KeyValuePair config from a Azure environment variable.
+        /// Get a KeyValuePair config from a Azure Function environment variable.
         /// </summary>
         /// <param name="target">Config target name</param>
         /// <returns>KeyValuePair config</returns>
