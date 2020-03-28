@@ -6,6 +6,11 @@
 
     class Storage
     {
+        /// <summary>
+        /// Get KLOG from Blob Storage.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public static byte[] GetLog(string key)
         {
             byte[] document = null;

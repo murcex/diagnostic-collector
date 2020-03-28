@@ -32,40 +32,6 @@
         #region Constructor
 
         /// <summary>
-        /// Log instance constructor -- dynamic: false.
-        /// </summary>
-        /// <param name="instanceStatus"></param>
-        //public LogInstance(string instanceStatus)
-        //{
-        //    Version = KConfiguration.Version;
-        //    EventTime = DateTime.Now.ToUniversalTime();
-        //    ApplicationID = KConfiguration.ApplicationID;
-        //    TrackID = KConfiguration.TrackID;
-        //    RegionID = KConfiguration.RegionID;
-        //    ClusterID = KConfiguration.ClusterID;
-        //    DeviceID = KConfiguration.DeviceID;
-        //    InstanceID = KConfiguration.InstanceID;
-        //    InstanceStatus = instanceStatus;
-        //}
-
-        /// <summary>
-        /// Log instance constructor -- dynamic: true.
-        /// </summary>
-        /// <param name="instanceStatus"></param>
-        //public LogInstance(string instanceStatus, Guid instance)
-        //{
-        //    Version = KConfiguration.Version;
-        //    EventTime = DateTime.Now.ToUniversalTime();
-        //    ApplicationID = KConfiguration.ApplicationID;
-        //    TrackID = KConfiguration.TrackID;
-        //    RegionID = KConfiguration.RegionID;
-        //    ClusterID = KConfiguration.ClusterID;
-        //    DeviceID = KConfiguration.DeviceID;
-        //    InstanceID = instance;
-        //    InstanceStatus = instanceStatus;
-        //}
-
-        /// <summary>
         /// Log instance constructor -- static instance.
         /// </summary>
         /// <param name="instanceStatus"></param>

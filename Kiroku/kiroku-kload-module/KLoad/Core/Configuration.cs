@@ -10,6 +10,12 @@
     /// </summary>
     public static class Configuration
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kloadConfig"></param>
+        /// <param name="kirokuConfig"></param>
+        /// <returns></returns>
         public static bool SetConfigs(List<KeyValuePair<string, string>> kloadConfig, List<KeyValuePair<string, string>> kirokuConfig)
         {
             _kloaderTagList = kloadConfig;

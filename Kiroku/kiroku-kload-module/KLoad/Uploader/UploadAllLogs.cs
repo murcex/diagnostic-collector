@@ -8,7 +8,7 @@
     using Newtonsoft.Json;
 
     /// <summary>
-    /// Sort log type into Metric, Result or Log, for be written to database.
+    /// Sort log type into Metric, Result or Log, to be written to database.
     /// </summary>
     public static class UploadAllLogs
     {

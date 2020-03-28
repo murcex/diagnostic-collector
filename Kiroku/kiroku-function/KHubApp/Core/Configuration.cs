@@ -10,6 +10,9 @@
 
     class Configuration
     {
+        /// <summary>
+        /// Static constur
+        /// </summary>
         static Configuration()
         {
             RegisterConfigs();
@@ -19,6 +22,10 @@
 
         private static bool _setCfg = false;
 
+        /// <summary>
+        /// Register Application and Logging configs.
+        /// </summary>
+        /// <returns></returns>
         private static bool RegisterConfigs()
         {
             if (_extractCfg = GetAppConfigs())
@@ -29,6 +36,11 @@
             return _extractCfg;
         }
 
+        /// <summary>
+        /// Check the Config status of an application.
+        /// </summary>
+        /// <param name="app"></param>
+        /// <returns></returns>
         public static string ConfigStatus(string app)
         {
             if (string.IsNullOrEmpty(app))
@@ -104,16 +116,18 @@
             return String.Join(String.Empty, msg.ToArray());
         }
 
+        /// <summary>
+        /// Extract configs from local machine.
+        /// </summary>
+        /// <returns></returns>
         private static bool GetAppConfigs()
         {
-            //var cfg = CfgManager.GetCfg("kquery");
             var cfg = CfgManager.GetCfg();
 
             if (CfgManager.CheckCfg(cfg, out string errorMsg))
             {
                 using (Deserializer deserilaizer = new Deserializer())
                 {
-                    //var _file = @"D:\home\data\kquery\Config.ini";
                     var _file = @"D:\home\data\app\cfg\Config.ini";
 
                     deserilaizer.Execute(_file);
@@ -141,6 +155,10 @@
             return false;
         }
 
+        /// <summary>
+        /// Sort and set application and logging configs from package.
+        /// </summary>
+        /// <returns></returns>
         private static bool SetAppConfig()
         {
             var kqueryInt = KQueryManger.Initialize(KQueryAppCfg, KQueryKLogCfg);

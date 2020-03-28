@@ -17,7 +17,7 @@
         #region Add Instance Event
 
         /// <summary>
-        /// Start Instance Version 2.
+        /// Start local instance KLOG file.
         /// </summary>
         /// <param name="logInstance"></param>
         public static void AddInstanceEvent(ILog logInstance)

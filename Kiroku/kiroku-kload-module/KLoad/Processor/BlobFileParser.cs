@@ -27,7 +27,7 @@
                         blobFile.File = fileNameWithoutPrefix;
                         blobFile.CloudFile = file;
 
-                        // Check and parse the fill log file name
+                        // Check and parse the full log file name
                         if (fileNameWithoutPrefix.Count() == 47 && fileNameWithoutPrefix.Contains("KLOG_"))
                         {
                             var parseGuid = Guid.Parse(fileNameWithoutPrefix.Substring(7, 36));

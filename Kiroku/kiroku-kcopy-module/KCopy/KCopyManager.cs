@@ -12,6 +12,12 @@
 
         private static bool _logConfigStatus = false;
 
+        /// <summary>
+        /// Initialize the KCopy instance, providing the application and logging configs.
+        /// </summary>
+        /// <param name="kcopyConfig"></param>
+        /// <param name="kirokuConfig"></param>
+        /// <returns></returns>
         public static bool Initialize(List<KeyValuePair<string, string>> kcopyConfig, List<KeyValuePair<string, string>> kirokuConfig)
         {
             // Null checks
@@ -35,6 +41,10 @@
             }
         }
 
+        /// <summary>
+        /// Execute the KCopy application.
+        /// </summary>
+        /// <returns></returns>
         public static bool Execute()
         {
             if (!_configOnline)

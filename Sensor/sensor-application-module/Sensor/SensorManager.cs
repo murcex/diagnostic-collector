@@ -13,7 +13,7 @@
         private static bool _logConfigStatus = false;
 
         /// <summary>
-        /// 
+        /// Initialize Sensor application.
         /// </summary>
         /// <param name="sensorConfig"></param>
         /// <param name="kirokuConfig"></param>
@@ -42,7 +42,7 @@
         }
 
         /// <summary>
-        /// 
+        /// Execute Sensor application.
         /// </summary>
         /// <returns></returns>
         public static bool Execute()
@@ -93,7 +93,7 @@
         }
 
         /// <summary>
-        /// 
+        /// Execute Sensor data retention.
         /// </summary>
         /// <returns></returns>
         public static bool Retention()

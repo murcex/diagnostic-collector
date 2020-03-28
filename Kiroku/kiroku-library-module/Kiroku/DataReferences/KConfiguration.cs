@@ -6,7 +6,7 @@
     class KConfiguration
     {
         /// <summary>
-        /// 
+        /// Collection of application configs.
         /// </summary>
         private static Dictionary<string, AppConfiguration> Configs
         {
@@ -15,10 +15,14 @@
                 return _configs;
             }
         }
+
+        /// <summary>
+        /// Backing field, collection of application configs.
+        /// </summary>
         private static Dictionary<string, AppConfiguration> _configs = new Dictionary<string, AppConfiguration>();
 
         /// <summary>
-        /// 
+        /// Collection of application instance id's.
         /// </summary>
         private static Dictionary<string, Guid> InstanceIds 
         { 
@@ -32,10 +36,14 @@
                 return _instanceIds;
             } 
         }
+
+        /// <summary>
+        /// Backing field, collection of application instance id's.
+        /// </summary>
         private static Dictionary<string, Guid> _instanceIds;
 
         /// <summary>
-        /// 
+        /// Add or update an application's config.
         /// </summary>
         /// <param name="appConfig"></param>
         public static void AddOrUpdateConfig(AppConfiguration appConfig, string appName)
@@ -67,7 +75,7 @@
         }
 
         /// <summary>
-        /// 
+        /// Get an application's config.
         /// </summary>
         /// <returns></returns>
         public static AppConfiguration GetConfig(string appName)

@@ -15,16 +15,5 @@
     <PackageReference Include="Kiroku" Version="0.0.4" />
     <PackageReference Include="WindowsAzure.Storage" Version="9.3.3" />
   </ItemGroup>
-
-  <!--!
-  <ItemGroup>
-    <Reference Include="Implements">
-      <HintPath>E:\02_CLOUD\GitHub\PlatformDiagnosticCollector\Assemblies\Implements.dll</HintPath>
-    </Reference>
-    <Reference Include="Kiroku">
-      <HintPath>E:\02_CLOUD\GitHub\PlatformDiagnosticCollector\Assemblies\Kiroku.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  -->
-
+  
 </Project>

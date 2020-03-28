@@ -46,7 +46,9 @@
                             //
                             foreach (var line in lines)
                             {
+                                //
                                 // Check first line -- expecting the KLog instane "header"
+                                //
                                 if (lineCounter == 1)
                                 {
                                     if (line.Contains("#KLOG_INSTANCE_STATUS#"))
@@ -62,7 +64,7 @@
                                     }
                                     else
                                     {
-                                        UploadFirstLine.Execute(fileGuid);
+                                        UploadFirstLine.MarkFailure(fileGuid);
 
                                         uploaderLog.Error($"Uploader => Header Check Failed - Guid: {fileGuid.ToString()} Line: {line}");
 

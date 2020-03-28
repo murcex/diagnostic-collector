@@ -7,7 +7,7 @@
     class DeleteLogs
     {
         /// <summary>
-        /// Delete local "KLOG_A_$(guid).txt" files that exceed the provided retention period (in days).
+        /// Delete local "KLOG_A_$(guid).txt" files that exceed the configured retention period (in days).
         /// </summary>
         /// <param name="retentionFiles"></param>
         public static void Execute()

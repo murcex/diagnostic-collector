@@ -106,7 +106,6 @@
         public static void StartLogging()
         {
             KManager.Open();
-            //KManager.Online(KirokuTagList);
         }
 
         /// <summary>
@@ -115,7 +114,6 @@
         public static void StopLogging()
         {
             KManager.Close();
-            //KManager.Offline();
         }
     }
 }

@@ -53,20 +53,6 @@
         /// Log constructor, boot strapping dynamic klog block id and block name -- nested inside primary node's instance id.
         /// </summary>
         /// <param name="blockName"></param>
-        /// <param name="instance"></param>
-        //public KLogV2(string blockName, Guid instance)
-        //{
-        //    blockID = Guid.NewGuid();
-        //    this.blockName = blockName;
-        //    instanceId = instance;
-
-        //    Start();
-        //}
-
-        /// <summary>
-        /// Log constructor, boot strapping dynamic klog block id and block name -- nested inside primary node's instance id.
-        /// </summary>
-        /// <param name="blockName"></param>
         /// <param name="klog"></param>
         public KLog(string blockName, KLog klog)
         {
@@ -146,8 +132,10 @@
             }
         }
 
-        // Alert Types
-        // Warning
+        /// <summary>
+        /// Warning entry.
+        /// </summary>
+        /// <param name="logData"></param>
         public void Warning(string logData)
         {
             if (config.Warning)
@@ -156,7 +144,10 @@
             }
         }
 
-        // Error
+        /// <summary>
+        /// Error entry.
+        /// </summary>
+        /// <param name="logData"></param>
         public void Error(string logData)
         {
             if (config.Error)
@@ -165,6 +156,11 @@
             }
         }
 
+        /// <summary>
+        /// Error entry. Unwarp inner exception.
+        /// </summary>
+        /// <param name="ex"></param>
+        /// <param name="logData"></param>
         public void Error(Exception ex, string logData)
         {
             if (config.Error)
@@ -179,7 +175,11 @@
             }
         }
 
-        // Metric
+        /// <summary>
+        /// Metric entry.
+        /// </summary>
+        /// <param name="metricName">Metric Name</param>
+        /// <param name="metricValue">Metric Value</param>
         public void Metric(string metricName, object metricValue)
         {
             if (config.Metric)
@@ -205,7 +205,10 @@
             }
         }
 
-        // Result - Success
+        /// <summary>
+        /// Mark the KLOG Block result as a success.
+        /// </summary>
+        /// <param name="logData">Success message</param>
         public void Success(string logData = "Block Success")
         {
             resultStatus = true;
@@ -213,7 +216,10 @@
             LogInjector(instanceId, config.FullFilePath, blockID, blockName, KConstants.s_ResultEvent, resultData);
         }
 
-        // Result - Failure
+        /// <summary>
+        /// Mark the KLOG Block result as a failure.
+        /// </summary>
+        /// <param name="logData">Failure message</param>
         public void Failure(string logData = "Block Failure")
         {
             resultStatus = true;
@@ -273,7 +279,7 @@
         /// The log injection funnel is a layer between the Log Type "switch" class and the Logging action classes.
         /// The entry is evaluated for both a (1) log write action and (2) verbose console feedback action.
         /// </summary>
-        /// <param name="blockID"> Log block (GUID) ID</param>
+        /// <param name="blockID">Log block (GUID) ID</param>
         /// <param name="blockName">Log block name</param>
         /// <param name="logType">Log type</param>
         /// <param name="logData">Log data payload</param>

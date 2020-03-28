@@ -42,7 +42,11 @@
             return true;
         }
 
-        public static void Execute(Guid fileGuid)
+        /// <summary>
+        /// Mark the file has a failure.
+        /// </summary>
+        /// <param name="fileGuid"></param>
+        public static void MarkFailure(Guid fileGuid)
         {
             BlobFileCollection.GetFiles().First(d => d.FileGuid == fileGuid).HeaderStatus = false;
             BlobFileCollection.GetFiles().First(d => d.FileGuid == fileGuid).LogStatus = false;

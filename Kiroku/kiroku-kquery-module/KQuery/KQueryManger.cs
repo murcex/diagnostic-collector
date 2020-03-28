@@ -17,6 +17,12 @@
 
         private static bool _logConfigStatus = false;
 
+        /// <summary>
+        /// Initialize KQuery Application Configs.
+        /// </summary>
+        /// <param name="kqueryConfig"></param>
+        /// <param name="kirokuConfig"></param>
+        /// <returns></returns>
         public static bool Initialize(List<KeyValuePair<string, string>> kqueryConfig, List<KeyValuePair<string, string>> kirokuConfig)
         {
             // Null checks
@@ -40,6 +46,11 @@
             }
         }
 
+        /// <summary>
+        /// Query Kiroku Storage for a single KLOG.
+        /// </summary>
+        /// <param name="req"></param>
+        /// <returns></returns>
         public static OkObjectResult Execute(HttpRequest req)
         {
             using (KLog klog = new KLog($"KQueryManager,Execute"))

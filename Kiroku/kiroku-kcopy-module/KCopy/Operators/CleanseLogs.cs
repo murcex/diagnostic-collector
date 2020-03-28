@@ -7,7 +7,7 @@
     class CleanseLogs
     {
         /// <summary>
-        /// Identify local "KLOG_W_$(guid).txt" files (orpahned) that exceed the provided retention period (in hours). The files are renamed (re-queued) to "KLOG_S_$(guid).txt" for sending.
+        /// Identify local "KLOG_W_$(guid).txt" files (orpahned) that exceed the configured retention period (in hours). The files are renamed (re-queued) to "KLOG_S_$(guid).txt" for sending.
         /// </summary>
         /// <param name="cleanupFiles"></param>
         public static void Execute()
