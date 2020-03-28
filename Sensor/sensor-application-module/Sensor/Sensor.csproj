@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <ApplicationIcon />
+    <StartupObject />
+    <Version>0.0.5</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Implements" Version="0.0.1" />
+    <PackageReference Include="Kiroku" Version="0.0.4" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="1.1.0" />
+  </ItemGroup>
+
+</Project>
