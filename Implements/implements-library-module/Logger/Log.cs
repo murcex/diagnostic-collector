@@ -1,4 +1,4 @@
-﻿namespace Implements
+﻿namespace Implements.Log
 {
     using System;
     using System.IO;

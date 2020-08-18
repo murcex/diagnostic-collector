@@ -19,7 +19,7 @@ namespace Substrate.Queue
 
         public bool Add()
         {
-
+            return true;
         }
 
     }

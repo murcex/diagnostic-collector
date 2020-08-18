@@ -1,10 +1,11 @@
-﻿namespace Implements
+﻿namespace Implements.Deserializer
 {
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Text.RegularExpressions;
+    using Log;
 
     public class Deserializer : IDisposable
     {

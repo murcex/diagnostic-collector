@@ -1,4 +1,4 @@
-﻿namespace Implements
+﻿namespace Implements.Encryption
 {
     using System;
     using System.Collections.Generic;

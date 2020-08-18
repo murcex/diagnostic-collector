@@ -6,7 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Implements\Implements.csproj" />
+    <ProjectReference Include="..\Converter\Converter.csproj" />
+    <ProjectReference Include="..\Deserializer\Deserializer.csproj" />
+    <ProjectReference Include="..\Encryption\Encryption.csproj" />
+    <ProjectReference Include="..\Logger\Logger.csproj" />
+    <ProjectReference Include="..\Substrate.Blob\Substrate.Blob.csproj" />
   </ItemGroup>
 
   <ItemGroup>
