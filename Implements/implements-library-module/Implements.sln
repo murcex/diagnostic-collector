@@ -7,17 +7,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Implements", "Implements\Im
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Implements.Audit", "Implements.Audit\Implements.Audit.csproj", "{FCCF4782-EFC7-4A4A-8984-F75C89851778}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Substrate.Blob", "Substrate.Blob\Substrate.Blob.csproj", "{30FA2A87-79C2-48DA-8EF0-88DC01D4CB99}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Implements.Substrate.Blob", "Substrate.Blob\Implements.Substrate.Blob.csproj", "{30FA2A87-79C2-48DA-8EF0-88DC01D4CB99}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Encryption", "Encryption\Encryption.csproj", "{759CEE70-7124-49BE-84A2-F74123071707}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Implements.Encryption", "Encryption\Implements.Encryption.csproj", "{759CEE70-7124-49BE-84A2-F74123071707}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logger", "Logger\Logger.csproj", "{7B360A3A-A93E-4B97-B2AA-3D29124747BE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Implements.Logger", "Logger\Implements.Logger.csproj", "{7B360A3A-A93E-4B97-B2AA-3D29124747BE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Converter", "Converter\Converter.csproj", "{F15E6051-F0D4-47C8-9080-4611CA3B334B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Implements.Converter", "Converter\Implements.Converter.csproj", "{F15E6051-F0D4-47C8-9080-4611CA3B334B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Deserializer", "Deserializer\Deserializer.csproj", "{B401785F-059A-4111-822D-B5A910AFD2BC}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Substrate.Queue", "Substrate.Queue\Substrate.Queue.csproj", "{57C5A658-A5B8-442C-AE50-D9E622206BDE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Implements.Deserializer", "Deserializer\Implements.Deserializer.csproj", "{B401785F-059A-4111-822D-B5A910AFD2BC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,10 +51,6 @@ Global
 		{B401785F-059A-4111-822D-B5A910AFD2BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B401785F-059A-4111-822D-B5A910AFD2BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B401785F-059A-4111-822D-B5A910AFD2BC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{57C5A658-A5B8-442C-AE50-D9E622206BDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{57C5A658-A5B8-442C-AE50-D9E622206BDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{57C5A658-A5B8-442C-AE50-D9E622206BDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{57C5A658-A5B8-442C-AE50-D9E622206BDE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

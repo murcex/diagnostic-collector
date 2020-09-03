@@ -11,6 +11,10 @@
         {
             if (!execute)
             {
+                Console.WriteLine($"Audit: {nameof(DeserializerAudit)} has not been marked for execution, skipping audit.");
+                Console.WriteLine($"*** PRESS ANY KEY TO CONTINUE *** \r\n");
+                Console.ReadKey();
+
                 return;
             }
 

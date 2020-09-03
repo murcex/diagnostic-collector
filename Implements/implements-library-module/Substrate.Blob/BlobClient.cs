@@ -1,5 +1,6 @@
 ﻿namespace Implements.Substrate.Blob
 {
+    using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.IO;
@@ -11,25 +12,18 @@
 
     public class BlobClient
     {
-        private static object lease;
-
-        /// <summary>
-        /// Storage account details; name and key.
-        /// </summary>
-        //private static string _account;
-
-        /// <summary>
-        /// Container client, by way of storage account client.
-        /// </summary>
-        //private static CloudBlobContainer _blobContainer;
-
-
         private static ConcurrentDictionary<string, CloudBlobContainer> profiles = new ConcurrentDictionary<string, CloudBlobContainer>();
+
+        private string error_1 = "";
 
         /// <summary>
         /// Initialize the blob storage client with account and container details.
         /// </summary>
-        public static async Task<bool> Initialize(string profileName, string storageAccount, string storageContainer, bool verifyContainer = false)
+        public static async Task<bool> Initialize(
+            string profileName, 
+            string storageAccount, 
+            string storageContainer, 
+            bool verifyContainer = false)
         {
             try
             {
@@ -88,7 +82,10 @@
         /// <summary>
         /// Add a document to the default blob storage container.
         /// </summary>
-        public static async Task<bool> InsertBlob(string profileName, string file, byte[] document)
+        public static async Task<bool> InsertBlob(
+            string profileName, 
+            string file, 
+            byte[] document)
         {
             try
             {
@@ -143,7 +140,9 @@
         /// <summary>
         /// Get a document from the default blob storage container.
         /// </summary>
-        public static async Task<byte[]> SelectBlob(string profileName, string fileName)
+        public static async Task<byte[]> SelectBlob(
+            string profileName, 
+            string fileName)
         {
             byte[] document = null;
 
@@ -204,7 +203,10 @@
         /// <summary>
         /// Update an existing document on the default blob storage container.
         /// </summary>
-        public static async Task<bool> UpdateBlob(string profileName, string fileName, byte[] document)
+        public static async Task<bool> UpdateBlob(
+            string profileName, 
+            string fileName, 
+            byte[] document)
         {
             try
             {
@@ -268,7 +270,9 @@
         /// <summary>
         /// Delete a document from the default blob storage container.
         /// </summary>
-        public static async Task<bool> DeleteBlob(string profileName, string fileName)
+        public static async Task<bool> DeleteBlob(
+            string profileName, 
+            string fileName)
         {
             try
             {
@@ -322,7 +326,10 @@
         /// <summary>
         /// Rename an existing document on the default blob storage container.
         /// </summary>
-        public static async Task<bool> RenameBlobInContainer(string profileName, string currentFileName, string newFileName)
+        public static async Task<bool> RenameBlobInContainer(
+            string profileName, 
+            string currentFileName, 
+            string newFileName)
         {
             try
             {
@@ -374,7 +381,11 @@
         /// <summary>
         /// Copy an existing document to a location in the default blob storage container, with an option to delete the source file after copying.
         /// </summary>
-        public static async Task<bool> CopyBlobInContainer(string profileName, string sourceFileName, string destinationFileName, bool deleteSource = false)
+        public static async Task<bool> CopyBlobInContainer(
+            string profileName, 
+            string sourceFileName, 
+            string destinationFileName, 
+            bool deleteSource = false)
         {
             try
             {
@@ -431,13 +442,15 @@
         }
 
         /// ---
-        /// List container document operations.
+        /// List container operations.
         /// ---
 
         #region List container documents
 
         // list all documents in container
-        public static List<string> SelectBlobList(string profileName, string blobPrefix = null)
+        public static List<string> SelectBlobList(
+            string profileName, 
+            string blobPrefix = null)
         {
             List<string> files = new List<string>();
 
@@ -457,17 +470,73 @@
                     return files;
                 }
 
+                if (!string.IsNullOrEmpty(blobPrefix))
+                {
+                    if (blobPrefix.Last() != '/')
+                    {
+                        blobPrefix = blobPrefix + "/";
+                    }
+                }
+
                 var token = new BlobContinuationToken();
 
                 var segments = _blobContainer.ListBlobsSegmentedAsync(blobPrefix, token).GetAwaiter().GetResult();
 
                 files = segments.Results.OfType<CloudBlockBlob>().Select(file => file.Name).ToList();
 
+                files = files.Select(file => file.Replace('/', '\\')).ToList();
+
                 return files;
             }
             catch
             {
                 return files;
+            }
+        }
+
+        public static List<string> SelectPrefixList(
+            string profileName, 
+            string blobPrefix = null)
+        {
+            List<string> prefixs = new List<string>();
+
+            try
+            {
+                if (string.IsNullOrEmpty(profileName))
+                {
+                    return prefixs;
+                }
+                else
+                {
+                    profileName = profileName.ToUpper();
+                }
+
+                if (!profiles.TryGetValue(profileName, out CloudBlobContainer _blobContainer))
+                {
+                    return prefixs;
+                }
+
+                if (!string.IsNullOrEmpty(blobPrefix))
+                {
+                    if (blobPrefix.Last() != '/')
+                    {
+                        blobPrefix = blobPrefix + "/";
+                    }
+                }
+
+                var token = new BlobContinuationToken();
+
+                var segments = _blobContainer.ListBlobsSegmentedAsync(blobPrefix, token).GetAwaiter().GetResult();
+
+                prefixs = segments.Results.OfType<CloudBlobDirectory>().Select(file => file.Prefix).ToList();
+
+                prefixs = prefixs.Select(file => file.Replace('/', '\\')).ToList();
+
+                return prefixs;
+            }
+            catch
+            {
+                return prefixs;
             }
         }
 
@@ -527,7 +596,7 @@
                     return false;
                 }
 
-                return await _blobContainer.CreateIfNotExistsAsync();
+                return await _blobContainer.CreateIfNotExistsAsync().ConfigureAwait(false);
             }
             catch
             {
@@ -602,7 +671,7 @@
             {
                 return Encoding.UTF8.GetString(input, 0, input.Length);
             }
-            catch
+            catch (Exception)
             {
                 return null;
             }

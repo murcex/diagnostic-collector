@@ -13,7 +13,7 @@ namespace Implements.Audit
 
         private static bool Encryption = true;
 
-        private static bool BlobClient = false;
+        private static bool BlobClient = true;
 
         static void Main(string[] args)
         {

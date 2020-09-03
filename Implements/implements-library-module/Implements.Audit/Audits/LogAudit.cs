@@ -1,5 +1,6 @@
 ﻿namespace Implements.Audit
 {
+    using System;
     using Implements.Log;
     using Implements.Utility;
 
@@ -9,6 +10,10 @@
         {
             if (!execute)
             {
+                Console.WriteLine($"Audit: {nameof(LogAudit)} has not been marked for execution, skipping audit.");
+                Console.WriteLine($"*** PRESS ANY KEY TO CONTINUE *** \r\n");
+                Console.ReadKey();
+
                 return;
             }
 

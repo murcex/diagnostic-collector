@@ -10,6 +10,10 @@
         {
             if (!execute)
             {
+                Console.WriteLine($"Audit: {nameof(EncryptionAudit)} has not been marked for execution, skipping audit.");
+                Console.WriteLine($"*** PRESS ANY KEY TO CONTINUE *** \r\n");
+                Console.ReadKey();
+
                 return;
             }
 

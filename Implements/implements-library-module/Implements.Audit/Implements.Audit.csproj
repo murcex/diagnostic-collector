@@ -6,11 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Converter\Converter.csproj" />
-    <ProjectReference Include="..\Deserializer\Deserializer.csproj" />
-    <ProjectReference Include="..\Encryption\Encryption.csproj" />
-    <ProjectReference Include="..\Logger\Logger.csproj" />
-    <ProjectReference Include="..\Substrate.Blob\Substrate.Blob.csproj" />
+    <ProjectReference Include="..\Converter\Implements.Converter.csproj" />
+    <ProjectReference Include="..\Deserializer\Implements.Deserializer.csproj" />
+    <ProjectReference Include="..\Encryption\Implements.Encryption.csproj" />
+    <ProjectReference Include="..\Logger\Implements.Logger.csproj" />
+    <ProjectReference Include="..\Substrate.Blob\Implements.Substrate.Blob.csproj" />
   </ItemGroup>
 
   <ItemGroup>
