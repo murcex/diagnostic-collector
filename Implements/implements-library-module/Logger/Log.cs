@@ -120,7 +120,7 @@
                 {
                     FullLogPath = cfg.Directory + @"\" + LogFileName;
 
-                    if (!Directory.Exists(FullLogPath))
+                    if (!Directory.Exists(cfg.Directory))
                     {
                         throw new Exception($"Log Exception [Log].[NewInstance()]: Directory doesn't exist! Directory = {cfg.Directory}");
                     }
@@ -170,7 +170,16 @@
             {
                 if (WriteToConsole)
                 {
-                    Console.WriteLine(entry);
+                    if (type == TypeInfo)
+                    {
+                        Console.WriteLine($"INFO: {entry}");
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine($"ERROR: {entry}");
+                        Console.ResetColor();
+                    }
                 }
 
                 if (WriteToLog)

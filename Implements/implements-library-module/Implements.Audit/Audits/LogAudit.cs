@@ -17,7 +17,7 @@
                 return;
             }
 
-            var curImplVer = Conversion.GetAssemblyVersion("Implements");
+            var curImplVer = Conversion.GetAssemblyVersion("Implements.Logger");
 
             ///
             /// Logging
@@ -26,10 +26,10 @@
             var cfg = Log.GenerateConfig();
             cfg.LogName = "ExampleLog";
 
-            Log.Initialize();
+            Log.Initialize(cfg);
 
             Log.Info($"Current Implement.dll Version: {curImplVer}");
-            Log.Info("");
+            Log.Error("Example Error!");
         }
     }
 }
