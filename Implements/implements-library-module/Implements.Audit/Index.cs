@@ -1,19 +1,17 @@
-﻿using Implements.Substrate.Blob;
-using System;
-using System.Linq.Expressions;
-
-namespace Implements.Audit
+﻿namespace Implements.Audit
 {
+    using System;
+
     class Index
     {
         // Audit switches
-        private static bool Log = true;
+        private static bool Log = false;
 
-        private static bool Deserializer = true;
+        private static bool Deserializer = false;
 
-        private static bool Encryption = true;
+        private static bool Encryption = false;
 
-        private static bool BlobClient = true;
+        private static bool BlobClient = false;
 
         static void Main(string[] args)
         {

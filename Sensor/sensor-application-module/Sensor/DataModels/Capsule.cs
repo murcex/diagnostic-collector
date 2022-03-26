@@ -1,5 +1,6 @@
 ﻿namespace Sensor
 {
+    using Kiroku;
     using System;
     using System.Collections.Generic;
 
@@ -20,40 +21,50 @@
             var session = Session;
             var source = Source;
 
-            foreach (var dnsRecord in DNSRecords)
+            using (KLog klog = new KLog("GenerateSQLRecords"))
             {
-                var dnsName = dnsRecord.DNSName;
-                var dnsStatus = dnsRecord.DNSStatus;
-
-                foreach (var ipRecord in dnsRecord.IPRecords)
+                foreach (var dnsRecord in DNSRecords)
                 {
-                    var ip = ipRecord.IP.ToString();
-                    var ipStatus = ipRecord.IPStatus;
-                    var datacenter = ipRecord.Datacenter;
-                    var datacenterTag = ipRecord.DatacenterTag;
-                    var tcpRecord = ipRecord.TCPRecord;
-                    var port = tcpRecord.Port;
-                    var latency = tcpRecord.Latency;
-
-                    SQLRecord record = new SQLRecord
+                    try
                     {
-                        Session = session,
-                        Source = source,
-                        DNSName = dnsName,
-                        DNSStatus = dnsStatus,
-                        IP = ip,
-                        IPStatus = ipStatus,
-                        Datacenter = datacenter,
-                        DatacenterTag = datacenterTag,
-                        Port = port,
-                        Latency = latency
-                    };
+                        var dnsName = dnsRecord.DNSName;
+                        var dnsStatus = dnsRecord.DNSStatus;
 
-                    sqlRecords.Add(record);
+                        foreach (var ipRecord in dnsRecord.IPRecords)
+                        {
+                            var ip = ipRecord.IP.ToString();
+                            var ipStatus = ipRecord.IPStatus;
+                            var datacenter = ipRecord.Datacenter;
+                            var datacenterTag = ipRecord.DatacenterTag;
+                            var tcpRecord = ipRecord.TCPRecord;
+                            var port = tcpRecord.Port;
+                            var latency = tcpRecord.Latency;
+
+                            SQLRecord record = new SQLRecord
+                            {
+                                Session = session,
+                                Source = source,
+                                DNSName = dnsName,
+                                DNSStatus = dnsStatus,
+                                IP = ip,
+                                IPStatus = ipStatus,
+                                Datacenter = datacenter,
+                                DatacenterTag = datacenterTag,
+                                Port = port,
+                                Latency = latency
+                            };
+
+                            sqlRecords.Add(record);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        klog.Error($"Capsule::GenerateSQLRecords - EXCEPTION: {ex}");
+                    }
                 }
-            }
 
-            return sqlRecords;
+                return sqlRecords;
+            }
         }
     }
 }

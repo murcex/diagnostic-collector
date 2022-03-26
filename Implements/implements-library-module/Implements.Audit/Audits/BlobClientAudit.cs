@@ -13,15 +13,15 @@
         /// -----
 
         // *** ADD STORAGE LOGIN + KEY HERE ***
-        private const string Account =
+        private static string Account { get; set; } =
             "DefaultEndpointsProtocol=https;" +
-            "AccountName=;" +
-            "AccountKey=";
+            "AccountName=<accountName>;" +
+            "AccountKey=<accountKey>";
 
         // *** ADD CONTAINER HERE -- IT SHOULD NOT EXIST! ***
-        private const string Container = "audit";
+        private static string Container { get; set; } = "audit";
 
-        private const string Profile = "audit";
+        private static string Profile { get; set; } = "audit";
 
         // --- 
         // blob names 
@@ -116,7 +116,7 @@
 
             // create container
             ManualCheck("Confirm Container doesn't exist");
-            var testCreateContainer = BlobClient.CreateContainer(Profile).GetAwaiter().GetResult(); ;
+            var testCreateContainer = BlobClient.CreateContainer(Profile).GetAwaiter().GetResult();
             Assert($"CreateContainer()", testCreateContainer, true);
             ManualCheck("Confirm Container has been created");
 

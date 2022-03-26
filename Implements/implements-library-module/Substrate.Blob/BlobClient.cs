@@ -42,13 +42,15 @@
                     .CreateCloudBlobClient()
                     .GetContainerReference(storageContainer.ToLower());
                 
+                profiles[profileName] = _blobContainer;
+                
                 if (verifyContainer)
                 {
                     if (await CreateContainer(profileName))
                     {
                         if (await VerifyContainer(profileName))
                         {
-                            profiles[profileName] = _blobContainer;
+                            //profiles[profileName] = _blobContainer;
 
                             return profiles.TryGetValue(profileName, out CloudBlobContainer container);
                         }
@@ -64,7 +66,7 @@
                 }
                 else
                 {
-                    profiles[profileName] = _blobContainer;
+                    //profiles[profileName] = _blobContainer;
 
                     return profiles.TryGetValue(profileName, out CloudBlobContainer container);
                 }
@@ -648,7 +650,7 @@
         /// ---
 
         /// <summary>
-        /// Convert byte array to ASCII string.
+        /// Covert string to UTF8 byte array.
         /// </summary>
         public static byte[] StringToByte(string input)
         {
@@ -663,7 +665,7 @@
         }
 
         /// <summary>
-        /// Covert string to UTF8 byte array.
+        /// Convert byte array to ASCII string.
         /// </summary>
         public static string ByteToString(byte[] input)
         {

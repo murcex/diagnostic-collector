@@ -3,6 +3,10 @@
     using System;
     using System.Collections.Generic;
     using Kiroku;
+    using KCopy.Component;
+    using KCopy.Core;
+    using KCopy.Appliance;
+    using KCopy.Model;
 
     public class KCopyManager
     {
@@ -18,7 +22,9 @@
         /// <param name="kcopyConfig"></param>
         /// <param name="kirokuConfig"></param>
         /// <returns></returns>
-        public static bool Initialize(List<KeyValuePair<string, string>> kcopyConfig, List<KeyValuePair<string, string>> kirokuConfig)
+        public static bool Initialize(
+            List<KeyValuePair<string, string>> kcopyConfig, 
+            List<KeyValuePair<string, string>> kirokuConfig)
         {
             // Null checks
             if (kcopyConfig != null)
@@ -33,7 +39,9 @@
             // Push config packages to Configuration logic
             try
             {
-                return _configOnline = Configuration.SetConfigs(kcopyConfig, kirokuConfig);
+                return _configOnline = Initializer.Execute(
+                    kcopyConfig, 
+                    kirokuConfig);
             }
             catch
             {
@@ -55,18 +63,20 @@
             try
             {
                 // Start instance level logging
-                Configuration.StartLogging();
+                Logger.StartLogging();
 
                 // Log global properties
                 using (KLog logConfig = new KLog("ClassExecute-LogicConfig"))
                 {
-                    logConfig.Info($"Config Local Directory: {Configuration.LocalDirectory}");
-                    logConfig.Info($"Config Azure Container: {Configuration.AzureContainer}");
-                    logConfig.Info($"Config Retention: {Configuration.RetentionDays}");
-                    logConfig.Info($"Config Cleanse: {Configuration.CleanseHours}");
+                    logConfig.Trace($"Config Local Directory: {Configuration.LocalDirectory}");
+                    logConfig.Trace($"Config Azure Container: {Configuration.AzureContainer}");
+                    logConfig.Trace($"Config Retention: {Configuration.RetentionDays} {Configuration.RetentionThreshold}");
+                    logConfig.Trace($"Config Cleanse: {Configuration.CleanseHours} {Configuration.CleanseThreshold}");
                 }
 
-                Capsule.AddLogFiles(CollectLogs.Execute(Configuration.LocalDirectory));
+                var logFiles = CollectLogs.Execute(Configuration.LocalDirectory);
+
+                Capsule.AddLogFiles(logFiles);
 
                 DeleteLogs.Execute();
 
@@ -74,13 +84,12 @@
 
                 CleanseLogs.Execute();
 
-                Configuration.StopLogging();
+                Logger.StopLogging();
 
                 return true;
             }
             catch (Exception ex)
             {
-
                 throw new Exception($"KCOPY EXCEPTION: {ex}");
             }
         }
