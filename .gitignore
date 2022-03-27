@@ -47,6 +47,7 @@ BenchmarkDotNet.Artifacts/
 
 # Azure Functions localsettings file
 local.settings.json
+**/Properties/*.json
 **/PublishProfiles/
 **/ServiceDependencies/
 
