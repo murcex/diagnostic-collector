@@ -47,8 +47,8 @@ BenchmarkDotNet.Artifacts/
 
 # Azure Functions localsettings file
 local.settings.json
-PublishProfiles/*
-ServiceDependencies/*
+**/PublishProfiles/
+**/ServiceDependencies/
 
 # .NET Core
 project.lock.json
