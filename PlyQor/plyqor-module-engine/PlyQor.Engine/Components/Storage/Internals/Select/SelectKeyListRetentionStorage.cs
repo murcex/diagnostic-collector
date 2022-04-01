@@ -17,12 +17,12 @@
             {
                 using (var connection = new SqlConnection(Configuration.DatabaseConnection))
                 {
-                    var cmd = new SqlCommand("usp_PlyQor_Data_Select_Retention-V2", connection);
+                    var cmd = new SqlCommand(SqlColumns.SelectKeyListRetentionStorage, connection);
 
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue("nvc_collection", collection);
-                    cmd.Parameters.AddWithValue("i_days", days);
+                    cmd.Parameters.AddWithValue(SqlColumns.Collection, collection);
+                    cmd.Parameters.AddWithValue(SqlColumns.Days, days);
 
                     connection.Open();
 
@@ -30,7 +30,7 @@
 
                     while (reader.Read())
                     {
-                        var id = (string)reader["nvc_id"];
+                        var id = (string)reader[SqlColumns.Id];
 
                         ids.Add(id);
                     }

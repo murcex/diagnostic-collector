@@ -17,19 +17,19 @@
             {
                 using (var connection = new SqlConnection(Configuration.DatabaseConnection))
                 {
-                    var cmd = new SqlCommand("usp_PlyQor_Tag_Select", connection);
+                    var cmd = new SqlCommand(SqlColumns.SelectTagsByKeyStroage, connection);
 
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue("nvc_collection", collection);
-                    cmd.Parameters.AddWithValue("nvc_id", id);
+                    cmd.Parameters.AddWithValue(SqlColumns.Collection, collection);
+                    cmd.Parameters.AddWithValue(SqlColumns.Id, id);
 
                     connection.Open();
 
                     var reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        var index = (string)reader["nvc_data"];
+                        var index = (string)reader[SqlColumns.Data];
 
                         indexes.Add(index);
                     }

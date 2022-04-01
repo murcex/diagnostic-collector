@@ -14,13 +14,13 @@
             {
                 using (var connection = new SqlConnection(Configuration.DatabaseConnection))
                 {
-                    var cmd = new SqlCommand("usp_PlyQor_Data_Update_Id", connection);
+                    var cmd = new SqlCommand(SqlColumns.UpdateKeyStroage, connection);
 
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue("nvc_collection", collection);
-                    cmd.Parameters.AddWithValue("nvc_old_id", oldid);
-                    cmd.Parameters.AddWithValue("nvc_new_id", newid);
+                    cmd.Parameters.AddWithValue(SqlColumns.Collection, collection);
+                    cmd.Parameters.AddWithValue(SqlColumns.OldId, oldid);
+                    cmd.Parameters.AddWithValue(SqlColumns.NewId, newid);
 
                     connection.Open();
 

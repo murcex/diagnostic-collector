@@ -14,13 +14,13 @@
             {
                 using (var connection = new SqlConnection(Configuration.DatabaseConnection))
                 {
-                    var cmd = new SqlCommand("usp_PlyQor_Tag_Delete_Child", connection);
+                    var cmd = new SqlCommand(SqlColumns.DeleteTagByKeyStorage, connection);
 
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue("nvc_collection", collection);
-                    cmd.Parameters.AddWithValue("nvc_id", id);
-                    cmd.Parameters.AddWithValue("nvc_data", index);
+                    cmd.Parameters.AddWithValue(SqlColumns.Collection, collection);
+                    cmd.Parameters.AddWithValue(SqlColumns.Id, id);
+                    cmd.Parameters.AddWithValue(SqlColumns.Data, index);
 
                     connection.Open();
 

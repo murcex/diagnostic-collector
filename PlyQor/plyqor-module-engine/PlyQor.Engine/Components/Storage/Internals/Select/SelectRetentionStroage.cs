@@ -17,7 +17,7 @@
             {
                 using (var connection = new SqlConnection(Configuration.DatabaseConnection))
                 {
-                    var cmd = new SqlCommand("usp_PlyQor_Data_Select_Retention", connection);
+                    var cmd = new SqlCommand(SqlColumns.SelectRetentionStroage, connection);
 
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
@@ -27,7 +27,7 @@
 
                     while (reader.Read())
                     {
-                        var id = (string)reader["nvc_id"];
+                        var id = (string)reader[SqlColumns.Id];
 
                         ids.Add(id);
                     }

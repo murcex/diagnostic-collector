@@ -18,14 +18,14 @@
             {
                 using (var connection = new SqlConnection(Configuration.DatabaseConnection))
                 {
-                    var cmd = new SqlCommand("usp_PlyQor_Tag_Update_Data", connection);
+                    var cmd = new SqlCommand(SqlColumns.UpdateTagByKeyStroage, connection);
 
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue("nvc_collection", collection);
-                    cmd.Parameters.AddWithValue("nvc_id", id);
-                    cmd.Parameters.AddWithValue("nvc_old_data", oldindex);
-                    cmd.Parameters.AddWithValue("nvc_new_data", newindex);
+                    cmd.Parameters.AddWithValue(SqlColumns.Collection, collection);
+                    cmd.Parameters.AddWithValue(SqlColumns.Id, id);
+                    cmd.Parameters.AddWithValue(SqlColumns.OldData, oldindex);
+                    cmd.Parameters.AddWithValue(SqlColumns.NewData, newindex);
 
                     connection.Open();
 

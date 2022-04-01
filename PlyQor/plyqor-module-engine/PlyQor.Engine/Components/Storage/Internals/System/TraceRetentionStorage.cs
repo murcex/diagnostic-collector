@@ -14,11 +14,11 @@
             {
                 using (var connection = new SqlConnection(Configuration.DatabaseConnection))
                 {
-                    var cmd = new SqlCommand("usp_PlyQor_Trace_Retention", connection);
+                    var cmd = new SqlCommand(SqlColumns.TraceRetentionStorage, connection);
 
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue("i_days", days);
+                    cmd.Parameters.AddWithValue(SqlColumns.Days, days);
 
                     connection.Open();
 

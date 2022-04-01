@@ -17,20 +17,20 @@
             {
                 using (var connection = new SqlConnection(Configuration.DatabaseConnection))
                 {
-                    var cmd = new SqlCommand("usp_PlyQor_Tag_List_Keys", connection);
+                    var cmd = new SqlCommand(SqlColumns.SelectKeyListStroage, connection);
 
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue("top", top);
-                    cmd.Parameters.AddWithValue("nvc_collection", collection);
-                    cmd.Parameters.AddWithValue("nvc_data", tag);
+                    cmd.Parameters.AddWithValue(SqlColumns.Top, top);
+                    cmd.Parameters.AddWithValue(SqlColumns.Collection, collection);
+                    cmd.Parameters.AddWithValue(SqlColumns.Data, tag);
 
                     connection.Open();
 
                     var reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        var id = (string)reader["nvc_id"];
+                        var id = (string)reader[SqlColumns.Id];
 
                         ids.Add(id);
                     }

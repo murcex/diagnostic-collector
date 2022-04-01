@@ -18,14 +18,14 @@
             {
                 using (var connection = new SqlConnection(Configuration.DatabaseConnection))
                 {
-                    var cmd = new SqlCommand("usp_PlyQor_Tag_Insert", connection);
+                    var cmd = new SqlCommand(SqlColumns.InsertTagStroage, connection);
 
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue("dt_timestamp", timestamp);
-                    cmd.Parameters.AddWithValue("nvc_collection", collection);
-                    cmd.Parameters.AddWithValue("nvc_id", id);
-                    cmd.Parameters.AddWithValue("nvc_data", data);
+                    cmd.Parameters.AddWithValue(SqlColumns.TimeStamp, timestamp);
+                    cmd.Parameters.AddWithValue(SqlColumns.Collection, collection);
+                    cmd.Parameters.AddWithValue(SqlColumns.Id, id);
+                    cmd.Parameters.AddWithValue(SqlColumns.Data, data);
 
                     connection.Open();
 
