@@ -7,7 +7,7 @@
     <PackageReference Include="Configurator" Version="0.0.3" />
     <PackageReference Include="Implements" Version="0.0.1" />
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.0.1" />
-    <PackageReference Include="PlyQor.Engine" Version="1.0.0.5" />
+    <PackageReference Include="PlyQor.Engine" Version="1.0.0.6" />
   </ItemGroup>
   <ItemGroup>
     <None Update="ExampleConfig.ini">

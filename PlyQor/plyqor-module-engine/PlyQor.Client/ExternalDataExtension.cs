@@ -43,5 +43,29 @@
         {
             return JsonConvert.DeserializeObject<List<string>>(data);
         }
+
+        public static List<string> GetPlyList(this Dictionary<string, string> result)
+        {
+            List<string> list = new List<string>();
+
+            try
+            {
+                if (result.TryGetValue(ResultKeys.Data, out string output))
+                {
+                    list = JsonConvert.DeserializeObject<List<string>>(output);
+                }
+
+                return list;
+            }
+            catch (Exception e)
+            {
+                return list;
+            }
+        }
+
+        public static string GetPlyRecord(this Dictionary<string, string> result)
+        {
+            return JsonConvert.SerializeObject(result);
+        }
     }
 }

@@ -1,16 +1,7 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PlyQor.Client
+﻿namespace PlyQor.Client
 {
     public class PlyClient
     {
-        private HttpClient _httpClient;
-
         private string _uri;
 
         private string _token;
@@ -19,11 +10,6 @@ namespace PlyQor.Client
 
         public PlyClient(string uri, string container, string token)
         {
-            if (_httpClient == null)
-            {
-                _httpClient = new HttpClient();
-            }
-
             _uri = uri;
             _container = container;
             _token = token;
@@ -34,7 +20,7 @@ namespace PlyQor.Client
             List<string> tags = new List<string>();
             tags.Add(tag);
 
-            return InsertKeyInternal.Execute(_httpClient, _uri, _container, _token, key, data, tags);
+            return InsertKeyInternal.Execute(_uri, _container, _token, key, data, tags);
         }
 
         public Dictionary<string, string> InsertKey(string key, string data, string tag_1, string tag_2)
@@ -43,7 +29,7 @@ namespace PlyQor.Client
             tags.Add(tag_1);
             tags.Add(tag_2);
 
-            return InsertKeyInternal.Execute(_httpClient, _uri, _container, _token, key, data, tags);
+            return InsertKeyInternal.Execute(_uri, _container, _token, key, data, tags);
         }
 
         public Dictionary<string, string> InsertKey(string key, string data, string tag_1, string tag_2, string tag_3)
@@ -53,82 +39,82 @@ namespace PlyQor.Client
             tags.Add(tag_2);
             tags.Add(tag_3);
 
-            return InsertKeyInternal.Execute(_httpClient, _uri, _container, _token, key, data, tags);
+            return InsertKeyInternal.Execute(_uri, _container, _token, key, data, tags);
         }
 
         public Dictionary<string, string> InsertKey(string key, string data, List<string> tags)
         {
-            return InsertKeyInternal.Execute(_httpClient, _uri, _container, _token, key, data, tags);
+            return InsertKeyInternal.Execute(_uri, _container, _token, key, data, tags);
         }
 
         public Dictionary<string, string> InsertTag(string key, string tag)
         {
-            return InsertTagInternal.Execute(_httpClient, _uri, _container, _token, key, tag);
+            return InsertTagInternal.Execute(_uri, _container, _token, key, tag);
         }
 
         public Dictionary<string, string> SelectKey(string key)
         {
-            return SelectKeyInternal.Execute(_httpClient, _uri, _container, _token, key);
+            return SelectKeyInternal.Execute(_uri, _container, _token, key);
         }
 
         public Dictionary<string, string> SelectKeyList(string key, int count)
         {
-            return SelectKeyListInternal.Execute(_httpClient, _uri, _container, _token, key, count);
+            return SelectKeyListInternal.Execute(_uri, _container, _token, key, count);
         }
 
         public Dictionary<string, string> SelectTagCount(string tag)
         {
-            return SelectTagCountInternal.Execute(_httpClient, _uri, _container, _token, tag);
+            return SelectTagCountInternal.Execute(_uri, _container, _token, tag);
         }
 
         public Dictionary<string, string> SelectTagsByKey(string key)
         {
-            return SelectTagsByKeyInternal.Execute(_httpClient, _uri, _container, _token, key);
+            return SelectTagsByKeyInternal.Execute(_uri, _container, _token, key);
         }
 
         public Dictionary<string, string> SelectTags()
         {
-            return SelectTagsInternal.Execute(_httpClient, _uri, _container, _token);
+            return SelectTagsInternal.Execute(_uri, _container, _token);
         }
 
         public Dictionary<string, string> UpdateData(string key, string data)
         {
-            return UpdateDataInternal.Execute(_httpClient, _uri, _container, _token, key, data);
+            return UpdateDataInternal.Execute(_uri, _container, _token, key, data);
         }
 
         public Dictionary<string, string> UpdateKey(string key, string newKey)
         {
-            return UpdateKeyInternal.Execute(_httpClient, _uri, _container, _token, key, newKey);
+            return UpdateKeyInternal.Execute(_uri, _container, _token, key, newKey);
         }
 
         public Dictionary<string, string> UpdateTagByKey(string key, string tag, string newTag)
         {
-            return UpdateTagByKeyInternal.Execute(_httpClient, _uri, _container, _token, key, tag, newTag);
+            return UpdateTagByKeyInternal.Execute(_uri, _container, _token, key, tag, newTag);
         }
 
         public Dictionary<string, string> UpdateTag(string tag, string newTag)
         {
-            return UpdateTagInternal.Execute(_httpClient, _uri, _container, _token, tag, newTag);
+            return UpdateTagInternal.Execute(_uri, _container, _token, tag, newTag);
         }
 
         public Dictionary<string, string> DeleteKey(string key)
         {
-            return DeleteKeyInternal.Execute(_httpClient, _uri, _container, _token, key);
+            return DeleteKeyInternal.Execute(_uri, _container, _token, key);
         }
 
         public Dictionary<string, string> DeleteTagByKey(string key, string tag)
         {
-            return DeleteTagByKeyInternal.Execute(_httpClient, _uri, _container, _token, key, tag);
+            return DeleteTagByKeyInternal.Execute(_uri, _container, _token, key, tag);
         }
 
         public Dictionary<string, string> DeleteTag(string tag)
         {
-            return DeleteTagInternal.Execute(_httpClient, _uri, _container, _token, tag);
+            return DeleteTagInternal.Execute(_uri, _container, _token, tag);
         }
 
         public Dictionary<string, string> DeleteTagsByKey(string key)
         {
-            return DeleteTagsByKeyInternal.Execute(_httpClient, _uri, _container, _token, key);
+            return DeleteTagsByKeyInternal.Execute(_uri, _container, _token, key);
         }
     }
 }

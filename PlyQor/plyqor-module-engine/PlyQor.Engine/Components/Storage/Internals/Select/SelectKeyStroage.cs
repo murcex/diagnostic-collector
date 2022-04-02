@@ -36,6 +36,11 @@
             }
             catch (Exception ex)
             {
+                if (ex is SqlException)
+                {
+                    SqlExceptionCheck.Execute(ex);
+                }
+
                 throw new JavelinException(StatusCode.ERR010, ex);
             }
         }

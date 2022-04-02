@@ -3,7 +3,6 @@
     class SelectKeyListInternal
     {
         public static Dictionary<string, string> Execute(
-            HttpClient httpClient, 
             string uri, 
             string container, 
             string token, 
@@ -19,7 +18,7 @@
                 { "Aux", count.ToString() }
             };
 
-            return Transmitter.Execute(httpClient, uri, request);
+            return Transmitter.Execute(uri, request);
         }
     }
 }

@@ -3,7 +3,6 @@
     class SelectKeyInternal
     {
         public static Dictionary<string, string> Execute(
-            HttpClient httpClient,
             string uri,
             string container,
             string token,
@@ -15,7 +14,7 @@
             request.Add("Operation", "SelectKey");
             request.Add("Key", key);
 
-            return Transmitter.Execute(httpClient, uri, request);
+            return Transmitter.Execute(uri, request);
         }
     }
 }

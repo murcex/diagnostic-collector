@@ -2,8 +2,7 @@
 {
     class UpdateTagInternal
     {
-        public static Dictionary<string, string> Execute(
-            HttpClient httpClient, 
+        public static Dictionary<string, string> Execute( 
             string uri, 
             string container, 
             string token, 
@@ -19,7 +18,7 @@
                 { "Aux", tag_2 }
             };
 
-            return Transmitter.Execute(httpClient, uri, request);
+            return Transmitter.Execute(uri, request);
         }
     }
 }

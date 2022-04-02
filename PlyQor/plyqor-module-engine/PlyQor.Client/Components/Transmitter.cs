@@ -1,15 +1,12 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PlyQor.Client
+﻿namespace PlyQor.Client
 {
+    using Newtonsoft.Json;
+
     class Transmitter
     {
-        public static Dictionary<string, string> Execute(HttpClient httpClient, string url, Dictionary<string, string> plyRequest)
+        private static HttpClient _httpClient = new HttpClient();
+
+        public static Dictionary<string, string> Execute(string url, Dictionary<string, string> plyRequest)
         {
             var plyMessage = JsonConvert.SerializeObject(plyRequest);
 
@@ -17,7 +14,7 @@ namespace PlyQor.Client
             HttpContent httpContent = new StringContent(plyMessage);
             request.Content = httpContent;
 
-            var plyResult = httpClient.Send(request).Content.ReadAsStringAsync().GetAwaiter().GetResult();
+            var plyResult = _httpClient.Send(request).Content.ReadAsStringAsync().GetAwaiter().GetResult();
 
             return JsonConvert.DeserializeObject<Dictionary<string, string>>(plyResult);
         }

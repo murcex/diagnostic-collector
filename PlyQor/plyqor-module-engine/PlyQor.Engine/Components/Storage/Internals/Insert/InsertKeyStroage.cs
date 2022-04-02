@@ -1,6 +1,8 @@
 ﻿namespace PlyQor.Engine.Components.Storage.Internals
 {
     using System;
+    using System.IO;
+    using System.Text;
     using Microsoft.Data.SqlClient;
     using PlyQor.Engine.Core;
     using PlyQor.Models;
@@ -38,6 +40,11 @@
             }
             catch (Exception ex)
             {
+                if (ex is SqlException)
+                {
+                    SqlExceptionCheck.Execute(ex);
+                }
+
                 throw new JavelinException(StatusCode.ERR010, ex);
             }
         }

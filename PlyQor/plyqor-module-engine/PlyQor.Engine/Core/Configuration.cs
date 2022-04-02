@@ -1,14 +1,11 @@
 ﻿namespace PlyQor.Engine.Core
 {
-    using System;
     using System.Collections.Generic;
     using PlyQor.Resources;
 
     class Configuration
     {
         private static string _database;
-
-        private static string _version = "0.0.0.1";
 
         private static Dictionary<string, List<string>> _tokens;
 
@@ -36,13 +33,9 @@
                 QueryOperation.DeleteTagByKey
             };
 
-        // -----
-
         public static string DatabaseConnection => _database;
 
-        public static string Version => _version;
-
-        public static Dictionary<string,List<string>> Tokens => _tokens;
+        public static Dictionary<string, List<string>> Tokens => _tokens;
 
         public static Dictionary<string, int> RetentionPolicy => _retention;
 
@@ -52,27 +45,22 @@
 
         public static bool Load(Dictionary<string, string> configuration)
         {
-            foreach(var item in configuration)
+            foreach (var item in configuration)
             {
                 switch (item.Key.ToUpper())
                 {
                     case "DATABASE":
-                        Console.WriteLine($"Loading Database: {item.Value}");
                         _database = item.Value;
                         break;
                     case "ADMIN":
-                        Console.WriteLine($"Loading Admin: {item.Value}");
                         break;
                     case "KEY":
-                        Console.WriteLine($"Loading Key: {item.Value}");
                         break;
                     case "TRACE_RETENTION":
-                        Console.WriteLine($"Loading Trace Retention: {item.Value}");
                         _traceRetention = item.Value;
                         break;
 
                     default:
-                        Console.WriteLine("No Hit!");
                         break;
                 }
             }
@@ -80,7 +68,7 @@
             return true;
         }
 
-        public static bool SetContainerTokens(Dictionary<string,List<string>> containerTokens)
+        public static bool SetContainerTokens(Dictionary<string, List<string>> containerTokens)
         {
             _tokens = containerTokens;
 
@@ -94,5 +82,4 @@
             return true;
         }
     }
-
 }

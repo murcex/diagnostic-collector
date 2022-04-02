@@ -4,8 +4,7 @@
 
     class InsertKeyInternal
     {
-        public static Dictionary<string, string> Execute(
-            HttpClient httpClient, 
+        public static Dictionary<string, string> Execute( 
             string uri, 
             string container, 
             string token, 
@@ -23,7 +22,7 @@
                 { "Tags", tags.UnwrapTags() }
             };
 
-            return Transmitter.Execute(httpClient, uri, request);
+            return Transmitter.Execute(uri, request);
         }
     }
 }

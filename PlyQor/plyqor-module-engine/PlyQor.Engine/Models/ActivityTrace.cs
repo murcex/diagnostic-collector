@@ -73,9 +73,7 @@
                 }
             }
             catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-            }
+            { }
         }
 
         protected virtual void Dispose(bool disposing)
@@ -88,15 +86,6 @@
 
                     Tracer.Stop();
                     this.Duration = Tracer.Elapsed.TotalMilliseconds;
-
-                    if (this.Status)
-                    {
-                        Console.WriteLine($"{this.Operation} @ {this.Duration} ms");
-                    }
-                    else
-                    {
-                        Console.WriteLine($"<!> {this.Code} <!> {this.Operation} @ {this.Duration} ms");
-                    }
 
                     AddLog();
                 }

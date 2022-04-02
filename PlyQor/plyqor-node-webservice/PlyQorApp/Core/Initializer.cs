@@ -4,6 +4,7 @@
     using Implements;
     using Configurator;
     using PlyQor.Engine;
+    using System.IO;
 
     class Initializer
     {
@@ -20,6 +21,7 @@
                     using (Deserializer deserilaizer = new Deserializer())
                     {
                         var _file = @"D:\home\data\app\cfg\Config.ini";
+                        //var _file = Directory.GetCurrentDirectory() + @"\Config.ini";
 
                         deserilaizer.Execute(_file);
 

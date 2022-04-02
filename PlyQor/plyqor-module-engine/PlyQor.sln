@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlyQor.Engine", "PlyQor.Eng
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlyQor.Client", "PlyQor.Client\PlyQor.Client.csproj", "{BE19520E-D914-4641-A22E-6677E82D0DEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlyQor.Admin", "PlyQor.Admin\PlyQor.Admin.csproj", "{13DE1116-A720-4066-9E51-8A0AAC049BE0}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{BE19520E-D914-4641-A22E-6677E82D0DEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE19520E-D914-4641-A22E-6677E82D0DEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE19520E-D914-4641-A22E-6677E82D0DEE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{13DE1116-A720-4066-9E51-8A0AAC049BE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{13DE1116-A720-4066-9E51-8A0AAC049BE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{13DE1116-A720-4066-9E51-8A0AAC049BE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{13DE1116-A720-4066-9E51-8A0AAC049BE0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
