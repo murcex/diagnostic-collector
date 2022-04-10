@@ -8,7 +8,10 @@
 
     public class DeleteTagByKeyStorage
     {
-        public static int Execute(string collection, string id, string index)
+        public static int Execute(
+            string container, 
+            string id, 
+            string index)
         {
             try
             {
@@ -18,7 +21,7 @@
 
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue(SqlColumns.Collection, collection);
+                    cmd.Parameters.AddWithValue(SqlColumns.Container, container);
                     cmd.Parameters.AddWithValue(SqlColumns.Id, id);
                     cmd.Parameters.AddWithValue(SqlColumns.Data, index);
 
@@ -40,7 +43,7 @@
                     SqlExceptionCheck.Execute(ex);
                 }
 
-                throw new JavelinException(StatusCode.ERR010, ex);
+                throw new PlyQorException(StatusCode.ERR010, ex);
             }
         }
     }

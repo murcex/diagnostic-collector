@@ -1,39 +1,39 @@
 ﻿namespace PlyQor.Engine.Components.Storage.Internals
 {
     using System;
-    using System.Collections.Generic;
     using Microsoft.Data.SqlClient;
     using PlyQor.Engine.Core;
     using PlyQor.Models;
     using PlyQor.Resources;
 
-    public class SelectTagsStroage
+    class UpdateKeyStorage
     {
-        public static List<string> Execute(string collection)
+        public static int Execute(
+            string container, 
+            string oldid, 
+            string newid)
         {
-            List<string> indexes = new List<string>();
-
             try
             {
                 using (var connection = new SqlConnection(Configuration.DatabaseConnection))
                 {
-                    var cmd = new SqlCommand(SqlColumns.SelectTagsStroage, connection);
+                    var cmd = new SqlCommand(SqlColumns.UpdateKeyStroage, connection);
 
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue(SqlColumns.Collection, collection);
+                    cmd.Parameters.AddWithValue(SqlColumns.Container, container);
+                    cmd.Parameters.AddWithValue(SqlColumns.OldId, oldid);
+                    cmd.Parameters.AddWithValue(SqlColumns.NewId, newid);
 
                     connection.Open();
 
                     var reader = cmd.ExecuteReader();
                     while (reader.Read())
-                    {
-                        var index = (string)reader[SqlColumns.Data];
+                    { }
 
-                        indexes.Add(index);
-                    }
+                    var recordCount = reader.RecordsAffected;
 
-                    return indexes;
+                    return recordCount;
                 }
             }
             catch (Exception ex)
@@ -43,7 +43,7 @@
                     SqlExceptionCheck.Execute(ex);
                 }
 
-                throw new JavelinException(StatusCode.ERR010, ex);
+                throw new PlyQorException(StatusCode.ERR010, ex);
             }
         }
     }

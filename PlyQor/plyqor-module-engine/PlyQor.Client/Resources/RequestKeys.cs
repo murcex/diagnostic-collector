@@ -3,7 +3,7 @@
     public class RequestKeys
     {
         public static string Token { get; } = "Token";
-        public static string Collection { get; } = "Collection";
+        public static string Container { get; } = "Container";
 
         public static string Operation { get; } = "Operation";
 

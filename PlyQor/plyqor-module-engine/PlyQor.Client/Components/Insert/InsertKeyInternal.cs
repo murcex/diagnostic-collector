@@ -1,5 +1,6 @@
 ﻿namespace PlyQor.Client
 {
+    using PlyQor.Client.Resources;
     using PlyQor.Client.DataExtension.Internal;
 
     class InsertKeyInternal
@@ -14,12 +15,12 @@
         {
             Dictionary<string, string> request = new Dictionary<string, string>
             {
-                { "Token", token },
-                { "Collection", container },
-                { "Operation", "InsertKey" },
-                { "Key", key },
-                { "Data", data },
-                { "Tags", tags.UnwrapTags() }
+                { RequestKeys.Token, token },
+                { RequestKeys.Container, container },
+                { RequestKeys.Operation, QueryOperation.InsertKey },
+                { RequestKeys.Key, key },
+                { RequestKeys.Data, data },
+                { RequestKeys.Tags, tags.UnwrapTags() }
             };
 
             return Transmitter.Execute(uri, request);

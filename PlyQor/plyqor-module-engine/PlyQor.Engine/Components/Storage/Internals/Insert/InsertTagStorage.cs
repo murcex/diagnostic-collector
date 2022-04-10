@@ -6,27 +6,30 @@
     using PlyQor.Models;
     using PlyQor.Resources;
 
-    class UpdateDataStroage
+    class InsertTagStorage
     {
-        public static int Execute(string collection, string id, string data)
+        public static int Execute(
+            DateTime timestamp,
+            string container,
+            string id,
+            string data)
         {
             try
             {
                 using (var connection = new SqlConnection(Configuration.DatabaseConnection))
                 {
-                    var cmd = new SqlCommand(SqlColumns.UpdateDataStroage, connection);
+                    var cmd = new SqlCommand(SqlColumns.InsertTagStroage, connection);
 
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue(SqlColumns.Collection, collection);
+                    cmd.Parameters.AddWithValue(SqlColumns.TimeStamp, timestamp);
+                    cmd.Parameters.AddWithValue(SqlColumns.Container, container);
                     cmd.Parameters.AddWithValue(SqlColumns.Id, id);
                     cmd.Parameters.AddWithValue(SqlColumns.Data, data);
 
                     connection.Open();
 
                     var reader = cmd.ExecuteReader();
-                    while (reader.Read())
-                    { }
 
                     var recordCount = reader.RecordsAffected;
 
@@ -40,7 +43,7 @@
                     SqlExceptionCheck.Execute(ex);
                 }
 
-                throw new JavelinException(StatusCode.ERR010, ex);
+                throw new PlyQorException(StatusCode.ERR010, ex);
             }
         }
     }

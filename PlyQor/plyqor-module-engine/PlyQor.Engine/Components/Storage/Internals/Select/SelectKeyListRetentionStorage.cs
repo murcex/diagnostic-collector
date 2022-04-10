@@ -9,7 +9,9 @@
 
     class SelectKeyListRetentionStorage
     {
-        public static List<string> Execute(string collection, int days)
+        public static List<string> Execute(
+            string container, 
+            int days)
         {
             List<string> ids = new List<string>();
 
@@ -21,7 +23,7 @@
 
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue(SqlColumns.Collection, collection);
+                    cmd.Parameters.AddWithValue(SqlColumns.Container, container);
                     cmd.Parameters.AddWithValue(SqlColumns.Days, days);
 
                     connection.Open();
@@ -45,7 +47,7 @@
                     SqlExceptionCheck.Execute(ex);
                 }
 
-                throw new JavelinException(StatusCode.ERR010, ex);
+                throw new PlyQorException(StatusCode.ERR010, ex);
             }
         }
     }

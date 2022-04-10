@@ -15,12 +15,12 @@
         {
             if (request == null)
             {
-                throw new JavelinException(StatusCode.ERR001);
+                throw new PlyQorException(StatusCode.ERR001);
             }
 
             if (request.Count == 0)
             {
-                throw new JavelinException(StatusCode.ERR002);
+                throw new PlyQorException(StatusCode.ERR002);
             }
 
             _request = request;
@@ -32,14 +32,14 @@
             {
                 if (string.IsNullOrEmpty(result) || string.IsNullOrWhiteSpace(result))
                 {
-                    throw new JavelinException($"{StatusCode.ERR003},KEY={key}");
+                    throw new PlyQorException($"{StatusCode.ERR003},KEY={key}");
                 }
 
                 return result;
             }
             else
             {
-                throw new JavelinException($"{StatusCode.ERR004},KEY={key}");
+                throw new PlyQorException($"{StatusCode.ERR004},KEY={key}");
             }
         }
 
@@ -57,7 +57,7 @@
                         }
                         else
                         {
-                            throw new JavelinException($"{StatusCode.ERR005},KEY={key}");
+                            throw new PlyQorException($"{StatusCode.ERR005},KEY={key}");
                         }
                     }
 
@@ -65,12 +65,12 @@
                 }
                 else
                 {
-                    throw new JavelinException($"{StatusCode.ERR006},KEY={key}");
+                    throw new PlyQorException($"{StatusCode.ERR006},KEY={key}");
                 }
             }
             else
             {
-                throw new JavelinException($"{StatusCode.ERR004},KEY={key}");
+                throw new PlyQorException($"{StatusCode.ERR004},KEY={key}");
             }
         }
 
@@ -86,14 +86,14 @@
                 }
                 catch
                 {
-                    throw new JavelinException(StatusCode.ERR008);
+                    throw new PlyQorException(StatusCode.ERR008);
                 }
 
                 foreach (var tag in tags)
                 {
                     if (string.IsNullOrEmpty(result) || string.IsNullOrWhiteSpace(result))
                     {
-                        throw new JavelinException(StatusCode.ERR003);
+                        throw new PlyQorException(StatusCode.ERR003);
                     }
                 }
 
@@ -101,7 +101,7 @@
             }
             else
             {
-                throw new JavelinException(StatusCode.ERR004);
+                throw new PlyQorException(StatusCode.ERR004);
             }
         }
 

@@ -12,11 +12,11 @@
             ResultManager resultManager = new ResultManager();
 
             // get values from request
-            var collection = requestManager.GetRequestStringValue(RequestKeys.Collection);
+            var container = requestManager.GetRequestStringValue(RequestKeys.Container);
             var tag = requestManager.GetRequestStringValue(RequestKeys.Tag);
 
             // execute internal query
-            var tagCount = StorageProvider.SelectTagCount(collection, tag);
+            var tagCount = StorageProvider.SelectTagCount(container, tag);
 
             // build result
             resultManager.AddResultData(tagCount);

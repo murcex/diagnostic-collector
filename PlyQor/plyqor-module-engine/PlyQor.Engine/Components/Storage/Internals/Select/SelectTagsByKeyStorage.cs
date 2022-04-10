@@ -1,36 +1,42 @@
 ﻿namespace PlyQor.Engine.Components.Storage.Internals
 {
     using System;
+    using System.Collections.Generic;
     using Microsoft.Data.SqlClient;
     using PlyQor.Engine.Core;
     using PlyQor.Models;
     using PlyQor.Resources;
 
-    class UpdateTagStroage
+    public class SelectTagsByKeyStorage
     {
-        public static int Execute(string collection, string oldindex, string newindex)
+        public static List<string> Execute(
+            string container, 
+            string id)
         {
+            List<string> indexes = new List<string>();
+
             try
             {
                 using (var connection = new SqlConnection(Configuration.DatabaseConnection))
                 {
-                    var cmd = new SqlCommand(SqlColumns.UpdateTagStroage, connection);
+                    var cmd = new SqlCommand(SqlColumns.SelectTagsByKeyStroage, connection);
 
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue(SqlColumns.Collection, collection);
-                    cmd.Parameters.AddWithValue(SqlColumns.OldData, oldindex);
-                    cmd.Parameters.AddWithValue(SqlColumns.NewData, newindex);
+                    cmd.Parameters.AddWithValue(SqlColumns.Container, container);
+                    cmd.Parameters.AddWithValue(SqlColumns.Id, id);
 
                     connection.Open();
 
                     var reader = cmd.ExecuteReader();
                     while (reader.Read())
-                    { }
+                    {
+                        var index = (string)reader[SqlColumns.Data];
 
-                    var recordCount = reader.RecordsAffected;
+                        indexes.Add(index);
+                    }
 
-                    return recordCount;
+                    return indexes;
                 }
             }
             catch (Exception ex)
@@ -40,7 +46,7 @@
                     SqlExceptionCheck.Execute(ex);
                 }
 
-                throw new JavelinException(StatusCode.ERR010, ex);
+                throw new PlyQorException(StatusCode.ERR010, ex);
             }
         }
     }

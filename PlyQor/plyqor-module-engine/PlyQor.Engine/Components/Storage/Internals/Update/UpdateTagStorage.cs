@@ -6,20 +6,24 @@
     using PlyQor.Models;
     using PlyQor.Resources;
 
-    public class DeleteTagStroage
+    class UpdateTagStorage
     {
-        public static int Execute(string collection, string index)
+        public static int Execute(
+            string container, 
+            string oldindex, 
+            string newindex)
         {
             try
             {
                 using (var connection = new SqlConnection(Configuration.DatabaseConnection))
                 {
-                    var cmd = new SqlCommand(SqlColumns.DeleteTagStroage, connection);
+                    var cmd = new SqlCommand(SqlColumns.UpdateTagStroage, connection);
 
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue(SqlColumns.Collection, collection);
-                    cmd.Parameters.AddWithValue(SqlColumns.Data, index);
+                    cmd.Parameters.AddWithValue(SqlColumns.Container, container);
+                    cmd.Parameters.AddWithValue(SqlColumns.OldData, oldindex);
+                    cmd.Parameters.AddWithValue(SqlColumns.NewData, newindex);
 
                     connection.Open();
 
@@ -39,7 +43,7 @@
                     SqlExceptionCheck.Execute(ex);
                 }
 
-                throw new JavelinException(StatusCode.ERR010, ex);
+                throw new PlyQorException(StatusCode.ERR010, ex);
             }
         }
     }

@@ -1,21 +1,21 @@
 ﻿namespace PlyQor.Engine.Components.Storage
 {
+    using PlyQor.Engine.Components.Storage.Internals;
     using System;
     using System.Collections.Generic;
-    using PlyQor.Engine.Components.Storage.Internals;
 
     public class StorageProvider
     {
         /// <summary>
         /// Insert storage data for a single storage id, with storage indexes.
         /// </summary>
-        public static int InsertKey(string collection, string id, string data, List<string> indexes)
+        public static int InsertKey(string container, string id, string data, List<string> indexes)
         {
             var timestamp = DateTime.UtcNow;
 
-            var count = InsertKeyStroage.Execute(
+            var count = InsertKeyStorage.Execute(
                 timestamp,
-                collection.ToUpper(),
+                container.ToUpper(),
                 id.ToUpper(),
                 data);
 
@@ -23,9 +23,9 @@
             {
                 foreach (var indexId in indexes)
                 {
-                    count =+ InsertTagStroage.Execute(
+                    count =+ InsertTagStorage.Execute(
                         timestamp,
-                        collection.ToUpper(),
+                        container.ToUpper(),
                         id.ToUpper(),
                         indexId.ToUpper());
                 }
@@ -37,41 +37,41 @@
         /// <summary>
         /// Select storage data for a single storage id.
         /// </summary>
-        public static string SelectKey(string collection, string id)
+        public static string SelectKey(string conatiner, string id)
         {
-            return SelectKeyStroage.Execute(
-                collection.ToUpper(),
+            return SelectKeyStorage.Execute(
+                conatiner.ToUpper(),
                 id.ToUpper());
         }
 
         /// <summary>
-        /// List all storage indexes of a collection.
+        /// List all storage tags of a container.
         /// </summary>
-        public static List<string> SelectTags(string collection)
+        public static List<string> SelectTags(string container)
         {
-            return SelectTagsStroage.Execute(collection.ToUpper());
+            return SelectTagsStorage.Execute(container.ToUpper());
         }
 
         /// <summary>
-        /// Count all records of an storage index, of a collection.
+        /// Count all records of an storage tag, of a container.
         /// </summary>
-        public static int SelectTagCount(string collection, string index)
+        public static int SelectTagCount(string container, string index)
         {
-            return SelectTagCountStroage.Execute(
-                collection.ToUpper(),
+            return SelectTagCountStorage.Execute(
+                container.ToUpper(),
                 index.ToUpper());
         }
 
         /// <summary>
-        /// List a set number of storage ids of an storage index, of a collection.
+        /// List a set number of storage ids of an storage tag, of a container.
         /// </summary>
         public static List<string> SelectKeyList(
-            string collection,
+            string container,
             string tag,
             int count)
         {
-            return SelectKeyListStroage.Execute(
-                collection.ToUpper(),
+            return SelectKeyListStorage.Execute(
+                container.ToUpper(),
                 tag.ToUpper(),
                 count);
         }
@@ -79,10 +79,10 @@
         /// <summary>
         /// Select all the storage indexes that belong to a storage id.
         /// </summary>
-        public static List<string> SelectTagsByKey(string collection, string id)
+        public static List<string> SelectTagsByKey(string container, string id)
         {
-            return SelectTagsByKeyStroage.Execute(
-                collection.ToUpper(),
+            return SelectTagsByKeyStorage.Execute(
+                container.ToUpper(),
                 id.ToUpper());
         }
 
@@ -90,17 +90,17 @@
         /// Update storage id.
         /// </summary>
         public static int UpdateKey(
-            string collection,
+            string container,
             string oldid,
             string newid)
         {
-            var count = UpdateKeyStroage.Execute(
-                collection,
+            var count = UpdateKeyStorage.Execute(
+                container,
                 oldid,
                 newid);
 
-            count =+ UpdateKeyWithTagsStroage.Execute(
-                 collection.ToUpper(),
+            count =+ UpdateKeyWithTagsStorage.Execute(
+                 container.ToUpper(),
                  oldid.ToUpper(),
                  newid.ToUpper());
 
@@ -111,12 +111,12 @@
         /// Update the storage data of a storage id.
         /// </summary>
         public static int UpdateData(
-            string collection,
+            string container,
             string id,
             string newdata)
         {
-            return UpdateDataStroage.Execute(
-                collection.ToUpper(),
+            return UpdateDataStorage.Execute(
+                container.ToUpper(),
                 id.ToUpper(),
                 newdata);
         }
@@ -125,13 +125,13 @@
         /// Update an existing storage index by storage id.
         /// </summary>
         public static int UpdateTagByKey(
-            string collection,
+            string container,
             string id,
             string oldindex,
             string newindex)
         {
-            return UpdateTagByKeyStroage.Execute(
-                collection.ToUpper(),
+            return UpdateTagByKeyStorage.Execute(
+                container.ToUpper(),
                 id.ToUpper(),
                 oldindex.ToUpper(),
                 newindex.ToUpper());
@@ -141,12 +141,12 @@
         /// Update an existing single storage index.
         /// </summary>
         public static int UpdateTag(
-            string collection,
+            string container,
             string oldIndex,
             string newIndex)
         {
-            return UpdateTagStroage.Execute(
-                collection.ToUpper(),
+            return UpdateTagStorage.Execute(
+                container.ToUpper(),
                 oldIndex.ToUpper(),
                 newIndex.ToUpper());
         }
@@ -155,17 +155,17 @@
         /// Delete a single storage id.
         /// </summary>
         public static int DeleteKey(
-            string collection,
+            string container,
             string id)
         {
             // delete key
             var count = DeleteKeyStorage.Execute(
-                collection,
+                container,
                 id);
 
             // delete all tags for a key
-            count += DeleteTagsByKeyStroage.Execute(
-                collection.ToUpper(),
+            count += DeleteTagsByKeyStorage.Execute(
+                container.ToUpper(),
                 id.ToUpper());
 
             return count;
@@ -175,11 +175,11 @@
         /// Delete a single storage index.
         /// </summary>
         public static int DeleteTag(
-            string collection,
+            string container,
             string index)
         {
-            return DeleteTagStroage.Execute(
-                collection.ToUpper(),
+            return DeleteTagStorage.Execute(
+                container.ToUpper(),
                 index.ToUpper());
         }
 
@@ -187,11 +187,11 @@
         /// Delete all storage indexes for a single storage id.
         /// </summary>
         public static int DeleteTagsByKey(
-            string collection,
+            string container,
             string id)
         {
-            var count = DeleteTagsByKeyStroage.Execute(
-                collection.ToUpper(),
+            var count = DeleteTagsByKeyStorage.Execute(
+                container.ToUpper(),
                 id.ToUpper());
 
             return count;
@@ -201,12 +201,12 @@
         /// Delete a single storage index for a single storage id.
         /// </summary>
         public static int DeleteTagByKey(
-            string collection,
+            string container,
             string id,
             string index)
         {
             return DeleteTagByKeyStorage.Execute(
-                collection.ToUpper(),
+                container.ToUpper(),
                 id.ToUpper(),
                 index.ToUpper());
         }
@@ -216,29 +216,29 @@
         /// </summary>
         public static List<string> DataRetentionId()
         {
-            return SelectRetentionStroage.Execute();
+            return SelectRetentionStorage.Execute();
         }
 
         public static int InsertTag(
-            string collection,
+            string container,
             string id,
             string index)
         {
             var timestamp = DateTime.UtcNow;
 
-            return InsertTagStroage.Execute(
+            return InsertTagStorage.Execute(
                 timestamp,
-                collection.ToUpper(),
+                container.ToUpper(),
                 id.ToUpper(),
                 index.ToUpper());
         }
 
         public static List<string> SelectKeyListRetention(
-            string collection, 
+            string container, 
             int days)
         {
             return SelectKeyListRetentionStorage.Execute(
-                collection.ToUpper(), 
+                container.ToUpper(), 
                 days);
         }
 

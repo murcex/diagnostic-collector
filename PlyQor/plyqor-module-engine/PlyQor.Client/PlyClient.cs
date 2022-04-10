@@ -10,6 +10,8 @@
 
         public PlyClient(string uri, string container, string token)
         {
+            // TODO: add null check
+
             _uri = uri;
             _container = container;
             _token = token;

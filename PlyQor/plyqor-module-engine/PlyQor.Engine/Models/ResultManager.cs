@@ -54,7 +54,7 @@
             {
                 if (!_result.TryAdd(record.Key, record.Value))
                 {
-                    throw new JavelinException($"{StatusCode.ERR011},KEY={record.Key}");
+                    throw new PlyQorException($"{StatusCode.ERR011},KEY={record.Key}");
                 }
             }
         }

@@ -7,7 +7,7 @@
     using PlyQor.Models;
     using PlyQor.Resources;
 
-    class SelectRetentionStroage
+    class SelectRetentionStorage
     {
         public static List<string> Execute()
         {
@@ -42,7 +42,7 @@
                     SqlExceptionCheck.Execute(ex);
                 }
 
-                throw new JavelinException(StatusCode.ERR010, ex);
+                throw new PlyQorException(StatusCode.ERR010, ex);
             }
         }
     }

@@ -1,28 +1,28 @@
 ﻿namespace PlyQor.Engine.Components.Storage.Internals
 {
     using System;
-    using System.Collections.Generic;
     using Microsoft.Data.SqlClient;
     using PlyQor.Engine.Core;
     using PlyQor.Models;
     using PlyQor.Resources;
 
-    public class SelectKeyListStroage
+    public class SelectTagCountStorage
     {
-        public static List<string> Execute(string collection, string tag, int top)
+        public static int Execute(
+            string container, 
+            string tag)
         {
-            List<string> ids = new List<string>();
+            int count = 0;
 
             try
             {
                 using (var connection = new SqlConnection(Configuration.DatabaseConnection))
                 {
-                    var cmd = new SqlCommand(SqlColumns.SelectKeyListStroage, connection);
+                    var cmd = new SqlCommand(SqlColumns.SelectTagCountStroage, connection);
 
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue(SqlColumns.Top, top);
-                    cmd.Parameters.AddWithValue(SqlColumns.Collection, collection);
+                    cmd.Parameters.AddWithValue(SqlColumns.Container, container);
                     cmd.Parameters.AddWithValue(SqlColumns.Data, tag);
 
                     connection.Open();
@@ -30,12 +30,10 @@
                     var reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        var id = (string)reader[SqlColumns.Id];
-
-                        ids.Add(id);
+                        count = (int)reader[SqlColumns.Count];
                     }
 
-                    return ids;
+                    return count;
                 }
             }
             catch (Exception ex)
@@ -45,7 +43,7 @@
                     SqlExceptionCheck.Execute(ex);
                 }
 
-                throw new JavelinException(StatusCode.ERR010, ex);
+                throw new PlyQorException(StatusCode.ERR010, ex);
             }
         }
     }

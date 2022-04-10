@@ -6,10 +6,10 @@
     using PlyQor.Models;
     using PlyQor.Resources;
 
-    class UpdateTagByKeyStroage
+    class UpdateTagByKeyStorage
     {
         public static int Execute(
-            string collection,
+            string container,
             string id,
             string oldindex,
             string newindex)
@@ -22,7 +22,7 @@
 
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue(SqlColumns.Collection, collection);
+                    cmd.Parameters.AddWithValue(SqlColumns.Container, container);
                     cmd.Parameters.AddWithValue(SqlColumns.Id, id);
                     cmd.Parameters.AddWithValue(SqlColumns.OldData, oldindex);
                     cmd.Parameters.AddWithValue(SqlColumns.NewData, newindex);
@@ -45,7 +45,7 @@
                     SqlExceptionCheck.Execute(ex);
                 }
 
-                throw new JavelinException(StatusCode.ERR010, ex);
+                throw new PlyQorException(StatusCode.ERR010, ex);
             }
         }
     }

@@ -9,15 +9,15 @@
         {
             if (ex.Message.Contains("request limit"))
             {
-                throw new JavelinException("ERR888", ex);
+                throw new PlyQorException("ERR888", ex);
             }
 
             if (ex.Message.Contains("PRIMARY KEY constraint"))
             {
-                throw new JavelinException("ERR999", ex);
+                throw new PlyQorException("ERR999", ex);
             }
 
-            throw new JavelinException("ERR777", ex);
+            throw new PlyQorException("ERR777", ex);
         }
     }
 }

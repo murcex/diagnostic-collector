@@ -6,30 +6,34 @@
     using PlyQor.Models;
     using PlyQor.Resources;
 
-    class DeleteTagsByKeyStroage
+    public class SelectKeyStorage
     {
-        public static int Execute(string collection, string id)
+        public static string Execute(
+            string container, 
+            string id)
         {
+            string data = string.Empty;
+
             try
             {
                 using (var connection = new SqlConnection(Configuration.DatabaseConnection))
                 {
-                    var cmd = new SqlCommand(SqlColumns.DeleteTagsByKeyStroage, connection);
+                    var cmd = new SqlCommand(SqlColumns.SelectKeyStroage, connection);
 
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue(SqlColumns.Collection, collection);
+                    cmd.Parameters.AddWithValue(SqlColumns.Container, container);
                     cmd.Parameters.AddWithValue(SqlColumns.Id, id);
 
                     connection.Open();
 
                     var reader = cmd.ExecuteReader();
                     while (reader.Read())
-                    { }
+                    {
+                        data = (string)reader[SqlColumns.Data];
+                    }
 
-                    var recordCount = reader.RecordsAffected;
-
-                    return recordCount;
+                    return data;
                 }
             }
             catch (Exception ex)
@@ -39,7 +43,7 @@
                     SqlExceptionCheck.Execute(ex);
                 }
 
-                throw new JavelinException(StatusCode.ERR010, ex);
+                throw new PlyQorException(StatusCode.ERR010, ex);
             }
         }
     }

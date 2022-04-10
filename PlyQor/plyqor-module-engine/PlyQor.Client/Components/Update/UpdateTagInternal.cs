@@ -1,5 +1,7 @@
 ﻿namespace PlyQor.Client
 {
+    using PlyQor.Client.Resources;
+
     class UpdateTagInternal
     {
         public static Dictionary<string, string> Execute( 
@@ -11,11 +13,11 @@
         {
             Dictionary<string, string> request = new Dictionary<string, string>
             {
-                { "Token", token },
-                { "Collection", container },
-                { "Operation", "UpdateTag" },
-                { "Tag", tag_1 },
-                { "Aux", tag_2 }
+                { RequestKeys.Token, token },
+                { RequestKeys.Container, container },
+                { RequestKeys.Operation, QueryOperation.UpdateTag },
+                { RequestKeys.Tag, tag_1 },
+                { RequestKeys.Aux, tag_2 }
             };
 
             return Transmitter.Execute(uri, request);

@@ -6,7 +6,7 @@
 
         public static string Code { get; } = "Code";
 
-        public static string ActivityId { get; } = "ActivityId";
+        public static string Trace { get; } = "Trace";
 
         public static string Data { get; } = "Data";
     }

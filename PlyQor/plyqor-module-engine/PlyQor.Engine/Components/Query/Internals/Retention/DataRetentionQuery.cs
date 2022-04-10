@@ -12,19 +12,19 @@
             ResultManager resultManager = new ResultManager();
 
             // get values from request
-            var collection = requestManager.GetRequestStringValue(RequestKeys.Collection);
+            var container = requestManager.GetRequestStringValue(RequestKeys.Container);
             var days = requestManager.GetRequestIntValue(RequestKeys.Aux, positive: false);
 
             // execute internal query
-            var retentionKeys = StorageProvider.SelectKeyListRetention(collection, days);
+            var retentionKeys = StorageProvider.SelectKeyListRetention(container, days);
 
             int count = 0;
 
             foreach (var retentionKey in retentionKeys)
             {
-                StorageProvider.DeleteKey(collection, retentionKey);
+                StorageProvider.DeleteKey(container, retentionKey);
 
-                StorageProvider.DeleteTagsByKey(collection, retentionKey);
+                StorageProvider.DeleteTagsByKey(container, retentionKey);
 
                 count++;
             }

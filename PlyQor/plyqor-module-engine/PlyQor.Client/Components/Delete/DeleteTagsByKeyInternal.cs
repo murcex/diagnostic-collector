@@ -1,5 +1,7 @@
 ﻿namespace PlyQor.Client
 {
+    using PlyQor.Client.Resources;
+
     class DeleteTagsByKeyInternal
     {
         public static Dictionary<string, string> Execute(
@@ -10,10 +12,10 @@
         {
             Dictionary<string, string> request = new Dictionary<string, string>
             {
-                { "Token", token },
-                { "Collection", container },
-                { "Operation", "DeleteTagsByKey" },
-                { "Key", key }
+                { RequestKeys.Token, token },
+                { RequestKeys.Container, container },
+                { RequestKeys.Operation, QueryOperation.DeleteTagsByKey },
+                { RequestKeys.Key, key }
             };
 
             return Transmitter.Execute(uri, request);

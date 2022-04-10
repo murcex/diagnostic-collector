@@ -19,33 +19,33 @@
             {
                 if (string.IsNullOrEmpty(input))
                 {
-                    throw new JavelinException(StatusCode.ERRMALFORM);
+                    throw new PlyQorException(StatusCode.ERRMALFORM);
                 }
 
                 return JsonConvert.DeserializeObject<Dictionary<string, string>>(input);
             }
             catch (Exception ex)
             {
-                throw new JavelinException(StatusCode.ERRMALFORM, ex);
+                throw new PlyQorException(StatusCode.ERRMALFORM, ex);
             }
         }
 
         /// <summary>
         /// Check if token is valid.
         /// </summary>
-        public static bool CheckToken(string collection, string token)
+        public static bool CheckToken(string container, string token)
         {
-            if (Configuration.Tokens.TryGetValue(collection, out List<string> tokens))
+            if (Configuration.Tokens.TryGetValue(container, out List<string> tokens))
             {
                 if (tokens.Contains(token))
                 {
                     return true;
                 }
 
-                throw new JavelinException(StatusCode.ERRBLOCK);
+                throw new PlyQorException(StatusCode.ERRBLOCK);
             }
 
-            throw new JavelinException(StatusCode.ERRBLOCK);
+            throw new PlyQorException(StatusCode.ERRBLOCK);
         }
 
         /// <summary>
@@ -58,7 +58,7 @@
                 return true;
             }
 
-            throw new JavelinException(StatusCode.ERR033);
+            throw new PlyQorException(StatusCode.ERR033);
         }
     }
 }

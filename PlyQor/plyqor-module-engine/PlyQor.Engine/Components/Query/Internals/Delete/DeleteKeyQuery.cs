@@ -12,11 +12,11 @@
             ResultManager resultManager = new ResultManager();
 
             // get values from request
-            var collection = requestManager.GetRequestStringValue(RequestKeys.Collection);
+            var container = requestManager.GetRequestStringValue(RequestKeys.Container);
             var key = requestManager.GetRequestStringValue(RequestKeys.Key);
 
             // execute internal query
-            var count = StorageProvider.DeleteKey(collection, key);
+            var count = StorageProvider.DeleteKey(container, key);
 
             // build result
             resultManager.AddResultData(count);

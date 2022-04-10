@@ -1,7 +1,7 @@
 CREATE PROCEDURE [dbo].[usp_PlyQor_Trace_Insert]
 
 @dt_timestamp smalldatetime
-,@nvc_version nvarchar(10)
+,@nvc_container nvarchar(20)
 ,@nvc_id nvarchar(50)
 ,@nvc_operation nvarchar(20)
 ,@nvc_code nvarchar(10)
@@ -11,20 +11,22 @@ CREATE PROCEDURE [dbo].[usp_PlyQor_Trace_Insert]
 AS
 
 BEGIN
+
 INSERT INTO [dbo].[tbl_PlyQor_Trace]
-           ([dt_timestamp]
-		   ,[nvc_version]
-		   ,[nvc_id]
-           ,[nvc_operation]
-		   ,[nvc_code]
-		   ,[nvc_status]
-		   ,[i_duration])
-     VALUES
-           (@dt_timestamp
-		   ,@nvc_version
-           ,@nvc_id
-           ,@nvc_operation
-		   ,@nvc_code
-		   ,@nvc_status
-		   ,@i_duration)
+([dt_timestamp]
+,[nvc_container]
+,[nvc_id]
+,[nvc_operation]
+,[nvc_code]
+,[nvc_status]
+,[i_duration])
+VALUES
+(@dt_timestamp
+,@nvc_container
+,@nvc_id
+,@nvc_operation
+,@nvc_code
+,@nvc_status
+,@i_duration)
+
 END

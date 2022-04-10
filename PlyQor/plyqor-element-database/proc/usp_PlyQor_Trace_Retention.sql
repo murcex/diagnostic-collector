@@ -7,7 +7,7 @@ AS
 BEGIN
 
 DELETE
-  FROM [dbo].[tbl_PlyQor_Trace]
-  WHERE [dt_timestamp] < DATEADD(day,@i_days,GETDATE())
+FROM [dbo].[tbl_PlyQor_Trace]
+WHERE [dt_timestamp] < DATEADD(day,@i_days,GETDATE())
 
 END

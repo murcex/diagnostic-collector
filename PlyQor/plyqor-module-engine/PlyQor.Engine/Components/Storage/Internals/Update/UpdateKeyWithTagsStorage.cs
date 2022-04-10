@@ -1,37 +1,35 @@
 ﻿namespace PlyQor.Engine.Components.Storage.Internals
 {
     using System;
-    using System.IO;
-    using System.Text;
     using Microsoft.Data.SqlClient;
     using PlyQor.Engine.Core;
     using PlyQor.Models;
     using PlyQor.Resources;
 
-    class InsertKeyStroage
+    class UpdateKeyWithTagsStorage
     {
         public static int Execute(
-            DateTime timestamp,
-            string collection,
-            string id,
-            string data)
+            string container, 
+            string oldid, 
+            string newid)
         {
             try
             {
                 using (var connection = new SqlConnection(Configuration.DatabaseConnection))
                 {
-                    var cmd = new SqlCommand(SqlColumns.InsertKeyStroage, connection);
+                    var cmd = new SqlCommand(SqlColumns.UpdateKeyWithTagsStroage, connection);
 
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue(SqlColumns.TimeStamp, timestamp);
-                    cmd.Parameters.AddWithValue(SqlColumns.Collection, collection);
-                    cmd.Parameters.AddWithValue(SqlColumns.Id, id);
-                    cmd.Parameters.AddWithValue(SqlColumns.Data, data);
+                    cmd.Parameters.AddWithValue(SqlColumns.Container, container);
+                    cmd.Parameters.AddWithValue(SqlColumns.OldId, oldid);
+                    cmd.Parameters.AddWithValue(SqlColumns.NewId, newid);
 
                     connection.Open();
 
                     var reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    { }
 
                     var recordCount = reader.RecordsAffected;
 
@@ -45,7 +43,7 @@
                     SqlExceptionCheck.Execute(ex);
                 }
 
-                throw new JavelinException(StatusCode.ERR010, ex);
+                throw new PlyQorException(StatusCode.ERR010, ex);
             }
         }
     }

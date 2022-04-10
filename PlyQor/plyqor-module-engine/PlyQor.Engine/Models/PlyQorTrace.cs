@@ -4,13 +4,13 @@
     using System.Diagnostics;
     using Microsoft.Data.SqlClient;
 
-    public class ActivityTrace : IDisposable
+    public class PlyQorTrace : IDisposable
     {
         private bool dispose = false;
 
         public DateTime Session { get; }
-        public string Version { get; set; }
-        public string ActivityId { get; }
+        public string Container { get; set; }
+        public string TraceId { get; }
         public string Operation { get; set; }
         public string Code { get; set; }
         public bool Status { get; set; }
@@ -18,11 +18,11 @@
         private string DatabaseConnection { get; set; }
         private Stopwatch Tracer { get; set; }
 
-        public ActivityTrace(string databaseConnectionString, string activityId = null)
+        public PlyQorTrace(string databaseConnectionString, string activityId = null)
         {
             this.Session = DateTime.UtcNow;
-            this.Version = "NoContainer";
-            this.ActivityId = activityId ?? Guid.NewGuid().ToString();
+            this.Container = "NoContainer";
+            this.TraceId = activityId ?? Guid.NewGuid().ToString();
             this.Operation = "NoOperation";
             this.Code = "OK";
             this.Status = true;
@@ -33,7 +33,7 @@
 
         public void AddContainer(string container)
         {
-            this.Version = container;
+            this.Container = container;
         }
 
         public void AddOperation(string operation)
@@ -60,8 +60,8 @@
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
                     cmd.Parameters.AddWithValue("dt_timestamp", Session);
-                    cmd.Parameters.AddWithValue("nvc_version", Version);
-                    cmd.Parameters.AddWithValue("nvc_id", ActivityId);
+                    cmd.Parameters.AddWithValue("nvc_container", Container);
+                    cmd.Parameters.AddWithValue("nvc_id", TraceId);
                     cmd.Parameters.AddWithValue("nvc_operation", Operation);
                     cmd.Parameters.AddWithValue("nvc_code", Code);
                     cmd.Parameters.AddWithValue("nvc_status", Status.ToString());

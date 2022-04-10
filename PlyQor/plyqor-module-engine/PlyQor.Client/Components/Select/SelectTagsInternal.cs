@@ -1,5 +1,7 @@
 ﻿namespace PlyQor.Client
 {
+    using PlyQor.Client.Resources;
+
     class SelectTagsInternal
     {
         public static Dictionary<string, string> Execute(
@@ -9,9 +11,9 @@
         {
             Dictionary<string, string> request = new Dictionary<string, string>
             {
-                { "Token", token },
-                { "Collection", container },
-                { "Operation", "SelectTags" }
+                { RequestKeys.Token, token },
+                { RequestKeys.Container, container },
+                { RequestKeys.Operation, QueryOperation.SelectTags }
             };
 
             return Transmitter.Execute(uri, request);

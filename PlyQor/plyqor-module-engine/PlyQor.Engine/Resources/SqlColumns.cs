@@ -3,7 +3,7 @@
     class SqlColumns
     {
         public static string TimeStamp { get; } = "dt_timestamp";
-        public static string Collection { get; } = "nvc_collection";
+        public static string Container { get; } = "nvc_container";
         public static string Id { get; } = "nvc_id";
         public static string Data { get; } = "nvc_data";
 

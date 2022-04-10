@@ -26,7 +26,7 @@
             var activityId = Guid.NewGuid().ToString();
             Dictionary<string, string> resultDictionary = new Dictionary<string, string>();
 
-            using (ActivityTrace trace = new ActivityTrace(Configuration.DatabaseConnection, activityId))
+            using (PlyQorTrace trace = new PlyQorTrace(Configuration.DatabaseConnection, activityId))
             {
                 try
                 {
@@ -36,11 +36,11 @@
 
                     var token = requestManager.GetRequestStringValue(RequestKeys.Token);
 
-                    var collection = requestManager.GetRequestStringValue(RequestKeys.Collection);
+                    var container = requestManager.GetRequestStringValue(RequestKeys.Container);
 
-                    trace.AddContainer(collection);
+                    trace.AddContainer(container);
 
-                    ValidationProvider.CheckToken(collection, token);
+                    ValidationProvider.CheckToken(container, token);
 
                     var operation = requestManager.GetRequestStringValue(RequestKeys.Operation);
 
@@ -50,7 +50,7 @@
 
                     resultDictionary = ExecuteQuery(operation, requestManager);
                 }
-                catch (JavelinException javelinException)
+                catch (PlyQorException javelinException)
                 {
                     if (javelinException.Message == StatusCode.ERRMALFORM)
                     {
@@ -69,7 +69,7 @@
                     trace.AddCode(javelinException.Message);
                 }
 
-                resultDictionary.Add(ResultKeys.ActivityId, activityId);
+                resultDictionary.Add(ResultKeys.Trace, activityId);
                 var result = JsonConvert.SerializeObject(resultDictionary);
                 return result;
             }
@@ -114,7 +114,7 @@
             {
                 var dataRetentionActivityId = Guid.NewGuid().ToString();
 
-                using (ActivityTrace trace = new ActivityTrace(Configuration.DatabaseConnection, dataRetentionActivityId))
+                using (PlyQorTrace trace = new PlyQorTrace(Configuration.DatabaseConnection, dataRetentionActivityId))
                 {
                     trace.AddContainer(container.Key);
                     trace.AddOperation("DataRetention");
@@ -123,7 +123,7 @@
                     {
                         // build request dictionary
                         Dictionary<string, string> request = new Dictionary<string, string>();
-                        request.Add(RequestKeys.Collection, container.Key);
+                        request.Add(RequestKeys.Container, container.Key);
                         request.Add(RequestKeys.Aux, container.Value.ToString());
 
                         // build request
@@ -132,7 +132,7 @@
                         // execute
                         QueryProvider.DataRetention(requestManager);
                     }
-                    catch (JavelinException javelinException)
+                    catch (PlyQorException javelinException)
                     {
                         trace.AddCode(javelinException.Message);
                     }
@@ -141,7 +141,7 @@
 
             var activityId = Guid.NewGuid().ToString();
 
-            using (ActivityTrace trace = new ActivityTrace(Configuration.DatabaseConnection, activityId))
+            using (PlyQorTrace trace = new PlyQorTrace(Configuration.DatabaseConnection, activityId))
             {
                 trace.AddContainer("SYSTEM");
                 trace.AddOperation("TraceRetention");
@@ -159,7 +159,7 @@
                     QueryProvider.TraceRetention(requestManager);
 
                 }
-                catch (JavelinException javelinException)
+                catch (PlyQorException javelinException)
                 {
                     trace.AddCode(javelinException.Message);
                 }

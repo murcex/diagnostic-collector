@@ -1,36 +1,39 @@
 ﻿namespace PlyQor.Engine.Components.Storage.Internals
 {
     using System;
+    using System.Collections.Generic;
     using Microsoft.Data.SqlClient;
     using PlyQor.Engine.Core;
     using PlyQor.Models;
     using PlyQor.Resources;
 
-    class UpdateKeyWithTagsStroage
+    public class SelectTagsStorage
     {
-        public static int Execute(string collection, string oldid, string newid)
+        public static List<string> Execute(string container)
         {
+            List<string> indexes = new List<string>();
+
             try
             {
                 using (var connection = new SqlConnection(Configuration.DatabaseConnection))
                 {
-                    var cmd = new SqlCommand(SqlColumns.UpdateKeyWithTagsStroage, connection);
+                    var cmd = new SqlCommand(SqlColumns.SelectTagsStroage, connection);
 
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue(SqlColumns.Collection, collection);
-                    cmd.Parameters.AddWithValue(SqlColumns.OldId, oldid);
-                    cmd.Parameters.AddWithValue(SqlColumns.NewId, newid);
+                    cmd.Parameters.AddWithValue(SqlColumns.Container, container);
 
                     connection.Open();
 
                     var reader = cmd.ExecuteReader();
                     while (reader.Read())
-                    { }
+                    {
+                        var index = (string)reader[SqlColumns.Data];
 
-                    var recordCount = reader.RecordsAffected;
+                        indexes.Add(index);
+                    }
 
-                    return recordCount;
+                    return indexes;
                 }
             }
             catch (Exception ex)
@@ -40,7 +43,7 @@
                     SqlExceptionCheck.Execute(ex);
                 }
 
-                throw new JavelinException(StatusCode.ERR010, ex);
+                throw new PlyQorException(StatusCode.ERR010, ex);
             }
         }
     }

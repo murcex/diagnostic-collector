@@ -17,9 +17,9 @@
         /// <summary>
         /// Check if token is valid.
         /// </summary>
-        public static bool CheckToken(string collection, string token)
+        public static bool CheckToken(string container, string token)
         {
-            return InternalValidationService.CheckToken(collection, token);
+            return InternalValidationService.CheckToken(container, token);
         }
 
         /// <summary>
