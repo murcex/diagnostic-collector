@@ -21,6 +21,8 @@
 
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
+                    cmd.CommandTimeout = 0;
+
                     connection.Open();
 
                     var reader = cmd.ExecuteReader();

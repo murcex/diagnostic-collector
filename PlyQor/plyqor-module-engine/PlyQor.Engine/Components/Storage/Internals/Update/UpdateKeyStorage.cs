@@ -25,6 +25,8 @@
                     cmd.Parameters.AddWithValue(SqlColumns.OldId, oldid);
                     cmd.Parameters.AddWithValue(SqlColumns.NewId, newid);
 
+                    cmd.CommandTimeout = 0;
+
                     connection.Open();
 
                     var reader = cmd.ExecuteReader();

@@ -25,6 +25,8 @@
                     cmd.Parameters.AddWithValue(SqlColumns.Container, container);
                     cmd.Parameters.AddWithValue(SqlColumns.Id, id);
 
+                    cmd.CommandTimeout = 0;
+
                     connection.Open();
 
                     var reader = cmd.ExecuteReader();

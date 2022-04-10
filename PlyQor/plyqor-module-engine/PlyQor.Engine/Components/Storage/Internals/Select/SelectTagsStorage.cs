@@ -23,6 +23,8 @@
 
                     cmd.Parameters.AddWithValue(SqlColumns.Container, container);
 
+                    cmd.CommandTimeout = 0;
+
                     connection.Open();
 
                     var reader = cmd.ExecuteReader();

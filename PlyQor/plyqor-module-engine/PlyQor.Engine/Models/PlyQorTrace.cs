@@ -67,6 +67,8 @@
                     cmd.Parameters.AddWithValue("nvc_status", Status.ToString());
                     cmd.Parameters.AddWithValue("i_duration", Duration);
 
+                    cmd.CommandTimeout = 0;
+
                     connection.Open();
 
                     var reader = cmd.ExecuteReader();

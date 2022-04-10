@@ -20,6 +20,8 @@
 
                     cmd.Parameters.AddWithValue(SqlColumns.Days, days);
 
+                    cmd.CommandTimeout = 0;
+
                     connection.Open();
 
                     var reader = cmd.ExecuteReader();

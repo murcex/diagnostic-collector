@@ -27,6 +27,8 @@
                     cmd.Parameters.AddWithValue(SqlColumns.OldData, oldindex);
                     cmd.Parameters.AddWithValue(SqlColumns.NewData, newindex);
 
+                    cmd.CommandTimeout = 0;
+
                     connection.Open();
 
                     var reader = cmd.ExecuteReader();
