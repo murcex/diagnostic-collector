@@ -14,11 +14,11 @@
             {
                 using (var connection = new SqlConnection(Configuration.DatabaseConnection))
                 {
-                    var cmd = new SqlCommand(SqlColumns.TraceRetentionStorage, connection);
+                    var cmd = new SqlCommand(SqlValues.TraceRetentionStorage, connection);
 
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue(SqlColumns.Days, days);
+                    cmd.Parameters.AddWithValue(SqlValues.Days, days);
 
                     cmd.CommandTimeout = 0;
 

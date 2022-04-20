@@ -15,6 +15,7 @@
         {
             if (configuration == null || configuration.Count == 0)
             {
+                // TODO: move literal string to const
                 throw new Exception("CORE_ERR_001");
             }
 
@@ -85,21 +86,26 @@
         {
             return operation switch
             {
+                // TODO: move literal string to const
                 "InsertKey" => QueryProvider.InsertKey(request),
                 "InsertTag" => QueryProvider.InsertTag(request),
+
                 "SelectKey" => QueryProvider.SelectKey(request),
                 "SelectTags" => QueryProvider.SelectTags(request),
                 "SelectTagCount" => QueryProvider.SelectTagCount(request),
                 "SelectKeyList" => QueryProvider.SelectKeyList(request),
-                "SelectTagsByKey" => QueryProvider.SelectTagsByKey(request),
+                "SelectKeyTags" => QueryProvider.SelectKeyTags(request),
+
                 "UpdateKey" => QueryProvider.UpdateKey(request),
                 "UpdateData" => QueryProvider.UpdateData(request),
                 "UpdateTag" => QueryProvider.UpdateTag(request),
-                "UpdateTagByKey" => QueryProvider.UpdateTagByKey(request),
+                "UpdateKeyTag" => QueryProvider.UpdateKeyTag(request),
+
                 "DeleteKey" => QueryProvider.DeleteKey(request),
                 "DeleteTag" => QueryProvider.DeleteTag(request),
-                "DeleteTagsByKey" => QueryProvider.DeleteTagsByKey(request),
-                "DeleteTagByKey" => QueryProvider.DeleteTagByKey(request),
+                "DeleteKeyTags" => QueryProvider.DeleteKeyTags(request),
+                "DeleteKeyTag" => QueryProvider.DeleteKeyTag(request),
+
                 _ => new Dictionary<string, string>(),
             };
         }
@@ -117,6 +123,7 @@
                 using (PlyQorTrace trace = new PlyQorTrace(Configuration.DatabaseConnection, dataRetentionActivityId))
                 {
                     trace.AddContainer(container.Key);
+                    // TODO: move literal string to const
                     trace.AddOperation("DataRetention");
 
                     try
@@ -143,6 +150,7 @@
 
             using (PlyQorTrace trace = new PlyQorTrace(Configuration.DatabaseConnection, activityId))
             {
+                // TODO: move literal string to const
                 trace.AddContainer("SYSTEM");
                 trace.AddOperation("TraceRetention");
 

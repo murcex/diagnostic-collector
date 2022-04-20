@@ -7,12 +7,9 @@
     <PackageReference Include="Configurator" Version="0.0.3" />
     <PackageReference Include="Implements" Version="0.0.1" />
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.0.1" />
-    <PackageReference Include="PlyQor.Client" Version="0.0.0.2" />
+    <PackageReference Include="PlyQor.Client" Version="0.0.0.3" />
   </ItemGroup>
   <ItemGroup>
-    <None Update="ExampleConfig.ini">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="Config.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

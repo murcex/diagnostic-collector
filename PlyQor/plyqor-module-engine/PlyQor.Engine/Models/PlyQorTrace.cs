@@ -20,6 +20,7 @@
 
         public PlyQorTrace(string databaseConnectionString, string activityId = null)
         {
+            // TODO: move literal string to const
             this.Session = DateTime.UtcNow;
             this.Container = "NoContainer";
             this.TraceId = activityId ?? Guid.NewGuid().ToString();
@@ -43,6 +44,7 @@
 
         public void AddCode(string code)
         {
+            // TODO: move literal string to const
             code = code.Split(",KEY")[0];
 
             this.Code = code;
@@ -55,10 +57,12 @@
             {
                 using (var connection = new SqlConnection(DatabaseConnection))
                 {
-                    var cmd = new SqlCommand("usp_PlyQor_Trace_Insert", connection);
+                    // TODO: move literal string to const
+                    var cmd = new SqlCommand("usp_PlyQor_Trace_InsertTrace", connection);
 
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
+                    // TODO: move literal string to const
                     cmd.Parameters.AddWithValue("dt_timestamp", Session);
                     cmd.Parameters.AddWithValue("nvc_container", Container);
                     cmd.Parameters.AddWithValue("nvc_id", TraceId);

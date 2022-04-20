@@ -6,6 +6,8 @@
 
     class QueryProvider
     {
+        // Insert
+
         public static Dictionary<string, string> InsertKey(RequestManager requestManager)
         {
             return InsertKeyQuery.Execute(requestManager);
@@ -15,6 +17,8 @@
         {
             return InsertTagQuery.Execute(requestManager);
         }
+
+        // Select
 
         public static Dictionary<string, string> SelectKey(RequestManager requestManager)
         {
@@ -36,15 +40,12 @@
             return SelectKeyListQuery.Execute(requestManager);
         }
 
-        public static Dictionary<string, string> SelectTagsByKey(RequestManager requestManager)
+        public static Dictionary<string, string> SelectKeyTags(RequestManager requestManager)
         {
-            return SelectTagsByKeyQuery.Execute(requestManager);
+            return SelectKeyTagsQuery.Execute(requestManager);
         }
 
-        public static Dictionary<string, string> DataRetention(RequestManager requestManager)
-        {
-            return DataRetentionQuery.Execute(requestManager);
-        }
+        // Update
 
         public static Dictionary<string, string> UpdateKey(RequestManager requestManager)
         {
@@ -56,15 +57,17 @@
             return UpdateDataQuery.Execute(requestManager);
         }
 
-        public static Dictionary<string, string> UpdateTagByKey(RequestManager requestManager)
+        public static Dictionary<string, string> UpdateKeyTag(RequestManager requestManager)
         {
-            return UpdateTagByKeyQuery.Execute(requestManager);
+            return UpdateKeyTagQuery.Execute(requestManager);
         }
 
         public static Dictionary<string, string> UpdateTag(RequestManager requestManager)
         {
             return UpdateTagQuery.Execute(requestManager);
         }
+
+        // Delete
 
         public static Dictionary<string, string> DeleteKey(RequestManager requestManager)
         {
@@ -76,16 +79,22 @@
             return DeleteTagQuery.Execute(requestManager);
         }
 
-        public static Dictionary<string, string> DeleteTagsByKey(RequestManager requestManager)
+        public static Dictionary<string, string> DeleteKeyTags(RequestManager requestManager)
         {
-            return DeleteTagsByKeyQuery.Execute(requestManager);
+            return DeleteKeyTagsQuery.Execute(requestManager);
         }
 
-        public static Dictionary<string, string> DeleteTagByKey(RequestManager requestManager)
+        public static Dictionary<string, string> DeleteKeyTag(RequestManager requestManager)
         {
-            return DeleteTagByKeyQuery.Execute(requestManager);
+            return DeleteKeyTagQuery.Execute(requestManager);
         }
 
+        // Retention
+
+        public static Dictionary<string, string> DataRetention(RequestManager requestManager)
+        {
+            return DataRetentionQuery.Execute(requestManager);
+        }
         public static Dictionary<string, string> TraceRetention(RequestManager requestManager)
         {
             return TraceRetentionQuery.Execute(requestManager);

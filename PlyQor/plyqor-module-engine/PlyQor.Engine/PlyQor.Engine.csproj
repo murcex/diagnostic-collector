@@ -3,14 +3,7 @@
   <PropertyGroup>
     <OutputType>Library</OutputType>
     <TargetFramework>net6.0</TargetFramework>
-    <ApplicationIcon />
-    <StartupObject />
-    <AssemblyVersion></AssemblyVersion>
-    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    <Version>1.0.0.6</Version>
-    <Company>Murcex</Company>
-    <Description>PlyQor</Description>
-    <Authors>Murcex</Authors>
+    <Version>1.0.0.7</Version>
   </PropertyGroup>
 
   <ItemGroup>

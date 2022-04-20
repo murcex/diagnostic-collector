@@ -16,7 +16,7 @@
             var days = requestManager.GetRequestIntValue(RequestKeys.Aux, positive: false);
 
             // execute internal query
-            var retentionKeys = StorageProvider.SelectKeyListRetention(container, days);
+            var retentionKeys = StorageProvider.SelectRetentionKeys(container, days);
 
             int count = 0;
 
@@ -24,7 +24,7 @@
             {
                 StorageProvider.DeleteKey(container, retentionKey);
 
-                StorageProvider.DeleteTagsByKey(container, retentionKey);
+                StorageProvider.DeleteKeyTags(container, retentionKey);
 
                 count++;
             }

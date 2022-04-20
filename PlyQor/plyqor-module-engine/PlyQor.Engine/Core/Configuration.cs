@@ -22,15 +22,15 @@
                 QueryOperation.SelectTags,
                 QueryOperation.SelectTagCount,
                 QueryOperation.SelectKeyList,
-                QueryOperation.SelectTagsByKey,
+                QueryOperation.SelectKeyTags,
                 QueryOperation.UpdateKey,
                 QueryOperation.UpdateData,
-                QueryOperation.UpdateTagByKey,
+                QueryOperation.UpdateKeyTag,
                 QueryOperation.UpdateTag,
                 QueryOperation.DeleteKey,
                 QueryOperation.DeleteTag,
-                QueryOperation.DeleteTagsByKey,
-                QueryOperation.DeleteTagByKey
+                QueryOperation.DeleteKeyTags,
+                QueryOperation.DeleteKeyTag
             };
 
         public static string DatabaseConnection => _database;
@@ -49,6 +49,7 @@
             {
                 switch (item.Key.ToUpper())
                 {
+                    // TODO: move literal string to const
                     case "DATABASE":
                         _database = item.Value;
                         break;

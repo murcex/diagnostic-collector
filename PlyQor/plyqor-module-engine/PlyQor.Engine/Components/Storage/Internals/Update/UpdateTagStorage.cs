@@ -17,13 +17,13 @@
             {
                 using (var connection = new SqlConnection(Configuration.DatabaseConnection))
                 {
-                    var cmd = new SqlCommand(SqlColumns.UpdateTagStroage, connection);
+                    var cmd = new SqlCommand(SqlValues.UpdateTagStorage, connection);
 
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue(SqlColumns.Container, container);
-                    cmd.Parameters.AddWithValue(SqlColumns.OldData, oldindex);
-                    cmd.Parameters.AddWithValue(SqlColumns.NewData, newindex);
+                    cmd.Parameters.AddWithValue(SqlValues.Container, container);
+                    cmd.Parameters.AddWithValue(SqlValues.OldData, oldindex);
+                    cmd.Parameters.AddWithValue(SqlValues.NewData, newindex);
 
                     cmd.CommandTimeout = 0;
 

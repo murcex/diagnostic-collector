@@ -8,6 +8,8 @@
 
         public static Dictionary<string, string> Execute(string url, Dictionary<string, string> plyRequest)
         {
+            // TODO: add try/catch -- return clean exception
+
             var plyMessage = JsonConvert.SerializeObject(plyRequest);
 
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url);

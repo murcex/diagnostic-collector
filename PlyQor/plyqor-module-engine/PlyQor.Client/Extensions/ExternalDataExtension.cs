@@ -22,6 +22,7 @@
                 }
             }
 
+            // TODO: move literal string to const
             throw new Exception("Status is not bool");
         }
 

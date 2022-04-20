@@ -18,12 +18,12 @@
             {
                 using (var connection = new SqlConnection(Configuration.DatabaseConnection))
                 {
-                    var cmd = new SqlCommand(SqlColumns.SelectTagCountStroage, connection);
+                    var cmd = new SqlCommand(SqlValues.SelectTagCountStorage, connection);
 
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue(SqlColumns.Container, container);
-                    cmd.Parameters.AddWithValue(SqlColumns.Data, tag);
+                    cmd.Parameters.AddWithValue(SqlValues.Container, container);
+                    cmd.Parameters.AddWithValue(SqlValues.Data, tag);
 
                     cmd.CommandTimeout = 0;
 
@@ -32,7 +32,7 @@
                     var reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        count = (int)reader[SqlColumns.Count];
+                        count = (int)reader[SqlValues.Count];
                     }
 
                     return count;

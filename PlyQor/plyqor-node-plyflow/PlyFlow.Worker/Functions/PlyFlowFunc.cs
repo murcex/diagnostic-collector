@@ -38,40 +38,40 @@ namespace Javelin.Worker
             tags_2.Add("DeleteThisTag3");
 
             // insert
-            plyClient.InsertKey(key_1, Guid.NewGuid().ToString(), tags);
+            plyClient.Insert(key_1, Guid.NewGuid().ToString(), tags);
 
             plyClient.InsertTag(key_1, "TestTag");
 
-            plyClient.InsertKey(key_3, Guid.NewGuid().ToString(), tags_2);
+            plyClient.Insert(key_3, Guid.NewGuid().ToString(), tags_2);
 
             // select
-            plyClient.SelectKey(key_1);
+            plyClient.Select(key_1);
 
             plyClient.SelectTags();;
 
-            plyClient.SelectTagCount("Upload");
+            plyClient.SelectCount("Upload");
 
-            plyClient.SelectKeyList("Upload", 3);
+            plyClient.Select("Upload", 3);
 
-            plyClient.SelectTagsByKey(key_1);
+            plyClient.SelectTags(key_1);
 
             // update
-            plyClient.UpdateKey(key_1, key_2);
+            plyClient.Update(key_1, key_2);
 
             plyClient.UpdateData(key_2, data_2);
 
-            plyClient.UpdateTagByKey(key_2, "TestTag", "TestTagV2");
+            plyClient.UpdateTag(key_2, "TestTag", "TestTagV2");
 
             plyClient.UpdateTag("UpdateThisTag1", "DeleteThisTag2");
 
             // delete
-            plyClient.DeleteTagByKey(key_2, "TestTagV2");
+            plyClient.DeleteTag(key_2, "TestTagV2");
 
-            plyClient.DeleteKey(key_2);
+            plyClient.Delete(key_2);
 
             plyClient.DeleteTag("DeleteThisTag2");
 
-            plyClient.DeleteTagsByKey(key_3);
+            plyClient.DeleteTags(key_3);
         }
     }
 }

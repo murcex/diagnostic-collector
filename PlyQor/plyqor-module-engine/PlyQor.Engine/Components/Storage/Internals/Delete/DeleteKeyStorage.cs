@@ -16,12 +16,12 @@
             {
                 using (var connection = new SqlConnection(Configuration.DatabaseConnection))
                 {
-                    var cmd = new SqlCommand(SqlColumns.DeleteKeyStorage, connection);
+                    var cmd = new SqlCommand(SqlValues.DeleteKeyStorage, connection);
 
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue(SqlColumns.Container, container);
-                    cmd.Parameters.AddWithValue(SqlColumns.Id, id);
+                    cmd.Parameters.AddWithValue(SqlValues.Container, container);
+                    cmd.Parameters.AddWithValue(SqlValues.Id, id);
 
                     cmd.CommandTimeout = 0;
 

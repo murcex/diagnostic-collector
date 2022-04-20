@@ -10,14 +10,33 @@
 
         public PlyClient(string uri, string container, string token)
         {
-            // TODO: add null check
+            if (string.IsNullOrEmpty(uri))
+            {
+                // TODO: move literal string to const
+                throw new ArgumentNullException("uri");
+            }    
+
+            if (string.IsNullOrEmpty(container))
+            {
+                // TODO: move literal string to const
+                throw new ArgumentNullException("container");
+            }
+
+            if (string.IsNullOrEmpty(token))
+            {
+                // TODO: move literal string to const
+                throw new ArgumentNullException("token");
+            }
 
             _uri = uri;
             _container = container;
             _token = token;
         }
 
-        public Dictionary<string,string> InsertKey(string key, string data, string tag)
+        /// <summary>
+        /// Insert an Item with a Tag.
+        /// </summary>
+        public Dictionary<string,string> Insert(string key, string data, string tag)
         {
             List<string> tags = new List<string>();
             tags.Add(tag);
@@ -25,7 +44,10 @@
             return InsertKeyInternal.Execute(_uri, _container, _token, key, data, tags);
         }
 
-        public Dictionary<string, string> InsertKey(string key, string data, string tag_1, string tag_2)
+        /// <summary>
+        /// Insert an Item with two Tags.
+        /// </summary>
+        public Dictionary<string, string> Insert(string key, string data, string tag_1, string tag_2)
         {
             List<string> tags = new List<string>();
             tags.Add(tag_1);
@@ -34,7 +56,10 @@
             return InsertKeyInternal.Execute(_uri, _container, _token, key, data, tags);
         }
 
-        public Dictionary<string, string> InsertKey(string key, string data, string tag_1, string tag_2, string tag_3)
+        /// <summary>
+        /// Insert an Item with three Tags.
+        /// </summary>
+        public Dictionary<string, string> Insert(string key, string data, string tag_1, string tag_2, string tag_3)
         {
             List<string> tags = new List<string>();
             tags.Add(tag_1);
@@ -44,79 +69,124 @@
             return InsertKeyInternal.Execute(_uri, _container, _token, key, data, tags);
         }
 
-        public Dictionary<string, string> InsertKey(string key, string data, List<string> tags)
+        /// <summary>
+        /// Insert an Item with a list of Tags.
+        /// </summary>
+        public Dictionary<string, string> Insert(string key, string data, List<string> tags)
         {
             return InsertKeyInternal.Execute(_uri, _container, _token, key, data, tags);
         }
 
+        /// <summary>
+        /// Append a Tag to an existing Item.
+        /// </summary>
         public Dictionary<string, string> InsertTag(string key, string tag)
         {
             return InsertTagInternal.Execute(_uri, _container, _token, key, tag);
         }
 
-        public Dictionary<string, string> SelectKey(string key)
+        /// <summary>
+        /// Select an Item by Key.
+        /// </summary>
+        public Dictionary<string, string> Select(string key)
         {
             return SelectKeyInternal.Execute(_uri, _container, _token, key);
         }
 
-        public Dictionary<string, string> SelectKeyList(string key, int count)
+        /// <summary>
+        /// Select a list of Item Keys by Tag.
+        /// </summary>
+        public Dictionary<string, string> Select(string key, int count)
         {
             return SelectKeyListInternal.Execute(_uri, _container, _token, key, count);
         }
 
-        public Dictionary<string, string> SelectTagCount(string tag)
+        /// <summary>
+        /// Select the count of Items by Tag.
+        /// </summary>
+        public Dictionary<string, string> SelectCount(string tag)
         {
             return SelectTagCountInternal.Execute(_uri, _container, _token, tag);
         }
 
-        public Dictionary<string, string> SelectTagsByKey(string key)
+        /// <summary>
+        /// Select all the Tags appended to an Item.
+        /// </summary>
+        public Dictionary<string, string> SelectTags(string key)
         {
-            return SelectTagsByKeyInternal.Execute(_uri, _container, _token, key);
+            return SelectKeyTagsInternal.Execute(_uri, _container, _token, key);
         }
 
+        /// <summary>
+        /// Select all Tags in the Container.
+        /// </summary>
         public Dictionary<string, string> SelectTags()
         {
             return SelectTagsInternal.Execute(_uri, _container, _token);
         }
 
+        /// <summary>
+        /// Update the Item's Value.
+        /// </summary>
         public Dictionary<string, string> UpdateData(string key, string data)
         {
             return UpdateDataInternal.Execute(_uri, _container, _token, key, data);
         }
 
-        public Dictionary<string, string> UpdateKey(string key, string newKey)
+        /// <summary>
+        /// Update the Item's Key.
+        /// </summary>
+        public Dictionary<string, string> Update(string key, string newKey)
         {
             return UpdateKeyInternal.Execute(_uri, _container, _token, key, newKey);
         }
 
-        public Dictionary<string, string> UpdateTagByKey(string key, string tag, string newTag)
+        /// <summary>
+        /// Update a Tag appended to an Item.
+        /// </summary>
+        public Dictionary<string, string> UpdateTag(string key, string tag, string newTag)
         {
-            return UpdateTagByKeyInternal.Execute(_uri, _container, _token, key, tag, newTag);
+            return UpdateKeyTagInternal.Execute(_uri, _container, _token, key, tag, newTag);
         }
 
+        /// <summary>
+        /// Update the value of a Tag set.
+        /// </summary>
         public Dictionary<string, string> UpdateTag(string tag, string newTag)
         {
             return UpdateTagInternal.Execute(_uri, _container, _token, tag, newTag);
         }
 
-        public Dictionary<string, string> DeleteKey(string key)
+        /// <summary>
+        /// Delete an Item.
+        /// </summary>
+        public Dictionary<string, string> Delete(string key)
         {
             return DeleteKeyInternal.Execute(_uri, _container, _token, key);
         }
 
-        public Dictionary<string, string> DeleteTagByKey(string key, string tag)
+        /// <summary>
+        /// Delete a Tag from an Item.
+        /// </summary>
+        public Dictionary<string, string> DeleteTag(string key, string tag)
         {
-            return DeleteTagByKeyInternal.Execute(_uri, _container, _token, key, tag);
+            return DeleteKeyTagInternal.Execute(_uri, _container, _token, key, tag);
         }
 
+        /// <summary>
+        /// Delete a Tag set.
+        /// </summary>
         public Dictionary<string, string> DeleteTag(string tag)
         {
             return DeleteTagInternal.Execute(_uri, _container, _token, tag);
         }
 
-        public Dictionary<string, string> DeleteTagsByKey(string key)
+        /// <summary>
+        /// Delete all Tags from an Item.
+        /// </summary>
+        public Dictionary<string, string> DeleteTags(string key)
         {
-            return DeleteTagsByKeyInternal.Execute(_uri, _container, _token, key);
+            return DeleteKeyTagsInternal.Execute(_uri, _container, _token, key);
         }
     }
 }

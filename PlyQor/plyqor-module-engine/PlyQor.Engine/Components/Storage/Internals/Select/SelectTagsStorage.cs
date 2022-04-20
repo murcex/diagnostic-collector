@@ -17,11 +17,11 @@
             {
                 using (var connection = new SqlConnection(Configuration.DatabaseConnection))
                 {
-                    var cmd = new SqlCommand(SqlColumns.SelectTagsStroage, connection);
+                    var cmd = new SqlCommand(SqlValues.SelectTagsStorage, connection);
 
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue(SqlColumns.Container, container);
+                    cmd.Parameters.AddWithValue(SqlValues.Container, container);
 
                     cmd.CommandTimeout = 0;
 
@@ -30,7 +30,7 @@
                     var reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        var index = (string)reader[SqlColumns.Data];
+                        var index = (string)reader[SqlValues.Data];
 
                         indexes.Add(index);
                     }

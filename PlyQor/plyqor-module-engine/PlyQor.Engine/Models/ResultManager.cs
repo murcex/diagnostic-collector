@@ -37,6 +37,7 @@
 
         public void AddResultSuccess()
         {
+            // TODO: move literal string to const
             _result.Add(ResultKeys.Status, "True");
             _result.Add(ResultKeys.Code, "OK");
         }
@@ -54,6 +55,7 @@
             {
                 if (!_result.TryAdd(record.Key, record.Value))
                 {
+                    // TODO: move literal string to const
                     throw new PlyQorException($"{StatusCode.ERR011},KEY={record.Key}");
                 }
             }

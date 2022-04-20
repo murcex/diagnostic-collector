@@ -7,9 +7,13 @@
     public class StorageProvider
     {
         /// <summary>
-        /// Insert storage data for a single storage id, with storage indexes.
+        /// 
         /// </summary>
-        public static int InsertKey(string container, string id, string data, List<string> indexes)
+        public static int InsertKey(
+            string container, 
+            string id, 
+            string data, 
+            List<string> indexes)
         {
             var timestamp = DateTime.UtcNow;
 
@@ -35,9 +39,11 @@
         }
 
         /// <summary>
-        /// Select storage data for a single storage id.
+        /// 
         /// </summary>
-        public static string SelectKey(string conatiner, string id)
+        public static string SelectKey(
+            string conatiner, 
+            string id)
         {
             return SelectKeyStorage.Execute(
                 conatiner.ToUpper(),
@@ -45,7 +51,7 @@
         }
 
         /// <summary>
-        /// List all storage tags of a container.
+        /// 
         /// </summary>
         public static List<string> SelectTags(string container)
         {
@@ -53,9 +59,11 @@
         }
 
         /// <summary>
-        /// Count all records of an storage tag, of a container.
+        /// 
         /// </summary>
-        public static int SelectTagCount(string container, string index)
+        public static int SelectTagCount(
+            string container, 
+            string index)
         {
             return SelectTagCountStorage.Execute(
                 container.ToUpper(),
@@ -63,7 +71,7 @@
         }
 
         /// <summary>
-        /// List a set number of storage ids of an storage tag, of a container.
+        /// 
         /// </summary>
         public static List<string> SelectKeyList(
             string container,
@@ -77,17 +85,19 @@
         }
 
         /// <summary>
-        /// Select all the storage indexes that belong to a storage id.
+        /// 
         /// </summary>
-        public static List<string> SelectTagsByKey(string container, string id)
+        public static List<string> SelectKeyTags(
+            string container, 
+            string id)
         {
-            return SelectTagsByKeyStorage.Execute(
+            return SelectKeyTagsStorage.Execute(
                 container.ToUpper(),
                 id.ToUpper());
         }
 
         /// <summary>
-        /// Update storage id.
+        /// 
         /// </summary>
         public static int UpdateKey(
             string container,
@@ -99,7 +109,7 @@
                 oldid,
                 newid);
 
-            count =+ UpdateKeyWithTagsStorage.Execute(
+            count =+ UpdateKeyTagsStorage.Execute(
                  container.ToUpper(),
                  oldid.ToUpper(),
                  newid.ToUpper());
@@ -108,7 +118,7 @@
         }
 
         /// <summary>
-        /// Update the storage data of a storage id.
+        /// 
         /// </summary>
         public static int UpdateData(
             string container,
@@ -122,15 +132,15 @@
         }
 
         /// <summary>
-        /// Update an existing storage index by storage id.
+        /// 
         /// </summary>
-        public static int UpdateTagByKey(
+        public static int UpdateKeyTag(
             string container,
             string id,
             string oldindex,
             string newindex)
         {
-            return UpdateTagByKeyStorage.Execute(
+            return UpdateKeyTagStorage.Execute(
                 container.ToUpper(),
                 id.ToUpper(),
                 oldindex.ToUpper(),
@@ -138,7 +148,7 @@
         }
 
         /// <summary>
-        /// Update an existing single storage index.
+        /// 
         /// </summary>
         public static int UpdateTag(
             string container,
@@ -152,7 +162,7 @@
         }
 
         /// <summary>
-        /// Delete a single storage id.
+        /// 
         /// </summary>
         public static int DeleteKey(
             string container,
@@ -164,7 +174,7 @@
                 id);
 
             // delete all tags for a key
-            count += DeleteTagsByKeyStorage.Execute(
+            count += DeleteKeyTagsStorage.Execute(
                 container.ToUpper(),
                 id.ToUpper());
 
@@ -172,7 +182,7 @@
         }
 
         /// <summary>
-        /// Delete a single storage index.
+        /// 
         /// </summary>
         public static int DeleteTag(
             string container,
@@ -184,13 +194,13 @@
         }
 
         /// <summary>
-        /// Delete all storage indexes for a single storage id.
+        /// 
         /// </summary>
-        public static int DeleteTagsByKey(
+        public static int DeleteKeyTags(
             string container,
             string id)
         {
-            var count = DeleteTagsByKeyStorage.Execute(
+            var count = DeleteKeyTagsStorage.Execute(
                 container.ToUpper(),
                 id.ToUpper());
 
@@ -198,27 +208,22 @@
         }
 
         /// <summary>
-        /// Delete a single storage index for a single storage id.
+        /// 
         /// </summary>
-        public static int DeleteTagByKey(
+        public static int DeleteKeyTag(
             string container,
             string id,
             string index)
         {
-            return DeleteTagByKeyStorage.Execute(
+            return DeleteKeyTagStorage.Execute(
                 container.ToUpper(),
                 id.ToUpper(),
                 index.ToUpper());
         }
 
         /// <summary>
-        /// List all storage ids marked for data retention.
+        /// 
         /// </summary>
-        public static List<string> DataRetentionId()
-        {
-            return SelectRetentionStorage.Execute();
-        }
-
         public static int InsertTag(
             string container,
             string id,
@@ -233,15 +238,21 @@
                 index.ToUpper());
         }
 
-        public static List<string> SelectKeyListRetention(
+        /// <summary>
+        /// 
+        /// </summary>
+        public static List<string> SelectRetentionKeys(
             string container, 
             int days)
         {
-            return SelectKeyListRetentionStorage.Execute(
+            return SelectRetentionKeysStorage.Execute(
                 container.ToUpper(), 
                 days);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public static int TraceRetention(int days)
         {
             return TraceRetentionStorage.Execute(

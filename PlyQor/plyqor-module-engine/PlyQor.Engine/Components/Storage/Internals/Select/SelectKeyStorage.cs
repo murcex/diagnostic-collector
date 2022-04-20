@@ -18,12 +18,12 @@
             {
                 using (var connection = new SqlConnection(Configuration.DatabaseConnection))
                 {
-                    var cmd = new SqlCommand(SqlColumns.SelectKeyStroage, connection);
+                    var cmd = new SqlCommand(SqlValues.SelectKeyStorage, connection);
 
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue(SqlColumns.Container, container);
-                    cmd.Parameters.AddWithValue(SqlColumns.Id, id);
+                    cmd.Parameters.AddWithValue(SqlValues.Container, container);
+                    cmd.Parameters.AddWithValue(SqlValues.Id, id);
 
                     cmd.CommandTimeout = 0;
 
@@ -32,7 +32,7 @@
                     var reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        data = (string)reader[SqlColumns.Data];
+                        data = (string)reader[SqlValues.Data];
                     }
 
                     return data;
