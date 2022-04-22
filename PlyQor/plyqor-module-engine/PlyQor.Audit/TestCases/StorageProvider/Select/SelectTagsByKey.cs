@@ -11,8 +11,8 @@
             Console.WriteLine($"// List Indexes by Id");
 
             var selectIndexe =
-                StorageProvider.SelectTagsByKey(
-                    Configuration.Collection,
+                StorageProvider.SelectKeyTags(
+                    Configuration.Container,
                     Configuration.DocumentName);
 
             foreach (var index in selectIndexe)

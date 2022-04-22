@@ -10,7 +10,7 @@
         {
             Console.WriteLine("// Update Index Set");
 
-            var indexes = StorageProvider.SelectTags(Configuration.Collection);
+            var indexes = StorageProvider.SelectTags(Configuration.Container);
 
             string targetIndex = null;
             string checkIndex = null;
@@ -26,9 +26,9 @@
                 }
             }
 
-            StorageProvider.UpdateTag(Configuration.Collection, targetIndex, "ARCHIVE");
+            StorageProvider.UpdateTag(Configuration.Container, targetIndex, "ARCHIVE");
 
-            var indexes2 = StorageProvider.SelectTags(Configuration.Collection);
+            var indexes2 = StorageProvider.SelectTags(Configuration.Container);
 
             bool NoHit = false;
 

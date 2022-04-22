@@ -1,31 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using PlyQor.Audit.Core;
-using PlyQor.Engine;
-
-namespace PlyQor.Audit.TestCases.PlyManager
+﻿namespace PlyQor.Audit.TestCases.PlyManager
 {
+    using System;
+    using System.Collections.Generic;
+    using Newtonsoft.Json;
+    using PlyQor.Audit.Core;
+    using PlyQor.Engine;
+    using PlyQor.Resources;
+
     internal class DeleteKey
     {
         public static void Execute()
         {
             Console.WriteLine(" \n\r// DeleteKey");
-            Dictionary<string, string> request_13 = new Dictionary<string, string>();
+            Dictionary<string, string> requestDictionary = new Dictionary<string, string>
+            {
+                { RequestKeys.Token, Configuration.Token },
+                { RequestKeys.Container, Configuration.Container },
+                { RequestKeys.Operation, QueryOperation.DeleteKey },
+                { RequestKeys.Key, Configuration.Key_2 }
+            };
 
-            request_13.Add("Token", Configuration.Token);
-            request_13.Add("Collection", Configuration.Collection);
-            request_13.Add("Operation", "DeleteKey");
-            request_13.Add("Key", Configuration.Key_2);
+            var requestString = JsonConvert.SerializeObject(requestDictionary);
 
-            var requestString_13 = JsonConvert.SerializeObject(request_13);
+            var result = PlyQorManager.Query(requestString);
 
-            var result_13 = PlyQorManager.Query(requestString_13);
-
-            Console.WriteLine(result_13);
+            Console.WriteLine(result);
         }
     }
 }

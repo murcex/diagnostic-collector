@@ -12,7 +12,7 @@
 
             var data =
                 StorageProvider.SelectKey(
-                    Configuration.Collection,
+                    Configuration.Container,
                     Configuration.DocumentName);
 
             Console.WriteLine($"Check if document is not null (False): {Equals(data, null)}");

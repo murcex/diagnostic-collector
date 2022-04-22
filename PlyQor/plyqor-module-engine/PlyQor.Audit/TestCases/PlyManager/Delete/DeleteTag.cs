@@ -1,31 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using PlyQor.Audit.Core;
-using PlyQor.Engine;
-
-namespace PlyQor.Audit.TestCases.PlyManager
+﻿namespace PlyQor.Audit.TestCases.PlyManager
 {
+    using System;
+    using System.Collections.Generic;
+    using Newtonsoft.Json;
+    using PlyQor.Audit.Core;
+    using PlyQor.Engine;
+    using PlyQor.Resources;
+
     internal class DeleteTag
     {
         public static void Execute()
         {
             Console.WriteLine(" \n\r// DeleteTag");
-            Dictionary<string, string> request_14 = new Dictionary<string, string>();
+            Dictionary<string, string> request = new Dictionary<string, string>();
 
-            request_14.Add("Token", Configuration.Token);
-            request_14.Add("Collection", Configuration.Collection);
-            request_14.Add("Operation", "DeleteTag");
-            request_14.Add("Tag", "DeleteTagsByKeyTest3V2");
+            request.Add(RequestKeys.Token, Configuration.Token);
+            request.Add(RequestKeys.Container, Configuration.Container);
+            request.Add(RequestKeys.Operation, QueryOperation.DeleteTag);
+            request.Add(RequestKeys.Tag, PlyManConst.DeleteTagsByKeyTestValue);
 
-            var requestString_14 = JsonConvert.SerializeObject(request_14);
+            var requestString = JsonConvert.SerializeObject(request);
 
-            var result_14 = PlyQorManager.Query(requestString_14);
+            var result = PlyQorManager.Query(requestString);
 
-            Console.WriteLine(result_14);
+            Console.WriteLine(result);
         }
     }
 }

@@ -11,12 +11,12 @@
         {
             Console.WriteLine("// Insert Additional Index");
 
-            var addIndexId = Ultilty.GetTestIndex();
+            var addIndexId = GetTestIndex.Execute();
 
-            StorageProvider.InsertTag(Configuration.Collection, addIndexId, "AUDIT");
+            StorageProvider.InsertTag(Configuration.Container, addIndexId, "AUDIT");
 
             //TODO: check -> select tag insert
-            var selectIndexe = StorageProvider.SelectTagsByKey(Configuration.Collection, addIndexId);
+            var selectIndexe = StorageProvider.SelectKeyTags(Configuration.Container, addIndexId);
 
             bool Hit = false;
 

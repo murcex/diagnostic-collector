@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using PlyQor.Audit.Core;
+using PlyQor.Client.Resources;
 using PlyQor.Engine;
 using System;
 using System.Collections.Generic;
@@ -25,25 +26,25 @@ namespace PlyQor.Audit.TestCases.PlyManager
             for (int i = 0; i < count; i++)
             {
                 Console.WriteLine(" \n\r  -- InsertKey (CreateTestKeysWithTag)");
-                Dictionary<string, string> request_1 = new Dictionary<string, string>();
+                Dictionary<string, string> request = new Dictionary<string, string>();
                 var key_1 = Guid.NewGuid().ToString();
                 var data_1 = Guid.NewGuid().ToString();
 
                 keys.Add(key_1);
 
-                request_1.Add("Token", Configuration.Token);
-                request_1.Add("Collection", Configuration.Collection);
-                request_1.Add("Operation", "InsertKey");
-                request_1.Add("Key", key_1);
-                request_1.Add("Data", data_1);
+                request.Add(RequestKeys.Token, Configuration.Token);
+                request.Add(RequestKeys.Container, Configuration.Container);
+                request.Add(RequestKeys.Operation, QueryOperation.InsertKey);
+                request.Add(RequestKeys.Key, key_1);
+                request.Add(RequestKeys.Data, data_1);
 
                 var tagsString = JsonConvert.SerializeObject(tags);
 
-                request_1.Add("Tags", tagsString);
+                request.Add(RequestKeys.Tags, tagsString);
 
-                var requestString_1 = JsonConvert.SerializeObject(request_1);
+                var requestString = JsonConvert.SerializeObject(request);
 
-                var result = PlyQorManager.Query(requestString_1);
+                var result = PlyQorManager.Query(requestString);
 
                 Console.WriteLine(result);
             }

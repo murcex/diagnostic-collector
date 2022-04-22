@@ -12,7 +12,7 @@
 
             var listIndexes =
                 StorageProvider.SelectTags(
-                    Configuration.Collection);
+                    Configuration.Container);
 
             Console.WriteLine($"Indexes Count: { listIndexes.Count}");
 

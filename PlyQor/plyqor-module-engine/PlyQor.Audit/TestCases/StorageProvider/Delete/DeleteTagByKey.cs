@@ -11,7 +11,7 @@
         {
             Console.WriteLine("// Delete Index Id");
 
-            var indexes = StorageProvider.SelectTags(Configuration.Collection);
+            var indexes = StorageProvider.SelectTags(Configuration.Container);
 
             string targetIndex = null;
             string checkForStage = Configuration.Tag_Stage;
@@ -26,18 +26,18 @@
                 }
             }
 
-            var testUpdateIdList = StorageProvider.SelectKeyList(Configuration.Collection, targetIndex, 1);
+            var testUpdateIdList = StorageProvider.SelectKeyList(Configuration.Container, targetIndex, 1);
 
             var testDeleteId = testUpdateIdList.FirstOrDefault();
 
-            StorageProvider.DeleteTagByKey(
-                Configuration.Collection,
+            StorageProvider.DeleteKeyTag(
+                Configuration.Container,
                 testDeleteId,
                 targetIndex);
 
             var checkSelectIndexes = 
-                StorageProvider.SelectTagsByKey(
-                    Configuration.Collection, 
+                StorageProvider.SelectKeyTags(
+                    Configuration.Container, 
                     testDeleteId);
 
             bool NoHit = false;

@@ -11,7 +11,7 @@
         {
             Console.WriteLine($"// Update Id Index");
 
-            var indexes = StorageProvider.SelectTags(Configuration.Collection);
+            var indexes = StorageProvider.SelectTags(Configuration.Container);
 
             string targetIndex = null;
             string checkForStage = "Stage";
@@ -27,14 +27,14 @@
                 }
             }
 
-            var testUpdateIdList = StorageProvider.SelectKeyList(Configuration.Collection, targetIndex, 1);
+            var testUpdateIdList = StorageProvider.SelectKeyList(Configuration.Container, targetIndex, 1);
 
             var targetId = testUpdateIdList.FirstOrDefault();
 
-            StorageProvider.UpdateTagByKey(Configuration.Collection, targetId, targetIndex, newIndex);
+            StorageProvider.UpdateKeyTag(Configuration.Container, targetId, targetIndex, newIndex);
 
             // list all tags for key
-            var indexes2 = StorageProvider.SelectTagsByKey(Configuration.Collection, targetId);
+            var indexes2 = StorageProvider.SelectKeyTags(Configuration.Container, targetId);
 
             // check if new and old tag exist
             var checkIndex = string.Empty;

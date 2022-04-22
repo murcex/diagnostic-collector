@@ -1,7 +1,6 @@
 ﻿namespace PlyQor.Audit.TestCases
 {
     using System;
-    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Text;
@@ -9,28 +8,28 @@
 
     class DataGenerator
     {
-        private static byte[] _blobTwo;
-
         public static string CreateStringDocument()
         {
             string document = string.Empty;
 
-            if (_blobTwo == null)
-            {
-                document = File.ReadAllText(Configuration.Document);
-            }
+            document = File.ReadAllText(Configuration.Document);
 
             Configuration.DocumentLength = document.Length;
 
             return document;
         }
 
-        public static string CreateRandomDocument()
+        public static string CreateDocument(int lines = 0)
         {
             var random = new Random();
-            var stop = 100;
+            int stop = 100;
             var executionCounter = 0;
             var sb = new StringBuilder();
+            
+            if (lines > 0)
+            {
+                stop = lines;
+            }
 
             do
             {
@@ -53,16 +52,29 @@
               );
         }
 
-        public static List<string> CreateSampleIndex()
+        public static string CreateNanoDocument()
         {
-            Random random = new Random();
+            return CreateDocument(1);
+        }
 
-            List<string> indexes = new List<string>();
-            var index1 = $"Stage{random.Next(0, 5)}";
+        public static string CreateMicroDocument()
+        {
+            return CreateDocument(100);
+        }
 
-            indexes.Add(index1);
+        public static string CreateSmallDocument()
+        {
+            return CreateDocument(1000);
+        }
 
-            return indexes;
+        public static string CreateMediumDocument()
+        {
+            return CreateDocument(10030);
+        }
+
+        public static string CreateLargeDocument()
+        {
+            return CreateDocument(100390);
         }
     }
 }

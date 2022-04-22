@@ -20,7 +20,7 @@
 
             // single insert
             StorageProvider.InsertKey(
-                Configuration.Collection,
+                Configuration.Container,
                 Configuration.DocumentName,
                 DataGenerator.CreateStringDocument(),
                 indexes);
@@ -29,10 +29,10 @@
             for (int i = 1; i < 10; i++)
             {
                 StorageProvider.InsertKey(
-                    Configuration.Collection,
+                    Configuration.Container,
                     Guid.NewGuid().ToString(),
-                    DataGenerator.CreateRandomDocument(),
-                    DataGenerator.CreateSampleIndex());
+                    DataGenerator.CreateDocument(),
+                    CreateSampleIndex.Execute());
             }
         }
     }

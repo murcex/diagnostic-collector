@@ -8,7 +8,7 @@
         public static void Execute()
         {
             Console.WriteLine($"// Delete Index Set");
-            var indexes = StorageProvider.SelectTags(Configuration.Collection);
+            var indexes = StorageProvider.SelectTags(Configuration.Container);
 
             string targetIndex = null;
             string checkForStage = "Stage";
@@ -23,9 +23,9 @@
                 }
             }
 
-            StorageProvider.DeleteTag(Configuration.Collection, targetIndex);
+            StorageProvider.DeleteTag(Configuration.Container, targetIndex);
 
-            var indexes2 = StorageProvider.SelectTags(Configuration.Collection);
+            var indexes2 = StorageProvider.SelectTags(Configuration.Container);
 
             bool NoHit = true;
 

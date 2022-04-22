@@ -5,41 +5,49 @@
     using PlyQor.Audit.TestCases.StorageProvider;
     using PlyQor.Audit.TestCases.PlyManager;
     using PlyQor.Audit.TestCases.PlyClient;
-    using PlyQor.Engine;
 
     class Index
     {
         static void Main(string[] args)
         {
-            var testStorageProvider = true;
+            Console.WriteLine("Starting PlyQor Audit\r\n");
 
-            var testPlyManager = true;
-
-            var testPlyClient = true;
-
-            Console.WriteLine("");
-
-            Initializer.Execute();
-
-            if (testStorageProvider)
+            try
             {
-                StorageProviderTestProvider.Execute();
-            }
+                Initializer.Execute();
 
-            if (testPlyManager)
+                Console.WriteLine("-- Audit Settings -- ");
+                Console.WriteLine($"StorageProviderTest = {Configuration.StorageProviderTest}");
+                Console.WriteLine($"PlyManagerTest = {Configuration.PlyManagerTest}");
+                Console.WriteLine($"PlyClientTest = {Configuration.PlyClientTest}");
+
+                Console.WriteLine($"NanoCount = {Configuration.NanoCount}");
+                Console.WriteLine($"MicroCount = {Configuration.MicroCount}");
+                Console.WriteLine($"SmallCount = {Configuration.SmallCount}");
+                Console.WriteLine($"MediumCount = {Configuration.MediumCount}");
+                Console.WriteLine($"LargeCount = {Configuration.LargeCount}");
+
+                Console.ReadKey();
+
+                if (Configuration.StorageProviderTest)
+                {
+                    StorageProviderTestProvider.Execute();
+                }
+
+                if (Configuration.PlyManagerTest)
+                {
+                    PlyManagerTestProvider.Execute();
+                }
+
+                if (Configuration.PlyClientTest)
+                {
+                    PlyClientTestProvider.Execute();
+                }
+            }
+            catch (Exception ex)
             {
-                PlyManagerTestProvider.Execute();
+                Console.WriteLine(ex.ToString());
             }
-
-            if (testPlyClient)
-            {
-                PlyClientTestProvider.Execute();
-            }
-
-            Console.WriteLine("");
-
-            Console.WriteLine(" \n\r// DataRetention");
-            PlyQorManager.Retention();
 
             Console.WriteLine("");
 

@@ -4,11 +4,11 @@
     using System.Linq;
     using PlyQor.Audit.Core;
 
-    class Ultilty
+    class GetTestIndex
     {
-        public static string GetTestIndex()
+        public static string Execute()
         {
-            var indexes = StorageProvider.SelectTags(Configuration.Collection);
+            var indexes = StorageProvider.SelectTags(Configuration.Container);
 
             string targetIndex = null;
             string checkForStage = Configuration.Tag_Stage;
@@ -23,7 +23,7 @@
                 }
             }
 
-            var testUpdateIdList = StorageProvider.SelectKeyList(Configuration.Collection, targetIndex, 1);
+            var testUpdateIdList = StorageProvider.SelectKeyList(Configuration.Container, targetIndex, 1);
 
             return testUpdateIdList.FirstOrDefault();
         }

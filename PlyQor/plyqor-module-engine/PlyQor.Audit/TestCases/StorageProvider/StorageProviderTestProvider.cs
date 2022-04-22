@@ -18,15 +18,11 @@
 
             SelectKey.Execute();
 
-            // List
-
             SelectTags.Execute();
 
             SelectKeyList.Execute();
 
             SelectTagsByKey.Execute();
-
-            // Count
 
             SelectTagCount.Execute();
 
@@ -47,6 +43,8 @@
             DeleteTagByKey.Execute();
 
             DeleteTag.Execute();
+
+            // TODO: Retention?
         }
     }
 }

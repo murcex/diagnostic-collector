@@ -12,7 +12,7 @@
 
             var count =
                 StorageProvider.SelectTagCount(
-                    Configuration.Collection, 
+                    Configuration.Container, 
                     Configuration.Tag_Upload);
 
             Console.WriteLine($"UPLOAD Count: {count}");

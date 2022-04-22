@@ -1,32 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using PlyQor.Audit.Core;
-using PlyQor.Engine;
-
-namespace PlyQor.Audit.TestCases.PlyManager
+﻿namespace PlyQor.Audit.TestCases.PlyManager
 {
+    using System;
+    using System.Collections.Generic;
+    using Newtonsoft.Json;
+    using PlyQor.Audit.Core;
+    using PlyQor.Engine;
+    using PlyQor.Resources;
+
     internal class SelectKeyList
     {
         public static void Execute()
         {
             Console.WriteLine(" \n\r// SelectKeyList");
-            Dictionary<string, string> request_6 = new Dictionary<string, string>();
+            Dictionary<string, string> request = new Dictionary<string, string>();
 
-            request_6.Add("Token", Configuration.Token);
-            request_6.Add("Collection", Configuration.Collection);
-            request_6.Add("Operation", "SelectKeyList");
-            request_6.Add("Tag", "Upload");
-            request_6.Add("Aux", "5");
+            request.Add(RequestKeys.Token, Configuration.Token);
+            request.Add(RequestKeys.Container, Configuration.Container);
+            request.Add(RequestKeys.Operation, QueryOperation.SelectKeyList);
+            request.Add(RequestKeys.Tag, PlyManConst.Upload);
+            request.Add(RequestKeys.Aux, PlyManConst.Count5);
 
-            var requestString_6 = JsonConvert.SerializeObject(request_6);
+            var requestString = JsonConvert.SerializeObject(request);
 
-            var result_6 = PlyQorManager.Query(requestString_6);
+            var result = PlyQorManager.Query(requestString);
 
-            Console.WriteLine(result_6);
+            Console.WriteLine(result);
         }
     }
 }

@@ -12,7 +12,7 @@
 
             var Ids =
                 StorageProvider.SelectKeyList(
-                    Configuration.Collection,
+                    Configuration.Container,
                     Configuration.Tag_Upload,
                     5);
 

@@ -11,19 +11,19 @@
         {
             Console.WriteLine("// Update Data");
 
-            var testUpdateId = Ultilty.GetTestIndex();
+            var testUpdateId = GetTestIndex.Execute();
 
             // test select data before
-            var testSelectData = StorageProvider.SelectKey(Configuration.Collection, testUpdateId);
+            var testSelectData = StorageProvider.SelectKey(Configuration.Container, testUpdateId);
 
             // create new data string
-            var newData = $"NewData-{DataGenerator.CreateRandomDocument()}";
+            var newData = $"NewData-{DataGenerator.CreateDocument()}";
 
             // update id
-            var updateTarget = StorageProvider.UpdateData(Configuration.Collection, testUpdateId, newData);
+            var updateTarget = StorageProvider.UpdateData(Configuration.Container, testUpdateId, newData);
 
             // test select data after
-            var testSelectData2 = StorageProvider.SelectKey(Configuration.Collection, testUpdateId);
+            var testSelectData2 = StorageProvider.SelectKey(Configuration.Container, testUpdateId);
 
             Console.WriteLine($"Data should not match after updating (False): {Equals(testSelectData, testSelectData2)}");
 
