@@ -43,8 +43,6 @@
             DeleteTagByKey.Execute();
 
             DeleteTag.Execute();
-
-            // TODO: Retention?
         }
     }
 }

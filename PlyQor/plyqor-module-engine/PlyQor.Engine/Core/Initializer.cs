@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using Newtonsoft.Json;
     using PlyQor.Engine.Components.Storage;
+    using PlyQor.Engine.Resources;
 
     class Initializer
     {
@@ -18,8 +19,7 @@
 
         private static bool SetApplication(Dictionary<string, Dictionary<string, string>> configuration)
         {
-            // TODO: move literal string to const
-            if (configuration.TryGetValue("PlyQor", out Dictionary<string, string> plyqorConfiguration))
+            if (configuration.TryGetValue(InitializerValues.PlyQorConfigKey, out Dictionary<string, string> plyqorConfiguration))
             {
                 if (Configuration.Load(plyqorConfiguration))
                 {
@@ -29,8 +29,8 @@
                 }
             }
 
-            // TODO: move literal string to const
-            throw new Exception("EER002");
+            // TODO: hold for pylon replacement
+            throw new Exception("SetApplication Failure");
         }
 
         private static bool SetAppliances(Dictionary<string, Dictionary<string, string>> configuration)
@@ -43,26 +43,22 @@
             Dictionary<string, List<string>> containerTokens = new Dictionary<string, List<string>>();
             Dictionary<string, int> retentionPolicy = new Dictionary<string, int>();
 
-            // TODO: move literal string to const
-            var json = StorageProvider.SelectKey("System", "Containers");
+            var json = StorageProvider.SelectKey(InitializerValues.SystemContainer, InitializerValues.ContainersValue);
 
             var containers = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(json);
 
-            // TODO: fail safe if config is empty
             foreach (var container in containers.Keys)
             {
                 if (containers.TryGetValue(container, out Dictionary<string, string> configuration))
                 {
-                    // TODO: move literal string to const
-                    if (configuration.TryGetValue("Tokens", out string tokensJson))
+                    if (configuration.TryGetValue(InitializerValues.TokensConfigKey, out string tokensJson))
                     {
                         var tokens = JsonConvert.DeserializeObject<List<string>>(tokensJson);
 
                         containerTokens.Add(container, tokens);
                     }
 
-                    // TODO: move literal string to const
-                    if (configuration.TryGetValue("Retention", out string s_days))
+                    if (configuration.TryGetValue(InitializerValues.RetentionConfigKey, out string s_days))
                     {
                         if (int.TryParse(s_days, out int days))
                         {

@@ -32,7 +32,7 @@
             {
                 if (string.IsNullOrEmpty(result) || string.IsNullOrWhiteSpace(result))
                 {
-                    // TODO: move literal string to const
+                    // TODO: add const interpolated string
                     throw new PlyQorException($"{StatusCode.ERR003},KEY={key}");
                 }
 
@@ -40,7 +40,7 @@
             }
             else
             {
-                // TODO: move literal string to const
+                // TODO: add const interpolated string
                 throw new PlyQorException($"{StatusCode.ERR004},KEY={key}");
             }
         }

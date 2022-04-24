@@ -12,20 +12,17 @@
         {
             if (string.IsNullOrEmpty(uri))
             {
-                // TODO: move literal string to const
-                throw new ArgumentNullException("uri");
+                throw new ArgumentNullException(nameof(uri));
             }    
 
             if (string.IsNullOrEmpty(container))
             {
-                // TODO: move literal string to const
-                throw new ArgumentNullException("container");
+                throw new ArgumentNullException(nameof(container));
             }
 
             if (string.IsNullOrEmpty(token))
             {
-                // TODO: move literal string to const
-                throw new ArgumentNullException("token");
+                throw new ArgumentNullException(nameof(token));
             }
 
             _uri = uri;

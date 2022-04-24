@@ -8,6 +8,7 @@
     using PlyQor.Resources;
     using PlyQor.Engine.Components.Query;
     using PlyQor.Engine.Components.Validation;
+    using PlyQor.Engine.Resources;
 
     public class PlyQorManager
     {
@@ -15,8 +16,8 @@
         {
             if (configuration == null || configuration.Count == 0)
             {
-                // TODO: move literal string to const
-                throw new Exception("CORE_ERR_001");
+                // TODO: hold for pylon replacement
+                throw new Exception("PlyQorManager Initialize Failure");
             }
 
             return Initializer.Execute(configuration);
@@ -86,7 +87,7 @@
         {
             return operation switch
             {
-                // TODO: move literal string to const
+                // TODO: (switch) move literal string to const
                 "InsertKey" => QueryProvider.InsertKey(request),
                 "InsertTag" => QueryProvider.InsertTag(request),
 
@@ -123,8 +124,7 @@
                 using (PlyQorTrace trace = new PlyQorTrace(Configuration.DatabaseConnection, dataRetentionActivityId))
                 {
                     trace.AddContainer(container.Key);
-                    // TODO: move literal string to const
-                    trace.AddOperation("DataRetention");
+                    trace.AddOperation(PlyQorManagerValues.DataRetentionOperation);
 
                     try
                     {
@@ -150,9 +150,8 @@
 
             using (PlyQorTrace trace = new PlyQorTrace(Configuration.DatabaseConnection, activityId))
             {
-                // TODO: move literal string to const
-                trace.AddContainer("SYSTEM");
-                trace.AddOperation("TraceRetention");
+                trace.AddContainer(PlyQorManagerValues.SystemContainer);
+                trace.AddOperation(PlyQorManagerValues.TraceRetentionOperation);
 
                 try
                 {

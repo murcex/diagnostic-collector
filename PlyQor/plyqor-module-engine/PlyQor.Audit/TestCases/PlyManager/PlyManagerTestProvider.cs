@@ -8,9 +8,7 @@ namespace PlyQor.Audit.TestCases.PlyManager
         public static void Execute()
         {
             Console.WriteLine($"{Configuration.Key_1}, {Configuration.Key_2}");
-
-            // TODO: Move param inside, simple method
-            Configuration.DeleteTestKeys = CreateTestKeysWithTag.Execute(Configuration.Token, 3, "DeletaTagsByKeyTest1,DeleteTagsByKeyTest2,DeleteTagsByKeyTest3");
+            Configuration.DeleteTestKeys = CreateTestKeysWithTag.Execute();
 
             // Insert
 

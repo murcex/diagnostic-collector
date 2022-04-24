@@ -9,12 +9,12 @@
     {
         public static void Execute()
         {
-            Console.WriteLine($"// Delete Key and Tags");
+            Console.WriteLine($"// TEST: {nameof(DeleteKeyAndTags)}");
             
             var deleteId = GetTestIndex.Execute();
 
             StorageProvider.DeleteKey(Configuration.Container, deleteId);
-            StorageProvider.DeleteKeyTags(Configuration.Container, deleteId); // DeleteTagsOnKey
+            StorageProvider.DeleteKeyTags(Configuration.Container, deleteId);
 
             var checkDeleteKey = StorageProvider.SelectKey(Configuration.Container, deleteId);
             var checkDeleteIndex = StorageProvider.SelectKeyTags(Configuration.Container, deleteId);

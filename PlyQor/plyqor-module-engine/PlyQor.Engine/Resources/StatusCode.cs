@@ -58,6 +58,21 @@
         public static string ERR011 { get; } = "ERR011";
 
         /// <summary>
+        /// Internal: Sql Server request limit
+        /// </summary>
+        public static string ERR012 { get; } = "ERR012";
+
+        /// <summary>
+        /// External: Sql Server primary key constraint
+        /// </summary>
+        public static string ERR013 { get; } = "ERR013";
+
+        /// <summary>
+        /// Internal: Sql Server exception
+        /// </summary>
+        public static string ERR014 { get; } = "ERR014";
+
+        /// <summary>
         /// External: malformed request message
         /// </summary>
         public static string ERRMALFORM { get; } = "ERRMALFORM";

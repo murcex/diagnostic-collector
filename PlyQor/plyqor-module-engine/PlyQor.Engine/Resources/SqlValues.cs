@@ -42,5 +42,10 @@
         public static string UpdateKeyTagsStorage { get; } = "usp_PlyQor_Tag_UpdateKeyTags";
         public static string UpdateKeyTagStorage { get; } = "usp_PlyQor_Tag_UpdateKeyTag";
         public static string UpdateTagStorage { get; } = "usp_PlyQor_Tag_UpdateTag";
+
+        // exceptions
+
+        public static string RequestLimit { get; } = "request limit";
+        public static string PrimaryKeyConstraint { get; } = "PRIMARY KEY constraint";
     }
 }

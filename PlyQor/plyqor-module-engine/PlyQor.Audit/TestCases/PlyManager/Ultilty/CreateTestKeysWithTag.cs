@@ -12,10 +12,13 @@ namespace PlyQor.Audit.TestCases.PlyManager
 {
     internal class CreateTestKeysWithTag
     {
-        public static List<string> Execute(string token, int count, string inputTag)
+        public static List<string> Execute()
         {
             List<string> keys = new List<string>();
             List<string> tags = new List<string>();
+
+            var inputTag = "DeletaTagsByKeyTest1,DeleteTagsByKeyTest2,DeleteTagsByKeyTest3";
+            var count = 3;
 
             var inputTags = inputTag.Split(",");
             foreach (var item in inputTags)

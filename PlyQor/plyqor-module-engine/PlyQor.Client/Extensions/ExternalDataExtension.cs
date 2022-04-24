@@ -14,16 +14,20 @@
 
         public static bool GetPlyStatus(this Dictionary<string, string> result)
         {
-            if (result.TryGetValue(ResultKeys.Status, out string output))
+            string output = string.Empty;
+
+            if (result.TryGetValue(ResultKeys.Status, out output))
             {
-                if (bool.TryParse(output, out bool status))
+                if (string.IsNullOrEmpty(output))
                 {
-                    return status;
+                    if (bool.TryParse(output, out bool status))
+                    {
+                        return status;
+                    }
                 }
             }
 
-            // TODO: move literal string to const
-            throw new Exception("Status is not bool");
+            return false;
         }
 
         public static string GetPlyCode(this Dictionary<string, string> result)

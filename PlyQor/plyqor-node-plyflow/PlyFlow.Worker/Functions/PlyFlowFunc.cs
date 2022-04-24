@@ -47,7 +47,7 @@ namespace Javelin.Worker
             // select
             plyClient.Select(key_1);
 
-            plyClient.SelectTags();;
+            plyClient.SelectTags();
 
             plyClient.SelectCount("Upload");
 

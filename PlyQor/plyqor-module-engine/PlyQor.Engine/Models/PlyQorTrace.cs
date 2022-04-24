@@ -3,6 +3,7 @@
     using System;
     using System.Diagnostics;
     using Microsoft.Data.SqlClient;
+    using PlyQor.Engine.Resources;
 
     public class PlyQorTrace : IDisposable
     {
@@ -20,12 +21,11 @@
 
         public PlyQorTrace(string databaseConnectionString, string activityId = null)
         {
-            // TODO: move literal string to const
             this.Session = DateTime.UtcNow;
-            this.Container = "NoContainer";
+            this.Container = TraceValues.TraceNoContainer;
             this.TraceId = activityId ?? Guid.NewGuid().ToString();
-            this.Operation = "NoOperation";
-            this.Code = "OK";
+            this.Operation = TraceValues.TraceNoOperation;
+            this.Code = TraceValues.OK;
             this.Status = true;
             this.Tracer = new Stopwatch();
             this.Tracer.Start();
@@ -44,8 +44,7 @@
 
         public void AddCode(string code)
         {
-            // TODO: move literal string to const
-            code = code.Split(",KEY")[0];
+            code = code.Split(TraceValues.TraceKeySplit)[0];
 
             this.Code = code;
             this.Status = false;
@@ -57,19 +56,17 @@
             {
                 using (var connection = new SqlConnection(DatabaseConnection))
                 {
-                    // TODO: move literal string to const
-                    var cmd = new SqlCommand("usp_PlyQor_Trace_InsertTrace", connection);
+                    var cmd = new SqlCommand(TraceValues.InsertTrace, connection);
 
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-                    // TODO: move literal string to const
-                    cmd.Parameters.AddWithValue("dt_timestamp", Session);
-                    cmd.Parameters.AddWithValue("nvc_container", Container);
-                    cmd.Parameters.AddWithValue("nvc_id", TraceId);
-                    cmd.Parameters.AddWithValue("nvc_operation", Operation);
-                    cmd.Parameters.AddWithValue("nvc_code", Code);
-                    cmd.Parameters.AddWithValue("nvc_status", Status.ToString());
-                    cmd.Parameters.AddWithValue("i_duration", Duration);
+                    cmd.Parameters.AddWithValue(TraceValues.Timestamp, Session);
+                    cmd.Parameters.AddWithValue(TraceValues.Container, Container);
+                    cmd.Parameters.AddWithValue(TraceValues.Id, TraceId);
+                    cmd.Parameters.AddWithValue(TraceValues.Operation, Operation);
+                    cmd.Parameters.AddWithValue(TraceValues.Code, Code);
+                    cmd.Parameters.AddWithValue(TraceValues.Status, Status.ToString());
+                    cmd.Parameters.AddWithValue(TraceValues.Duration, Duration);
 
                     cmd.CommandTimeout = 0;
 

@@ -49,8 +49,6 @@
                 Console.WriteLine(ex.ToString());
             }
 
-            Console.WriteLine("");
-
             Console.ReadKey();
         }
     }

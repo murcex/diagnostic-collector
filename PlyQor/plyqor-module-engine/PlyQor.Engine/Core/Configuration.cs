@@ -49,7 +49,7 @@
             {
                 switch (item.Key.ToUpper())
                 {
-                    // TODO: move literal string to const
+                    // TODO: (switch) move literal string to const
                     case "DATABASE":
                         _database = item.Value;
                         break;

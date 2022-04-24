@@ -60,8 +60,15 @@
             Task.WaitAll(plyClientTasks.ToArray());
 
             // large
-            //output = plyClient.InsertKey(Guid.NewGuid().ToString(), DataGenerator.CreateLargeDocument(), "Large").GetPlyTrace();
-            //Console.WriteLine($"Large: {output}");
+            plyClientTasks.Clear();
+            var totalLargeRequests = Configuration.LargeCount;
+            for (int request = 0; request < totalLargeRequests; request++)
+            {
+                plyClientTasks.Add(new Task(() => LargeInsert(plyClient)));
+            }
+
+            Parallel.ForEach(plyClientTasks, (t) => { t.Start(); });
+            Task.WaitAll(plyClientTasks.ToArray());
         }
 
         private static void NanoInsert(PlyClient plyClient)
@@ -86,6 +93,12 @@
         {
             var output = plyClient.Insert(Guid.NewGuid().ToString(), DataGenerator.CreateMediumDocument(), "Medium").GetPlyCode();
             Console.WriteLine($"Medium: {output}");
+        }
+
+        private static void LargeInsert(PlyClient plyClient)
+        {
+            var output = plyClient.Insert(Guid.NewGuid().ToString(), DataGenerator.CreateLargeDocument(), "Large").GetPlyCode();
+            Console.WriteLine($"Large: {output}");
         }
     }
 }

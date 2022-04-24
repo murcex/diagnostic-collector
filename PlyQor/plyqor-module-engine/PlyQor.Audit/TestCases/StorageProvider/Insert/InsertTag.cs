@@ -15,21 +15,20 @@
 
             StorageProvider.InsertTag(Configuration.Container, addIndexId, "AUDIT");
 
-            //TODO: check -> select tag insert
-            var selectIndexe = StorageProvider.SelectKeyTags(Configuration.Container, addIndexId);
+            var selectIndexes = StorageProvider.SelectKeyTags(Configuration.Container, addIndexId);
 
-            bool Hit = false;
+            bool hitTracker = false;
 
-            foreach (var index in selectIndexe)
+            foreach (var index in selectIndexes)
             {
                 if (index.Contains("AUDIT"))
                 {
-                    Hit = true;
+                    hitTracker = true;
                 }
             }
 
             Console.WriteLine($"Adding Audit Index on {addIndexId}");
-            Console.WriteLine($"Confirm Audit Index exists (True): {Equals(true, Hit)}");
+            Console.WriteLine($"Confirm Audit Index exists (True): {Equals(true, hitTracker)}");
 
             Console.WriteLine($"");
         }
