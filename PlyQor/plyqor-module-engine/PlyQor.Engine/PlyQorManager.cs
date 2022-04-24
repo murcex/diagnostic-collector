@@ -25,10 +25,10 @@
 
         public static string Query(string query)
         {
-            var activityId = Guid.NewGuid().ToString();
+            var traceId = Guid.NewGuid().ToString();
             Dictionary<string, string> resultDictionary = new Dictionary<string, string>();
 
-            using (PlyQorTrace trace = new PlyQorTrace(Configuration.DatabaseConnection, activityId))
+            using (PlyQorTrace trace = new PlyQorTrace(Configuration.DatabaseConnection, traceId))
             {
                 try
                 {
@@ -71,7 +71,7 @@
                     trace.AddCode(javelinException.Message);
                 }
 
-                resultDictionary.Add(ResultKeys.Trace, activityId);
+                resultDictionary.Add(ResultKeys.Trace, traceId);
                 var result = JsonConvert.SerializeObject(resultDictionary);
                 return result;
             }

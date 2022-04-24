@@ -47,36 +47,39 @@
 
             var containers = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(json);
 
-            foreach (var container in containers.Keys)
+            if (containers != null && containers.Count > 0)
             {
-                if (containers.TryGetValue(container, out Dictionary<string, string> configuration))
+                foreach (var container in containers.Keys)
                 {
-                    if (configuration.TryGetValue(InitializerValues.TokensConfigKey, out string tokensJson))
+                    if (containers.TryGetValue(container, out Dictionary<string, string> configuration))
                     {
-                        var tokens = JsonConvert.DeserializeObject<List<string>>(tokensJson);
-
-                        containerTokens.Add(container, tokens);
-                    }
-
-                    if (configuration.TryGetValue(InitializerValues.RetentionConfigKey, out string s_days))
-                    {
-                        if (int.TryParse(s_days, out int days))
+                        if (configuration.TryGetValue(InitializerValues.TokensConfigKey, out string tokensJson))
                         {
-                            if (days != 0)
+                            var tokens = JsonConvert.DeserializeObject<List<string>>(tokensJson);
+
+                            containerTokens.Add(container, tokens);
+                        }
+
+                        if (configuration.TryGetValue(InitializerValues.RetentionConfigKey, out string s_days))
+                        {
+                            if (int.TryParse(s_days, out int days))
                             {
-                                if (days > 0)
+                                if (days != 0)
                                 {
-                                    days *= -1;
+                                    if (days > 0)
+                                    {
+                                        days *= -1;
+                                    }
+
+                                    retentionPolicy.Add(container, days);
                                 }
-
-                                retentionPolicy.Add(container, days);
                             }
-                        }
-                        else
-                        {
-                            //
-                        }
+                            else
+                            {
+                                //
+                            }
 
+                        }
                     }
                 }
             }

@@ -40,6 +40,12 @@ namespace Javelin.Worker
             // insert
             plyClient.Insert(key_1, Guid.NewGuid().ToString(), tags);
 
+            plyClient.Insert(Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), "TagOne");
+
+            plyClient.Insert(Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), "TagOne", "TagTwo");
+
+            plyClient.Insert(Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), "TagOne", "TagTwo", "TagThree");
+
             plyClient.InsertTag(key_1, "TestTag");
 
             plyClient.Insert(key_3, Guid.NewGuid().ToString(), tags_2);
@@ -49,9 +55,9 @@ namespace Javelin.Worker
 
             plyClient.SelectTags();
 
-            plyClient.SelectCount("Upload");
+            plyClient.SelectCount("TagTwo");
 
-            plyClient.Select("Upload", 3);
+            plyClient.Select("TagOne", 3);
 
             plyClient.SelectTags(key_1);
 
@@ -62,7 +68,7 @@ namespace Javelin.Worker
 
             plyClient.UpdateTag(key_2, "TestTag", "TestTagV2");
 
-            plyClient.UpdateTag("UpdateThisTag1", "DeleteThisTag2");
+            plyClient.UpdateTag("UpdateThisTag1", "UpdateThisTag2");
 
             // delete
             plyClient.DeleteTag(key_2, "TestTagV2");

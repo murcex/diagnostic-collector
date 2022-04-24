@@ -19,11 +19,11 @@
         private string DatabaseConnection { get; set; }
         private Stopwatch Tracer { get; set; }
 
-        public PlyQorTrace(string databaseConnectionString, string activityId = null)
+        public PlyQorTrace(string databaseConnectionString, string traceId = null)
         {
             this.Session = DateTime.UtcNow;
             this.Container = TraceValues.TraceNoContainer;
-            this.TraceId = activityId ?? Guid.NewGuid().ToString();
+            this.TraceId = traceId ?? Guid.NewGuid().ToString();
             this.Operation = TraceValues.TraceNoOperation;
             this.Code = TraceValues.OK;
             this.Status = true;
@@ -61,7 +61,7 @@
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
                     cmd.Parameters.AddWithValue(TraceValues.Timestamp, Session);
-                    cmd.Parameters.AddWithValue(TraceValues.Container, Container);
+                    cmd.Parameters.AddWithValue(TraceValues.Container, Container.ToUpper());
                     cmd.Parameters.AddWithValue(TraceValues.Id, TraceId);
                     cmd.Parameters.AddWithValue(TraceValues.Operation, Operation);
                     cmd.Parameters.AddWithValue(TraceValues.Code, Code);

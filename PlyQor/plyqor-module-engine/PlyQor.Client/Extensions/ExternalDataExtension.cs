@@ -18,7 +18,7 @@
 
             if (result.TryGetValue(ResultKeys.Status, out output))
             {
-                if (string.IsNullOrEmpty(output))
+                if (!string.IsNullOrEmpty(output))
                 {
                     if (bool.TryParse(output, out bool status))
                     {
@@ -39,7 +39,7 @@
 
         public static string GetPlyTrace(this Dictionary<string, string> result)
         {
-            result.TryGetValue(ResultKeys.ActivityId, out string output);
+            result.TryGetValue(ResultKeys.Trace, out string output);
 
             return output;
         }
