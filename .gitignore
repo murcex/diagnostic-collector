@@ -45,6 +45,12 @@ dlldata.c
 # Benchmark Results
 BenchmarkDotNet.Artifacts/
 
+# Azure Functions localsettings file
+local.settings.json
+**/Properties/*.json
+**/PublishProfiles/
+**/ServiceDependencies/
+
 # .NET Core
 project.lock.json
 project.fragment.lock.json
