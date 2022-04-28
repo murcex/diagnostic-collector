@@ -1,0 +1,52 @@
+---- (1) Replace <plyqorExecuteLoginHere> with your proper login
+---- (2) Convert to .sql
+---- (3) Remove these headers and uncomment cmds below
+
+---- Check and Create Database Login
+--DECLARE @check INT
+
+--SELECT @check = COUNT(*) FROM [sys].[database_principals] WHERE [type] = 'S' AND [name] = N'<plyqorExecuteLoginHere>'
+
+--IF @check = 0
+--BEGIN
+  --CREATE USER [<plyqorExecuteLoginHere>]
+  --FOR LOGIN [<plyqorExecuteLoginHere>]
+--END
+
+---- Grant Login to Objects
+
+--GRANT EXECUTE ON [dbo].[usp_PlyQor_Data_Delete] TO [<plyqorExecuteLoginHere>]
+
+--GRANT EXECUTE ON [dbo].[usp_PlyQor_Data_Insert] TO [<plyqorExecuteLoginHere>]
+
+--GRANT EXECUTE ON [dbo].[usp_PlyQor_Data_Select] TO [<plyqorExecuteLoginHere>]
+
+--GRANT EXECUTE ON [dbo].[usp_PlyQor_Data_Select_Retention] TO [<plyqorExecuteLoginHere>]
+
+--GRANT EXECUTE ON [dbo].[usp_PlyQor_Data_Update_Data] TO [<plyqorExecuteLoginHere>]
+
+--GRANT EXECUTE ON [dbo].[usp_PlyQor_Data_Update_Id] TO [<plyqorExecuteLoginHere>]
+
+--GRANT EXECUTE ON [dbo].[usp_PlyQor_Tag_Count] TO [<plyqorExecuteLoginHere>]
+
+--GRANT EXECUTE ON [dbo].[usp_PlyQor_Tag_Delete_Child] TO [<plyqorExecuteLoginHere>]
+
+--GRANT EXECUTE ON [dbo].[usp_PlyQor_Tag_Delete_Parent] TO [<plyqorExecuteLoginHere>]
+
+--GRANT EXECUTE ON [dbo].[usp_PlyQor_Tag_Delete_Set] TO [<plyqorExecuteLoginHere>]
+
+--GRANT EXECUTE ON [dbo].[usp_PlyQor_Tag_Insert] TO [<plyqorExecuteLoginHere>]
+
+--GRANT EXECUTE ON [dbo].[usp_PlyQor_Tag_List_Distinct] TO [<plyqorExecuteLoginHere>]
+
+--GRANT EXECUTE ON [dbo].[usp_PlyQor_Tag_List_Keys] TO [<plyqorExecuteLoginHere>]
+
+--GRANT EXECUTE ON [dbo].[usp_PlyQor_Tag_Select] TO [<plyqorExecuteLoginHere>]
+
+--GRANT EXECUTE ON [dbo].[usp_PlyQor_Tag_Update_Data] TO [<plyqorExecuteLoginHere>]
+
+--GRANT EXECUTE ON [dbo].[usp_PlyQor_Tag_Update_Data_Set] TO [<plyqorExecuteLoginHere>]
+
+--GRANT EXECUTE ON [dbo].[usp_PlyQor_Tag_Update_Id] TO [<plyqorExecuteLoginHere>]
+
+--GRANT EXECUTE ON [dbo].[usp_PlyQor_Trace_Insert] TO [<plyqorExecuteLoginHere>]
