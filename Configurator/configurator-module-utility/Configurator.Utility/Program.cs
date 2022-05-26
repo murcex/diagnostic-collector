@@ -29,24 +29,26 @@
                     Environment.Exit(0);
                 }
 
-                dictionary.Add(Configuration.Configurator.ToUpper(), LoadDictionary(configurator));
+                dictionary.Add(Configuration.Configurator.ToUpper(), ConvertToDictionary(configurator));
 
                 if (CheckConfiguratorType(dictionary, out string type))
                 {
+                    // check if the data is external -- then add
                     if (type.ToUpper() == Configuration.External.ToUpper())
                     {
                         List<KeyValuePair<string, string>> externalType = 
                             deserializer.GetTag(Configuration.External);
 
-                        dictionary.Add(Configuration.External.ToUpper(), LoadDictionary(externalType));
+                        dictionary.Add(Configuration.External.ToUpper(), ConvertToDictionary(externalType));
                     }
 
+                    // check if the data is internal -- then add
                     if (type.ToUpper() == Configuration.Internal.ToUpper())
                     {
                         List<KeyValuePair<string, string>> internalType = 
                             deserializer.GetTag(Configuration.Internal);
 
-                        dictionary.Add(Configuration.Internal.ToUpper(), LoadDictionary(internalType));
+                        dictionary.Add(Configuration.Internal.ToUpper(), ConvertToDictionary(internalType));
 
                         var links = GetLinkValues(dictionary);
 
@@ -56,7 +58,7 @@
                             {
                                 var tag = deserializer.GetTag(link.ToLower());
 
-                                dictionary.Add(link.ToUpper(), LoadDictionary(tag));
+                                dictionary.Add(link.ToUpper(), ConvertToDictionary(tag));
                             }
                         }
                     }
@@ -96,7 +98,11 @@
             return config;
         }
 
-        public static Dictionary<string, string> LoadDictionary(List<KeyValuePair<string, string>> kvps)
+        /// <summary>
+        /// Convert from legacy List<KeyValuePair> to Dictionary<string,string>
+        /// </summary>
+        /// <returns></returns>
+        public static Dictionary<string, string> ConvertToDictionary(List<KeyValuePair<string, string>> kvps)
         {
             Dictionary<string, string> dictionary = new Dictionary<string, string>();
 

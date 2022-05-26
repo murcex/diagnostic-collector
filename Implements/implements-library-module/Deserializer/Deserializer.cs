@@ -17,12 +17,12 @@
         /// <summary>
         /// Flag used by the rule engine to determine if a Tag has been identified.
         /// </summary>
-        static bool TagFilterSwitch = false;
+        bool TagFilterSwitch = false;
 
         /// <summary>
         /// The current Tag name.
         /// </summary>
-        static string CurrentTagName;
+        string CurrentTagName;
 
         /// <summary>
         /// Disposable flag.
@@ -36,7 +36,10 @@
         /// <param name="logOperation"></param>
         /// <param name="logValidation"></param>
         /// <returns></returns>
-        public void Execute(string fileName = null, bool logOperation = false, bool logValidation = false)
+        public void Execute(
+            string fileName = null, 
+            bool logOperation = false, 
+            bool logValidation = false)
         {
             if (fileName == null)
             {
@@ -69,7 +72,7 @@
             }
             catch (Exception e)
             {
-                throw new Exception($"Deserializer Exception [Deserializer].[Execute()]: StreamReaders Error: {e.ToString()}");
+                throw new Exception($"Deserializer Exception [Deserializer].[Execute()]: StreamReaders Error: {e}");
             }
 
             List<string> includesFiles = new List<string>();
@@ -229,7 +232,7 @@
             }
             catch (Exception e)
             {
-                throw new Exception($"Deserializer Exception [Deserializer].[Execute()]: Rule Engine Error: {e.ToString()}");
+                throw new Exception($"Deserializer Exception [Deserializer].[Execute()]: Rule Engine Error: {e}");
             }
 
             if (logValidation)
@@ -252,7 +255,7 @@
                 }
                 catch (Exception e)
                 {
-                    throw new Exception($"Deserializer Exception [Deserializer].[Execute()]: Validation Error: {e.ToString()}");
+                    throw new Exception($"Deserializer Exception [Deserializer].[Execute()]: Validation Error: {e}");
                 }
             }
 

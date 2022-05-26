@@ -22,9 +22,9 @@
             return false;
         }
 
-        private List<KeyValuePair<string,string>> ConvertToKvpList(Dictionary<string, string> configuration)
+        private static List<KeyValuePair<string,string>> ConvertToKvpList(Dictionary<string, string> configuration)
         {
-
+            return null;
         }
     }
 }
