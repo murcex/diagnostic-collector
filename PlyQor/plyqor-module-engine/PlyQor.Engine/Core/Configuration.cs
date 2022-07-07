@@ -7,6 +7,10 @@
     {
         private static string _database;
 
+        private static Dictionary<string, Dictionary<string,string>> _containers;
+
+        
+
         private static Dictionary<string, List<string>> _tokens;
 
         private static Dictionary<string, int> _retention;
@@ -35,6 +39,8 @@
 
         public static string DatabaseConnection => _database;
 
+        public static Dictionary<string, Dictionary<string,string>> Containers => _containers;
+
         public static Dictionary<string, List<string>> Tokens => _tokens;
 
         public static Dictionary<string, int> RetentionPolicy => _retention;
@@ -53,13 +59,13 @@
                     case "DATABASE":
                         _database = item.Value;
                         break;
-                    case "ADMIN":
-                        break;
-                    case "KEY":
-                        break;
-                    case "TRACE_RETENTION":
-                        _traceRetention = item.Value;
-                        break;
+                    //case "ADMIN":
+                    //    break;
+                    //case "KEY":
+                    //    break;
+                    //case "TRACE_RETENTION":
+                    //    _traceRetention = item.Value;
+                    //break;
 
                     default:
                         break;
@@ -69,6 +75,14 @@
             return true;
         }
 
+        public static bool SetSystemConfiguration()
+        {
+            // default trace - fail safe: 1 day
+            // default retention size - fail safe: *
+            // default retention cooldown - fail safe: 0ms
+
+        }
+
         public static bool SetContainerTokens(Dictionary<string, List<string>> containerTokens)
         {
             _tokens = containerTokens;
@@ -76,10 +90,20 @@
             return true;
         }
 
+        public static bool SetContainerTokensV2(Dictionary<string, Dictionary<string,string>> containers)
+        {
+            return true;
+        }
+
         public static bool SetRetentionPolicy(Dictionary<string, int> retentionPolicy)
         {
             _retention = retentionPolicy;
 
+            return true;
+        }
+
+        public static bool SetRetentionPolicyV2(Dictionary<string, Dictionary<string, string>> containers)
+        {
             return true;
         }
     }

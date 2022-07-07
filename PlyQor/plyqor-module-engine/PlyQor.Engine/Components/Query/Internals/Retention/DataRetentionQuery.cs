@@ -15,18 +15,30 @@
             var container = requestManager.GetRequestStringValue(RequestKeys.Container);
             var days = requestManager.GetRequestIntValue(RequestKeys.Aux, positive: false);
 
-            // execute internal query
-            var retentionKeys = StorageProvider.SelectRetentionKeys(container, days);
-
             int count = 0;
+            bool active = true;
 
-            foreach (var retentionKey in retentionKeys)
+            // new: batch retention
+            while (active)
             {
-                StorageProvider.DeleteKey(container, retentionKey);
+                // execute internal query
+                var retentionKeys = StorageProvider.SelectRetentionKeys(container, days);
 
-                StorageProvider.DeleteKeyTags(container, retentionKey);
+                if (retentionKeys != null && retentionKeys.Count > 0)
+                {
+                    foreach (var retentionKey in retentionKeys)
+                    {
+                        StorageProvider.DeleteKey(container, retentionKey);
 
-                count++;
+                        StorageProvider.DeleteKeyTags(container, retentionKey);
+
+                        count++;
+                    }
+                }
+                else
+                {
+                    active = false;
+                }
             }
 
             // build result

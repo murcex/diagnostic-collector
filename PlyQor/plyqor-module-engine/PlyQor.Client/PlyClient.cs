@@ -8,12 +8,26 @@
 
         private string _container;
 
+        private PlyClientConfiguration _configuration;
+
         public PlyClient(string uri, string container, string token)
+        {
+            PlyClientConfiguration configuration = new PlyClientConfiguration();
+
+            Setup(uri, container, token, configuration);
+        }
+
+        public PlyClient(string uri, string container, string token, PlyClientConfiguration configuration)
+        {
+            Setup(uri, container, token, configuration);
+        }
+
+        private void Setup(string uri, string container, string token, PlyClientConfiguration configuration)
         {
             if (string.IsNullOrEmpty(uri))
             {
                 throw new ArgumentNullException(nameof(uri));
-            }    
+            }
 
             if (string.IsNullOrEmpty(container))
             {
@@ -28,6 +42,7 @@
             _uri = uri;
             _container = container;
             _token = token;
+            _configuration = configuration;
         }
 
         /// <summary>

@@ -9,6 +9,7 @@
     using PlyQor.Engine.Components.Query;
     using PlyQor.Engine.Components.Validation;
     using PlyQor.Engine.Resources;
+    using PlyQor.Engine.Components.Maintenance;
 
     public class PlyQorManager
     {
@@ -107,9 +108,18 @@
                 "DeleteKeyTags" => QueryProvider.DeleteKeyTags(request),
                 "DeleteKeyTag" => QueryProvider.DeleteKeyTag(request),
 
+                // TODO: create a failure dict for return
                 _ => new Dictionary<string, string>(),
             };
         }
+
+
+        // TODO: switch to maintenance
+        // --- foreach container ---
+        // - data retention (new rate limit)
+        // - count total records; container level and count tags
+        // - count operations for each container, for each operation, for the day
+        // - trace retention by container
 
         public static bool Retention()
         {
@@ -132,6 +142,8 @@
                         Dictionary<string, string> request = new Dictionary<string, string>();
                         request.Add(RequestKeys.Container, container.Key);
                         request.Add(RequestKeys.Aux, container.Value.ToString());
+                        // add: size -- from sys cfg
+                        // add: cooldown -- from sys cfg
 
                         // build request
                         RequestManager requestManager = new RequestManager(request);
@@ -143,9 +155,13 @@
                     {
                         trace.AddCode(javelinException.Message);
                     }
+
+                    //trace.
                 }
             }
 
+
+            // new: move trace retention into each container, add container to request payload
             var activityId = Guid.NewGuid().ToString();
 
             using (PlyQorTrace trace = new PlyQorTrace(Configuration.DatabaseConnection, activityId))
@@ -158,6 +174,8 @@
                     // build request dictionary
                     Dictionary<string, string> request = new Dictionary<string, string>();
                     request.Add(RequestKeys.Aux, Configuration.TraceRetention);
+                    // add: request.Add(RequestKeys.Container, container.Key);
+                    // add: request.Add(RequestKeys.Aux, container.Value.ToString());
 
                     // build request
                     RequestManager requestManager = new RequestManager(request);
@@ -172,7 +190,27 @@
                 }
             }
 
+            // new: maintenance method here
+
             return true;
+        }
+
+        private static bool Maintenance()
+        {
+            var containers = Configuration.Containers;
+
+            var session = DateTime.UtcNow;
+
+            foreach (var container in containers)
+            {
+                DataRetention.Execute();
+
+                TraceRetention.Execute();
+            }
+
+            DataCollection.Execute();
+
+            GeneralPerformance.Execute();
         }
     }
 }

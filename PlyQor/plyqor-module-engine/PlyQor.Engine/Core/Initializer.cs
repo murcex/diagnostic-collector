@@ -23,6 +23,9 @@
             {
                 if (Configuration.Load(plyqorConfiguration))
                 {
+                    // TODO: collection all container configs: retention, tokens, trace
+                    // var containers = GetContainerConfiguration();
+
                     var containerTokens = GetContainerTokens();
 
                     return Configuration.SetContainerTokens(containerTokens);
@@ -87,6 +90,15 @@
             Configuration.SetRetentionPolicy(retentionPolicy);
 
             return containerTokens;
+        }
+
+        public static Dictionary<string, Dictionary<string, string>> GetContainerConfigurations()
+        {
+            var json = StorageProvider.SelectKey(InitializerValues.SystemContainer, InitializerValues.ContainersValue);
+
+            var containers = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(json);
+
+            return containers;
         }
     }
 }
