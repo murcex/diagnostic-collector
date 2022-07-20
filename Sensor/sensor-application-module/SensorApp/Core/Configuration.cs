@@ -4,7 +4,6 @@
     using Implements;
     using Configurator;
     using Sensor;
-    using KCopy;
 
     class Configuration
     {
@@ -85,12 +84,6 @@
                     deserilaizer.Execute(_file);
 
                     _sensorAppCfg = deserilaizer.GetTag("sensor");
-
-                    _sensorKLogCfg = deserilaizer.GetTag("kiroku_sensor");
-
-                    _kcopyAppCfg = deserilaizer.GetTag("kcopy");
-
-                    _kcopyKLogCfg = deserilaizer.GetTag("kiroku_kcopy");
                 }
 
                 return true;
@@ -110,8 +103,6 @@
         {
 
             AddInitStatus("SensorApp", SensorManager.Initialize(SensorAppCfg, SensorKLogCfg));
-
-            AddInitStatus("KCopyApp", KCopyManager.Initialize(KCopyAppCfg, KCopyKLogCfg));
 
             return ConfigStatus();
         }
@@ -143,11 +134,5 @@
         private static List<KeyValuePair<string, string>> _sensorAppCfg;
         private static List<KeyValuePair<string, string>> SensorKLogCfg { get { return _sensorKLogCfg; } }
         private static List<KeyValuePair<string, string>> _sensorKLogCfg;
-
-        // KCopy
-        private static List<KeyValuePair<string, string>> KCopyAppCfg { get { return _kcopyAppCfg; } }
-        private static List<KeyValuePair<string, string>> _kcopyAppCfg;
-        private static List<KeyValuePair<string, string>> KCopyKLogCfg { get { return _kcopyKLogCfg; } }
-        private static List<KeyValuePair<string, string>> _kcopyKLogCfg;
     }
 }

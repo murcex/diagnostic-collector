@@ -13,6 +13,8 @@ namespace SensorApp
             log.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
             log.LogInformation($"Config Status: {Configuration.ConfigStatus("SensorApp")}");
 
+            //Setup.Execute();
+
             try
             {
                 var result = SensorManager.Execute();

@@ -2,7 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-    using Kiroku;
+    using KirokuG2;
 
     static class GetArticles
     {
@@ -10,19 +10,17 @@
         /// Get the Endpoints and their Configs.
         /// </summary>
         /// <returns></returns>
-        public static List<DNSRecord> Execute()
+        public static List<DNSRecord> Execute(IKLog klog)
         {
-            using (KLog klog = new KLog("GetEndpointConfigs"))
+            try
             {
-                try
-                {
-                    return GetDNSRecords.GetArticle();
-                }
-                catch (Exception ex)
-                {
-                    klog.Error($"GetArticles::Execute | {ex.ToString()}");
-                    return new List<DNSRecord>();
-                }
+                return GetDNSRecords.GetArticle();
+            }
+            catch (Exception ex)
+            {
+                klog.Error($"GetArticles::Execute | {ex}");
+
+                return new List<DNSRecord>();
             }
         }
     }

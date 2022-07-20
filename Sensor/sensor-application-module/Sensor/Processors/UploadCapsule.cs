@@ -1,8 +1,7 @@
 ﻿namespace Sensor
 {
     using System;
-    using System.Collections.Generic;
-    using Kiroku;
+    using KirokuG2;
 
     static class UploadCapsule
     {
@@ -10,29 +9,24 @@
         /// Upload all Sensor Capsule records to Azure SQL Server.
         /// </summary>
         /// <param name="capsule"></param>
-        public static void Execute(Capsule capsule)
+        public static void Execute(IKLog klog, Capsule capsule)
         {
-            using (KLog klog = new KLog("UploadData"))
+            try
             {
-                try
-                {
-                    string result = AddRecords.Insert(capsule.GenerateSQLRecords());
+                string result = AddRecords.Insert(capsule.GenerateSQLRecords(klog));
 
-                    if (!string.IsNullOrEmpty(result) && result.Contains("Result: True"))
-                    {
-                        klog.Trace($"{result}");
-                        klog.Success("Capsule Uploaded.");
-                    }
-                    else
-                    {
-                        klog.Error($"Capsule Upload Failure: {result}");
-                        klog.Failure($"Capsule Upload Failure.");
-                    }
-                }
-                catch (Exception ex)
+                if (!string.IsNullOrEmpty(result) && result.Contains("Result: True"))
                 {
-                    klog.Error($"UploadCapsule::Execute | {ex.ToString()}");
+                    klog.Trace($"{result}");
                 }
+                else
+                {
+                    klog.Error($"Capsule Upload Failure: {result}");
+                }
+            }
+            catch (Exception ex)
+            {
+                klog.Error($"UploadCapsule::Execute | {ex}");
             }
         }
     }

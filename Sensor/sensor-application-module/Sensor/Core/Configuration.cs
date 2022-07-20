@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using Implements.Utility;
-    using Kiroku;
 
     public class Configuration
     {
@@ -62,8 +61,6 @@
 
         private static bool SetKirokuConfig()
         {
-            KManager.Configure(KirokuTagList);
-
             return true;
         }
 

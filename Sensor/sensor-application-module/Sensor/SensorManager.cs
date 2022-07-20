@@ -2,7 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-    using Kiroku;
+    using KirokuG2;
 
     public class SensorManager
     {
@@ -55,9 +55,7 @@
                 return false;
             }
 
-            KManager.Open();
-
-            using (KLog klog = new KLog("ExecutionStack"))
+            using (var klog = KManager.NewInstance("Sensor"))
             {
                 try
                 {
@@ -68,15 +66,15 @@
                     };
 
 
-                    capsule.DNSRecords = GetArticles.Execute();
+                    capsule.DNSRecords = GetArticles.Execute(klog);
 
-                    GetIPAddress.Execute(ref capsule);
+                    GetIPAddress.Execute(klog, ref capsule);
 
-                    TagIPAddress.Execute(ref capsule);
+                    TagIPAddress.Execute(klog, ref capsule);
 
-                    GetTCPLatency.Execute(ref capsule);
+                    GetTCPLatency.Execute(klog, ref capsule);
 
-                    UploadCapsule.Execute(capsule);
+                    UploadCapsule.Execute(klog, capsule);
                 }
 
                 catch (Exception ex)
@@ -87,8 +85,6 @@
                 }
             }
 
-            KManager.Close();
-
             return true;
         }
 
@@ -98,13 +94,20 @@
         /// <returns></returns>
         public static bool Retention()
         {
-             using (KLog klog = new KLog("RetentionProcess"))
+            using (var klog = KManager.NewInstance("RetentionProcess"))
             {
-                if (Configuration.Worker)
+                try
                 {
-                    klog.Trace($"Worker Detected.");
+                    if (Configuration.Worker)
+                    {
+                        klog.Trace($"Worker Detected.");
 
-                    DataRetention.Execute();
+                        DataRetention.Execute();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    klog.Error(ex.ToString());
                 }
             }
 

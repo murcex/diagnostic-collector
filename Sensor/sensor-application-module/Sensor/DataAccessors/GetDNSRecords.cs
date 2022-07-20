@@ -37,7 +37,7 @@
             }
             catch (Exception ex)
             {
-                throw new Exception($"Download Article - SQL Expection: {ex.ToString()}");
+                throw new Exception($"Download Article - SQL Expection: {ex}");
             }
         }
     }
