@@ -1,2 +1,0 @@
-# Korekuta
-Data collector service.
