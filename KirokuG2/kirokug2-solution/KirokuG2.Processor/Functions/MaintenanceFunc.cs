@@ -23,33 +23,33 @@ namespace KirokuG2.Processor.Functions
         [FunctionName("Kiroku-Maintenance")]
         public void Run([TimerTrigger("0 0 12 * * *")] TimerInfo myTimer, ILogger log, ExecutionContext executionContext)
         {
-            //using (var klog = KManager.NewInstance(executionContext.FunctionName))
-            //{
-            //    try
-            //    {
-            //        //foreach list execute sql query
-            //        foreach (var table in tables)
-            //        {
-            //            // sql
-            //            var query = $"DELETE FROM [tbl_KirokuG2_{table}] WHERE [dt_session] < DATEADD(day,-7,GETDATE())";
+            using (var klog = KManager.NewInstance(executionContext.FunctionName))
+            {
+                try
+                {
+                    //foreach list execute sql query
+                    foreach (var table in tables)
+                    {
+                        // sql
+                        var query = $"DELETE FROM [tbl_KirokuG2_{table}] WHERE [dt_session] < DATEADD(day,-7,GETDATE())";
 
-            //            using (var connection = new SqlConnection(Configuration.Database))
-            //            {
-            //                connection.Open();
-            //                using (var command = new SqlCommand(query, connection))
-            //                {
-            //                    var r = command.ExecuteReader();
-            //                    while (r.Read())
-            //                    { }
-            //                }
-            //            }
-            //        }
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        klog.Error(ex.ToString());
-            //    }
-            //}
+                        using (var connection = new SqlConnection(Configuration.Database))
+                        {
+                            connection.Open();
+                            using (var command = new SqlCommand(query, connection))
+                            {
+                                var r = command.ExecuteReader();
+                                while (r.Read())
+                                { }
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    klog.Error(ex.ToString());
+                }
+            }
         }
     }
 }

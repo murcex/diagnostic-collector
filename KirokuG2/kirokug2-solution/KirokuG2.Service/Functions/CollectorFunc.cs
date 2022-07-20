@@ -45,7 +45,7 @@ namespace KirokuG2.Service.Functions
                 return new OkObjectResult(responseMessage);
             }
 
-            Configuration.Storage.Insert(Guid.NewGuid().ToString(), requestBody, "upload-1004");
+            Configuration.Storage.Insert(Guid.NewGuid().ToString(), requestBody, "upload");
 
             responseMessage = "200";
             return new OkObjectResult(responseMessage);

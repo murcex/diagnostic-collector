@@ -22,34 +22,38 @@
             _active = false;
         }
 
-        public bool AddLogs(string instance, StringBuilder logs)
+        public bool AddLogs(StringBuilder logs)
         {
-            if (_storage.TryAdd(instance, logs))
+            if (_upload)
             {
-                return UploadLogs();
+                // send directly to telemetry collector
+                return DataProvider.Transmission(logs.ToString());
             }
             else
             {
-                throw new Exception($"Failed to add logs to KStorage");
+                // add to storage, trigger async uploader
+                if (_storage.TryAdd(Guid.NewGuid().ToString(), logs))
+                {
+                    return UploadLogs();
+                }
+                else
+                {
+                    throw new Exception($"Failed to add logs to KStorage");
+                }
             }
         }
 
         public bool UploadLogs()
         {
-            if (_upload)
+            if (_active)
             {
-                SendLogs();
+                // no action required -- wait for AsyncUpload to complete
             }
             else
             {
-                if (_active)
-                {
-                    // no action required -- wait for AsyncUpload to trigger
-                }
-                else
-                {
-                    Task.Factory.StartNew(() => AsyncUpload(), TaskCreationOptions.LongRunning).ConfigureAwait(false);
-                }
+                _active = true;
+
+                Task.Factory.StartNew(() => AsyncUpload(), TaskCreationOptions.LongRunning).ConfigureAwait(false);
             }
 
             return true;
@@ -64,13 +68,13 @@
                     _storage.Remove(log.Key, out var _);
                 }
             }
+
+            _active = false;
         }
 
         private async Task AsyncUpload()
         {
-            _active = true;
-
-            await Task.Delay(_delay).ContinueWith(_ => { SendLogs(); _active = false; });
+            await Task.Delay(_delay).ContinueWith(_ => { SendLogs(); });
         }
     }
 }

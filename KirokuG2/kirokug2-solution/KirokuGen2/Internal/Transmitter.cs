@@ -14,9 +14,7 @@ namespace KirokuG2.Internal
                 HttpContent httpContent = new StringContent(data);
                 request.Content = httpContent;
 
-                var output = _httpClient.Send(request).Content.ReadAsStringAsync().GetAwaiter().GetResult();
-
-                Console.WriteLine(output);
+                _ = _httpClient.Send(request).Content.ReadAsStringAsync().GetAwaiter().GetResult();
 
                 return true;
             }
@@ -25,7 +23,8 @@ namespace KirokuG2.Internal
                 Console.WriteLine(ex.ToString());
 
                 return false;
-                // failsafe local write -or- retry logic based on ex
+
+                // TODO: failsafe local write -or- retry logic based on ex
             }
         }
 
@@ -38,8 +37,6 @@ namespace KirokuG2.Internal
                     // direct to url with matching server certificate
                     if (sslErrors.ToString() == "None")
                     {
-                        Console.WriteLine("Approved: None");
-
                         return true;
                     }
 
@@ -58,8 +55,6 @@ namespace KirokuG2.Internal
                             // Azure Function Host URL
                             && certificate.Subject.Contains("CN=*.azurewebsites.net"))
                             {
-                                Console.WriteLine("Approved: RemoteCertificateNameMismatch");
-
                                 return true;
                             }
                             else

@@ -201,7 +201,7 @@
 
                     Injector("SI", instance_result);
 
-                    _storage.AddLogs(Guid.NewGuid().ToString(), _logs);
+                    _storage.AddLogs(_logs);
                 }
             }
 

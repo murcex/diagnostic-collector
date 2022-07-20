@@ -34,7 +34,7 @@
             try
             {
                 // get all id's for tag=upload
-                var log_ids = _plyClient.Select("upload-1004", 100).GetPlyList();
+                var log_ids = _plyClient.Select("upload", 100).GetPlyList();
 
                 foreach (var log_id in log_ids)
                 {
@@ -257,13 +257,13 @@
                             }
                         }
 
-                        _plyClient.UpdateTag(log_id, "upload-1004", "archive");
+                        _plyClient.UpdateTag(log_id, "upload", "archive");
                     }
                     catch (Exception ex)
                     {
                         SQLProvider.InsertQuarantine(DateTime.UtcNow, log_id);
 
-                        _plyClient.UpdateTag(log_id, "upload-1004", "quarantine");
+                        _plyClient.UpdateTag(log_id, "upload", "quarantine");
 
                         Console.WriteLine($"{log_id} EXCEPTION: {ex}");
                     }
