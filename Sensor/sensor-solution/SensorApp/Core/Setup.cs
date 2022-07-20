@@ -42,8 +42,6 @@ namespace Sensor.Function.Core
                     throw new Exception(erroMsg);
                 }
             }
-
-            _initialized = true;
         }
 
         private static string IsAzureFunction()
