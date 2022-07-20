@@ -4,14 +4,14 @@ namespace ConfiguratorApp
     using Microsoft.Azure.WebJobs;
     using Microsoft.Extensions.Logging;
     using KCopy;
-    using ConfiguratorApp.Core;
 
     public static class KCopyFunc
     {
         [FunctionName("KCopy")]
-        public static void Execute([TimerTrigger("0 */5 * * * *")] TimerInfo myTimer, ILogger log)
+        public static void Execute([TimerTrigger("0 */5 * * * *")]TimerInfo myTimer, ILogger log)
         {
-            Initializer.Execute();
+            log.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
+            log.LogInformation($"Config Status: {Configuration.ConfigStatus("KCopyApp")}");
 
             try
             {

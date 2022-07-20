@@ -8,7 +8,6 @@ namespace ConfiguratorApp
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Logging;
     using Configurator.Service;
-    using ConfiguratorApp.Core;
 
     public static class ConfiguratorFunc
     {
@@ -17,11 +16,11 @@ namespace ConfiguratorApp
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
             ILogger log)
         {
-            Initializer.Execute();
+            log.LogInformation($"Config Status: {Configuration.ConfigStatus("CfgApp")}");
 
             try
             {
-                var document = CfgSvcManager.Execute(req);
+                var document =  CfgSvcManager.Execute(req);
 
                 log.LogInformation($"PASS");
 

@@ -199,24 +199,5 @@
         private static List<KeyValuePair<string, string>> _kcopyAppCfg;
         private static List<KeyValuePair<string, string>> KCopyKLogCfg { get { return _kcopyKLogCfg; } }
         private static List<KeyValuePair<string, string>> _kcopyKLogCfg;
-
-
-        public static bool Load(Dictionary<string,Dictionary<string,string>> configPackage)
-        {
-            if (configPackage.TryGetValue("Configurator.Storage", out Dictionary<string, string> config))
-            {
-                foreach (var item in config)
-                {
-                    switch (item.Key)
-                    {
-                        default:
-                    }
-                }
-
-                return true;
-            }
-
-            return false;
-        }
     }
 }
