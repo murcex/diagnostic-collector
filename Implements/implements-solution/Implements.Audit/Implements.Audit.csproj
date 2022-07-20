@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -10,7 +10,6 @@
     <ProjectReference Include="..\Deserializer\Implements.Deserializer.csproj" />
     <ProjectReference Include="..\Encryption\Implements.Encryption.csproj" />
     <ProjectReference Include="..\Logger\Implements.Logger.csproj" />
-    <ProjectReference Include="..\Substrate.Blob\Implements.Blob.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -5,13 +5,11 @@
     class Index
     {
         // Audit switches
-        private static bool Log = false;
+        private static bool Log = true;
 
         private static bool Deserializer = true;
 
-        private static bool Encryption = false;
-
-        private static bool BlobClient = false;
+        private static bool Encryption = true;
 
         static void Main(string[] args)
         {
@@ -22,9 +20,6 @@
             Break();
 
             EncryptionAudit.Execute(Encryption);
-            Break();
-
-            BlobClientAudit.Execute(BlobClient);
             Break();
         }
 
