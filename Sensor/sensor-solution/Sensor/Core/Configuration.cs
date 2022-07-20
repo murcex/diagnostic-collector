@@ -7,30 +7,11 @@
     public class Configuration
     {
         /// <summary>
-        /// Set Sensor app and logging configs.
-        /// </summary>
-        /// <param name="sensorConfig"></param>
-        /// <param name="kirokuConfig"></param>
-        public static bool SetConfigs(List<KeyValuePair<string, string>> sensorConfig, List<KeyValuePair<string, string>> kirokuConfig)
-        {
-            _sensorTagList = sensorConfig;
-
-            _kirokuTagList = kirokuConfig;
-
-            if (SetSensorConfig())
-            {
-                return SetKirokuConfig();
-            }
-
-            return false;
-        }
-
-        /// <summary>
         /// Load raw sensor config through switch tree, sorting and loading into the backing fields.
         /// </summary>
-        private static bool SetSensorConfig()
+        public static bool SetConfigs(List<KeyValuePair<string, string>> sensorConfig)
         {
-            foreach (var kvp in SensorTagList)
+            foreach (var kvp in sensorConfig)
             {
                 switch (kvp.Key.ToString())
                 {
@@ -59,11 +40,6 @@
             return true;
         }
 
-        private static bool SetKirokuConfig()
-        {
-            return true;
-        }
-
         // Constants
         public const string IpAddress = "IpAddress";
         public const string UnknownDataCenter = "UNKNOWN";
@@ -72,8 +48,6 @@
         public const string StatusNoMatch = "NOMATCH";
         public const string SensorLocation = "NOMATCH";
 
-        private const string s_sensorConfig = "sensor";
-        private const string s_kirokuConfig = "kiroku";
         private const string s_source = "source";
         private const string s_sql = "sql";
         private const string s_debug = "debug";
@@ -86,12 +60,9 @@
         /// Public readonly properties, backing fields applied with proper conversion
         /// </summary>
 
-        // Configs
-        private static List<KeyValuePair<string, string>> SensorTagList { get { return _sensorTagList; } }
-        public static List<KeyValuePair<string, string>> KirokuTagList { get { return _kirokuTagList; } }
-
         // App settings
         public static readonly DateTime Session = DateTime.Now.ToUniversalTime();
+
         public static string Source
         {
             get
@@ -112,6 +83,7 @@
                 }
             }
         }
+
         public static string SQLConnectionString { get; private set; }
         
         // Operation Modes
@@ -122,10 +94,6 @@
         /// <summary>
         /// Private backing fields
         /// </summary>
-
-        // Configs
-        private static List<KeyValuePair<string, string>> _sensorTagList;
-        private static List<KeyValuePair<string, string>> _kirokuTagList;
 
         // Operations modes
         private static string _source;

@@ -20,21 +20,19 @@
                 deserilaizer.Execute(_file);
 
                 sensorConfigs = deserilaizer.GetTag("sensor");
-
-                kirokuConfigs = deserilaizer.GetTag("kiroku_sensor");
             }
 
-            if (SensorManager.Initialize(sensorConfigs, kirokuConfigs))
+            if (SensorManager.Initialize(sensorConfigs))
             {
                 Console.WriteLine($"Configs loaded.");
-                if (SensorManager.Execute())
-                {
-                    Console.WriteLine($"Sensor executed.");
-                }
-                else
-                {
-                    Console.WriteLine($"Sensor failed.");
-                }
+                //if (SensorManager.Execute())
+                //{
+                //    Console.WriteLine($"Sensor executed.");
+                //}
+                //else
+                //{
+                //    Console.WriteLine($"Sensor failed.");
+                //}
             }
             else
             {
