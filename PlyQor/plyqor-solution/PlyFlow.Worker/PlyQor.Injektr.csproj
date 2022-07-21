@@ -6,8 +6,10 @@
   <ItemGroup>
     <PackageReference Include="Configurator" Version="0.0.3" />
     <PackageReference Include="Implements" Version="0.0.1" />
-    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.0.1" />
-    <PackageReference Include="PlyQor.Client" Version="0.0.0.4" />
+    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.1.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PlyQor.Client\PlyQor.Client.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Config.ini">

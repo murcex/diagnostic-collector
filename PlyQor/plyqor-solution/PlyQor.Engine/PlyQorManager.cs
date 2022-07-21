@@ -13,15 +13,9 @@
 
     public class PlyQorManager
     {
-        public static bool Initialize(Dictionary<string, Dictionary<string, string>> configuration)
+        public static bool Initialize()
         {
-            if (configuration == null || configuration.Count == 0)
-            {
-                // TODO: hold for pylon replacement
-                throw new Exception("PlyQorManager Initialize Failure");
-            }
-
-            return Initializer.Execute(configuration);
+            return Initializer.Execute();
         }
 
         public static string Query(string query)
