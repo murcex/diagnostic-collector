@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Converter\Implements.Converter.csproj" />
+    <ProjectReference Include="..\Deserializer\Implements.Deserializer.csproj" />
+    <ProjectReference Include="..\Encryption\Implements.Encryption.csproj" />
+    <ProjectReference Include="..\Logger\Implements.Logger.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="MyConfigFile.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
