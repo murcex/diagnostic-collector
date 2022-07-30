@@ -1,13 +1,16 @@
 CREATE PROCEDURE [dbo].[usp_PlyQor_Trace_TraceRetention]
 
-@i_days int
+@nvc_container nvarchar(20)
+,@i_top int
+,@dt_threshold datetime
 
 AS
 
 BEGIN
 
-DELETE
+DELETE TOP (@i_top)
 FROM [dbo].[tbl_PlyQor_Trace]
-WHERE [dt_timestamp] < DATEADD(day,@i_days,GETDATE())
+WHERE [dt_timestamp] < @dt_threshold
+AND [nvc_container] = @nvc_container
 
 END

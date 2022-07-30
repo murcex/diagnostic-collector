@@ -10,8 +10,9 @@
     class SelectRetentionKeysStorage
     {
         public static List<string> Execute(
-            string container, 
-            int days)
+            string container,
+            int top,
+            DateTime threshold)
         {
             List<string> ids = new List<string>();
 
@@ -24,7 +25,8 @@
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
                     cmd.Parameters.AddWithValue(SqlValues.Container, container);
-                    cmd.Parameters.AddWithValue(SqlValues.Days, days);
+                    cmd.Parameters.AddWithValue("i_top", top);
+                    cmd.Parameters.AddWithValue("dt_threshold", threshold);
 
                     cmd.CommandTimeout = 0;
 

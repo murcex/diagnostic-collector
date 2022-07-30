@@ -8,7 +8,10 @@
 
     public class TraceRetentionStorage
     {
-        public static int Execute(int days)
+        public static int Execute(
+            string container,
+            int days,
+            DateTime threshold)
         {
             try
             {
@@ -18,7 +21,9 @@
 
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue(SqlValues.Days, days);
+                    cmd.Parameters.AddWithValue(SqlValues.Container, container);
+                    cmd.Parameters.AddWithValue(SqlValues.Top, days);
+                    cmd.Parameters.AddWithValue("dt_threshold", threshold);
 
                     cmd.CommandTimeout = 0;
 

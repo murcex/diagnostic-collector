@@ -6,13 +6,11 @@ using System.Threading.Tasks;
 
 namespace PlyQor.Engine.Components.Maintenance
 {
-    public class GeneralPerformance
+    public class ContainerRetention
     {
         public static void Execute()
         {
-            // rebuild index
-
-            // flush proc
+            // find any container that doesn't exist in config
         }
     }
 }

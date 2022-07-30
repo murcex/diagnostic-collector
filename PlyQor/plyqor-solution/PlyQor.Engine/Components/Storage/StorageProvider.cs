@@ -243,20 +243,27 @@
         /// </summary>
         public static List<string> SelectRetentionKeys(
             string container, 
-            int days)
+            int capacity,
+            DateTime threshold)
         {
             return SelectRetentionKeysStorage.Execute(
                 container.ToUpper(), 
-                days);
+                capacity,
+                threshold);
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public static int TraceRetention(int days)
+        public static int TraceRetention(
+            string container,
+            int capacity,
+            DateTime threshold)
         {
             return TraceRetentionStorage.Execute(
-                days);
+                container.ToUpper(),
+                capacity,
+                threshold);
         }
     }
 }
