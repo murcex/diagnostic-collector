@@ -22,31 +22,46 @@
                 {
                     try
                     {
+                        var action = true;
                         var count = 0;
                         List<IPRecord> ipRecordQuickList = new List<IPRecord>();
                         List<IPRecord> ipRecordTransferList = new List<IPRecord>();
 
                         // DNS query multiple times
-                        while (count < 3)
+                        while (action && count < 4)
                         {
-                            var ips = Dns.GetHostAddresses(article.DNSName);
-
-                            klog.Metric($"ipcount-{article.DNSName}", ips.Length);
-
-                            // DNS query may return more than one ip
-                            foreach (var ip in ips)
+                            try
                             {
-                                IPRecord record = new IPRecord();
+                                var ips = Dns.GetHostAddresses(article.DNSName);
 
-                                record.IP = ip;
-                                record.IPStatus = "ONLINE";
+                                klog.Metric($"ipcount-{article.DNSName}", ips.Length);
 
-                                ipRecordQuickList.Add(record);
+                                // DNS query may return more than one ip
+                                foreach (var ip in ips)
+                                {
+                                    IPRecord record = new IPRecord();
+
+                                    record.IP = ip;
+                                    record.IPStatus = "ONLINE";
+
+                                    ipRecordQuickList.Add(record);
+                                }
+
+                                action = false;
                             }
+                            catch (Exception ex)
+                            {
+                                if (ex.ToString().Contains("No such host is known"))
+                                {
+                                    Thread.Sleep(5);
 
-                            Thread.Sleep(5);
-
-                            count++;
+                                    count++;
+                                }
+                                else
+                                {
+                                    throw;
+                                }
+                            }
                         }
 
                         var ipRecordDistinctList = ipRecordQuickList.GroupBy(ip => ip.IP).Select(y => y.First());
