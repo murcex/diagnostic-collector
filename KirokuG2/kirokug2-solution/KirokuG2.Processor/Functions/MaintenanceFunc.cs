@@ -1,11 +1,11 @@
 namespace KirokuG2.Processor.Functions
 {
+    using KirokuG2.Processor.Core;
+    using Microsoft.Azure.WebJobs;
+    using Microsoft.Extensions.Logging;
     using System;
     using System.Collections.Generic;
     using System.Data.SqlClient;
-    using Microsoft.Azure.WebJobs;
-    using Microsoft.Extensions.Logging;
-    using KirokuG2.Processor.Core;
 
     public class MaintenanceFunc
     {
@@ -30,17 +30,28 @@ namespace KirokuG2.Processor.Functions
                     //foreach list execute sql query
                     foreach (var table in tables)
                     {
-                        // sql
-                        var query = $"DELETE FROM [tbl_KirokuG2_{table}] WHERE [dt_session] < DATEADD(day,-7,GETDATE())";
-
-                        using (var connection = new SqlConnection(Configuration.Database))
+                        using (var block = klog.NewBlock($"{table}Retention"))
                         {
-                            connection.Open();
-                            using (var command = new SqlCommand(query, connection))
+                            // sql query
+                            var query = $"DELETE FROM [tbl_KirokuG2_{table}] WHERE [dt_session] < DATEADD(day,-7,GETDATE())";
+
+                            using (var connection = new SqlConnection(Configuration.Database))
                             {
-                                var r = command.ExecuteReader();
-                                while (r.Read())
-                                { }
+                                connection.Open();
+
+                                using (var command = new SqlCommand(query, connection))
+                                {
+                                    command.CommandTimeout = 0;
+
+                                    var reader = command.ExecuteReader();
+
+                                    var recordCount = reader.RecordsAffected;
+
+                                    klog.Info($"{block.Tag}@{table}={recordCount}");
+
+                                    while (reader.Read())
+                                    { }
+                                }
                             }
                         }
                     }
