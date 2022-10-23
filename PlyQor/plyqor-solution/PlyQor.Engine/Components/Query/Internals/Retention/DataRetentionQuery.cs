@@ -11,7 +11,7 @@
 
     class DataRetentionQuery
     {
-        public static async Dictionary<string, string> Execute(RequestManager requestManager)
+        public static Dictionary<string, string> Execute(RequestManager requestManager)
         {
             ResultManager resultManager = new ResultManager();
 

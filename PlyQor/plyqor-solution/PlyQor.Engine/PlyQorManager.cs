@@ -107,7 +107,7 @@
             };
         }
 
-
+        #region OldRetention
         // TODO: switch to maintenance
         // --- foreach container ---
         // - data retention (new rate limit)
@@ -188,6 +188,7 @@
 
         //    return true;
         //}
+        #endregion
 
         private static bool Maintenance()
         {
@@ -205,6 +206,8 @@
             DataCollection.Execute();
 
             GeneralPerformance.Execute();
+
+            return true;
         }
     }
 }

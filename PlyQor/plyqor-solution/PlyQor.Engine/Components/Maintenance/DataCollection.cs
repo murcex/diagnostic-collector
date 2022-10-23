@@ -12,19 +12,21 @@ namespace PlyQor.Engine.Components.Maintenance
         {
             // foreach container
 
-            // get record count (data)
+            // get record count (data) [select into]
+            // done
 
-            // get delete record count (retention)
-
-            // get record count by tag (tag)
+            // get record count by tag (tag) [select into]
+            // done
 
             // get total operation count by operations over the last 24 hours (last check point) (as operation)
+            // between (get last known timestamp as day + 1) and (current date - 1)
 
             // get total operation error count (error)
+            // total / false count
 
-            // get avg for operation
-
-            // get 99th or 95th
+            // get 50th (avg), 95th, 99th for operation latency
+            // avg done
+            // 95th done
 
             // dt_timestamp, nvc_container, i_type, nvc_key, i_value
             // i_type = data, retention, tag, error, operation, avg, p95

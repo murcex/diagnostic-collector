@@ -95,6 +95,7 @@
         {
             return DataRetentionQuery.Execute(requestManager);
         }
+
         public static Dictionary<string, string> TraceRetention(RequestManager requestManager)
         {
             return TraceRetentionQuery.Execute(requestManager);
