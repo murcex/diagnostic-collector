@@ -34,7 +34,7 @@
                             {
                                 var ips = Dns.GetHostAddresses(article.DNSName);
 
-                                klog.Metric($"ipcount-{article.DNSName}", ips.Length);
+                                klog.Trace($"DNS:{article.DNSName}, IPCount:{ips.Length}");
 
                                 // DNS query may return more than one ip
                                 foreach (var ip in ips)
