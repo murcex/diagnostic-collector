@@ -7,6 +7,7 @@
     using PlyQor.Resources;
     using PlyQor.Engine.Core;
     using PlyQor.Engine.Components.Storage;
+    using System.Diagnostics;
 
     class TraceRetentionQuery
     {
@@ -24,10 +25,16 @@
             var cycle = Configuration.RetentionCycle;
 
             var active = true;
-            var total = 0;
+            int record_total = 0;
+            int cycle_total = 0;
+
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
 
             while (active)
             {
+                cycle_total++;
+
                 // execute internal query
                 var count = StorageProvider.TraceRetention(container, capacity, threshold);
 
@@ -37,14 +44,19 @@
                 }
                 else
                 {
-                    total += count;
+                    record_total += count;
 
                     Task.Delay(cycle).GetAwaiter().GetResult();
                 }
             }
 
+            stopwatch.Stop();
+            var duration = stopwatch.ElapsedMilliseconds.ToString();
+
             // build result
-            resultManager.AddResultData(total);
+            resultManager.AddCustomResultData("Records", record_total.ToString());
+            resultManager.AddCustomResultData("Cycles", cycle_total.ToString());
+            resultManager.AddCustomResultData("Duration", duration);
             resultManager.AddResultSuccess();
 
             return resultManager.ExportDataSet();

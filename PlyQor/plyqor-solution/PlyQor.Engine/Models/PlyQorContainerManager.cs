@@ -26,7 +26,7 @@ namespace PlyQor.Engine.Models
 
             ExtractTokens();
 
-            ExtraceRetentionConfigurations();
+            //ExtraceRetentionConfigurations();
         }
 
         public static List<string> GetContainers()
@@ -109,22 +109,25 @@ namespace PlyQor.Engine.Models
             }
         }
 
-        private static int ExtractInt(string key)
-        {
-            if (_containers != null && _containers.Count > 0)
-            {
-                foreach (var container in _containers.Keys)
-                {
-                    if (_containers.TryGetValue(container, out Dictionary<string, string> configuration))
-                    {
-                        if (configuration.TryGetValue(key, out string tokensJson))
-                        {
-                            return Int32.TryParse(tokensJson, out int value);
-                        }
-                    }
-                }
-            }
-        }
+        // TODO: leagcy?
+        //private static int ExtractInt(string key)
+        //{
+        //    if (_containers != null && _containers.Count > 0)
+        //    {
+        //        foreach (var container in _containers.Keys)
+        //        {
+        //            if (_containers.TryGetValue(container, out Dictionary<string, string> configuration))
+        //            {
+        //                if (configuration.TryGetValue(key, out string tokensJson))
+        //                {
+        //                    Int32.TryParse(tokensJson, out int value);
+
+        //                    return value;
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
 
         private static void ExtraceRetentionConfigurations()
         {
@@ -161,14 +164,14 @@ namespace PlyQor.Engine.Models
                             _containerTokens.Add(container, tokens);
                         }
 
-                        if (configuration.TryGetValue("Trace", out string tokensJson))
-                        {
-                            var tokens = JsonConvert.DeserializeObject<List<string>>(data);
+                        //if (configuration.TryGetValue("Trace", out string tokensJson))
+                        //{
+                        //    var tokens = JsonConvert.DeserializeObject<List<string>>(data);
 
-                            _containerTokens.Add(container, tokens);
-                        }
+                        //    _containerTokens.Add(container, tokens);
+                        //}
 
-                        PlyQorRetentionConfiguration plyQorRetentionConfiguration = new PlyQorRetentionConfiguration();
+                        //PlyQorRetentionConfiguration plyQorRetentionConfiguration = new PlyQorRetentionConfiguration();
                     }
                 }
             }

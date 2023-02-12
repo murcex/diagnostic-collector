@@ -26,6 +26,12 @@
 
         private static int _systemTraceRetention;
 
+        private static int _defaultRetentionCapacity = 100;
+
+        private static int _defaultRetentionCycle = 250;
+
+        private static int _defaultTraceRetention = 1;
+
         private static List<string> _operations =
             new List<string>()
             {
@@ -67,7 +73,7 @@
         public static List<string> Operations => _operations;
 
         /// <summary>
-        /// 
+        /// Set sql storage connection string
         /// </summary>
         public static bool Load(string configuration)
         {
@@ -82,16 +88,23 @@
         }
 
         /// <summary>
-        /// 
+        /// Load and set system and user container configurations
         /// </summary>
         public static bool LoadContainers(Dictionary<string, Dictionary<string, string>> containers)
         {
             // extract system container settings
+            // TODO: replace strings with prop's
             if (containers.TryGetValue("SYSTEM", out var system_container))
             {
                 if (system_container == null || system_container.Count < 1)
                 {
-                    throw new Exception($"SYSTEM Container is Null or Empty");
+                    // create default configuration values
+                    system_container = new Dictionary<string, string>()
+                    {
+                        {"Trace", "1"},
+                        {"Capacity", "10"},
+                        {"Cycle", "10"}
+                    };
                 }
 
                 if (LoadSystemContainerConfigurations(system_container))
@@ -105,38 +118,49 @@
             }
             else
             {
-                throw new Exception($"SYSTEM Container configuration is missing");
+                // create default configuration values
+                system_container = new Dictionary<string, string>()
+                    {
+                        {"Trace", "1"},
+                        {"Capacity", "10"},
+                        {"Cycle", "10"}
+                    };
+
+                LoadSystemContainerConfigurations(system_container);
             }
 
-            LoadContainerConfigurations(containers);
+            LoadUserContainerConfigurations(containers);
 
             return true;
         }
 
+        /// <summary>
+        /// Load and set system container configurations
+        /// </summary>
         private static bool LoadSystemContainerConfigurations(Dictionary<string, string> system_container)
         {
-            if (system_container == null || system_container.Count < 1)
-            {
-                throw new Exception($"SYSTEM Container is Null or Empty");
-            }
-
-            if (system_container.TryGetValue("TRACE", out var system_trace_string))
+            if (system_container.TryGetValue("Trace", out var system_trace_string))
             {
                 int.TryParse(system_trace_string, out var system_trace);
 
                 if (system_trace == 0)
                 {
-                    system_trace = 1;
+                    system_trace = _defaultTraceRetention;
+                }
+
+                if (system_trace < 0)
+                {
+                    system_trace *= -1;
                 }
 
                 _systemTraceRetention = system_trace;
             }
             else
             {
-                _systemTraceRetention = 1;
+                _systemTraceRetention = _defaultTraceRetention;
             }
 
-            if (system_container.TryGetValue("CAPACITY", out var system_retention_capacity_string))
+            if (system_container.TryGetValue("Capacity", out var system_retention_capacity_string))
             {
                 int.TryParse(system_retention_capacity_string, out var system_retention_capacity);
 
@@ -144,10 +168,10 @@
             }
             else
             {
-                _retentionCapacity = 0;
+                _retentionCapacity = _defaultRetentionCapacity;
             }
 
-            if (system_container.TryGetValue("CYCLE", out var system_retention_cooldown_string))
+            if (system_container.TryGetValue("Cycle", out var system_retention_cooldown_string))
             {
                 int.TryParse(system_retention_cooldown_string, out var system_retention_cooldown);
 
@@ -155,13 +179,16 @@
             }
             else
             {
-                _retentionCycle = 0;
+                _retentionCycle = _defaultRetentionCycle;
             }
 
             return true;
         }
 
-        private static bool LoadContainerConfigurations(Dictionary<string, Dictionary<string, string>> containers)
+        /// <summary>
+        /// Load and set user container configurations
+        /// </summary>
+        private static bool LoadUserContainerConfigurations(Dictionary<string, Dictionary<string, string>> containers)
         {
             // set-up tokens, data retention and trace retention collections
             if (_tokens == null)
@@ -179,9 +206,15 @@
                 _traceRetention = new Dictionary<string, int>();
             }
 
-            // prase container configuration for tokens, data retention and trace retention
+            if (_containers == null)
+            {
+                _containers = new List<string>();
+            }
+
+            // prase container configuration for tokens, data and trace retention policy
             foreach (var container in containers)
             {
+                // access tokens
                 if (container.Value.TryGetValue(InitializerValues.TokensConfigKey, out string tokensJson))
                 {
                     var tokens = JsonConvert.DeserializeObject<List<string>>(tokensJson);
@@ -189,54 +222,39 @@
                     _tokens.Add(container.Key.ToUpper(), tokens);
                 }
 
-                // extract retention policy
-                // if "retention" else set as 0
+                // data retention policy
+                int days = 0;
                 if (container.Value.TryGetValue(InitializerValues.RetentionConfigKey, out string s_days))
                 {
-                    if (int.TryParse(s_days, out int days))
+                    if (int.TryParse(s_days, out days))
                     {
-                        if (days != 0)
+                        if (days < 0)
                         {
-                            if (days > 0)
-                            {
-                                days *= -1;
-                            }
-
-                            _dataRetention.Add(container.Key.ToUpper(), days);
-                        }
-                        else
-                        {
-
+                            days *= -1;
                         }
                     }
-                    else
-                    {
-                        days = 0;
-                    }
-
-                    _dataRetention.Add(container.Key.ToUpper(), days);
                 }
 
-                // if "trace" else use system default
-                if (container.Value.TryGetValue("TRACE", out s_days))
+                _dataRetention.Add(container.Key.ToUpper(), days);
+
+                // trace retention policy
+                days = 0;
+                if (container.Value.TryGetValue("Trace", out s_days))
                 {
-                    if (int.TryParse(s_days, out int days))
+                    if (int.TryParse(s_days, out days))
                     {
-                        if (days != 0)
+                        if (days < 0)
                         {
-                            if (days > 0)
-                            {
-                                days *= -1;
-                            }
-
-                            _traceRetention.Add(container.Key.ToUpper(), days);
+                            days *= -1;
                         }
                     }
-                    else
-                    {
-                        //
-                    }
                 }
+
+                days = days == 0 ? _systemTraceRetention : days;
+
+                _traceRetention.Add(container.Key.ToUpper(), days);
+
+                _containers.Add(container.Key.ToUpper());
             }
 
             return true;

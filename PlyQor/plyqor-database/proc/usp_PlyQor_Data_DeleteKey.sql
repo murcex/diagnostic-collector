@@ -1,4 +1,5 @@
 CREATE PROCEDURE [dbo].[usp_PlyQor_Data_DeleteKey]
+
 @nvc_container nvarchar(20)
 ,@nvc_id nvarchar(50)
 

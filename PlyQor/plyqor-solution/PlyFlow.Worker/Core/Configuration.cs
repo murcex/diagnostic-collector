@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PlyQor.Client;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,8 @@ namespace Javelin.Worker
 
         public static string Token => _token;
 
+        public static PlyClient PlyClient;
+
         public static void Load(Dictionary<string, Dictionary<string, string>> cfg)
         {
             if (cfg.TryGetValue("Worker", out Dictionary<string, string> worker_cfg))
@@ -35,6 +38,8 @@ namespace Javelin.Worker
                     };
                 }
             }
+
+            PlyClient = new PlyClient(Url, Container, Token);
         }
     }
 }

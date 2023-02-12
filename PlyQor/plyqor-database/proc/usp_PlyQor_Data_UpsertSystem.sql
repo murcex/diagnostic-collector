@@ -28,5 +28,3 @@ VALUES
 ,@nvc_data)
 
 END
-GO
-

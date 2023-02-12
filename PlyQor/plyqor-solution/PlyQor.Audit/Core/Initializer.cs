@@ -22,7 +22,7 @@ namespace PlyQor.Audit.Core
                 Dictionary<string,Dictionary<string, string>> cfg = new Dictionary<string,Dictionary<string,string>>();
                 cfg.Add("PlyQor", plyqor_cfg);
 
-                PlyQorManager.Initialize(cfg);
+                //PlyQorManager.Initialize();
 
                 Configuration.Load(plyclient_cfg);
             }

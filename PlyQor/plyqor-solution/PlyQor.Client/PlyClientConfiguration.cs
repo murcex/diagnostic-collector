@@ -1,13 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PlyQor.Client
+﻿namespace PlyQor.Client
 {
     public class PlyClientConfiguration
     {
+        /// <summary>
+        /// Target PlyQor Uri
+        /// </summary>
+        public string Uri { get; set; }
+
+        /// <summary>
+        /// Target PlyQor Container
+        /// </summary>
+        public string Container { get; set; }
+
+        /// <summary>
+        /// Access Token for the Target PlyQor Container
+        /// </summary>
+        public string Token { get; set; }
+
         /// <summary>
         /// Throw an exception when result data is NullOrEmpty.
         /// </summary>
@@ -52,5 +61,19 @@ namespace PlyQor.Client
         /// Provide retry count in the result.
         /// </summary>
         public bool ProvideRetryCount { get; set; }
+
+        public PlyClientConfiguration()
+        {
+            // default values
+            NullOrEmptyDataException = false;
+            StatusException = true;
+            MaleformException = true;
+            HttpRequestException = true;
+            RetryCount = 3;
+            RetryCooldown = 200;
+            RetryBackoff = 100;
+            ProvideClientDuration = false;
+            ProvideRetryCount = false;
+        }
     }
 }

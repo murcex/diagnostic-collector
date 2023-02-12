@@ -35,7 +35,7 @@
         /// </summary>
         public static bool CheckToken(string container, string token)
         {
-            if (Configuration.Tokens.TryGetValue(container, out List<string> tokens))
+            if (Configuration.Tokens.TryGetValue(container.ToUpper(), out List<string> tokens))
             {
                 if (tokens.Contains(token))
                 {

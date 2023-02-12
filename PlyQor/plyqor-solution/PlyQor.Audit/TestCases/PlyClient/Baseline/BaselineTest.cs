@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Net.Http;
     using PlyQor.Audit.Core;
     using PlyQor.Client;
 
@@ -16,6 +17,8 @@
                 Configuration.ClientUrl,
                 Configuration.ClientContainer,
                 Configuration.ClientToken);
+
+            Console.WriteLine($"{Configuration.ClientUrl}, {Configuration.ClientContainer}, {Configuration.ClientToken}");
 
             // setup
             var key_1 = Guid.NewGuid().ToString();

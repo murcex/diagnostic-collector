@@ -21,8 +21,9 @@
 
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
+                    // TODO: add values to const
                     cmd.Parameters.AddWithValue(SqlValues.Container, container);
-                    cmd.Parameters.AddWithValue(SqlValues.Top, days);
+                    cmd.Parameters.AddWithValue("i_top", days);
                     cmd.Parameters.AddWithValue("dt_threshold", threshold);
 
                     cmd.CommandTimeout = 0;

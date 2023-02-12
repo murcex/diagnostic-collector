@@ -12,6 +12,3 @@ WHERE [nvc_container] = 'SYSTEM'
 AND [nvc_id] = @nvc_id
 
 END
-
-GO
-

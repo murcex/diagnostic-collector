@@ -1,8 +1,14 @@
 ﻿namespace Javelin.Worker
 {
+    using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.IO;
     using Configurator;
     using Implements;
+    using KirokuG2;
+    using Newtonsoft.Json.Linq;
+    using PlyQor.Client;
 
     internal class Initializer
     {
@@ -12,26 +18,43 @@
         {
             if (!_initialized)
             {
+                var file = IsAzureFunction();
+
                 var cfg = CfgManager.GetCfg();
 
                 if (CfgManager.CheckCfg(cfg, out string errorMsg))
                 {
                     using (Deserializer deserilaizer = new Deserializer())
                     {
-                        var _file = @"D:\home\data\app\cfg\Config.ini";
-
-                        deserilaizer.Execute(_file);
+                        deserilaizer.Execute(file);
 
                         var worker_cfg = ConvertToDictionary(deserilaizer.GetTag("worker"));
 
                         Dictionary<string, Dictionary<string, string>> cfgDictionary = new Dictionary<string, Dictionary<string, string>>();
+
                         cfgDictionary.Add("Worker", worker_cfg);
 
                         Configuration.Load(cfgDictionary);
 
+                        KManager.Configure(true);
+
                         _initialized = true;
                     }
                 }
+            }
+        }
+
+        private static string IsAzureFunction()
+        {
+            var check = Environment.GetEnvironmentVariable("FUNCTIONS_EXTENSION_VERSION", EnvironmentVariableTarget.Process);
+
+            if (string.IsNullOrEmpty(check))
+            {
+                return Directory.GetCurrentDirectory() + @"\Config.ini";
+            }
+            else
+            {
+                return @"D:\home\data\app\cfg\Config.ini";
             }
         }
 

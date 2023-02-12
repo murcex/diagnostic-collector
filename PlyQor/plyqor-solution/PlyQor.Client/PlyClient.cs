@@ -2,13 +2,7 @@
 {
     public class PlyClient
     {
-        private string _uri;
-
-        private string _token;
-
-        private string _container;
-
-        private PlyClientConfiguration _configuration;
+        private PlyClientConfiguration Configuration;
 
         public PlyClient(string uri, string container, string token)
         {
@@ -39,21 +33,21 @@
                 throw new ArgumentNullException(nameof(token));
             }
 
-            _uri = uri;
-            _container = container;
-            _token = token;
-            _configuration = configuration;
+            configuration.Uri = uri;
+            configuration.Container = container;
+            configuration.Token = token;
+            this.Configuration = configuration;
         }
 
         /// <summary>
         /// Insert an Item with a Tag.
         /// </summary>
-        public Dictionary<string,string> Insert(string key, string data, string tag)
+        public Dictionary<string, string> Insert(string key, string data, string tag)
         {
             List<string> tags = new List<string>();
             tags.Add(tag);
 
-            return InsertKeyInternal.Execute(_uri, _container, _token, key, data, tags);
+            return InsertKeyInternal.Execute(this.Configuration, key, data, tags);
         }
 
         /// <summary>
@@ -65,7 +59,7 @@
             tags.Add(tag_1);
             tags.Add(tag_2);
 
-            return InsertKeyInternal.Execute(_uri, _container, _token, key, data, tags);
+            return InsertKeyInternal.Execute(this.Configuration, key, data, tags);
         }
 
         /// <summary>
@@ -78,7 +72,7 @@
             tags.Add(tag_2);
             tags.Add(tag_3);
 
-            return InsertKeyInternal.Execute(_uri, _container, _token, key, data, tags);
+            return InsertKeyInternal.Execute(this.Configuration, key, data, tags);
         }
 
         /// <summary>
@@ -86,7 +80,7 @@
         /// </summary>
         public Dictionary<string, string> Insert(string key, string data, List<string> tags)
         {
-            return InsertKeyInternal.Execute(_uri, _container, _token, key, data, tags);
+            return InsertKeyInternal.Execute(this.Configuration, key, data, tags);
         }
 
         /// <summary>
@@ -94,7 +88,7 @@
         /// </summary>
         public Dictionary<string, string> InsertTag(string key, string tag)
         {
-            return InsertTagInternal.Execute(_uri, _container, _token, key, tag);
+            return InsertTagInternal.Execute(this.Configuration, key, tag);
         }
 
         /// <summary>
@@ -102,7 +96,7 @@
         /// </summary>
         public Dictionary<string, string> Select(string key)
         {
-            return SelectKeyInternal.Execute(_uri, _container, _token, key);
+            return SelectKeyInternal.Execute(this.Configuration, key);
         }
 
         /// <summary>
@@ -110,7 +104,7 @@
         /// </summary>
         public Dictionary<string, string> Select(string key, int count)
         {
-            return SelectKeyListInternal.Execute(_uri, _container, _token, key, count);
+            return SelectKeyListInternal.Execute(this.Configuration, key, count);
         }
 
         /// <summary>
@@ -118,7 +112,7 @@
         /// </summary>
         public Dictionary<string, string> SelectCount(string tag)
         {
-            return SelectTagCountInternal.Execute(_uri, _container, _token, tag);
+            return SelectTagCountInternal.Execute(this.Configuration, tag);
         }
 
         /// <summary>
@@ -126,7 +120,7 @@
         /// </summary>
         public Dictionary<string, string> SelectTags(string key)
         {
-            return SelectKeyTagsInternal.Execute(_uri, _container, _token, key);
+            return SelectKeyTagsInternal.Execute(this.Configuration, key);
         }
 
         /// <summary>
@@ -134,7 +128,7 @@
         /// </summary>
         public Dictionary<string, string> SelectTags()
         {
-            return SelectTagsInternal.Execute(_uri, _container, _token);
+            return SelectTagsInternal.Execute(this.Configuration);
         }
 
         /// <summary>
@@ -142,7 +136,7 @@
         /// </summary>
         public Dictionary<string, string> UpdateData(string key, string data)
         {
-            return UpdateDataInternal.Execute(_uri, _container, _token, key, data);
+            return UpdateDataInternal.Execute(this.Configuration, key, data);
         }
 
         /// <summary>
@@ -150,7 +144,7 @@
         /// </summary>
         public Dictionary<string, string> Update(string key, string newKey)
         {
-            return UpdateKeyInternal.Execute(_uri, _container, _token, key, newKey);
+            return UpdateKeyInternal.Execute(this.Configuration, key, newKey);
         }
 
         /// <summary>
@@ -158,7 +152,7 @@
         /// </summary>
         public Dictionary<string, string> UpdateTag(string key, string tag, string newTag)
         {
-            return UpdateKeyTagInternal.Execute(_uri, _container, _token, key, tag, newTag);
+            return UpdateKeyTagInternal.Execute(this.Configuration, key, tag, newTag);
         }
 
         /// <summary>
@@ -166,7 +160,7 @@
         /// </summary>
         public Dictionary<string, string> UpdateTag(string tag, string newTag)
         {
-            return UpdateTagInternal.Execute(_uri, _container, _token, tag, newTag);
+            return UpdateTagInternal.Execute(this.Configuration, tag, newTag);
         }
 
         /// <summary>
@@ -174,7 +168,7 @@
         /// </summary>
         public Dictionary<string, string> Delete(string key)
         {
-            return DeleteKeyInternal.Execute(_uri, _container, _token, key);
+            return DeleteKeyInternal.Execute(this.Configuration, key);
         }
 
         /// <summary>
@@ -182,7 +176,7 @@
         /// </summary>
         public Dictionary<string, string> DeleteTag(string key, string tag)
         {
-            return DeleteKeyTagInternal.Execute(_uri, _container, _token, key, tag);
+            return DeleteKeyTagInternal.Execute(this.Configuration, key, tag);
         }
 
         /// <summary>
@@ -190,7 +184,7 @@
         /// </summary>
         public Dictionary<string, string> DeleteTag(string tag)
         {
-            return DeleteTagInternal.Execute(_uri, _container, _token, tag);
+            return DeleteTagInternal.Execute(this.Configuration, tag);
         }
 
         /// <summary>
@@ -198,7 +192,7 @@
         /// </summary>
         public Dictionary<string, string> DeleteTags(string key)
         {
-            return DeleteKeyTagsInternal.Execute(_uri, _container, _token, key);
+            return DeleteKeyTagsInternal.Execute(this.Configuration, key);
         }
     }
 }

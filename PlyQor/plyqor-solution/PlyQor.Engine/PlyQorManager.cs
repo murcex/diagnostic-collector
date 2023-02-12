@@ -8,7 +8,6 @@
     using PlyQor.Resources;
     using PlyQor.Engine.Components.Query;
     using PlyQor.Engine.Components.Validation;
-    using PlyQor.Engine.Resources;
     using PlyQor.Engine.Components.Maintenance;
 
     public class PlyQorManager
@@ -190,11 +189,32 @@
         //}
         #endregion
 
-        private static bool Maintenance()
+        /// <summary>
+        /// 
+        /// </summary>
+        public static bool Maintenance()
         {
             var containers = Configuration.Containers;
 
-            // ContainerRetention(containers);
+            Console.WriteLine($"DataRetentionPolicy");
+            foreach(var policy in Configuration.DataRetentionPolicy)
+            {
+                Console.WriteLine($"{policy.Key} => {policy.Value}");
+            }
+
+            Console.WriteLine($"TraceRetentionPolicy");
+            foreach(var policy in Configuration.TraceRetentionPolicy)
+            {
+                Console.WriteLine($"{policy.Key} => {policy.Value}");
+            }
+
+            Console.WriteLine($"RetentionCapacity: {Configuration.RetentionCapacity}");
+            Console.WriteLine($"RetentionCycle: {Configuration.RetentionCycle}");
+            Console.WriteLine($"SystemTraceRetention: {Configuration.SystemTraceRetention}");
+
+
+            Console.WriteLine($"\r\t..PreMaintenanceCollection");
+            PreMaintenanceCollection.Execute();
 
             foreach (var container in containers)
             {
@@ -203,7 +223,12 @@
                 TraceRetention.Execute(container);
             }
 
-            DataCollection.Execute();
+            TraceRetention.Execute("SYSTEM");
+
+            //MetricRetention.Execute();
+
+            Console.WriteLine($"\r\t..PostMaintenanceCollection");
+            PostMaintenanceCollection.Execute();
 
             GeneralPerformance.Execute();
 

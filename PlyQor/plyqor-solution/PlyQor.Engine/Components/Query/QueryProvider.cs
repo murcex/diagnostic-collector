@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using PlyQor.Models;
     using PlyQor.Engine.Components.Query.Internals;
+    using PlyQor.Engine.Components.Query.Internals.Metric;
 
     class QueryProvider
     {
@@ -99,6 +100,23 @@
         public static Dictionary<string, string> TraceRetention(RequestManager requestManager)
         {
             return TraceRetentionQuery.Execute(requestManager);
+        }
+
+        // Etc..
+
+        public static Dictionary<string, string> InsertMetric(RequestManager requestManager)
+        {
+            return InsertMetricQuery.Execute(requestManager);
+        }
+
+        public static Dictionary<string, string> PreMetricCollection(RequestManager requestManager)
+        {
+            return PreMetricCollectionQuery.Execute(requestManager);
+        }
+
+        public static Dictionary<string, string> PostMetricCollection(RequestManager requestManager)
+        {
+            return PostMetricCollectionQuery.Execute(requestManager);
         }
     }
 }

@@ -5,22 +5,20 @@
     class SelectKeyListInternal
     {
         public static Dictionary<string, string> Execute(
-            string uri, 
-            string container, 
-            string token, 
-            string tag, 
+            PlyClientConfiguration configuration,
+            string key,
             int count)
         {
             Dictionary<string, string> request = new Dictionary<string, string>
             {
-                { RequestKeys.Token, token },
-                { RequestKeys.Container, container },
+                { RequestKeys.Token, configuration.Token },
+                { RequestKeys.Container, configuration.Container },
                 { RequestKeys.Operation, QueryOperation.SelectKeyList },
-                { RequestKeys.Tag, tag },
+                { RequestKeys.Tag, key },
                 { RequestKeys.Aux, count.ToString() }
             };
 
-            return Transmitter.Execute(uri, request);
+            return Transmitter.Execute(configuration, request);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace PlyQor.Engine.Components.Storage
 {
     using PlyQor.Engine.Components.Storage.Internals;
+    using PlyQor.Engine.Components.Storage.Internals.Metrics;
     using System;
     using System.Collections.Generic;
 
@@ -264,6 +265,25 @@
                 container.ToUpper(),
                 capacity,
                 threshold);
+        }
+
+        public static int InsertMetric(
+            string container,
+            string type,
+            string metric,
+            int data)
+        {
+            return InsertMetricStorage.Execute(
+                container.ToUpper(),
+                type,
+                metric,
+                data);
+        }
+
+        public static int MetricCollection(
+            string proc)
+        {
+            return MetricCollectionStorage.Execute(proc);
         }
     }
 }

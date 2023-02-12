@@ -5,20 +5,18 @@
     class DeleteTagInternal
     {
         public static Dictionary<string, string> Execute(
-            string uri, 
-            string container, 
-            string token, 
+            PlyClientConfiguration configuration, 
             string tag)
         {
             Dictionary<string, string> request = new Dictionary<string, string>
             {
-                { RequestKeys.Token, token },
-                { RequestKeys.Container, container },
+                { RequestKeys.Token, configuration.Token },
+                { RequestKeys.Container, configuration.Container },
                 { RequestKeys.Operation, QueryOperation.DeleteTag },
                 { RequestKeys.Tag, tag }
             };
 
-            return Transmitter.Execute(uri, request);
+            return Transmitter.Execute(configuration, request);
         }
     }
 }

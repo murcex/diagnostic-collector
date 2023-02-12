@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Newtonsoft.Json;
     using PlyQor.Engine.Components.Storage;
     using PlyQor.Engine.Resources;
@@ -26,6 +27,8 @@
             var containers = GetContainerConfigurations();
 
             Configuration.LoadContainers(containers);
+
+            return true;
         }
 
         private static bool SetAppliances()
@@ -33,62 +36,14 @@
             return true;
         }
 
-        //private static Dictionary<string, List<string>> GetContainerTokens()
-        //{
-        //    Dictionary<string, List<string>> containerTokens = new Dictionary<string, List<string>>();
-        //    Dictionary<string, int> retentionPolicy = new Dictionary<string, int>();
-
-        //    var json = StorageProvider.SelectKey(InitializerValues.SystemContainer, InitializerValues.ContainersValue);
-
-        //    var containers = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(json);
-
-        //    if (containers != null && containers.Count > 0)
-        //    {
-        //        foreach (var container in containers.Keys)
-        //        {
-        //            if (containers.TryGetValue(container, out Dictionary<string, string> configuration))
-        //            {
-        //                if (configuration.TryGetValue(InitializerValues.TokensConfigKey, out string tokensJson))
-        //                {
-        //                    var tokens = JsonConvert.DeserializeObject<List<string>>(tokensJson);
-
-        //                    containerTokens.Add(container, tokens);
-        //                }
-
-        //                if (configuration.TryGetValue(InitializerValues.RetentionConfigKey, out string s_days))
-        //                {
-        //                    if (int.TryParse(s_days, out int days))
-        //                    {
-        //                        if (days != 0)
-        //                        {
-        //                            if (days > 0)
-        //                            {
-        //                                days *= -1;
-        //                            }
-
-        //                            retentionPolicy.Add(container, days);
-        //                        }
-        //                    }
-        //                    else
-        //                    {
-        //                        //
-        //                    }
-
-        //                }
-        //            }
-        //        }
-        //    }
-
-        //    Configuration.SetRetentionPolicy(retentionPolicy);
-
-        //    return containerTokens;
-        //}
-
         public static Dictionary<string, Dictionary<string, string>> GetContainerConfigurations()
         {
-            var json = StorageProvider.SelectKey(InitializerValues.SystemContainer, InitializerValues.ContainersValue);
+            var containers_json = StorageProvider.SelectKey(InitializerValues.SystemContainer, InitializerValues.ContainersValue);
 
-            var containers = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(json);
+            var containers = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(containers_json);
+
+            // ensure all keys are ToUpper for TryGet
+            containers = containers.ToDictionary(x => x.Key.ToUpper(), x => x.Value);
 
             return containers;
         }

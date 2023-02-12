@@ -9,9 +9,9 @@
         {
             Console.WriteLine("-----");
             Console.WriteLine(" \n\r// DataRetention");
-            var result = PlyQorManager.Retention();
+            //var result = PlyQorManager.Retention();
 
-            Console.WriteLine(result);
+            //Console.WriteLine(result);
         }
     }
 }

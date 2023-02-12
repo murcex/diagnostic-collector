@@ -35,6 +35,11 @@
             _result.Add(ResultKeys.Data, input.ToString());
         }
 
+        public void AddCustomResultData(string key, string value)
+        {
+            _result.Add(key, value);
+        }
+
         public void AddResultSuccess()
         {
             _result.Add(ResultKeys.Status, bool.TrueString);

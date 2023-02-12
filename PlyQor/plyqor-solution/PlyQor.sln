@@ -13,6 +13,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlyQor.Service", "PlyQorApp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlyQor.Injektr", "PlyFlow.Worker\PlyQor.Injektr.csproj", "{EC0CCB9F-AC88-47EE-B65C-BAC78117428D}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlyQor.Function.Processor", "PlyQor.Function.Processor\PlyQor.Function.Processor.csproj", "{A75EACB7-E906-4777-99BF-6FD115AACDBB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlyQor.Configurator", "PlyQor.Configuration\PlyQor.Configurator.csproj", "{16E26F58-27B6-451B-BB17-976C38A51A58}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{EC0CCB9F-AC88-47EE-B65C-BAC78117428D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC0CCB9F-AC88-47EE-B65C-BAC78117428D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC0CCB9F-AC88-47EE-B65C-BAC78117428D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A75EACB7-E906-4777-99BF-6FD115AACDBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A75EACB7-E906-4777-99BF-6FD115AACDBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A75EACB7-E906-4777-99BF-6FD115AACDBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A75EACB7-E906-4777-99BF-6FD115AACDBB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16E26F58-27B6-451B-BB17-976C38A51A58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16E26F58-27B6-451B-BB17-976C38A51A58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16E26F58-27B6-451B-BB17-976C38A51A58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16E26F58-27B6-451B-BB17-976C38A51A58}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

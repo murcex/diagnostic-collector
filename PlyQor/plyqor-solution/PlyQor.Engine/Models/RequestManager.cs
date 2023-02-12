@@ -53,7 +53,7 @@
                 {
                     if (positive)
                     {
-                        if (testValue > 0)
+                        if (testValue >= 0)
                         {
                             return testValue;
                         }
@@ -74,6 +74,19 @@
             {
                 throw new PlyQorException($"{StatusCode.ERR004},KEY={key}");
             }
+        }
+
+        public DateTime GetRequestDateTimeValue(string key)
+        {
+            if (DateTime.TryParse(key, out DateTime result))
+            {
+                if (result < DateTime.MinValue)
+                {
+
+                }
+            }
+
+            return result;
         }
 
         public List<string> GetRequestTags()

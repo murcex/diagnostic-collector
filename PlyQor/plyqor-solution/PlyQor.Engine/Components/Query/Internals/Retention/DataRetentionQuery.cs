@@ -7,7 +7,7 @@
     using PlyQor.Resources;
     using PlyQor.Engine.Components.Storage;
     using PlyQor.Engine.Core;
-
+    using System.Diagnostics;
 
     class DataRetentionQuery
     {
@@ -22,16 +22,22 @@
             // TODO: create GetRequestDateTimeValue() -- skip the conversion step
             var threshold = DateTime.Parse(s_threshold);
 
-            var capacity = Configuration.RetentionCapacity;
-            var cycle = Configuration.RetentionCycle;
+            var capacity_value = Configuration.RetentionCapacity;
+            var cycle_value = Configuration.RetentionCycle;
 
             bool active = true;
-            int total = 0;
+            int record_total = 0;
+            int cycle_total = 0;
+
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
 
             while (active)
             {
+                cycle_total++;
+
                 // execute internal query
-                var retentionKeys = StorageProvider.SelectRetentionKeys(container, capacity, threshold);
+                var retentionKeys = StorageProvider.SelectRetentionKeys(container, capacity_value, threshold);
 
                 if (retentionKeys != null && retentionKeys.Count > 0)
                 {
@@ -41,10 +47,10 @@
 
                         StorageProvider.DeleteKeyTags(container, retentionKey);
 
-                        total++;
+                        record_total++;
                     }
 
-                    Task.Delay(cycle).GetAwaiter().GetResult();
+                    Task.Delay(cycle_value).GetAwaiter().GetResult();
                 }
                 else
                 {
@@ -52,8 +58,13 @@
                 }
             }
 
+            stopwatch.Stop();
+            var duration = stopwatch.ElapsedMilliseconds.ToString();
+
             // build result
-            resultManager.AddResultData(total);
+            resultManager.AddCustomResultData("Records", record_total.ToString());
+            resultManager.AddCustomResultData("Cycles", cycle_total.ToString());
+            resultManager.AddCustomResultData("Duration", duration);
             resultManager.AddResultSuccess();
 
             return resultManager.ExportDataSet();

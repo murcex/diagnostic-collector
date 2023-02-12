@@ -5,83 +5,101 @@
 
     class Transmitter
     {
-        // for build-out only...
-        private static PlyClientConfiguration configuration;
-
         private static HttpClient _httpClient = new HttpClient();
 
-        // Add: Retry check on server error -- Count, Backoff
-        // Add: Retry count
-
-        public static Dictionary<string, string> Execute(string url, Dictionary<string, string> plyRequest)
+        public static Dictionary<string, string> Execute(PlyClientConfiguration configuration, Dictionary<string, string> plyRequest)
         {
-            Dictionary<string, string> finalResult = new Dictionary<string, string>();
+            string plyMessage = string.Empty;
+            try
+            {
+                plyMessage = JsonConvert.SerializeObject(plyRequest);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Maleformed client side query: {ex}");
+            }
 
-            var plyMessage = JsonConvert.SerializeObject(plyRequest);
-
-            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url);
-            HttpContent httpContent = new StringContent(plyMessage);
-            request.Content = httpContent;
-
-            var plyResult = _httpClient.Send(request).Content.ReadAsStringAsync().GetAwaiter().GetResult();
-
-            // Add: Add Maleform check here
-
-            bool active = true;
-            int executeCount = 1;
-
-            // https://alastaircrabtree.com/implementing-a-simple-retry-pattern-in-c/
-
-            while (active)
+            string plyResult = string.Empty;
+            var requestCount = 0;
+            var retryLimit = configuration.RetryCount;
+            var requestException = configuration.HttpRequestException;
+            var retryCooldown = configuration.RetryCooldown;
+            var retryStacker = configuration.RetryBackoff;
+            var requestRetryToken = true;
+            while (requestRetryToken)
             {
                 try
                 {
-                    if (string.IsNullOrEmpty(plyResult))
-                    {
-                        throw new Exception($"Result is NullOrEmpty");
-                    }
+                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, configuration.Uri);
+                    HttpContent httpContent = new StringContent(plyMessage);
+                    request.Content = httpContent;
 
-                    finalResult = JsonConvert.DeserializeObject<Dictionary<string, string>>(plyResult);
+                    plyResult = _httpClient.Send(request).Content.ReadAsStringAsync().GetAwaiter().GetResult();
 
-                    if (finalResult == null || finalResult.Count == 0)
-                    {
-                        throw new Exception($"Result Dictionary NullOrEmpty");
-                    }
-                    else
-                    {
-                        CheckForMalformResult(finalResult);
-                    }
+                    requestRetryToken = false;
                 }
                 catch (Exception ex)
                 {
-                    if (executeCount < configuration.RetryCount)
+                    if (requestCount < retryLimit)
                     {
-                        Task.Delay(configuration.RetryCooldown).Wait();
+                        requestCount++;
+
+                        Task.Delay(retryCooldown).Wait();
+
+                        retryCooldown =+ retryStacker;
                     }
                     else
                     {
-                        if (configuration.MaleformException)
+                        if (requestException)
                         {
-                            throw new Exception(ex.Message);
+                            throw new Exception($"PlyQor HttpRequestException: {ex}");
                         }
                         else
                         {
-                            finalResult = GenerateMalformResult(ex);
+                            return GenerateMalformResult(ex);
                         }
-
-                        break;
                     }
                 }
             }
 
-            PostCheck(finalResult);
-
-            return finalResult;
+            return QualityCheck(configuration, plyResult);
         }
 
-        private static void CheckForMalformResult(Dictionary<string, string> result)
+        private static Dictionary<string, string> QualityCheck(PlyClientConfiguration configuration, string plyResult)
         {
-            //..
+            Dictionary<string, string> finalResult = new Dictionary<string, string>();
+
+            // move into precheck
+            if (string.IsNullOrEmpty(plyResult))
+            {
+                throw new Exception($"Result is NullOrEmpty");
+            }
+
+            // conversion check
+            try
+            {
+                finalResult = JsonConvert.DeserializeObject<Dictionary<string, string>>(plyResult);
+
+            }
+            catch (Exception ex)
+            {
+                if (string.Equals(plyResult, "401", StringComparison.OrdinalIgnoreCase))
+                {
+                    throw new Exception($"Access Denied");
+                }
+
+                throw new Exception($"Maleform service side result - Exception: {ex} -- Payload: {plyResult}");
+            }
+
+            // move into post check
+            if (finalResult == null || finalResult.Count == 0)
+            {
+                throw new Exception($"Result Dictionary NullOrEmpty");
+            }
+
+            PostCheck(configuration, finalResult);
+
+            return finalResult;
         }
 
         private static Dictionary<string, string> GenerateMalformResult(Exception ex)
@@ -94,32 +112,16 @@
             return result;
         }
 
-        private static void PostCheck(Dictionary<string, string> result)
+        private static void PostCheck(PlyClientConfiguration configuration, Dictionary<string, string> result)
         {
-            // Add: Status check here
-            StatusCheck(result);
+            StatusCheck(configuration.StatusException, result);
 
-            // Add: NullOrEmpty check here
-            NullOrEmptyCheck(result);
+            NullOrEmptyCheck(configuration.NullOrEmptyDataException, result);
         }
 
-        private static void NullOrEmptyCheck(Dictionary<string, string> result)
+        private static void StatusCheck(bool statusException, Dictionary<string, string> result)
         {
-            if (configuration.NullOrEmptyDataException)
-            {
-                if (result.TryGetValue(ResultKeys.Data, out string data))
-                {
-                    if (string.IsNullOrEmpty(data))
-                    {
-                        throw new Exception($"Data is NullOrEmpty");
-                    }
-                }
-            }
-        }
-
-        private static void StatusCheck(Dictionary<string, string> result)
-        {
-            if (configuration.StatusException)
+            if (statusException)
             {
                 if (result.TryGetValue(ResultKeys.Status, out string data))
                 {
@@ -134,6 +136,28 @@
                             throw new Exception($"Status is False");
                         }
                     }
+                }
+                else
+                {
+                    throw new Exception($"Maleformed Result: Missing Status");
+                }
+            }
+        }
+
+        private static void NullOrEmptyCheck(bool nullOrEmptyDataExcetion, Dictionary<string, string> result)
+        {
+            if (nullOrEmptyDataExcetion)
+            {
+                if (result.TryGetValue(ResultKeys.Data, out string data))
+                {
+                    if (string.IsNullOrEmpty(data))
+                    {
+                        throw new Exception($"Data is NullOrEmpty");
+                    }
+                }
+                else
+                {
+                    throw new Exception($"Maleformed Result: Missing Data");
                 }
             }
         }
