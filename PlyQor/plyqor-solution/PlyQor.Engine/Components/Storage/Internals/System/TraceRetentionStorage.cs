@@ -10,7 +10,7 @@
     {
         public static int Execute(
             string container,
-            int days,
+            int capacity,
             DateTime threshold)
         {
             try
@@ -23,7 +23,7 @@
 
                     // TODO: add values to const
                     cmd.Parameters.AddWithValue(SqlValues.Container, container);
-                    cmd.Parameters.AddWithValue("i_top", days);
+                    cmd.Parameters.AddWithValue("i_top", capacity);
                     cmd.Parameters.AddWithValue("dt_threshold", threshold);
 
                     cmd.CommandTimeout = 0;

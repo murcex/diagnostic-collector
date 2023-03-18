@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlyQor.Engine", "PlyQor.Eng
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlyQor.Client", "PlyQor.Client\PlyQor.Client.csproj", "{BE19520E-D914-4641-A22E-6677E82D0DEE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlyQor.Service", "PlyQorApp\PlyQor.Service.csproj", "{776C7B0A-6B9E-40D8-B47C-1C4EBABDC898}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlyQor.Function.Service", "PlyQorApp\PlyQor.Function.Service.csproj", "{776C7B0A-6B9E-40D8-B47C-1C4EBABDC898}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlyQor.Injektr", "PlyFlow.Worker\PlyQor.Injektr.csproj", "{EC0CCB9F-AC88-47EE-B65C-BAC78117428D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlyQor.Function.Injector", "PlyFlow.Worker\PlyQor.Function.Injector.csproj", "{EC0CCB9F-AC88-47EE-B65C-BAC78117428D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlyQor.Function.Processor", "PlyQor.Function.Processor\PlyQor.Function.Processor.csproj", "{A75EACB7-E906-4777-99BF-6FD115AACDBB}"
 EndProject

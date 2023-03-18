@@ -48,6 +48,8 @@
 
                     Task.Delay(cycle).GetAwaiter().GetResult();
                 }
+
+                Console.WriteLine($"Container {container}, Records: {record_total}, Cycle: {cycle_total}");
             }
 
             stopwatch.Stop();

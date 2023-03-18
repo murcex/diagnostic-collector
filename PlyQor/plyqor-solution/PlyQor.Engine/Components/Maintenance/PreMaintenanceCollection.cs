@@ -9,7 +9,7 @@
         public static void Execute()
         {
             Dictionary<string, string> requests = new Dictionary<string, string>();
-            requests.Add("PlaceHolder", "X");
+            requests.Add("PreMaintenanceCollection", "Execute");
 
             RequestManager requestManager = new RequestManager(requests);
 

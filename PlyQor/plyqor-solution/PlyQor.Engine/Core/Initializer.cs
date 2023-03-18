@@ -28,7 +28,7 @@
 
             Configuration.LoadContainers(containers);
 
-            return true;
+             return true;
         }
 
         private static bool SetAppliances()

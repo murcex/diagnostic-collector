@@ -22,8 +22,8 @@
             // TODO: create GetRequestDateTimeValue() -- skip the conversion step
             var threshold = DateTime.Parse(s_threshold);
 
-            var capacity_value = Configuration.RetentionCapacity;
-            var cycle_value = Configuration.RetentionCycle;
+            var capacity_value = 250; //Configuration.RetentionCapacity;
+            var cycle_value = 1; //Configuration.RetentionCycle;
 
             bool active = true;
             int record_total = 0;
@@ -31,6 +31,8 @@
 
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
+
+            Console.WriteLine($"Starting Data Retention Cycle: {container}");
 
             while (active)
             {
@@ -56,6 +58,8 @@
                 {
                     active = false;
                 }
+
+                Console.WriteLine($"Data Retention Cycle Complete, {record_total} Records @ Cycle {cycle_total}");
             }
 
             stopwatch.Stop();

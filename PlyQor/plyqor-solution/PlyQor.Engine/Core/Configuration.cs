@@ -101,9 +101,9 @@
                     // create default configuration values
                     system_container = new Dictionary<string, string>()
                     {
-                        {"Trace", "1"},
-                        {"Capacity", "10"},
-                        {"Cycle", "10"}
+                        {"Trace", "2"},
+                        {"Capacity", "250"},
+                        {"Cycle", "1000"}
                     };
                 }
 
@@ -121,9 +121,9 @@
                 // create default configuration values
                 system_container = new Dictionary<string, string>()
                     {
-                        {"Trace", "1"},
-                        {"Capacity", "10"},
-                        {"Cycle", "10"}
+                        {"Trace", "2"},
+                        {"Capacity", "250"},
+                        {"Cycle", "1000"}
                     };
 
                 LoadSystemContainerConfigurations(system_container);

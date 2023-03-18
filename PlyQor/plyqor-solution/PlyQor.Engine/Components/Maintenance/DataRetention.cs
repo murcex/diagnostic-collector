@@ -26,7 +26,7 @@
                 if (retention_value > 0)
                 {
                     // TODO: dev
-                    Console.WriteLine($"Data Retention: {container}");
+                    Console.WriteLine($"Starting Data Retention: {container}");
 
                     using (PlyQorTrace trace = new PlyQorTrace(Configuration.DatabaseConnection, Guid.NewGuid().ToString()))
                     {
@@ -38,7 +38,7 @@
                             // compute datetime, rounded up to the day -- send as aux
                             var retention_threshold = DateTime.UtcNow.Subtract(TimeSpan.FromDays(retention_value)).ToString("yyyy-MM-dd HH:mm:ss.fff");
 
-                            Console.WriteLine($"[DATA] Current: {DateTime.UtcNow} Threshold: {retention_threshold}");
+                            Console.WriteLine($"[DATA] Container: {container} Current: {DateTime.UtcNow} Threshold: {retention_threshold}");
 
                             // build request dictionary
                             Dictionary<string, string> request = new Dictionary<string, string>
@@ -52,6 +52,8 @@
 
                             // execute
                             var retention_result = QueryProvider.DataRetention(requestManager);
+
+                            var test = true;
 
                             // TODO: write back into metrics table
                             foreach (var metric_name in metric_names)
@@ -79,6 +81,10 @@
                             trace.AddCode(javelinException.Message);
                         }
                     }
+                }
+                else
+                {
+                    Console.WriteLine($"[DATA] Container: {container} SKIPPING DATA RETENTION");
                 }
             }
             else

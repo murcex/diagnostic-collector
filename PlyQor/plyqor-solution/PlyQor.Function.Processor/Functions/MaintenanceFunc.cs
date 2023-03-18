@@ -9,7 +9,7 @@ namespace PlyQor.Function.Processor.Functions
     public class MaintenanceFunc
     {
         [FunctionName("Maintenance")]
-        public void Run([TimerTrigger("0 0 0 * * *")] TimerInfo myTimer, ILogger log)
+        public void Run([TimerTrigger("0 0/5 * * * *")] TimerInfo myTimer, ILogger log)
         {
             log.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
 

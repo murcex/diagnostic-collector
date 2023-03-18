@@ -106,89 +106,6 @@
             };
         }
 
-        #region OldRetention
-        // TODO: switch to maintenance
-        // --- foreach container ---
-        // - data retention (new rate limit)
-        // - count total records; container level and count tags
-        // - count operations for each container, for each operation, for the day
-        // - trace retention by container
-
-        //public static bool Retention()
-        //{
-        //    // replace with global container-retention list
-        //    var containers = Configuration.DataRetentionPolicy;
-
-        //    // foreach container
-        //    foreach (var container in containers)
-        //    {
-        //        var dataRetentionActivityId = Guid.NewGuid().ToString();
-
-        //        using (PlyQorTrace trace = new PlyQorTrace(Configuration.DatabaseConnection, dataRetentionActivityId))
-        //        {
-        //            trace.AddContainer(container.Key);
-        //            trace.AddOperation(PlyQorManagerValues.DataRetentionOperation);
-
-        //            try
-        //            {
-        //                // build request dictionary
-        //                Dictionary<string, string> request = new Dictionary<string, string>();
-        //                request.Add(RequestKeys.Container, container.Key);
-        //                request.Add(RequestKeys.Aux, container.Value.ToString());
-        //                // add: size -- from sys cfg
-        //                // add: cooldown -- from sys cfg
-
-        //                // build request
-        //                RequestManager requestManager = new RequestManager(request);
-
-        //                // execute
-        //                QueryProvider.DataRetention(requestManager);
-        //            }
-        //            catch (PlyQorException javelinException)
-        //            {
-        //                trace.AddCode(javelinException.Message);
-        //            }
-
-        //            //trace.
-        //        }
-        //    }
-
-
-        //    // new: move trace retention into each container, add container to request payload
-        //    var activityId = Guid.NewGuid().ToString();
-
-        //    using (PlyQorTrace trace = new PlyQorTrace(Configuration.DatabaseConnection, activityId))
-        //    {
-        //        trace.AddContainer(PlyQorManagerValues.SystemContainer);
-        //        trace.AddOperation(PlyQorManagerValues.TraceRetentionOperation);
-
-        //        try
-        //        {
-        //            // build request dictionary
-        //            Dictionary<string, string> request = new Dictionary<string, string>();
-        //            request.Add(RequestKeys.Aux, Configuration.SystemTraceRetention);
-        //            // add: request.Add(RequestKeys.Container, container.Key);
-        //            // add: request.Add(RequestKeys.Aux, container.Value.ToString());
-
-        //            // build request
-        //            RequestManager requestManager = new RequestManager(request);
-
-        //            // execute
-        //            QueryProvider.TraceRetention(requestManager);
-
-        //        }
-        //        catch (PlyQorException javelinException)
-        //        {
-        //            trace.AddCode(javelinException.Message);
-        //        }
-        //    }
-
-        //    // new: maintenance method here
-
-        //    return true;
-        //}
-        #endregion
-
         /// <summary>
         /// 
         /// </summary>
@@ -212,9 +129,12 @@
             Console.WriteLine($"RetentionCycle: {Configuration.RetentionCycle}");
             Console.WriteLine($"SystemTraceRetention: {Configuration.SystemTraceRetention}");
 
+            // ---
 
-            Console.WriteLine($"\r\t..PreMaintenanceCollection");
-            PreMaintenanceCollection.Execute();
+            //Console.WriteLine($"\r\t..PreMaintenanceCollection");
+            //PreMaintenanceCollection.Execute();
+
+            // ---
 
             foreach (var container in containers)
             {
@@ -225,12 +145,12 @@
 
             TraceRetention.Execute("SYSTEM");
 
-            //MetricRetention.Execute();
+            // ---
 
-            Console.WriteLine($"\r\t..PostMaintenanceCollection");
-            PostMaintenanceCollection.Execute();
+            //Console.WriteLine($"\r\t..PostMaintenanceCollection");
+            //PostMaintenanceCollection.Execute();
 
-            GeneralPerformance.Execute();
+            //GeneralPerformance.Execute();
 
             return true;
         }

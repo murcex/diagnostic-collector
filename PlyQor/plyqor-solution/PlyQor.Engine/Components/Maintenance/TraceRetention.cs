@@ -32,7 +32,7 @@
                         // compute datetime, rounded up to the day -- send as aux
                         var retention_threshold = DateTime.UtcNow.Subtract(TimeSpan.FromDays(retention_value)).ToString("yyyy-MM-dd HH:mm:ss.fff");
 
-                        Console.WriteLine($"[TRACE] Current: {DateTime.UtcNow} Threshold: {retention_threshold}");
+                        Console.WriteLine($"[TRACE] Container: {container} Current: {DateTime.UtcNow} Threshold: {retention_threshold}");
 
                         // build request dictionary
                         Dictionary<string, string> request = new Dictionary<string, string>
