@@ -1,11 +1,11 @@
 ﻿namespace PlyQor.Engine.Components.Validation.Internals
 {
-    using System;
-    using System.Collections.Generic;
     using Newtonsoft.Json;
+    using PlyQor.Engine.Core;
     using PlyQor.Models;
     using PlyQor.Resources;
-    using PlyQor.Engine.Core;
+    using System;
+    using System.Collections.Generic;
 
     public class InternalValidationService
     {

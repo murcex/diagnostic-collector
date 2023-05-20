@@ -1,8 +1,8 @@
 ﻿namespace PlyQor.Engine.Components.Query.Internals.Metric
 {
-    using System.Collections.Generic;
-    using PlyQor.Models;
     using PlyQor.Engine.Components.Storage;
+    using PlyQor.Models;
+    using System.Collections.Generic;
 
     class PostMetricCollectionQuery
     {

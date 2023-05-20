@@ -1,14 +1,14 @@
 ﻿namespace PlyQor.Engine
 {
-    using System;
-    using System.Collections.Generic;
     using Newtonsoft.Json;
+    using PlyQor.Engine.Components.Maintenance;
+    using PlyQor.Engine.Components.Query;
+    using PlyQor.Engine.Components.Validation;
     using PlyQor.Engine.Core;
     using PlyQor.Models;
     using PlyQor.Resources;
-    using PlyQor.Engine.Components.Query;
-    using PlyQor.Engine.Components.Validation;
-    using PlyQor.Engine.Components.Maintenance;
+    using System;
+    using System.Collections.Generic;
 
     public class PlyQorManager
     {
@@ -114,13 +114,13 @@
             var containers = Configuration.Containers;
 
             Console.WriteLine($"DataRetentionPolicy");
-            foreach(var policy in Configuration.DataRetentionPolicy)
+            foreach (var policy in Configuration.DataRetentionPolicy)
             {
                 Console.WriteLine($"{policy.Key} => {policy.Value}");
             }
 
             Console.WriteLine($"TraceRetentionPolicy");
-            foreach(var policy in Configuration.TraceRetentionPolicy)
+            foreach (var policy in Configuration.TraceRetentionPolicy)
             {
                 Console.WriteLine($"{policy.Key} => {policy.Value}");
             }

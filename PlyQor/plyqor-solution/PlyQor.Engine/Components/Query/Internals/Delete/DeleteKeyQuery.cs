@@ -1,9 +1,9 @@
 ﻿namespace PlyQor.Engine.Components.Query.Internals
 {
-    using System.Collections.Generic;
+    using PlyQor.Engine.Components.Storage;
     using PlyQor.Models;
     using PlyQor.Resources;
-    using PlyQor.Engine.Components.Storage;
+    using System.Collections.Generic;
 
     class DeleteKeyQuery
     {

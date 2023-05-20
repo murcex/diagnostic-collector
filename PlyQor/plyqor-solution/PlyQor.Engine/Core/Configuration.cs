@@ -1,10 +1,10 @@
 ﻿namespace PlyQor.Engine.Core
 {
-    using System;
-    using System.Collections.Generic;
     using Newtonsoft.Json;
     using PlyQor.Engine.Resources;
     using PlyQor.Resources;
+    using System;
+    using System.Collections.Generic;
 
     class Configuration
     {

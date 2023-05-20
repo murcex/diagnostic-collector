@@ -1,11 +1,11 @@
 ﻿namespace PlyQor.Audit.TestCases.PlyManager
 {
-    using System;
-    using System.Collections.Generic;
     using Newtonsoft.Json;
     using PlyQor.Audit.Core;
     using PlyQor.Engine;
     using PlyQor.Resources;
+    using System;
+    using System.Collections.Generic;
 
     internal class UpdateKey
     {

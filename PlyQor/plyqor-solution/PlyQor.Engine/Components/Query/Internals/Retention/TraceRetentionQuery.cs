@@ -1,13 +1,13 @@
 ﻿namespace PlyQor.Engine.Components.Query.Internals
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
+    using PlyQor.Engine.Components.Storage;
+    using PlyQor.Engine.Core;
     using PlyQor.Models;
     using PlyQor.Resources;
-    using PlyQor.Engine.Core;
-    using PlyQor.Engine.Components.Storage;
+    using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Threading.Tasks;
 
     class TraceRetentionQuery
     {

@@ -59,8 +59,8 @@
 
         public static List<string> DeleteTestKeys { get; set; }
 
-        public static bool StorageProviderTest 
-        { 
+        public static bool StorageProviderTest
+        {
             get
             {
                 return ConvertToBool(_storageProviderTest);

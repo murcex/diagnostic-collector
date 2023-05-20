@@ -1,14 +1,11 @@
 ﻿namespace Javelin.Worker
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.IO;
     using Configurator;
     using Implements;
     using KirokuG2;
-    using Newtonsoft.Json.Linq;
-    using PlyQor.Client;
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
 
     internal class Initializer
     {

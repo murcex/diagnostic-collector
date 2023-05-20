@@ -1,19 +1,16 @@
-using System;
 using Javelin.Worker;
 using KirokuG2;
-using KirokuG2.Internal;
 using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Host;
 using Microsoft.Extensions.Logging;
-using PlyQor.Client;
 using PlyQor.Injektr.Executors;
+using System;
 
 namespace PlyQor.Injektr.Functions
 {
     public class PlyQorInjectorFunc
     {
         [FunctionName("PlyQor-Injektr")]
-        public void Run([TimerTrigger("0 */5 * * * *")]TimerInfo myTimer, ILogger log, ExecutionContext executionContext)
+        public void Run([TimerTrigger("0 */5 * * * *")] TimerInfo myTimer, ILogger log, ExecutionContext executionContext)
         {
             log.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
 

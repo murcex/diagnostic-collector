@@ -1,16 +1,16 @@
 ﻿namespace PlyQor.Engine.Components.Storage.Internals
 {
-    using System;
     using Microsoft.Data.SqlClient;
     using PlyQor.Engine.Core;
     using PlyQor.Models;
     using PlyQor.Resources;
+    using System;
 
     public class DeleteKeyTagStorage
     {
         public static int Execute(
-            string container, 
-            string id, 
+            string container,
+            string id,
             string index)
         {
             try

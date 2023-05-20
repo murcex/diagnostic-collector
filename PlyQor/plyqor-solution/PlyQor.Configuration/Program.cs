@@ -1,7 +1,7 @@
 ﻿namespace PlyQor.AdminTool
 {
-    using System;
     using PlyQor.Configurator.Operations;
+    using System;
 
     class Program
     {

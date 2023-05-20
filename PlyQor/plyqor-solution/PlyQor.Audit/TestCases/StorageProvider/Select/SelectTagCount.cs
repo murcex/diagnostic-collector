@@ -1,8 +1,8 @@
 ﻿namespace PlyQor.Audit.TestCases.StorageProvider
 {
+    using PlyQor.Audit.Core;
     using PlyQor.Engine.Components.Storage;
     using System;
-    using PlyQor.Audit.Core;
 
     class SelectTagCount
     {
@@ -12,7 +12,7 @@
 
             var count =
                 StorageProvider.SelectTagCount(
-                    Configuration.Container, 
+                    Configuration.Container,
                     Configuration.Tag_Upload);
 
             Console.WriteLine($"UPLOAD Count: {count}");

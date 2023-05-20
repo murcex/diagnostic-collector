@@ -1,8 +1,8 @@
 ﻿namespace PlyQor.Engine.Components.Storage.Internals
 {
-    using System;
     using PlyQor.Models;
     using PlyQor.Resources;
+    using System;
 
     class SqlExceptionCheck
     {

@@ -1,14 +1,14 @@
 ﻿namespace PlyQor.Client
 {
-    using PlyQor.Client.Resources;
     using PlyQor.Client.DataExtension.Internal;
+    using PlyQor.Client.Resources;
 
     class InsertKeyInternal
     {
         public static Dictionary<string, string> Execute(
             PlyClientConfiguration configuration,
             string key,
-            string data, 
+            string data,
             List<string> tags)
         {
             Dictionary<string, string> request = new Dictionary<string, string>

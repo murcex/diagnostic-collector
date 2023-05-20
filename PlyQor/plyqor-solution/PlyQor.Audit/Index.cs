@@ -1,10 +1,10 @@
 ﻿namespace PlyQor.Audit
 {
-    using System;
     using PlyQor.Audit.Core;
-    using PlyQor.Audit.TestCases.StorageProvider;
-    using PlyQor.Audit.TestCases.PlyManager;
     using PlyQor.Audit.TestCases.PlyClient;
+    using PlyQor.Audit.TestCases.PlyManager;
+    using PlyQor.Audit.TestCases.StorageProvider;
+    using System;
 
     class Index
     {

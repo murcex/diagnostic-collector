@@ -5,8 +5,8 @@
     class UpdateKeyInternal
     {
         public static Dictionary<string, string> Execute(
-            PlyClientConfiguration configuration, 
-            string key_1, 
+            PlyClientConfiguration configuration,
+            string key_1,
             string key_2)
         {
             Dictionary<string, string> request = new Dictionary<string, string>

@@ -1,8 +1,8 @@
 ﻿namespace PlyQor.Models
 {
-    using System.Collections.Generic;
     using Newtonsoft.Json;
     using PlyQor.Resources;
+    using System.Collections.Generic;
 
     public class ResultManager
     {

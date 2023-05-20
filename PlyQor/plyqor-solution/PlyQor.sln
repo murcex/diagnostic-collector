@@ -17,6 +17,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlyQor.Function.Processor",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlyQor.Configurator", "PlyQor.Configuration\PlyQor.Configurator.csproj", "{16E26F58-27B6-451B-BB17-976C38A51A58}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlyQor.Storage", "PlyQor.Storage\PlyQor.Storage.csproj", "{A061E533-859F-4A49-BE69-8B95280CAB00}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlyQor.ContainerManager", "PlyQor.ContainerManager\PlyQor.ContainerManager.csproj", "{AB7E35FC-62AF-46F1-9063-4EF987F44905}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlyQor.TempCleaner", "PlyQor.TempCleaner\PlyQor.TempCleaner.csproj", "{762DAC2F-393E-467E-9F62-8C44F8D43C1B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlyQor.Test", "PlyQor.Test\PlyQor.Test.csproj", "{127B132C-D3DC-4000-A293-8EE117BD594A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +59,22 @@ Global
 		{16E26F58-27B6-451B-BB17-976C38A51A58}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16E26F58-27B6-451B-BB17-976C38A51A58}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16E26F58-27B6-451B-BB17-976C38A51A58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A061E533-859F-4A49-BE69-8B95280CAB00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A061E533-859F-4A49-BE69-8B95280CAB00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A061E533-859F-4A49-BE69-8B95280CAB00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A061E533-859F-4A49-BE69-8B95280CAB00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB7E35FC-62AF-46F1-9063-4EF987F44905}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB7E35FC-62AF-46F1-9063-4EF987F44905}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB7E35FC-62AF-46F1-9063-4EF987F44905}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB7E35FC-62AF-46F1-9063-4EF987F44905}.Release|Any CPU.Build.0 = Release|Any CPU
+		{762DAC2F-393E-467E-9F62-8C44F8D43C1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{762DAC2F-393E-467E-9F62-8C44F8D43C1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{762DAC2F-393E-467E-9F62-8C44F8D43C1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{762DAC2F-393E-467E-9F62-8C44F8D43C1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{127B132C-D3DC-4000-A293-8EE117BD594A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{127B132C-D3DC-4000-A293-8EE117BD594A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{127B132C-D3DC-4000-A293-8EE117BD594A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{127B132C-D3DC-4000-A293-8EE117BD594A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

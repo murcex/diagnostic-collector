@@ -1,9 +1,9 @@
 ﻿namespace PlyQor.Models
 {
-    using System;
-    using System.Diagnostics;
     using Microsoft.Data.SqlClient;
     using PlyQor.Engine.Resources;
+    using System;
+    using System.Diagnostics;
 
     public class PlyQorTrace : IDisposable
     {

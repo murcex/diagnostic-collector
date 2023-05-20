@@ -46,7 +46,7 @@
 
                         Task.Delay(retryCooldown).Wait();
 
-                        retryCooldown =+ retryStacker;
+                        retryCooldown = +retryStacker;
                     }
                     else
                     {

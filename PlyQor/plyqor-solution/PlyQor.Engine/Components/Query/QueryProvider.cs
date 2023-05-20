@@ -1,9 +1,9 @@
 ﻿namespace PlyQor.Engine.Components.Query
 {
-    using System.Collections.Generic;
-    using PlyQor.Models;
     using PlyQor.Engine.Components.Query.Internals;
     using PlyQor.Engine.Components.Query.Internals.Metric;
+    using PlyQor.Models;
+    using System.Collections.Generic;
 
     class QueryProvider
     {

@@ -5,8 +5,8 @@
     class UpdateTagInternal
     {
         public static Dictionary<string, string> Execute(
-            PlyClientConfiguration configuration, 
-            string tag_1, 
+            PlyClientConfiguration configuration,
+            string tag_1,
             string tag_2)
         {
             Dictionary<string, string> request = new Dictionary<string, string>

@@ -1,16 +1,16 @@
 ﻿namespace PlyQor.Audit.TestCases.StorageProvider
 {
-    using System;
-    using PlyQor.Engine.Components.Storage;
     using PlyQor.Audit.Core;
     using PlyQor.Audit.Ultilties;
+    using PlyQor.Engine.Components.Storage;
+    using System;
 
     class DeleteKeyAndTags
     {
         public static void Execute()
         {
             Console.WriteLine($"// TEST: {nameof(DeleteKeyAndTags)}");
-            
+
             var deleteId = GetTestIndex.Execute();
 
             StorageProvider.DeleteKey(Configuration.Container, deleteId);

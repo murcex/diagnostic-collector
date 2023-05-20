@@ -1,8 +1,8 @@
 ﻿namespace PlyQor.Audit.TestCases.StorageProvider
 {
-    using System;
-    using PlyQor.Engine.Components.Storage;
     using PlyQor.Audit.Core;
+    using PlyQor.Engine.Components.Storage;
+    using System;
 
     class UpdateTag
     {
@@ -38,8 +38,8 @@
                 {
                     checkIndex = index;
                 }
-                
-                if (Equals(index,targetIndex))
+
+                if (Equals(index, targetIndex))
                 {
                     NoHit = true;
                 }

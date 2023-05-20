@@ -1,12 +1,12 @@
 ﻿namespace PlyQor.Engine.Components.Maintenance
 {
-    using System;
-    using System.Collections.Generic;
     using PlyQor.Engine.Components.Query;
     using PlyQor.Engine.Core;
     using PlyQor.Engine.Resources;
     using PlyQor.Models;
     using PlyQor.Resources;
+    using System;
+    using System.Collections.Generic;
 
     public class TraceRetention
     {

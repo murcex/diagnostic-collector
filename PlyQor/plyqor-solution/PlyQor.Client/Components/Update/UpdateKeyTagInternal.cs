@@ -7,7 +7,7 @@
         public static Dictionary<string, string> Execute(
             PlyClientConfiguration configuration,
             string key,
-            string tag_1, 
+            string tag_1,
             string tag_2)
         {
             Dictionary<string, string> request = new Dictionary<string, string>

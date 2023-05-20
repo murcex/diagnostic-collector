@@ -1,9 +1,9 @@
 ﻿namespace PlyQor.Models
 {
-    using System;
-    using System.Collections.Generic;
     using Newtonsoft.Json;
     using PlyQor.Client.Resources;
+    using System;
+    using System.Collections.Generic;
 
     public class RequestManager : IDisposable
     {

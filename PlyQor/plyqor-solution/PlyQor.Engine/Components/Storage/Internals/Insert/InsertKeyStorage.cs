@@ -1,12 +1,10 @@
 ﻿namespace PlyQor.Engine.Components.Storage.Internals
 {
-    using System;
-    using System.IO;
-    using System.Text;
     using Microsoft.Data.SqlClient;
     using PlyQor.Engine.Core;
     using PlyQor.Models;
     using PlyQor.Resources;
+    using System;
 
     class InsertKeyStorage
     {

@@ -11,9 +11,9 @@
         /// 
         /// </summary>
         public static int InsertKey(
-            string container, 
-            string id, 
-            string data, 
+            string container,
+            string id,
+            string data,
             List<string> indexes)
         {
             var timestamp = DateTime.UtcNow;
@@ -28,7 +28,7 @@
             {
                 foreach (var indexId in indexes)
                 {
-                    count =+ InsertTagStorage.Execute(
+                    count = +InsertTagStorage.Execute(
                         timestamp,
                         container.ToUpper(),
                         id.ToUpper(),
@@ -43,7 +43,7 @@
         /// 
         /// </summary>
         public static string SelectKey(
-            string conatiner, 
+            string conatiner,
             string id)
         {
             return SelectKeyStorage.Execute(
@@ -63,7 +63,7 @@
         /// 
         /// </summary>
         public static int SelectTagCount(
-            string container, 
+            string container,
             string index)
         {
             return SelectTagCountStorage.Execute(
@@ -89,7 +89,7 @@
         /// 
         /// </summary>
         public static List<string> SelectKeyTags(
-            string container, 
+            string container,
             string id)
         {
             return SelectKeyTagsStorage.Execute(
@@ -110,7 +110,7 @@
                 oldid,
                 newid);
 
-            count =+ UpdateKeyTagsStorage.Execute(
+            count = +UpdateKeyTagsStorage.Execute(
                  container.ToUpper(),
                  oldid.ToUpper(),
                  newid.ToUpper());
@@ -243,12 +243,12 @@
         /// 
         /// </summary>
         public static List<string> SelectRetentionKeys(
-            string container, 
+            string container,
             int capacity,
             DateTime threshold)
         {
             return SelectRetentionKeysStorage.Execute(
-                container.ToUpper(), 
+                container.ToUpper(),
                 capacity,
                 threshold);
         }

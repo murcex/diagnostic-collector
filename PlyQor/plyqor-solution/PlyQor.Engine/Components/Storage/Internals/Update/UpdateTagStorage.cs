@@ -1,16 +1,16 @@
 ﻿namespace PlyQor.Engine.Components.Storage.Internals
 {
-    using System;
     using Microsoft.Data.SqlClient;
     using PlyQor.Engine.Core;
     using PlyQor.Models;
     using PlyQor.Resources;
+    using System;
 
     class UpdateTagStorage
     {
         public static int Execute(
-            string container, 
-            string oldindex, 
+            string container,
+            string oldindex,
             string newindex)
         {
             try

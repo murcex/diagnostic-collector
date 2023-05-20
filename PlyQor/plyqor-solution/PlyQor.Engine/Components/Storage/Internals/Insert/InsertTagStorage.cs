@@ -1,10 +1,10 @@
 ﻿namespace PlyQor.Engine.Components.Storage.Internals
 {
-    using System;
     using Microsoft.Data.SqlClient;
     using PlyQor.Engine.Core;
     using PlyQor.Models;
     using PlyQor.Resources;
+    using System;
 
     class InsertTagStorage
     {

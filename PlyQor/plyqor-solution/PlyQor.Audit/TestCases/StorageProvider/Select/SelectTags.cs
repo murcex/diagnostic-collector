@@ -1,8 +1,8 @@
 ﻿namespace PlyQor.Audit.TestCases.StorageProvider
 {
-    using System;
-    using PlyQor.Engine.Components.Storage;
     using PlyQor.Audit.Core;
+    using PlyQor.Engine.Components.Storage;
+    using System;
 
     class SelectTags
     {
@@ -14,7 +14,7 @@
                 StorageProvider.SelectTags(
                     Configuration.Container);
 
-            Console.WriteLine($"Indexes Count: { listIndexes.Count}");
+            Console.WriteLine($"Indexes Count: {listIndexes.Count}");
 
             foreach (var listIndex in listIndexes)
             {

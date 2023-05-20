@@ -1,10 +1,9 @@
 ﻿namespace PlyQor.Audit.TestCases.PlyClient
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Net.Http;
     using PlyQor.Audit.Core;
     using PlyQor.Client;
+    using System;
+    using System.Collections.Generic;
 
     class BaselineTest
     {

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PlyQor.Engine.Models
+﻿namespace PlyQor.Engine.Models
 {
     public class PlyQorRetentionConfiguration
     {

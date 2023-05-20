@@ -5,7 +5,7 @@
     class DeleteTagInternal
     {
         public static Dictionary<string, string> Execute(
-            PlyClientConfiguration configuration, 
+            PlyClientConfiguration configuration,
             string tag)
         {
             Dictionary<string, string> request = new Dictionary<string, string>

@@ -1,11 +1,11 @@
 ﻿namespace PlyQor.Engine.Components.Storage.Internals
 {
-    using System;
-    using System.Collections.Generic;
     using Microsoft.Data.SqlClient;
     using PlyQor.Engine.Core;
     using PlyQor.Models;
     using PlyQor.Resources;
+    using System;
+    using System.Collections.Generic;
 
     public class SelectTagsStorage
     {

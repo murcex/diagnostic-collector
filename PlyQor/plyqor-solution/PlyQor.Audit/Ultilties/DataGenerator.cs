@@ -1,10 +1,10 @@
 ﻿namespace PlyQor.Audit.TestCases
 {
+    using PlyQor.Audit.Core;
     using System;
     using System.IO;
     using System.Linq;
     using System.Text;
-    using PlyQor.Audit.Core;
 
     class DataGenerator
     {
@@ -25,7 +25,7 @@
             int stop = 100;
             var executionCounter = 0;
             var sb = new StringBuilder();
-            
+
             if (lines > 0)
             {
                 stop = lines;

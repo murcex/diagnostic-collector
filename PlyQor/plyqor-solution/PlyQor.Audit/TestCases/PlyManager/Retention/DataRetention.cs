@@ -1,7 +1,6 @@
 ﻿namespace PlyQor.Audit.TestCases.PlyManager
 {
     using System;
-    using PlyQor.Engine;
 
     internal class DataRetention
     {

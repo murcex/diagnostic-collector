@@ -1,12 +1,12 @@
 ﻿namespace PlyQor.Audit.TestCases.PlyManager
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using Newtonsoft.Json;
     using PlyQor.Audit.Core;
     using PlyQor.Engine;
     using PlyQor.Resources;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     internal class DeleteTagsByKey
     {

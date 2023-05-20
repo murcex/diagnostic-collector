@@ -1,11 +1,6 @@
-﻿using Azure.Core;
-using PlyQor.Models;
+﻿using PlyQor.Models;
 using PlyQor.Resources;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PlyQor.Engine.Resources
 {
@@ -54,7 +49,7 @@ namespace PlyQor.Engine.Resources
             }
         }
 
-        public static int GetRequestIntValue(this Dictionary<string,string> dictionary, string key, bool positive = true)
+        public static int GetRequestIntValue(this Dictionary<string, string> dictionary, string key, bool positive = true)
         {
             if (dictionary.TryGetValue(key.ToString(), out string result))
             {

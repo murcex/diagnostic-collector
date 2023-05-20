@@ -1,11 +1,11 @@
 ﻿namespace PlyQor.Engine.Core
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using Newtonsoft.Json;
     using PlyQor.Engine.Components.Storage;
     using PlyQor.Engine.Resources;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     class Initializer
     {
@@ -28,7 +28,7 @@
 
             Configuration.LoadContainers(containers);
 
-             return true;
+            return true;
         }
 
         private static bool SetAppliances()

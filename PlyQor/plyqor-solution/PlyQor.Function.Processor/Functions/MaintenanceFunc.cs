@@ -1,10 +1,10 @@
 namespace PlyQor.Function.Processor.Functions
 {
-    using System;
     using Microsoft.Azure.WebJobs;
     using Microsoft.Extensions.Logging;
     using PlyQor.Engine;
     using PlyQor.Function.Processor.Core;
+    using System;
 
     public class MaintenanceFunc
     {
