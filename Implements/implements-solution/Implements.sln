@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Implements.Converter", "Con
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Implements.Deserializer", "Deserializer\Implements.Deserializer.csproj", "{B401785F-059A-4111-822D-B5A910AFD2BC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Implements.Configuration", "Implements.Configuration\Implements.Configuration.csproj", "{E826B293-7855-472F-9069-CDC4E32DE347}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{B401785F-059A-4111-822D-B5A910AFD2BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B401785F-059A-4111-822D-B5A910AFD2BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B401785F-059A-4111-822D-B5A910AFD2BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E826B293-7855-472F-9069-CDC4E32DE347}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E826B293-7855-472F-9069-CDC4E32DE347}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E826B293-7855-472F-9069-CDC4E32DE347}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E826B293-7855-472F-9069-CDC4E32DE347}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

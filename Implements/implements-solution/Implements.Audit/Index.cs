@@ -11,6 +11,8 @@
 
         private static bool Encryption = true;
 
+        private static bool Configuration = true;
+
         static void Main(string[] args)
         {
             LogAudit.Execute(Log);
@@ -20,6 +22,9 @@
             Break();
 
             EncryptionAudit.Execute(Encryption);
+            Break();
+
+            ConfigurationAudit.Execute(Configuration);
             Break();
         }
 
