@@ -7,6 +7,7 @@
     <PackageReference Include="Configurator" Version="0.0.3" />
     <PackageReference Include="Implements" Version="0.0.1" />
     <PackageReference Include="KirokuG2" Version="1.0.0.5" />
+    <PackageReference Include="Microsoft.Azure.Functions.Extensions" Version="1.1.0" />
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.1.1" />
   </ItemGroup>
   <ItemGroup>
