@@ -5,7 +5,12 @@
     <TargetFramework>net6.0</TargetFramework>
     <ApplicationIcon />
     <StartupObject />
-    <Version>0.0.3</Version>
+    <Version>0.0.4</Version>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Implements.Configuration" Version="1.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
 
 </Project>
