@@ -1,13 +1,13 @@
 namespace KirokuG2.Service.Functions
 {
-    using System.Threading.Tasks;
+    using KirokuG2.Service.Core;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Azure.WebJobs;
     using Microsoft.Azure.WebJobs.Extensions.Http;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Logging;
     using PlyQor.Client;
-    using KirokuG2.Service.Core;
+    using System.Threading.Tasks;
 
     public static class QueryFunc
     {
@@ -16,8 +16,6 @@ namespace KirokuG2.Service.Functions
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
         {
-            Setup.Execute();
-
             string token = req.Query["token"];
             string id = req.Query["id"];
 

@@ -1,7 +1,7 @@
 ﻿namespace KirokuG2
 {
-    using System.Globalization;
     using KirokuG2.Internal;
+    using System.Globalization;
 
     public class KManager
     {

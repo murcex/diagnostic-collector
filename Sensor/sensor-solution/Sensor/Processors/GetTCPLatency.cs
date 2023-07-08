@@ -1,5 +1,6 @@
 ﻿namespace Sensor
 {
+    using KirokuG2;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -7,7 +8,6 @@
     using System.Net;
     using System.Net.Sockets;
     using System.Threading;
-    using KirokuG2;
 
     static class GetTCPLatency
     {

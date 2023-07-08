@@ -1,16 +1,23 @@
 ﻿namespace Sensor
 {
+    using KirokuG2;
     using System;
     using System.Collections.Generic;
-    using KirokuG2;
 
     public class SensorManager
     {
         /// <summary>
         /// Initialize Sensor application
         /// </summary>
-        public static bool Initialize(List<KeyValuePair<string, string>> sensorConfig)
+        public static bool Initialize(Dictionary<string, Dictionary<string, string>> config)
         {
+            if (config == null)
+            {
+                throw new ArgumentNullException(nameof(config));
+            }
+
+            var sensorConfig = config["sensor"];
+
             if (sensorConfig == null)
             {
                 throw new ArgumentNullException(nameof(sensorConfig));
@@ -50,9 +57,19 @@
         {
             if (Configuration.Worker)
             {
-                klog.Trace($"Worker Detected.");
+                klog.Trace($"Worker Detected");
 
-                DataRetention.Execute();
+                using (var block = klog.NewBlock("Sensor-Retention-Op"))
+                {
+                    try
+                    {
+                        DataRetention.Execute();
+                    }
+                    catch (Exception ex)
+                    {
+                        klog.Error(ex.ToString());
+                    }
+                }
             }
 
             return true;

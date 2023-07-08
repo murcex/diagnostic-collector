@@ -1,7 +1,7 @@
 ﻿namespace Sensor
 {
-    using System;
     using KirokuG2;
+    using System;
 
     static class UploadCapsule
     {
