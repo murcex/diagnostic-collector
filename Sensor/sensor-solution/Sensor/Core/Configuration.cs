@@ -1,15 +1,15 @@
 ﻿namespace Sensor
 {
+    using Implements.Utility;
     using System;
     using System.Collections.Generic;
-    using Implements.Utility;
 
     public class Configuration
     {
         /// <summary>
         /// Load raw sensor config through switch tree, sorting and loading into the backing fields.
         /// </summary>
-        public static bool SetConfigs(List<KeyValuePair<string, string>> sensorConfig)
+        public static bool SetConfigs(Dictionary<string, string> sensorConfig)
         {
             foreach (var kvp in sensorConfig)
             {
@@ -21,14 +21,8 @@
                     case s_sql:
                         SQLConnectionString = kvp.Value;
                         break;
-                    case s_debug:
-                        _debug = kvp.Value;
-                        break;
                     case s_worker:
                         _worker = kvp.Value;
-                        break;
-                    case s_agent:
-                        _agent = kvp.Value;
                         break;
 
                     default:
@@ -50,9 +44,7 @@
 
         private const string s_source = "source";
         private const string s_sql = "sql";
-        private const string s_debug = "debug";
         private const string s_worker = "worker";
-        private const string s_agent = "agent";
 
         private static readonly string s_localhost = "localhost";
 
@@ -69,12 +61,12 @@
             {
                 if (_source == s_localhost)
                 {
-                    var machineName = System.Environment.MachineName;
+                    var machineName = Environment.MachineName;
                     return machineName;
                 }
                 else if (string.IsNullOrEmpty(_source))
                 {
-                    var machineName = System.Environment.MachineName;
+                    var machineName = Environment.MachineName;
                     return machineName;
                 }
                 else
@@ -85,11 +77,9 @@
         }
 
         public static string SQLConnectionString { get; private set; }
-        
+
         // Operation Modes
-        public static bool Debug { get { return Conversion.ConvertValueToBool(_debug); } }
         public static bool Worker { get { return Conversion.ConvertValueToBool(_worker); } }
-        public static bool Agent { get { return Conversion.ConvertValueToBool(_agent); } }
 
         /// <summary>
         /// Private backing fields
@@ -97,8 +87,6 @@
 
         // Operations modes
         private static string _source;
-        private static string _debug;
         private static string _worker;
-        private static string _agent;
     }
 }

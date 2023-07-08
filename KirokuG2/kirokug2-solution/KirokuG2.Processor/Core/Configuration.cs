@@ -1,7 +1,7 @@
 ﻿namespace KirokuG2.Processor.Core
 {
-    using System.Collections.Generic;
     using PlyQor.Client;
+    using System.Collections.Generic;
 
     public class Configuration
     {

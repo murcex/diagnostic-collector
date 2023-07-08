@@ -9,7 +9,7 @@ namespace KirokuG2.Processor.Functions
 
     public class MaintenanceFunc
     {
-        private static List<string> tables = new List<string>()
+        private static readonly List<string> tables = new List<string>()
         {
             "Activation",
             "Block",

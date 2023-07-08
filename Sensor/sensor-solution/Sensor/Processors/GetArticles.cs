@@ -1,8 +1,8 @@
 ﻿namespace Sensor
 {
+    using KirokuG2;
     using System;
     using System.Collections.Generic;
-    using KirokuG2;
 
     static class GetArticles
     {

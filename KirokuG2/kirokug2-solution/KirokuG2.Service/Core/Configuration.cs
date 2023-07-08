@@ -1,8 +1,8 @@
 ﻿namespace KirokuG2.Service.Core
 {
+    using PlyQor.Client;
     using System.Collections.Generic;
     using System.Linq;
-    using PlyQor.Client;
 
     public class Configuration
     {

@@ -94,7 +94,7 @@
         public void Metric(string key, int value)
         {
             CheckMetricKey(key);
-            
+
             var data = $"{1}${key}${value}";
             Injector("M", data);
         }

@@ -6,7 +6,7 @@
 
         public string Source { get; set; }
 
-        public string Function { get; set; }    
+        public string Function { get; set; }
 
         public string Id { get; set; }
 
