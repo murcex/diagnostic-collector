@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Implements.Audit", "Implements.Audit\Implements.Audit.csproj", "{FCCF4782-EFC7-4A4A-8984-F75C89851778}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Implements.Application.Audit", "Implements.Application.Audit\Implements.Application.Audit.csproj", "{FCCF4782-EFC7-4A4A-8984-F75C89851778}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Implements.Encryption", "Encryption\Implements.Encryption.csproj", "{759CEE70-7124-49BE-84A2-F74123071707}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Implements.Module.Encryption", "Implements.Module.Encryption\Implements.Module.Encryption.csproj", "{759CEE70-7124-49BE-84A2-F74123071707}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Implements.Logger", "Logger\Implements.Logger.csproj", "{7B360A3A-A93E-4B97-B2AA-3D29124747BE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Implements.Module.Configuration", "Implements.Module.Configuration\Implements.Module.Configuration.csproj", "{E826B293-7855-472F-9069-CDC4E32DE347}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Implements.Converter", "Converter\Implements.Converter.csproj", "{F15E6051-F0D4-47C8-9080-4611CA3B334B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Implements.Module.Converter", "Implements.Module.Converter\Implements.Module.Converter.csproj", "{F46B73BC-491E-45C0-BFAE-F04C6BFF6DFC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Implements.Deserializer", "Deserializer\Implements.Deserializer.csproj", "{B401785F-059A-4111-822D-B5A910AFD2BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Implements.Module.Deserializer", "Implements.Module.Deserializer\Implements.Module.Deserializer.csproj", "{1C83C342-BC09-43D5-BCEF-D5B2375B6C92}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Implements.Configuration", "Implements.Configuration\Implements.Configuration.csproj", "{E826B293-7855-472F-9069-CDC4E32DE347}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Implements.Module.Logger", "Implements.Module.Logger\Implements.Module.Logger.csproj", "{EA4FA17C-FD9B-4B57-A0ED-9D6D23EF6A31}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,22 +29,22 @@ Global
 		{759CEE70-7124-49BE-84A2-F74123071707}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{759CEE70-7124-49BE-84A2-F74123071707}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{759CEE70-7124-49BE-84A2-F74123071707}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7B360A3A-A93E-4B97-B2AA-3D29124747BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7B360A3A-A93E-4B97-B2AA-3D29124747BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7B360A3A-A93E-4B97-B2AA-3D29124747BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7B360A3A-A93E-4B97-B2AA-3D29124747BE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F15E6051-F0D4-47C8-9080-4611CA3B334B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F15E6051-F0D4-47C8-9080-4611CA3B334B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F15E6051-F0D4-47C8-9080-4611CA3B334B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F15E6051-F0D4-47C8-9080-4611CA3B334B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B401785F-059A-4111-822D-B5A910AFD2BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B401785F-059A-4111-822D-B5A910AFD2BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B401785F-059A-4111-822D-B5A910AFD2BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B401785F-059A-4111-822D-B5A910AFD2BC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E826B293-7855-472F-9069-CDC4E32DE347}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E826B293-7855-472F-9069-CDC4E32DE347}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E826B293-7855-472F-9069-CDC4E32DE347}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E826B293-7855-472F-9069-CDC4E32DE347}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F46B73BC-491E-45C0-BFAE-F04C6BFF6DFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F46B73BC-491E-45C0-BFAE-F04C6BFF6DFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F46B73BC-491E-45C0-BFAE-F04C6BFF6DFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F46B73BC-491E-45C0-BFAE-F04C6BFF6DFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C83C342-BC09-43D5-BCEF-D5B2375B6C92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C83C342-BC09-43D5-BCEF-D5B2375B6C92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C83C342-BC09-43D5-BCEF-D5B2375B6C92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C83C342-BC09-43D5-BCEF-D5B2375B6C92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA4FA17C-FD9B-4B57-A0ED-9D6D23EF6A31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA4FA17C-FD9B-4B57-A0ED-9D6D23EF6A31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA4FA17C-FD9B-4B57-A0ED-9D6D23EF6A31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA4FA17C-FD9B-4B57-A0ED-9D6D23EF6A31}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

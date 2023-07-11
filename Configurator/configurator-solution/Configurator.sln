@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Configurator", "Configurator\Configurator.csproj", "{8956995F-8D5C-4D1A-8DD6-129351EC06DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Configurator.Module.Client", "Configurator.Module.Client\Configurator.Module.Client.csproj", "{8956995F-8D5C-4D1A-8DD6-129351EC06DD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Configurator.Storage", "Configurator.Storage\Configurator.Storage.csproj", "{F4785C6E-F29C-4449-B9F5-1F21BEE38B85}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Configurator.Internal.Storage", "Configurator.Internal.Storage\Configurator.Internal.Storage.csproj", "{F4785C6E-F29C-4449-B9F5-1F21BEE38B85}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Configurator.Service", "Configurator.Service\Configurator.Service.csproj", "{CAD97AF1-09AA-46F2-90C8-DFEF311640C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Configurator.Function.Service", "Configurator.Function.Service\Configurator.Function.Service.csproj", "{CAD97AF1-09AA-46F2-90C8-DFEF311640C8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Configurator.Audit.Memory", "Configurator.Audit.Memory\Configurator.Audit.Memory.csproj", "{C7BF88BB-3F16-42C4-A665-F804E1B4FAD6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Configurator.Function.Audit.Memory", "Configurator.Function.Audit.Memory\Configurator.Function.Audit.Memory.csproj", "{C7BF88BB-3F16-42C4-A665-F804E1B4FAD6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Configurator.Audit.Default", "Configurator.Audit.Default\Configurator.Audit.Default.csproj", "{17DFF92F-A1CE-48B0-BE44-27D2A93D14FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Configurator.Function.Audit.Default", "Configurator.Function.Audit.Default\Configurator.Function.Audit.Default.csproj", "{17DFF92F-A1CE-48B0-BE44-27D2A93D14FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Configurator.Audit.Embedded", "Configurator.Audit.Embedded\Configurator.Audit.Embedded.csproj", "{C8982E72-D32B-4E32-8B83-F1821E7052C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Configurator.Function.Audit.Embedded", "Configurator.Function.Audit.Embedded\Configurator.Function.Audit.Embedded.csproj", "{C8982E72-D32B-4E32-8B83-F1821E7052C5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
