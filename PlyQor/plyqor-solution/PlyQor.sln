@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlyQor.Audit", "PlyQor.Audit\PlyQor.Audit.csproj", "{EC95331E-DFD6-4114-8122-129A7DDA2579}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlyQor.Application.Audit", "PlyQor.Application.Audit\PlyQor.Application.Audit.csproj", "{EC95331E-DFD6-4114-8122-129A7DDA2579}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlyQor.Engine", "PlyQor.Engine\PlyQor.Engine.csproj", "{FDCDF584-1968-4140-890A-45502C2D76FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlyQor.Internal.Engine", "PlyQor.Internal.Engine\PlyQor.Internal.Engine.csproj", "{FDCDF584-1968-4140-890A-45502C2D76FC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlyQor.Client", "PlyQor.Client\PlyQor.Client.csproj", "{BE19520E-D914-4641-A22E-6677E82D0DEE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlyQor.Module.Client", "PlyQor.Module.Client\PlyQor.Module.Client.csproj", "{BE19520E-D914-4641-A22E-6677E82D0DEE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlyQor.Injektr", "PlyQor.Injektr\PlyQor.Injektr.csproj", "{F5208B5F-433D-49F6-B18F-C18446E30E48}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlyQor.Function.Injektr", "PlyQor.Function.Injektr\PlyQor.Function.Injektr.csproj", "{F5208B5F-433D-49F6-B18F-C18446E30E48}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlyQor.Storage", "PlyQor.Storage\PlyQor.Storage.csproj", "{5F478D8C-BDE0-4523-A6EE-425D32C5D05C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlyQor.Function.Storage", "PlyQor.Function.Storage\PlyQor.Function.Storage.csproj", "{5F478D8C-BDE0-4523-A6EE-425D32C5D05C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

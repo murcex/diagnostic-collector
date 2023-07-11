@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KirokuG2", "KirokuGen2\KirokuG2.csproj", "{46379F30-0553-4ED6-91B7-78B1FB7FC013}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KirokuG2.Module.Client", "KirokuG2.Module.Client\KirokuG2.Module.Client.csproj", "{46379F30-0553-4ED6-91B7-78B1FB7FC013}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KirokuG2.Loader", "KirokuG2.Loader\KirokuG2.Loader.csproj", "{D524ACAD-B5F2-4F3E-9947-F409568B6505}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KirokuG2.Internal.Loader", "KirokuG2.Internal.Loader\KirokuG2.Internal.Loader.csproj", "{D524ACAD-B5F2-4F3E-9947-F409568B6505}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KirokuG2.Injektr", "KirokuG2.Audit\KirokuG2.Injektr.csproj", "{C493B8AA-890B-4DA1-836D-05F7DE89BC2C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KirokuG2.Function.Injektr", "KirokuG2.Function.Injektr\KirokuG2.Function.Injektr.csproj", "{C493B8AA-890B-4DA1-836D-05F7DE89BC2C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KirokuG2.Service", "KirokuG2.Service\KirokuG2.Service.csproj", "{1FAF3B5B-5A2F-45BC-BFE0-4D3DE552B5BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KirokuG2.Function.Service", "KirokuG2.Function.Service\KirokuG2.Function.Service.csproj", "{1FAF3B5B-5A2F-45BC-BFE0-4D3DE552B5BA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KirokuG2.Processor", "KirokuG2.Processor\KirokuG2.Processor.csproj", "{81465187-BA55-4E8F-BC51-1AB746D2E1C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KirokuG2.Function.Processor", "KirokuG2.Function.Processor\KirokuG2.Function.Processor.csproj", "{81465187-BA55-4E8F-BC51-1AB746D2E1C7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Version>1.0.0</Version>
+    <PackageId>Murcex.KirokuG2</PackageId>
+    <Description>Kiroku Logging Client</Description>
+    <Title>Murcex KirokuG2</Title>
+    <Company>Murcex</Company>
+  </PropertyGroup>
+
+</Project>
