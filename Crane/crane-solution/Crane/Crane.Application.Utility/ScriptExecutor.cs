@@ -10,7 +10,7 @@ namespace Crane.Application.Utility
     {
         public void Execute(Dictionary<string,Dictionary<string,string>> script)
         {
-            // type
+            // get type
 
             // switch
         }

@@ -6,7 +6,7 @@
         {
             Console.WriteLine("Hello, World!");
 
-            FileManager fileManager = new FileManager();
+            CraneFileManager fileManager = new CraneFileManager();
             ScriptExecutor executor = new ScriptExecutor();
 
             // load Config.ini

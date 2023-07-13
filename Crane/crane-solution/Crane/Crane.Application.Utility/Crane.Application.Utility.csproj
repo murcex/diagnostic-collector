@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Murcex.Implements.Configuration" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Crane.Internal.Engine\Crane.Internal.Engine.csproj" />
   </ItemGroup>
 
