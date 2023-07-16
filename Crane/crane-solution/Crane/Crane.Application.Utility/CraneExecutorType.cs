@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Crane.Application.Utility
+﻿namespace Crane.Application.Utility
 {
-    public enum CraneExecutorType
-    {
-        SqlDatabaseDeployment
-    }
+	public enum CraneExecutorType
+	{
+		SqlDatabaseDeployment
+	}
 }

@@ -1,24 +1,26 @@
 ﻿namespace Crane.Application.Utility
 {
-    public class Program
-    {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Hello, World!");
+	public class Program
+	{
+		static void Main(string[] args)
+		{
+			Console.WriteLine("Hello, World!");
 
-            CraneFileManager fileManager = new CraneFileManager();
-            ScriptExecutor executor = new ScriptExecutor();
+			CraneFileManager fileManager = new CraneFileManager();
+			ScriptExecutor executor = new ScriptExecutor();
 
-            // load Config.ini
-            var craneCfg = fileManager.LoadCraneConfig();
+			var script = string.Empty;
 
-            // read script.ini
-            var scriptCfg = fileManager.LoadCraneScript(craneCfg);
+			// load Config.ini
+			var craneCfg = fileManager.LoadCraneConfig();
 
-            // switch type
-            executor.Execute(scriptCfg);
+			// read script.ini
+			var scriptCfg = fileManager.LoadCraneScript(craneCfg, script);
 
-            // execute cfg with type
-        }
-    }
+			// switch type
+			executor.Execute(scriptCfg);
+
+			// execute cfg with type
+		}
+	}
 }
