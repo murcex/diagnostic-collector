@@ -6,13 +6,13 @@ namespace PlyQor.TempCleaner.Components
 {
     public class DeleteId
     {
-        public static void Execute(string id, bool type)
+        public static (bool result, int recordCount) Execute(string container, string id, bool type)
         {
             var table = type ? "Data" : "Tag";
 
             try
             {
-                var query = $"DELETE FROM [dbo].[tbl_PlyQor_{table}] WHERE [nvc_container] = 'KIROKUG2-LOGS' AND [nvc_id] = '{id}'";
+                var query = $"DELETE FROM [dbo].[tbl_PlyQor_{table}] WHERE [nvc_container] = '{container}' AND [nvc_id] = '{id}'";
 
                 using (var connection = new SqlConnection(Global.DatabaseConnection))
                 {
@@ -25,11 +25,15 @@ namespace PlyQor.TempCleaner.Components
                     var reader = cmd.ExecuteReader();
                     while (reader.Read())
                     { }
+
+                    return (true, 1);
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
+
+                return (false, 0);
             }
         }
     }

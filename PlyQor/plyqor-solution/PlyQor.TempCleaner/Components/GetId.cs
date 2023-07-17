@@ -7,13 +7,13 @@ namespace PlyQor.TempCleaner.Components
 {
     public class GetId
     {
-        public static List<string> Execute()
+        public static List<string> Execute(string container)
         {
             List<string> ids = new List<string>();
 
             try
             {
-                var query = "SELECT TOP (1000) [nvc_id] FROM [tbl_PlyQor_Data] WHERE [nvc_container] = 'KIROKUG2-LOGS' AND [dt_timestamp] < DATEADD(DAY,-7,GETDATE())";
+                var query = $"SELECT TOP (500) [nvc_id] FROM [tbl_PlyQor_Data] WHERE [nvc_container] = '{container}' AND [dt_timestamp] < DATEADD(DAY,-2,GETDATE())";
 
                 using (var connection = new SqlConnection(Global.DatabaseConnection))
                 {
@@ -38,7 +38,7 @@ namespace PlyQor.TempCleaner.Components
             {
                 Console.WriteLine(ex.ToString());
 
-                return null;
+                return new List<string>();
             }
         }
     }
