@@ -13,7 +13,7 @@ namespace PlyQor.TempCleaner.Components
 
             try
             {
-                var query = $"SELECT TOP (500) [nvc_id] FROM [tbl_PlyQor_Data] WHERE [nvc_container] = '{container}' AND [dt_timestamp] < DATEADD(DAY,-2,GETDATE())";
+                var query = $"SELECT TOP (500) [nvc_id] FROM [tbl_PlyQor_Data] WHERE [nvc_container] = '{container}' AND [dt_timestamp] < DATEADD(DAY,-1,GETDATE())";
 
                 using (var connection = new SqlConnection(Global.DatabaseConnection))
                 {
