@@ -1,4 +1,4 @@
-﻿namespace Crane.Internal.Engine.SQLDatabaseDeployment
+﻿namespace Crane.Internal.Engine.SQLDatabaseDeployment.Internal
 {
 	public enum SqlObjectType
 	{

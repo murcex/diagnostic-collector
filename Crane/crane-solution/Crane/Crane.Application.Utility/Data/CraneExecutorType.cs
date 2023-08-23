@@ -1,4 +1,4 @@
-﻿namespace Crane.Application.Utility
+﻿namespace Crane.Application.Utility.Data
 {
 	public enum CraneExecutorType
 	{

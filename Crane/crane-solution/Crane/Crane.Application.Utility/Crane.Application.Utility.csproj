@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Crane.Internal.Engine\Crane.Internal.Engine.csproj" />
+    <ProjectReference Include="..\Crane.Internal.Logger\Crane.Internal.Logger.csproj" />
   </ItemGroup>
 
 </Project>

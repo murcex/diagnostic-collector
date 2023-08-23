@@ -1,0 +1,446 @@
+using Crane.Internal.Engine.SQLDatabaseDeployment;
+using Crane.Internal.Test.Mock;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace Crane.Internal.Test.CraneTypes
+{
+	[TestClass]
+	public class TestSQLDatabaseDeployment
+	{
+		readonly string craneTestDir = @"C:\Data\CraneTest\types\sqldatabasedeployment";
+
+		readonly string database = "TestDB";
+		readonly string account = "TestAccount";
+		readonly string login = "TestUser";
+		readonly string key = "TestKey";
+
+		[TestInitialize]
+		public void Execute()
+		{
+			Directory.SetCurrentDirectory(craneTestDir);
+
+			// Database
+			CreateTestFile("Database\\proc\\proc.sql", "testproc");
+			CreateTestFile("Database\\security\\security.sql", "testsecurity");
+			CreateTestFile("Database\\table\\table.sql", "testtable");
+			CreateTestFile("Database\\view\\view.sql", "testview");
+
+			// Database-2
+			CreateTestFile("Database-2\\proc\\proc.sql", "exception-2");
+			CreateTestFile("Database-2\\security\\security.sql", "testsecurity");
+			CreateTestFile("Database-2\\table\\table.sql", "exception-1");
+		}
+
+		private static void CreateTestFile(string file, string contents)
+		{
+			var root = Directory.GetCurrentDirectory();
+
+			var compoents = file.Split("\\").ToList();
+
+			if (compoents.Count > 1)
+			{
+				compoents.Remove(compoents[compoents.Count - 1]);
+
+				var testFilepath = string.Empty;
+				foreach (var compoent in compoents)
+				{
+					if (string.IsNullOrEmpty(testFilepath))
+					{
+						testFilepath = compoent;
+					}
+					else
+					{
+						testFilepath = Path.Combine(testFilepath, compoent);
+					}
+
+					var testFilePath_1 = Path.Combine(root, testFilepath);
+
+					if (!Directory.Exists(testFilePath_1))
+					{
+						Directory.CreateDirectory(testFilePath_1);
+					}
+				}
+			}
+
+			file = Path.Combine(root, file);
+
+			File.WriteAllText(file, contents);
+		}
+
+		[TestMethod]
+		public void TestSQLDatabaseDeploymentType_Remote()
+		{
+			var local = bool.FalseString;
+			var storage = Path.Combine(craneTestDir, "Database");
+			var connectionString = $"Server=tcp:{account},1433; Initial Catalog={database}; Persist Security Info=False; User ID={login}; Password={key}; MultipleActiveResultSets=False;";
+
+			var exceptedSqlObj = new List<string>()
+			{
+				connectionString,
+				"testtable",
+				"testproc",
+				"testview",
+				"testsecurity"
+			};
+
+			// dict of script
+			Dictionary<string, Dictionary<string, string>> cfg = new();
+			Dictionary<string, string> jobCfg = new()
+			{
+				["local"] = local,
+				["database"] = database,
+				["account"] = account,
+				["login"] = login,
+				["key"] = key,
+				["storage"] = storage
+			};
+			cfg["job"] = jobCfg;
+
+			var deployedSqlObj = new Dictionary<string, string>();
+
+			var sqlAccess = new TestSQLAccess(deployedSqlObj);
+
+			var logRecords = new Dictionary<string, string>();
+
+			var logger = new TestLogger();
+
+			SQLDatabaseDeploymentType job = new();
+
+			job.Execute(logger, cfg, sqlAccess);
+
+			Assert.IsTrue(exceptedSqlObj.All(x => deployedSqlObj.ContainsValue(x)));
+		}
+
+		[TestMethod]
+		public void TestSQLDatabaseDeploymentType_Local()
+		{
+			var local = bool.TrueString;
+			var storage = Path.Combine(craneTestDir, "Database");
+			var connectionString = $"Integrated Security=SSPI; Persist Security Info=False; Initial Catalog={database}; Data Source=localhost";
+
+			var exceptedSqlObj = new List<string>()
+			{
+				connectionString,
+				"testtable",
+				"testproc",
+				"testview",
+				"testsecurity"
+			};
+
+			// dict of script
+			Dictionary<string, Dictionary<string, string>> cfg = new();
+			Dictionary<string, string> jobCfg = new()
+			{
+				["local"] = local,
+				["database"] = database,
+				["storage"] = storage
+			};
+			cfg["job"] = jobCfg;
+
+			var deployedSqlObj = new Dictionary<string, string>();
+
+			var sqlAccess = new TestSQLAccess(deployedSqlObj);
+
+			var logRecords = new Dictionary<string, string>();
+
+			var logger = new TestLogger();
+
+			SQLDatabaseDeploymentType job = new();
+
+			job.Execute(logger, cfg, sqlAccess);
+
+			Assert.IsTrue(exceptedSqlObj.All(x => deployedSqlObj.ContainsValue(x)));
+		}
+
+		[TestMethod]
+		public void TestSQLDatabaseDeploymentType_MissingEntry()
+		{
+			var test_parameters = new List<(string local, string remove, bool result)>()
+			{
+				// script cfg
+				(string.Empty, "script-null", false),
+				(string.Empty, "script-empty", false),
+
+				// job cfg
+				(string.Empty, "job-null", false),
+				(string.Empty, "job-empty", false),
+
+				// local
+				(bool.TrueString, "local", true),
+				(bool.TrueString, "database", false),
+				(bool.TrueString, "account", true),
+				(bool.TrueString, "login", true),
+				(bool.TrueString, "key", true),
+				(bool.TrueString, "storage", false),
+
+				// remote
+				(bool.FalseString, "local", false),
+				(bool.FalseString, "database", false),
+				(bool.FalseString, "account",  false),
+				(bool.FalseString, "login", false),
+				(bool.FalseString, "key", false),
+				(bool.FalseString, "storage", false)
+			};
+
+			foreach (var param in test_parameters)
+			{
+				var local = param.local;
+				var storage = Path.Combine(craneTestDir, "Database");
+
+				var connectionString = string.Empty;
+				if (string.Equals(bool.TrueString, local, StringComparison.OrdinalIgnoreCase))
+				{
+					connectionString = $"Integrated Security=SSPI; Persist Security Info=False; Initial Catalog={database}; Data Source=localhost";
+				}
+				else
+				{
+					connectionString = $"Server=tcp:{account},1433; Initial Catalog={database}; Persist Security Info=False; User ID={login}; Password={key}; MultipleActiveResultSets=False;";
+				}
+
+				var exceptedSqlObj = new List<string>()
+				{
+					connectionString,
+					"testtable",
+					"testproc",
+					"testview",
+					"testsecurity"
+				};
+
+				// dict of script
+				Dictionary<string, Dictionary<string, string>> cfg = new();
+				Dictionary<string, string> jobCfg = new()
+				{
+					["local"] = local,
+					["database"] = database,
+					["account"] = account,
+					["login"] = login,
+					["key"] = key,
+					["storage"] = storage
+				};
+
+				if (string.Equals("script-null", param.remove, StringComparison.OrdinalIgnoreCase))
+				{
+					cfg = null;
+				}
+				else if (string.Equals("script-empty", param.remove, StringComparison.OrdinalIgnoreCase))
+				{
+					cfg.Clear();
+				}
+				else if (string.Equals("job-null", param.remove, StringComparison.OrdinalIgnoreCase))
+				{
+					cfg["job"] = null;
+				}
+				else if (string.Equals("job-empty", param.remove, StringComparison.OrdinalIgnoreCase))
+				{
+					cfg["job"] = new Dictionary<string, string>();
+				}
+				else
+				{
+					jobCfg.Remove(param.remove);
+
+					cfg["job"] = jobCfg;
+				}
+
+				var deployedSqlObj = new Dictionary<string, string>();
+
+				var sqlAccess = new TestSQLAccess(deployedSqlObj);
+
+				var logger = new TestLogger();
+
+				SQLDatabaseDeploymentType job = new();
+
+				var test_result = false;
+				try
+				{
+					job.Execute(logger, cfg, sqlAccess);
+
+					if (exceptedSqlObj.All(x => deployedSqlObj.ContainsValue(x)))
+					{
+						test_result = true;
+					}
+					else
+					{
+						test_result = false;
+					}
+				}
+				catch
+				{
+					test_result = false;
+				}
+
+				Assert.AreEqual(test_result, param.result, $"local={param.local}, param={param.remove}, result={param.result}");
+
+				logger.Info("-----");
+			}
+		}
+
+		[TestMethod]
+		public void TestSQLDatabaseDeploymentType_MissingEntryValue()
+		{
+			var test_parameters = new List<(string local, string remove, bool result)>()
+			{
+				// script cfg
+				(string.Empty, "script-null", false),
+				(string.Empty, "script-empty", false),
+
+				// job cfg
+				(string.Empty, "job-null", false),
+				(string.Empty, "job-empty", false),
+
+				// local
+				(bool.TrueString, "local", true),
+				(bool.TrueString, "database", false),
+				(bool.TrueString, "account", true),
+				(bool.TrueString, "login", true),
+				(bool.TrueString, "key", true),
+				(bool.TrueString, "storage", false),
+
+				// remote
+				(bool.FalseString, "local", false),
+				(bool.FalseString, "database", false),
+				(bool.FalseString, "account",  false),
+				(bool.FalseString, "login", false),
+				(bool.FalseString, "key", false),
+				(bool.FalseString, "storage", false)
+			};
+
+			var logger = new TestLogger();
+
+			foreach (var param in test_parameters)
+			{
+				logger.Info($"parameter: {param.local} : {param.remove} : {param.result}");
+
+				var local = param.local;
+				var storage = Path.Combine(craneTestDir, "Database");
+
+				var connectionString = string.Empty;
+				if (string.Equals(bool.TrueString, local, StringComparison.OrdinalIgnoreCase))
+				{
+					connectionString = $"Integrated Security=SSPI; Persist Security Info=False; Initial Catalog={database}; Data Source=localhost";
+				}
+				else
+				{
+					connectionString = $"Server=tcp:{account},1433; Initial Catalog={database}; Persist Security Info=False; User ID={login}; Password={key}; MultipleActiveResultSets=False;";
+				}
+
+				var exceptedSqlObj = new List<string>()
+				{
+					connectionString,
+					"testtable",
+					"testproc",
+					"testview",
+					"testsecurity"
+				};
+
+				// dict of script
+				Dictionary<string, Dictionary<string, string>> cfg = new();
+				Dictionary<string, string> jobCfg = new()
+				{
+					["local"] = local,
+					["database"] = database,
+					["account"] = account,
+					["login"] = login,
+					["key"] = key,
+					["storage"] = storage
+				};
+
+				if (string.Equals("script-null", param.remove, StringComparison.OrdinalIgnoreCase))
+				{
+					cfg = null;
+				}
+				else if (string.Equals("script-empty", param.remove, StringComparison.OrdinalIgnoreCase))
+				{
+					cfg.Clear();
+				}
+				else if (string.Equals("job-null", param.remove, StringComparison.OrdinalIgnoreCase))
+				{
+					cfg["job"] = null;
+				}
+				else if (string.Equals("job-empty", param.remove, StringComparison.OrdinalIgnoreCase))
+				{
+					cfg["job"] = new Dictionary<string, string>();
+				}
+				else
+				{
+					//jobCfg.Remove(param.remove);
+
+					jobCfg[param.remove] = string.Empty;
+
+					cfg["job"] = jobCfg;
+				}
+
+				var deployedSqlObj = new Dictionary<string, string>();
+
+				var sqlAccess = new TestSQLAccess(deployedSqlObj);
+
+				SQLDatabaseDeploymentType job = new();
+
+				var test_result = false;
+				try
+				{
+					job.Execute(logger, cfg, sqlAccess);
+
+					if (exceptedSqlObj.All(x => deployedSqlObj.ContainsValue(x)))
+					{
+						test_result = true;
+					}
+					else
+					{
+						test_result = false;
+					}
+				}
+				catch
+				{
+					test_result = false;
+				}
+
+				Assert.AreEqual(test_result, param.result, $"local={param.local}, param={param.remove}, result={param.result}");
+
+				logger.Info("-----");
+			}
+		}
+
+		[TestMethod]
+		public void TestSQLDatabaseDeploymentType_Failures()
+		{
+			var local = bool.FalseString;
+			var storage = Path.Combine(craneTestDir, "Database-2");
+			var connectionString = $"Server=tcp:{account},1433; Initial Catalog={database}; Persist Security Info=False; User ID={login}; Password={key}; MultipleActiveResultSets=False;";
+
+			var exceptedSqlObj = new List<string>()
+			{
+				connectionString,
+				"exception-1",
+				"exception-2",
+				"testsecurity"
+			};
+
+			// dict of script
+			Dictionary<string, Dictionary<string, string>> cfg = new();
+			Dictionary<string, string> jobCfg = new()
+			{
+				["local"] = local,
+				["database"] = database,
+				["account"] = account,
+				["login"] = login,
+				["key"] = key,
+				["storage"] = storage
+			};
+			cfg["job"] = jobCfg;
+
+			var deployedSqlObj = new Dictionary<string, string>();
+
+			var sqlAccess = new TestSQLAccess(deployedSqlObj);
+
+			var logRecords = new Dictionary<string, string>();
+
+			var logger = new TestLogger();
+
+			SQLDatabaseDeploymentType job = new();
+
+			job.Execute(logger, cfg, sqlAccess);
+
+			Assert.IsTrue(exceptedSqlObj.All(x => deployedSqlObj.ContainsValue(x)));
+		}
+	}
+}

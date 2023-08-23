@@ -64,9 +64,9 @@ namespace Crane
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("\t\tResult: Failure (SQL Exception)");
                         Console.ResetColor();
-                        Log.Error($"\r\n|-> Failure (SQL Exception): {e.ToString()}");
+                        Log.Error($"\r\n|-> Failure (SQL Exception): {e}");
 
-                        return $"Failure (SQL Exception): {e.ToString()}";
+                        return $"Failure (SQL Exception): {e}";
                     }
                 }
             }
