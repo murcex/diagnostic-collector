@@ -2,6 +2,6 @@
 {
 	public interface ICraneTaskManager
 	{
-		(bool result, string message) Execute(ICraneLogger logger, Dictionary<string, Dictionary<string, string>> craneTask);
+		(bool result, string message) Execute(ICraneLogger logger, ICraneConsole console, Dictionary<string, Dictionary<string, string>> craneTask);
 	}
 }

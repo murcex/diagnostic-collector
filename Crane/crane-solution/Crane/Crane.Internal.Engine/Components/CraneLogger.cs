@@ -1,4 +1,5 @@
 ﻿using Crane.Internal.Engine.Interface;
+using System.Globalization;
 
 namespace Crane.Internal.Engine.Components
 {
@@ -27,7 +28,7 @@ namespace Crane.Internal.Engine.Components
 
 		public void Info(string logInput)
 		{
-			var entry = $"{DateTime.Now},I,{logInput}";
+			var entry = $"{DateTime.UtcNow.ToString("o", DateTimeFormatInfo.InvariantInfo)},I,{logInput}";
 
 			if (_write)
 			{
@@ -41,7 +42,7 @@ namespace Crane.Internal.Engine.Components
 
 		public void Success(string logInput)
 		{
-			var entry = $"{DateTime.Now},I,{logInput}";
+			var entry = $"{DateTime.UtcNow.ToString("o", DateTimeFormatInfo.InvariantInfo)},I,{logInput}";
 
 			if (_write)
 			{
@@ -59,7 +60,7 @@ namespace Crane.Internal.Engine.Components
 
 		public void Error(string logInput)
 		{
-			var entry = $"{DateTime.Now},E,{logInput}";
+			var entry = $"{DateTime.UtcNow.ToString("o", DateTimeFormatInfo.InvariantInfo)},E,{logInput}";
 
 			if (_write)
 			{

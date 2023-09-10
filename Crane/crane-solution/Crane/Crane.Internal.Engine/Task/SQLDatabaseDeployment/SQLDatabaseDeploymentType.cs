@@ -6,7 +6,7 @@ namespace Crane.Internal.Engine.Task.SQLDatabaseDeployment
 {
 	public class SQLDatabaseDeploymentType : ICraneTaskType
 	{
-		public (bool result, string message) Execute(ICraneLogger logger, Dictionary<string, Dictionary<string, string>> collection, Dictionary<string, object> parameters)
+		public (bool result, string message) Execute(ICraneLogger logger, ICraneConsole console, Dictionary<string, Dictionary<string, string>> collection, Dictionary<string, object> parameters)
 		{
 			logger.Info($"crane_operation=sql-database-deployment");
 
@@ -180,6 +180,8 @@ namespace Crane.Internal.Engine.Task.SQLDatabaseDeployment
 
 			int success = 0;
 			int error = 0;
+
+			console.TaskConfirmation(logger, collection);
 
 			// foreach enum type
 			foreach (var sqlObjectType in Enum.GetNames(typeof(SqlObjectType)))

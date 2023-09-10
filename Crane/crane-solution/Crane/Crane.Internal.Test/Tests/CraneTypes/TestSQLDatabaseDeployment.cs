@@ -1,6 +1,7 @@
 using Crane.Internal.Engine.Task.SQLDatabaseDeployment;
 using Crane.Internal.Test.Mock;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace Crane.Internal.Test.CraneTypes
 {
@@ -107,9 +108,11 @@ namespace Crane.Internal.Test.CraneTypes
 
 			var logger = new TestLogger();
 
+			var console = new TestConsole();
+
 			SQLDatabaseDeploymentType job = new();
 
-			job.Execute(logger, cfg, parameters);
+			job.Execute(logger, console, cfg, parameters);
 
 			Assert.IsTrue(exceptedSqlObj.All(x => deployedSqlObj.ContainsValue(x)));
 		}
@@ -151,9 +154,11 @@ namespace Crane.Internal.Test.CraneTypes
 
 			var logger = new TestLogger();
 
+			var console = new TestConsole();
+
 			SQLDatabaseDeploymentType job = new();
 
-			job.Execute(logger, cfg, parameters);
+			job.Execute(logger, console, cfg, parameters);
 
 			Assert.IsTrue(exceptedSqlObj.All(x => deployedSqlObj.ContainsValue(x)));
 		}
@@ -256,12 +261,14 @@ namespace Crane.Internal.Test.CraneTypes
 
 				var logger = new TestLogger();
 
+				var console = new TestConsole();
+
 				SQLDatabaseDeploymentType job = new();
 
 				var test_result = false;
 				try
 				{
-					job.Execute(logger, cfg, parameters);
+					job.Execute(logger, console, cfg, parameters);
 
 					if (exceptedSqlObj.All(x => deployedSqlObj.ContainsValue(x)))
 					{
@@ -314,6 +321,8 @@ namespace Crane.Internal.Test.CraneTypes
 			};
 
 			var logger = new TestLogger();
+
+			var console = new TestConsole();
 
 			foreach (var param in test_parameters)
 			{
@@ -388,7 +397,7 @@ namespace Crane.Internal.Test.CraneTypes
 				var test_result = false;
 				try
 				{
-					job.Execute(logger, cfg, parameters);
+					job.Execute(logger, console, cfg, parameters);
 
 					if (exceptedSqlObj.All(x => deployedSqlObj.ContainsValue(x)))
 					{
@@ -449,9 +458,11 @@ namespace Crane.Internal.Test.CraneTypes
 
 			var logger = new TestLogger();
 
+			var console = new TestConsole();
+
 			SQLDatabaseDeploymentType job = new();
 
-			job.Execute(logger, cfg, parameters);
+			job.Execute(logger, console, cfg, parameters);
 
 			Assert.IsTrue(exceptedSqlObj.All(x => deployedSqlObj.ContainsValue(x)));
 		}

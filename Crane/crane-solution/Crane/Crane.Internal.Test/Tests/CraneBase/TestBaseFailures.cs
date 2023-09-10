@@ -121,7 +121,7 @@ namespace Crane.Internal.Test.Tests.CraneBase
 			try
 			{
 				// 3 errors
-				taskManager.Execute(logger, null);
+				taskManager.Execute(logger, null, null);
 			}
 			catch (Exception ex)
 			{

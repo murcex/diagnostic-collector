@@ -59,7 +59,7 @@ namespace Crane.Internal.Engine.Components
 				}
 
 				// switch type
-				var taskResult = taskManager.Execute(logger, taskCfg);
+				var taskResult = taskManager.Execute(logger, craneConsole, taskCfg);
 
 				if (taskResult.result)
 				{
@@ -70,6 +70,10 @@ namespace Crane.Internal.Engine.Components
 					logger.Error($"crane_task_complete={taskResult.message}");
 				}
 
+				craneConsole.Close();
+			}
+			catch (CraneException craneEx)
+			{
 				craneConsole.Close();
 			}
 			catch (Exception ex)

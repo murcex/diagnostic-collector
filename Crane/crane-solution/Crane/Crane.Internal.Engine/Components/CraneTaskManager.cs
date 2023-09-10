@@ -7,7 +7,7 @@ namespace Crane.Internal.Engine.Components
 {
 	public class CraneTaskManager : ICraneTaskManager
 	{
-		public (bool result, string message) Execute(ICraneLogger logger, Dictionary<string, Dictionary<string, string>> craneTask)
+		public (bool result, string message) Execute(ICraneLogger logger, ICraneConsole console, Dictionary<string, Dictionary<string, string>> craneTask)
 		{
 			// get crane task type
 			string? type;
@@ -34,7 +34,7 @@ namespace Crane.Internal.Engine.Components
 			if (string.Equals("deploy-sql-database", type, StringComparison.OrdinalIgnoreCase))
 			{
 
-				return new SQLDatabaseDeploymentType().Execute(logger, craneTask, new Dictionary<string, object>()
+				return new SQLDatabaseDeploymentType().Execute(logger, console, craneTask, new Dictionary<string, object>()
 				{
 					{ "sql_access", new SQLAccess() }
 				});
