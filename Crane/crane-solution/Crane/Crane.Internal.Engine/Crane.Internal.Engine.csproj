@@ -9,10 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Crane.Internal.Logger\Crane.Internal.Logger.csproj" />
+    <PackageReference Include="Murcex.Implements.Configuration" Version="1.0.0" />
   </ItemGroup>
 
 </Project>

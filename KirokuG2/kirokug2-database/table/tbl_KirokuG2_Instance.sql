@@ -6,4 +6,3 @@ CREATE TABLE [dbo].[tbl_KirokuG2_Instance](
 	[i_duration] [int] NULL,
 	[i_errors] [int] NULL
 ) ON [PRIMARY]
-GO

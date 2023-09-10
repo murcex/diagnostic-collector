@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crane.Application.Utility",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crane.Internal.Engine", "Crane.Internal.Engine\Crane.Internal.Engine.csproj", "{A5B7B9D9-2F04-4929-A753-A4D9632595B5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crane.Internal.Logger", "Crane.Internal.Logger\Crane.Internal.Logger.csproj", "{EFF34558-034F-4025-9678-15038A97AFA9}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crane.Internal.Test", "Crane.Internal.Test\Crane.Internal.Test.csproj", "{D2B82FF5-2755-4BCA-8DD4-89B58F6CE406}"
 EndProject
 Global
@@ -25,10 +23,6 @@ Global
 		{A5B7B9D9-2F04-4929-A753-A4D9632595B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5B7B9D9-2F04-4929-A753-A4D9632595B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A5B7B9D9-2F04-4929-A753-A4D9632595B5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EFF34558-034F-4025-9678-15038A97AFA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EFF34558-034F-4025-9678-15038A97AFA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EFF34558-034F-4025-9678-15038A97AFA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EFF34558-034F-4025-9678-15038A97AFA9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D2B82FF5-2755-4BCA-8DD4-89B58F6CE406}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D2B82FF5-2755-4BCA-8DD4-89B58F6CE406}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D2B82FF5-2755-4BCA-8DD4-89B58F6CE406}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -1,5 +1,5 @@
-﻿using Crane.Application.Utility.Components;
-using Crane.Internal.Loggie;
+﻿using Crane.Internal.Engine.Components;
+using Crane.Internal.Engine.Interface;
 using Crane.Internal.Test.Mock;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -16,13 +16,13 @@ namespace Crane.Internal.Test.Tests.CraneBase
 			Directory.SetCurrentDirectory(craneTestDir);
 
 			// config.ini
-			CreateTestFile("Config.ini", $"[crane]\r\nstorage={Path.Combine(craneTestDir, "tasks")}\r\nlog={Path.Combine(craneTestDir, "logs")}");
+			CreateTestFile("Config.ini", $"[crane]\r\ntask={Path.Combine(craneTestDir, "tasks")}\r\nlog={Path.Combine(craneTestDir, "logs")}");
 
 			// logs\_
 			CreateTestFile("logs\\_", $"");
 
 			// tasks\test-task.ini
-			CreateTestFile("tasks\\test-task.ini", $"[crane]\r\nid=external-test-task\r\ntype=test");
+			CreateTestFile("tasks\\test-task.ini", $"[task]\r\nid=external-test-task\r\ntype=test");
 
 			// log-test\_
 			CreateTestFile("log-test\\_", $"");
@@ -102,7 +102,7 @@ namespace Crane.Internal.Test.Tests.CraneBase
 
 			var scriptCfg = fileManager.LoadCraneTask(logger, cfg, "test-task.ini");
 
-			var craneCfgHeader = scriptCfg["crane"];
+			var craneCfgHeader = scriptCfg["task"];
 
 			var craneScriptId = craneCfgHeader["id"];
 
@@ -118,7 +118,7 @@ namespace Crane.Internal.Test.Tests.CraneBase
 			var testLogPathway = Path.Combine(Directory.GetCurrentDirectory(), "log-test");
 			var dir = new DirectoryInfo(testLogPathway);
 
-			ICraneLogger logger = new Logger();
+			ICraneLogger logger = new CraneLogger();
 
 			var infoId = Guid.NewGuid().ToString();
 			var errorId = Guid.NewGuid().ToString();
@@ -152,7 +152,7 @@ namespace Crane.Internal.Test.Tests.CraneBase
 			CleanDirectory(testLogPathway);
 			var dir = new DirectoryInfo(testLogPathway);
 
-			ICraneLogger logger = new Logger(testLogPathway);
+			ICraneLogger logger = new CraneLogger(testLogPathway);
 
 			var infoId = Guid.NewGuid().ToString();
 			var errorId = Guid.NewGuid().ToString();

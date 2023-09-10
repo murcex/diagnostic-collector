@@ -1,6 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 
-namespace Crane.Internal.Engine.SQLDatabaseDeployment.Internal
+namespace Crane.Internal.Engine.Task.SQLDatabaseDeployment.Internal
 {
 	public class SQLAccess : ISQLAccess
 	{

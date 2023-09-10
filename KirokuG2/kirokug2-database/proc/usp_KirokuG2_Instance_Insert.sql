@@ -27,4 +27,3 @@ VALUES
 ,@i_errors)
 
 END
-GO

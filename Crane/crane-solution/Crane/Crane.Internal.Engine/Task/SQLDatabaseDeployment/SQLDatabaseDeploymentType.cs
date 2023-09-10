@@ -1,11 +1,12 @@
-﻿using Crane.Internal.Engine.SQLDatabaseDeployment.Internal;
-using Crane.Internal.Loggie;
+﻿using Crane.Internal.Engine.Interface;
+using Crane.Internal.Engine.Model;
+using Crane.Internal.Engine.Task.SQLDatabaseDeployment.Internal;
 
-namespace Crane.Internal.Engine.SQLDatabaseDeployment
+namespace Crane.Internal.Engine.Task.SQLDatabaseDeployment
 {
 	public class SQLDatabaseDeploymentType : ICraneTaskType
 	{
-		public (bool result, string message) Execute(ICraneLogger logger, Dictionary<string, Dictionary<string, string>> script, ISQLAccess sqlAccess)
+		public (bool result, string message) Execute(ICraneLogger logger, Dictionary<string, Dictionary<string, string>> collection, Dictionary<string, object> parameters)
 		{
 			logger.Info($"crane_operation=sql-database-deployment");
 
@@ -16,33 +17,50 @@ namespace Crane.Internal.Engine.SQLDatabaseDeployment
 			var storage = string.Empty;
 
 			// get all the values from cfg
-			if (script == null)
+			if (collection == null)
 			{
-				logger.Error($"invalid_parameter=script_null");
-				throw new Exception("script is null");
+				logger.Error($"invalid_parameter=collection_null");
+				throw new CraneTaskException();
 			}
-			if (script.Count == 0)
+			if (collection.Count == 0)
 			{
-				logger.Error($"invalid_parameter=script_empty");
-				throw new Exception("script is empty");
+				logger.Error($"invalid_parameter=collection_empty");
+				throw new CraneTaskException();
 			}
 
-			var jobCfg = script["job"];
+			var taskCfg = collection["task"];
 
-			if (jobCfg == null)
+			if (taskCfg == null)
 			{
-				logger.Error($"invalid_parameter=job_config_null");
-				throw new Exception("job is missing from config");
+				logger.Error($"invalid_parameter=task_config_null");
+				throw new CraneTaskException();
 			}
-			if (jobCfg.Count == 0)
+			if (taskCfg.Count == 0)
 			{
-				logger.Error($"invalid_parameter=job_config_empty");
-				throw new Exception("job is empty");
+				logger.Error($"invalid_parameter=task_config_empty");
+				throw new CraneTaskException();
+			}
+
+			if (parameters == null)
+			{
+				logger.Error($"invalid_parameter=task_parameter_empty");
+				throw new CraneTaskException();
+			}
+
+			ISQLAccess sqlAccess;
+			if (parameters.TryGetValue("sql_access", out var sqlAccessOjb))
+			{
+				sqlAccess = (ISQLAccess)sqlAccessOjb;
+			}
+			else
+			{
+				logger.Error($"invalid_parameter=sql_access_null");
+				throw new CraneTaskException();
 			}
 
 			string? local;
 			// local
-			if (jobCfg.TryGetValue("local", out local))
+			if (taskCfg.TryGetValue("local", out local))
 			{
 				if (string.IsNullOrEmpty(local))
 				{
@@ -56,26 +74,26 @@ namespace Crane.Internal.Engine.SQLDatabaseDeployment
 			var isLocal = string.Equals(bool.TrueString, local, StringComparison.OrdinalIgnoreCase);
 
 			// database
-			if (jobCfg.TryGetValue("database", out database))
+			if (taskCfg.TryGetValue("database", out database))
 			{
 				if (string.IsNullOrEmpty(database))
 				{
 					logger.Error($"invalid_parameter=database");
-					throw new Exception();
+					throw new CraneTaskException();
 				}
 			}
 			else
 			{
 				logger.Error($"invalid_parameter=database");
-				throw new Exception();
+				throw new CraneTaskException();
 			}
 
 			// account
-			if (jobCfg.TryGetValue("account", out account))
+			if (taskCfg.TryGetValue("account", out account))
 			{
 				if (!isLocal && string.IsNullOrEmpty(account))
 				{
-					throw new Exception();
+					throw new CraneTaskException();
 				}
 			}
 			else
@@ -83,16 +101,16 @@ namespace Crane.Internal.Engine.SQLDatabaseDeployment
 				if (!isLocal)
 				{
 					logger.Error($"invalid_parameter=account");
-					throw new Exception();
+					throw new CraneTaskException();
 				}
 			}
 
 			// login
-			if (jobCfg.TryGetValue("login", out login))
+			if (taskCfg.TryGetValue("login", out login))
 			{
 				if (!isLocal && string.IsNullOrEmpty(login))
 				{
-					throw new Exception();
+					throw new CraneTaskException();
 				}
 			}
 			else
@@ -100,16 +118,16 @@ namespace Crane.Internal.Engine.SQLDatabaseDeployment
 				if (!isLocal)
 				{
 					logger.Error($"invalid_parameter=login");
-					throw new Exception();
+					throw new CraneTaskException();
 				}
 			}
 
 			// key
-			if (jobCfg.TryGetValue("key", out key))
+			if (taskCfg.TryGetValue("key", out key))
 			{
 				if (!isLocal && string.IsNullOrEmpty(key))
 				{
-					throw new Exception();
+					throw new CraneTaskException();
 				}
 			}
 			else
@@ -117,22 +135,22 @@ namespace Crane.Internal.Engine.SQLDatabaseDeployment
 				if (!isLocal)
 				{
 					logger.Error($"invalid_parameter=key");
-					throw new Exception();
+					throw new CraneTaskException();
 				}
 			}
 
 			// storage
-			if (jobCfg.TryGetValue("storage", out storage))
+			if (taskCfg.TryGetValue("storage", out storage))
 			{
 				if (!isLocal && string.IsNullOrEmpty(storage))
 				{
-					throw new Exception();
+					throw new CraneTaskException();
 				}
 			}
 			else
 			{
 				logger.Error($"invalid_parameter=storage");
-				throw new Exception();
+				throw new CraneTaskException();
 			}
 
 			// build connection string
@@ -140,7 +158,7 @@ namespace Crane.Internal.Engine.SQLDatabaseDeployment
 			if (isLocal)
 			{
 				// local conn
-				connectionString = $"Integrated Security=SSPI; Persist Security Info=False; Initial Catalog={database}; Data Source=localhost";
+				connectionString = $"Integrated Security=SSPI; Persist Security Info=False; Initial Catalog={database}; Data Source=localhost; Encrypt=False;";
 			}
 			else
 			{
@@ -176,15 +194,12 @@ namespace Crane.Internal.Engine.SQLDatabaseDeployment
 						continue;
 					}
 
-					string[] fileEntries = Directory.GetFiles(directory);
+					string[] fileEntries = Directory.GetFiles(directory, "*.sql");
 
 					logger.Info($"executing_sql_object={sqlObjectType};count={fileEntries.Length}");
 
 					foreach (var fileName in fileEntries)
 					{
-						//Console.WriteLine("\t-> '{0}'", Path.GetFileName(fileName));
-						//logger.Info($"Executing File: {Path.GetFileName(fileName)}");
-
 						try
 						{
 							var sqlScript = File.ReadAllText(fileName);
@@ -206,19 +221,34 @@ namespace Crane.Internal.Engine.SQLDatabaseDeployment
 						}
 						catch (Exception e)
 						{
-							logger.Error($"Crane Exception: Read and Execute Payload Exception: {e}");
+							logger.Error($"crane_task_exception=read_execute_payload_exception,message={e}");
 							error++;
 						}
 					}
 				}
 				catch (Exception e)
 				{
-					logger.Error($"Crane Exception: Read Directory Exception: {e}");
+					logger.Error($"crane_task_exception=read_directory_exception,message={e}");
 					error++;
 				}
 			}
 
 			logger.Info($"total={success + error};success={success};error={error}");
+
+			bool taskResult;
+			string taskMessage;
+			if (error > 0)
+			{
+				taskResult = false;
+				taskMessage = $"{error} ERRORS DETECTED";
+			}
+			else
+			{
+				taskResult = true;
+				taskMessage = "SUCCESS";
+			}
+
+			return (taskResult, taskMessage);
 		}
 	}
 }

@@ -18,4 +18,3 @@ VALUES
 ,@nvc_source)
 
 END
-GO

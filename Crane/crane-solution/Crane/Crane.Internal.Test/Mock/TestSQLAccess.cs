@@ -1,4 +1,4 @@
-﻿using Crane.Internal.Engine.SQLDatabaseDeployment.Internal;
+﻿using Crane.Internal.Engine.Task.SQLDatabaseDeployment.Internal;
 
 namespace Crane.Internal.Test.Mock
 {

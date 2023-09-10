@@ -1,9 +1,8 @@
-﻿using Crane.Application.Utility.Interface;
-using Crane.Application.Utility.Model;
-using Crane.Internal.Loggie;
+﻿using Crane.Internal.Engine.Interface;
+using Crane.Internal.Engine.Model;
 using Implements.Configuration;
 
-namespace Crane.Application.Utility.Components
+namespace Crane.Internal.Engine.Components
 {
 	public class CraneFileManager : ICraneFileManager
 	{
@@ -13,10 +12,15 @@ namespace Crane.Application.Utility.Components
 			var configFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Config.ini");
 
 			// file exist
+			// TODO: replace with "default" cfg -> move forward to hit other defaults
 			if (!File.Exists(configFilePath))
 			{
-				logger.Error($"ERROR: Config.ini is missing.");
-				throw new CraneException();
+				Dictionary<string, Dictionary<string, string>> defaultCfg = new()
+				{
+					{ "crane", new Dictionary<string, string>() }
+				};
+
+				logger.Info($"crane_config=default");
 			}
 
 			// read all lines
@@ -41,10 +45,26 @@ namespace Crane.Application.Utility.Components
 			}
 		}
 
+		public bool CheckForConformation(ICraneLogger logger, Dictionary<string, Dictionary<string, string>> cfg)
+		{
+			var output = GetCraneConfigurationValue(logger, cfg, "confirm");
+
+			if (!output.result || string.IsNullOrEmpty(output.craneValue))
+			{
+				return true;
+			}
+			else
+			{
+				_ = bool.TryParse(output.craneValue, out bool result);
+
+				return result;
+			}
+		}
+
 		public Dictionary<string, Dictionary<string, string>> LoadCraneTask(ICraneLogger logger, Dictionary<string, Dictionary<string, string>> cfg, string name)
 		{
 			// file path
-			var output = GetCraneConfigurationValue(logger, cfg, "storage");
+			var output = GetCraneConfigurationValue(logger, cfg, "task");
 
 			var root = Directory.GetCurrentDirectory();
 			if (output.result || !string.IsNullOrEmpty(output.craneValue))
@@ -57,7 +77,7 @@ namespace Crane.Application.Utility.Components
 
 			if (!File.Exists(taskFilePath))
 			{
-				logger.Error($"");
+				logger.Error($"crane_error=task_directory_does_not_exist,task_directory={taskFilePath}");
 				throw new CraneException();
 			}
 
@@ -69,19 +89,26 @@ namespace Crane.Application.Utility.Components
 			var taskCfg = configurationUtility.Deserialize(lines);
 
 			// check type name
-			if (taskCfg.TryGetValue("crane", out var taskHeader))
+			if (taskCfg.TryGetValue("task", out var taskHeader))
 			{
-				var taskType = taskHeader["type"];
 
-				if (string.IsNullOrEmpty(taskType))
+				if (taskHeader.TryGetValue("type", out var taskType))
 				{
-					logger.Error($"");
+					if (string.IsNullOrEmpty(taskType))
+					{
+						logger.Error($"crane_error=crane_task_type_value_empty");
+						throw new CraneException();
+					}
+				}
+				else
+				{
+					logger.Error("crane_error=crane_task_type_key_empty");
 					throw new CraneException();
 				}
 			}
 			else
 			{
-				logger.Error($"");
+				logger.Error($"crane_error=crane_config_index_missing");
 				throw new CraneException();
 			}
 
@@ -90,13 +117,19 @@ namespace Crane.Application.Utility.Components
 
 		private (bool result, string craneValue) GetCraneConfigurationValue(ICraneLogger logger, Dictionary<string, Dictionary<string, string>> cfg, string craneKey)
 		{
-			var result = false;
-			var craneValue = string.Empty;
+			if (cfg == null)
+			{
+				logger.Error("crane_error=config_dictionary_null");
+				throw new CraneException();
+			}
+
+			bool result = false;
+			string craneValue = string.Empty;
 			if (cfg.TryGetValue("crane", out var craneCfg))
 			{
 				if (craneCfg == null)
 				{
-					logger.Error($"");
+					logger.Error($"crane_error=crane_config_null");
 					throw new CraneException();
 				}
 

@@ -1,4 +1,4 @@
-using Crane.Internal.Engine.SQLDatabaseDeployment;
+using Crane.Internal.Engine.Task.SQLDatabaseDeployment;
 using Crane.Internal.Test.Mock;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -94,11 +94,14 @@ namespace Crane.Internal.Test.CraneTypes
 				["key"] = key,
 				["storage"] = storage
 			};
-			cfg["job"] = jobCfg;
+			cfg["task"] = jobCfg;
 
 			var deployedSqlObj = new Dictionary<string, string>();
 
-			var sqlAccess = new TestSQLAccess(deployedSqlObj);
+			Dictionary<string, object> parameters = new()
+			{
+				{ "sql_access", new TestSQLAccess(deployedSqlObj) }
+			};
 
 			var logRecords = new Dictionary<string, string>();
 
@@ -106,7 +109,7 @@ namespace Crane.Internal.Test.CraneTypes
 
 			SQLDatabaseDeploymentType job = new();
 
-			job.Execute(logger, cfg, sqlAccess);
+			job.Execute(logger, cfg, parameters);
 
 			Assert.IsTrue(exceptedSqlObj.All(x => deployedSqlObj.ContainsValue(x)));
 		}
@@ -116,7 +119,7 @@ namespace Crane.Internal.Test.CraneTypes
 		{
 			var local = bool.TrueString;
 			var storage = Path.Combine(craneTestDir, "Database");
-			var connectionString = $"Integrated Security=SSPI; Persist Security Info=False; Initial Catalog={database}; Data Source=localhost";
+			var connectionString = $"Integrated Security=SSPI; Persist Security Info=False; Initial Catalog={database}; Data Source=localhost; Encrypt=False;";
 
 			var exceptedSqlObj = new List<string>()
 			{
@@ -135,11 +138,14 @@ namespace Crane.Internal.Test.CraneTypes
 				["database"] = database,
 				["storage"] = storage
 			};
-			cfg["job"] = jobCfg;
+			cfg["task"] = jobCfg;
 
 			var deployedSqlObj = new Dictionary<string, string>();
 
-			var sqlAccess = new TestSQLAccess(deployedSqlObj);
+			Dictionary<string, object> parameters = new()
+			{
+				{ "sql_access", new TestSQLAccess(deployedSqlObj) }
+			};
 
 			var logRecords = new Dictionary<string, string>();
 
@@ -147,7 +153,7 @@ namespace Crane.Internal.Test.CraneTypes
 
 			SQLDatabaseDeploymentType job = new();
 
-			job.Execute(logger, cfg, sqlAccess);
+			job.Execute(logger, cfg, parameters);
 
 			Assert.IsTrue(exceptedSqlObj.All(x => deployedSqlObj.ContainsValue(x)));
 		}
@@ -162,8 +168,8 @@ namespace Crane.Internal.Test.CraneTypes
 				(string.Empty, "script-empty", false),
 
 				// job cfg
-				(string.Empty, "job-null", false),
-				(string.Empty, "job-empty", false),
+				(string.Empty, "task-null", false),
+				(string.Empty, "task-empty", false),
 
 				// local
 				(bool.TrueString, "local", true),
@@ -190,7 +196,7 @@ namespace Crane.Internal.Test.CraneTypes
 				var connectionString = string.Empty;
 				if (string.Equals(bool.TrueString, local, StringComparison.OrdinalIgnoreCase))
 				{
-					connectionString = $"Integrated Security=SSPI; Persist Security Info=False; Initial Catalog={database}; Data Source=localhost";
+					connectionString = $"Integrated Security=SSPI; Persist Security Info=False; Initial Catalog={database}; Data Source=localhost; Encrypt=False;";
 				}
 				else
 				{
@@ -226,24 +232,27 @@ namespace Crane.Internal.Test.CraneTypes
 				{
 					cfg.Clear();
 				}
-				else if (string.Equals("job-null", param.remove, StringComparison.OrdinalIgnoreCase))
+				else if (string.Equals("tasl-null", param.remove, StringComparison.OrdinalIgnoreCase))
 				{
-					cfg["job"] = null;
+					cfg["task"] = null;
 				}
-				else if (string.Equals("job-empty", param.remove, StringComparison.OrdinalIgnoreCase))
+				else if (string.Equals("tasl-empty", param.remove, StringComparison.OrdinalIgnoreCase))
 				{
-					cfg["job"] = new Dictionary<string, string>();
+					cfg["task"] = new Dictionary<string, string>();
 				}
 				else
 				{
 					jobCfg.Remove(param.remove);
 
-					cfg["job"] = jobCfg;
+					cfg["task"] = jobCfg;
 				}
 
 				var deployedSqlObj = new Dictionary<string, string>();
 
-				var sqlAccess = new TestSQLAccess(deployedSqlObj);
+				Dictionary<string, object> parameters = new()
+				{
+					{ "sql_access", new TestSQLAccess(deployedSqlObj) }
+				};
 
 				var logger = new TestLogger();
 
@@ -252,7 +261,7 @@ namespace Crane.Internal.Test.CraneTypes
 				var test_result = false;
 				try
 				{
-					job.Execute(logger, cfg, sqlAccess);
+					job.Execute(logger, cfg, parameters);
 
 					if (exceptedSqlObj.All(x => deployedSqlObj.ContainsValue(x)))
 					{
@@ -284,8 +293,8 @@ namespace Crane.Internal.Test.CraneTypes
 				(string.Empty, "script-empty", false),
 
 				// job cfg
-				(string.Empty, "job-null", false),
-				(string.Empty, "job-empty", false),
+				(string.Empty, "task-null", false),
+				(string.Empty, "task-empty", false),
 
 				// local
 				(bool.TrueString, "local", true),
@@ -316,7 +325,7 @@ namespace Crane.Internal.Test.CraneTypes
 				var connectionString = string.Empty;
 				if (string.Equals(bool.TrueString, local, StringComparison.OrdinalIgnoreCase))
 				{
-					connectionString = $"Integrated Security=SSPI; Persist Security Info=False; Initial Catalog={database}; Data Source=localhost";
+					connectionString = $"Integrated Security=SSPI; Persist Security Info=False; Initial Catalog={database}; Data Source=localhost; Encrypt=False;";
 				}
 				else
 				{
@@ -352,33 +361,34 @@ namespace Crane.Internal.Test.CraneTypes
 				{
 					cfg.Clear();
 				}
-				else if (string.Equals("job-null", param.remove, StringComparison.OrdinalIgnoreCase))
+				else if (string.Equals("task-null", param.remove, StringComparison.OrdinalIgnoreCase))
 				{
-					cfg["job"] = null;
+					cfg["task"] = null;
 				}
-				else if (string.Equals("job-empty", param.remove, StringComparison.OrdinalIgnoreCase))
+				else if (string.Equals("task-empty", param.remove, StringComparison.OrdinalIgnoreCase))
 				{
-					cfg["job"] = new Dictionary<string, string>();
+					cfg["task"] = new Dictionary<string, string>();
 				}
 				else
 				{
-					//jobCfg.Remove(param.remove);
-
 					jobCfg[param.remove] = string.Empty;
 
-					cfg["job"] = jobCfg;
+					cfg["task"] = jobCfg;
 				}
 
 				var deployedSqlObj = new Dictionary<string, string>();
 
-				var sqlAccess = new TestSQLAccess(deployedSqlObj);
+				Dictionary<string, object> parameters = new()
+				{
+					{ "sql_access", new TestSQLAccess(deployedSqlObj) }
+				};
 
 				SQLDatabaseDeploymentType job = new();
 
 				var test_result = false;
 				try
 				{
-					job.Execute(logger, cfg, sqlAccess);
+					job.Execute(logger, cfg, parameters);
 
 					if (exceptedSqlObj.All(x => deployedSqlObj.ContainsValue(x)))
 					{
@@ -426,11 +436,14 @@ namespace Crane.Internal.Test.CraneTypes
 				["key"] = key,
 				["storage"] = storage
 			};
-			cfg["job"] = jobCfg;
+			cfg["task"] = jobCfg;
 
 			var deployedSqlObj = new Dictionary<string, string>();
 
-			var sqlAccess = new TestSQLAccess(deployedSqlObj);
+			Dictionary<string, object> parameters = new()
+			{
+				{ "sql_access", new TestSQLAccess(deployedSqlObj) }
+			};
 
 			var logRecords = new Dictionary<string, string>();
 
@@ -438,7 +451,7 @@ namespace Crane.Internal.Test.CraneTypes
 
 			SQLDatabaseDeploymentType job = new();
 
-			job.Execute(logger, cfg, sqlAccess);
+			job.Execute(logger, cfg, parameters);
 
 			Assert.IsTrue(exceptedSqlObj.All(x => deployedSqlObj.ContainsValue(x)));
 		}

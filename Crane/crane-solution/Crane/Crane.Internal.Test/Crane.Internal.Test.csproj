@@ -20,10 +20,4 @@
     <ProjectReference Include="..\Crane.Application.Utility\Crane.Application.Utility.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="Config.ini">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>

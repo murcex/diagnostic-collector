@@ -1,4 +1,4 @@
-﻿using Crane.Internal.Loggie;
+﻿using Crane.Internal.Engine.Interface;
 
 namespace Crane.Internal.Test.Mock
 {
@@ -21,6 +21,12 @@ namespace Crane.Internal.Test.Mock
 		}
 
 		public void Info(string input)
+		{
+			Console.WriteLine(input);
+			_logs.Add(input);
+		}
+
+		public void Success(string input)
 		{
 			Console.WriteLine(input);
 			_logs.Add(input);

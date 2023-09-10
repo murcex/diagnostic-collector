@@ -1,4 +1,4 @@
-﻿namespace Crane.Internal.Engine.SQLDatabaseDeployment.Internal
+﻿namespace Crane.Internal.Engine.Task.SQLDatabaseDeployment.Internal
 {
 	public interface ISQLAccess
 	{

@@ -1,5 +1,5 @@
-﻿using Crane.Application.Utility.Components;
-using Crane.Internal.Loggie;
+﻿using Crane.Internal.Engine.Components;
+using Crane.Internal.Engine.Interface;
 using Crane.Internal.Test.Mock;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -19,7 +19,7 @@ namespace Crane.Internal.Test.Tests.CraneBase
 			CreateTestFile("Config.ini", "");
 
 			// tasks\task.ini
-			CreateTestFile("test-task.ini", $"[crane]\r\nid=default-test-task\r\ntype=test");
+			CreateTestFile("test-task.ini", $"[task]\r\nid=default-test-task\r\ntype=test");
 
 			CleanDirectory();
 		}
@@ -96,7 +96,7 @@ namespace Crane.Internal.Test.Tests.CraneBase
 
 			var scriptCfg = fileManager.LoadCraneTask(logger, cfg, "test-task.ini");
 
-			var craneCfgHeader = scriptCfg["crane"];
+			var craneCfgHeader = scriptCfg["task"];
 
 			var craneScriptId = craneCfgHeader["id"];
 
@@ -113,7 +113,7 @@ namespace Crane.Internal.Test.Tests.CraneBase
 			CleanDirectory();
 			var dir = new DirectoryInfo(testLogPathway);
 
-			ICraneLogger logger = new Logger();
+			ICraneLogger logger = new CraneLogger();
 
 			var infoId = Guid.NewGuid().ToString();
 			var errorId = Guid.NewGuid().ToString();
@@ -130,7 +130,7 @@ namespace Crane.Internal.Test.Tests.CraneBase
 			var logFile = string.Empty;
 			foreach (var file in afterFiles)
 			{
-				if (!string.Equals("Config.ini", file.Name, StringComparison.OrdinalIgnoreCase) || !string.Equals("test-task.ini", file.Name, StringComparison.OrdinalIgnoreCase))
+				if (!string.Equals("Config.ini", file.Name, StringComparison.OrdinalIgnoreCase) && !string.Equals("test-task.ini", file.Name, StringComparison.OrdinalIgnoreCase))
 				{
 					logFile = file.Name;
 					break;
@@ -139,14 +139,19 @@ namespace Crane.Internal.Test.Tests.CraneBase
 
 			var logContents = File.ReadAllLines(logFile);
 
+			foreach (var entry in logContents)
+			{
+				Console.WriteLine($"entry: {entry}");
+			}
+
 			var infoCheck = logContents.Any(x => x.Contains(infoId));
 			var errorCheck = logContents.Any(y => y.Contains(errorId));
 
 			Assert.AreEqual(2, beforeFiles.Length);
 			Assert.AreEqual(3, afterFiles.Length);
-			Assert.IsTrue(status);
-			Assert.IsTrue(infoCheck);
-			Assert.IsTrue(errorCheck);
+			Assert.IsTrue(status, "logger status should be true (enabled)");
+			Assert.IsTrue(infoCheck, $"log contents should contain info id {infoId}");
+			Assert.IsTrue(errorCheck, $"log contents should container error id {errorId}");
 		}
 
 		[TestMethod]
@@ -156,7 +161,7 @@ namespace Crane.Internal.Test.Tests.CraneBase
 			CleanDirectory();
 			var dir = new DirectoryInfo(testLogPathway);
 
-			ICraneLogger logger = new Logger(testLogPathway);
+			ICraneLogger logger = new CraneLogger(testLogPathway);
 
 			var infoId = Guid.NewGuid().ToString();
 			var errorId = Guid.NewGuid().ToString();
@@ -170,7 +175,7 @@ namespace Crane.Internal.Test.Tests.CraneBase
 			var logFile = string.Empty;
 			foreach (var file in afterFiles)
 			{
-				if (!string.Equals("Config.ini", file.Name, StringComparison.OrdinalIgnoreCase) || !string.Equals("test-task.ini", file.Name, StringComparison.OrdinalIgnoreCase))
+				if (!string.Equals("Config.ini", file.Name, StringComparison.OrdinalIgnoreCase) && !string.Equals("test-task.ini", file.Name, StringComparison.OrdinalIgnoreCase))
 				{
 					logFile = file.Name;
 					break;
@@ -179,12 +184,17 @@ namespace Crane.Internal.Test.Tests.CraneBase
 
 			var logContents = File.ReadAllLines(logFile);
 
+			foreach (var entry in logContents)
+			{
+				Console.WriteLine($"entry: {entry}");
+			}
+
 			var infoCheck = logContents.Any(x => x.Contains(infoId));
 			var errorCheck = logContents.Any(y => y.Contains(errorId));
 
-			Assert.IsTrue(status, "Logger isn't write enabled");
-			Assert.IsTrue(infoCheck, "info log id wasn't found in test log");
-			Assert.IsTrue(errorCheck, "error log id wasn't found in test log");
+			Assert.IsTrue(status, "logger status should be true (enabled)");
+			Assert.IsTrue(infoCheck, $"log contents should contain info id {infoId}");
+			Assert.IsTrue(errorCheck, $"log contents should container error id {errorId}");
 		}
 	}
 }
