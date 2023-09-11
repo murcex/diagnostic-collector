@@ -33,12 +33,12 @@ namespace Crane.Internal.Engine.Components
 			if (collection == null)
 			{
 				logger.Error($"invalid_parameter=collection_null");
-				throw new CraneTaskException();
+				throw new CraneException();
 			}
 			if (collection.Count == 0)
 			{
 				logger.Error($"invalid_parameter=collection_empty");
-				throw new CraneTaskException();
+				throw new CraneException();
 			}
 
 			var taskCfg = collection["task"];
@@ -46,12 +46,12 @@ namespace Crane.Internal.Engine.Components
 			if (taskCfg == null)
 			{
 				logger.Error($"invalid_parameter=task_config_null");
-				throw new CraneTaskException();
+				throw new CraneException();
 			}
 			if (taskCfg.Count == 0)
 			{
 				logger.Error($"invalid_parameter=task_config_empty");
-				throw new CraneTaskException();
+				throw new CraneException();
 			}
 
 			string? confirm;

@@ -20,12 +20,12 @@ namespace Crane.Internal.Engine.Task.SQLDatabaseDeployment
 			if (collection == null)
 			{
 				logger.Error($"invalid_parameter=collection_null");
-				throw new CraneTaskException();
+				throw new CraneException();
 			}
 			if (collection.Count == 0)
 			{
 				logger.Error($"invalid_parameter=collection_empty");
-				throw new CraneTaskException();
+				throw new CraneException();
 			}
 
 			var taskCfg = collection["task"];
@@ -33,18 +33,18 @@ namespace Crane.Internal.Engine.Task.SQLDatabaseDeployment
 			if (taskCfg == null)
 			{
 				logger.Error($"invalid_parameter=task_config_null");
-				throw new CraneTaskException();
+				throw new CraneException();
 			}
 			if (taskCfg.Count == 0)
 			{
 				logger.Error($"invalid_parameter=task_config_empty");
-				throw new CraneTaskException();
+				throw new CraneException();
 			}
 
 			if (parameters == null)
 			{
 				logger.Error($"invalid_parameter=task_parameter_empty");
-				throw new CraneTaskException();
+				throw new CraneException();
 			}
 
 			ISQLAccess sqlAccess;
@@ -55,7 +55,7 @@ namespace Crane.Internal.Engine.Task.SQLDatabaseDeployment
 			else
 			{
 				logger.Error($"invalid_parameter=sql_access_null");
-				throw new CraneTaskException();
+				throw new CraneException();
 			}
 
 			string? local;
@@ -79,13 +79,13 @@ namespace Crane.Internal.Engine.Task.SQLDatabaseDeployment
 				if (string.IsNullOrEmpty(database))
 				{
 					logger.Error($"invalid_parameter=database");
-					throw new CraneTaskException();
+					throw new CraneException();
 				}
 			}
 			else
 			{
 				logger.Error($"invalid_parameter=database");
-				throw new CraneTaskException();
+				throw new CraneException();
 			}
 
 			// account
@@ -93,7 +93,7 @@ namespace Crane.Internal.Engine.Task.SQLDatabaseDeployment
 			{
 				if (!isLocal && string.IsNullOrEmpty(account))
 				{
-					throw new CraneTaskException();
+					throw new CraneException();
 				}
 			}
 			else
@@ -101,7 +101,7 @@ namespace Crane.Internal.Engine.Task.SQLDatabaseDeployment
 				if (!isLocal)
 				{
 					logger.Error($"invalid_parameter=account");
-					throw new CraneTaskException();
+					throw new CraneException();
 				}
 			}
 
@@ -110,7 +110,7 @@ namespace Crane.Internal.Engine.Task.SQLDatabaseDeployment
 			{
 				if (!isLocal && string.IsNullOrEmpty(login))
 				{
-					throw new CraneTaskException();
+					throw new CraneException();
 				}
 			}
 			else
@@ -118,7 +118,7 @@ namespace Crane.Internal.Engine.Task.SQLDatabaseDeployment
 				if (!isLocal)
 				{
 					logger.Error($"invalid_parameter=login");
-					throw new CraneTaskException();
+					throw new CraneException();
 				}
 			}
 
@@ -127,7 +127,7 @@ namespace Crane.Internal.Engine.Task.SQLDatabaseDeployment
 			{
 				if (!isLocal && string.IsNullOrEmpty(key))
 				{
-					throw new CraneTaskException();
+					throw new CraneException();
 				}
 			}
 			else
@@ -135,7 +135,7 @@ namespace Crane.Internal.Engine.Task.SQLDatabaseDeployment
 				if (!isLocal)
 				{
 					logger.Error($"invalid_parameter=key");
-					throw new CraneTaskException();
+					throw new CraneException();
 				}
 			}
 
@@ -144,13 +144,13 @@ namespace Crane.Internal.Engine.Task.SQLDatabaseDeployment
 			{
 				if (!isLocal && string.IsNullOrEmpty(storage))
 				{
-					throw new CraneTaskException();
+					throw new CraneException();
 				}
 			}
 			else
 			{
 				logger.Error($"invalid_parameter=storage");
-				throw new CraneTaskException();
+				throw new CraneException();
 			}
 
 			// build connection string

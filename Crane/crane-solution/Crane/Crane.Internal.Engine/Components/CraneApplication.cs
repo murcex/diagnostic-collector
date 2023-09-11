@@ -74,6 +74,11 @@ namespace Crane.Internal.Engine.Components
 			}
 			catch (CraneException craneEx)
 			{
+				if (!logger.Enabled())
+				{
+					logger.Enable(Directory.GetCurrentDirectory());
+				}
+
 				craneConsole.Close();
 			}
 			catch (Exception ex)
@@ -83,10 +88,7 @@ namespace Crane.Internal.Engine.Components
 					logger.Enable(Directory.GetCurrentDirectory());
 				}
 
-				if (ex is not CraneException || ex is not CraneTaskException)
-				{
-					logger.Error($"general_exception={ex}");
-				}
+				logger.Error($"general_exception={ex}");
 
 				craneConsole.Close();
 			}

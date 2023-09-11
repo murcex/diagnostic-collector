@@ -18,13 +18,13 @@ namespace Crane.Internal.Engine.Components
 				if (string.IsNullOrEmpty(type))
 				{
 					logger.Error($"crane_error=crane_task_type_value_empty");
-					throw new CraneTaskException();
+					throw new CraneException();
 				}
 			}
 			else
 			{
 				logger.Error($"crane_error=crane_task_type_key_empty");
-				throw new CraneTaskException();
+				throw new CraneException();
 			}
 
 			// ---
@@ -41,7 +41,7 @@ namespace Crane.Internal.Engine.Components
 			}
 
 			logger.Error($"crane_error=crane_task_type_no_match,type={type}");
-			throw new CraneTaskException();
+			throw new CraneException();
 		}
 	}
 }
