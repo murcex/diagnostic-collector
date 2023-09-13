@@ -3,7 +3,7 @@
 	public interface ICraneConsole
 	{
 		void Starter();
-		void Conformation(ICraneLogger logger);
+		void GeneralConformation(ICraneLogger logger);
 		public void TaskConfirmation(ICraneLogger logger, Dictionary<string, Dictionary<string, string>> collection);
 		public void Close();
 	}

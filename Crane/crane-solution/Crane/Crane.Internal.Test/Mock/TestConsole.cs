@@ -1,9 +1,4 @@
 ﻿using Crane.Internal.Engine.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Crane.Internal.Test.Mock
 {
@@ -14,7 +9,7 @@ namespace Crane.Internal.Test.Mock
 			//throw new NotImplementedException();
 		}
 
-		public void Conformation(ICraneLogger logger)
+		public void GeneralConformation(ICraneLogger logger)
 		{
 			//throw new NotImplementedException();
 		}

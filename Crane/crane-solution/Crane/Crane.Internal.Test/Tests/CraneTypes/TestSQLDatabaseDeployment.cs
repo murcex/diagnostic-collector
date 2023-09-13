@@ -1,7 +1,6 @@
 using Crane.Internal.Engine.Task.SQLDatabaseDeployment;
 using Crane.Internal.Test.Mock;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 
 namespace Crane.Internal.Test.CraneTypes
 {

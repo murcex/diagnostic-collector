@@ -10,12 +10,12 @@ namespace Crane.Internal.Engine.Components
 		readonly ICraneTaskManager taskManager;
 		readonly ICraneConsole craneConsole;
 
-		public CraneApplication(ICraneLogger logger, ICraneConsole craneConsole, ICraneFileManager fileManger, ICraneTaskManager taskManager)
+		public CraneApplication(ICraneLogger logger, ICraneConsole console, ICraneFileManager fileManger, ICraneTaskManager taskManager)
 		{
 			this.logger = logger;
 			this.fileManager = fileManger;
 			this.taskManager = taskManager;
-			this.craneConsole = craneConsole;
+			this.craneConsole = console;
 		}
 
 		public void Execute(string[] args)
@@ -55,7 +55,7 @@ namespace Crane.Internal.Engine.Components
 				// conformation
 				if (fileManager.CheckForConformation(logger, craneCfg))
 				{
-					craneConsole.Conformation(logger);
+					craneConsole.GeneralConformation(logger);
 				}
 
 				// switch type

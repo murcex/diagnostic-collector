@@ -12,7 +12,7 @@ namespace Crane.Internal.Engine.Components
 			Console.WriteLine("Starting Crane\r\n");
 		}
 
-		public void Conformation(ICraneLogger logger)
+		public void GeneralConformation(ICraneLogger logger)
 		{
 			Console.WriteLine($"Continue? Y/N");
 			var deployCheck = Console.ReadLine();
@@ -102,7 +102,7 @@ namespace Crane.Internal.Engine.Components
 								continue;
 							}
 						}
-							groupClone.Add(item.Key, item.Value);
+						groupClone.Add(item.Key, item.Value);
 					}
 					consoleClone.Add(group.Key, groupClone);
 				}
@@ -137,6 +137,8 @@ namespace Crane.Internal.Engine.Components
 
 		public void Close()
 		{
+			Console.WriteLine($"\r\nEnding Crane");
+
 			Environment.Exit(0);
 		}
 	}
