@@ -12,7 +12,6 @@ namespace Crane.Internal.Engine.Components
 			var configFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Config.ini");
 
 			// file exist
-			// TODO: replace with "default" cfg -> move forward to hit other defaults
 			if (!File.Exists(configFilePath))
 			{
 				Dictionary<string, Dictionary<string, string>> defaultCfg = new()
@@ -55,9 +54,14 @@ namespace Crane.Internal.Engine.Components
 			}
 			else
 			{
-				_ = bool.TryParse(output.craneValue, out bool result);
-
-				return result;
+				if (bool.TryParse(output.craneValue, out bool result))
+				{
+					return result;
+				}
+				else
+				{
+					return true;
+				}
 			}
 		}
 

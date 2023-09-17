@@ -1,5 +1,6 @@
 ﻿using Crane.Internal.Engine.Components;
 using Crane.Internal.Engine.Interface;
+using Crane.Internal.Test.Core;
 using Crane.Internal.Test.Mock;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -8,11 +9,13 @@ namespace Crane.Internal.Test.Tests.CraneBase
 	[TestClass]
 	public class TestBasicDefault
 	{
-		string craneTestDir = @"C:\Data\CraneTest\local";
+		string craneTestDir = Path.Combine(Setup.CraneTestRoot, "local");
 
 		[TestInitialize]
 		public void Execute()
 		{
+			Setup.Basic();
+
 			Directory.SetCurrentDirectory(craneTestDir);
 
 			// local\task.ini
@@ -75,6 +78,11 @@ namespace Crane.Internal.Test.Tests.CraneBase
 			}
 		}
 
+		/// <summary>
+		/// Test basic crane execution using default current executing directory
+		/// (1) Load "test-task.ini" from local/current directory
+		/// (2) Set Logger to local/current directory
+		/// </summary>
 		[TestMethod]
 		public void TestCraneFileManager_Default()
 		{
@@ -106,6 +114,9 @@ namespace Crane.Internal.Test.Tests.CraneBase
 			Assert.AreEqual("test", craneScriptType);
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
 		[TestMethod]
 		public void TestLogger_Off_Default()
 		{
@@ -154,6 +165,9 @@ namespace Crane.Internal.Test.Tests.CraneBase
 			Assert.IsTrue(errorCheck, $"log contents should container error id {errorId}");
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
 		[TestMethod]
 		public void TestLogger_On_Default()
 		{

@@ -1,18 +1,23 @@
 ﻿using Crane.Internal.Engine.Components;
 using Crane.Internal.Engine.Interface;
+using Crane.Internal.Test.Core;
 using Crane.Internal.Test.Mock;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Crane.Internal.Test.Tests.CraneBase
 {
-	[TestClass]
+    [TestClass]
 	public class TestBaseExternal
 	{
-		string craneTestDir = @"C:\Data\CraneTest\external";
+		private string craneTestDir;
 
 		[TestInitialize]
 		public void Execute()
 		{
+			Setup.Basic();
+
+			craneTestDir = Path.Combine(Setup.CraneTestRoot, "external");
+
 			Directory.SetCurrentDirectory(craneTestDir);
 
 			// config.ini
@@ -81,6 +86,11 @@ namespace Crane.Internal.Test.Tests.CraneBase
 			}
 		}
 
+		/// <summary>
+		/// Test basic crane execution using user provided / external task directory
+		/// (1) Load "test-task.ini" from external directory
+		/// (2) Set Logger to external directory
+		/// </summary>
 		[TestMethod]
 		public void TestCraneFileManager_External()
 		{
@@ -112,6 +122,10 @@ namespace Crane.Internal.Test.Tests.CraneBase
 			Assert.AreEqual("test", craneScriptType);
 		}
 
+		/// <summary>
+		/// Test the logger will use current executing directory when enabled/forced without a user provided / extenral directory
+		/// * This would occur in the event the logger throw exception before the log path could be aquired from the Config.ini
+		/// </summary>
 		[TestMethod]
 		public void TestLogger_Off_External()
 		{
@@ -145,6 +159,10 @@ namespace Crane.Internal.Test.Tests.CraneBase
 			Assert.IsTrue(errorCheck);
 		}
 
+		/// <summary>
+		/// Test the logger will use the user provided / external directory when provided
+		/// * This will only occur if the log=<directory> is provided in the Config.ini
+		/// </summary>
 		[TestMethod]
 		public void TestLogger_On_External()
 		{

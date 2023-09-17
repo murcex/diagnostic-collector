@@ -1,4 +1,5 @@
 using Crane.Internal.Engine.Task.SQLDatabaseDeployment;
+using Crane.Internal.Test.Core;
 using Crane.Internal.Test.Mock;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -7,7 +8,7 @@ namespace Crane.Internal.Test.CraneTypes
 	[TestClass]
 	public class TestSQLDatabaseDeployment
 	{
-		readonly string craneTestDir = @"C:\Data\CraneTest\types\sqldatabasedeployment";
+		private string craneTestDir;
 
 		readonly string database = "TestDB";
 		readonly string account = "TestAccount";
@@ -17,6 +18,10 @@ namespace Crane.Internal.Test.CraneTypes
 		[TestInitialize]
 		public void Execute()
 		{
+			Setup.Basic();
+
+			craneTestDir = Path.Combine(Setup.CraneTestRoot, "types", "sqldatabasedeployment");
+
 			Directory.SetCurrentDirectory(craneTestDir);
 
 			// Database
@@ -67,6 +72,9 @@ namespace Crane.Internal.Test.CraneTypes
 			File.WriteAllText(file, contents);
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
 		[TestMethod]
 		public void TestSQLDatabaseDeploymentType_Remote()
 		{
@@ -116,6 +124,9 @@ namespace Crane.Internal.Test.CraneTypes
 			Assert.IsTrue(exceptedSqlObj.All(x => deployedSqlObj.ContainsValue(x)));
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
 		[TestMethod]
 		public void TestSQLDatabaseDeploymentType_Local()
 		{
@@ -162,6 +173,9 @@ namespace Crane.Internal.Test.CraneTypes
 			Assert.IsTrue(exceptedSqlObj.All(x => deployedSqlObj.ContainsValue(x)));
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
 		[TestMethod]
 		public void TestSQLDatabaseDeploymentType_MissingEntry()
 		{
@@ -289,6 +303,9 @@ namespace Crane.Internal.Test.CraneTypes
 			}
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
 		[TestMethod]
 		public void TestSQLDatabaseDeploymentType_MissingEntryValue()
 		{
@@ -418,6 +435,9 @@ namespace Crane.Internal.Test.CraneTypes
 			}
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
 		[TestMethod]
 		public void TestSQLDatabaseDeploymentType_Failures()
 		{

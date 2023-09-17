@@ -5,6 +5,13 @@ namespace Crane.Internal.Engine.Components
 {
 	public class CraneConsole : ICraneConsole
 	{
+		ICraneRedactor redactor;
+
+		public CraneConsole(ICraneRedactor radactor)
+		{
+			this.redactor = radactor;
+		}
+
 		public void Starter()
 		{
 			Console.Clear();
@@ -70,42 +77,44 @@ namespace Crane.Internal.Engine.Components
 
 			if (isConfirm)
 			{
-				bool isRedact = false;
-				List<string> redactItems = new List<string>();
-				if (taskCfg.TryGetValue("crane_redact", out var redact))
-				{
-					if (string.IsNullOrEmpty(redact))
-					{
-						isRedact = false;
-					}
+				var consoleClone = redactor.Execute(taskCfg, collection);
 
-					redactItems = redact.Split(',').ToList();
-					isRedact = true;
-				}
-				else
-				{
-					isRedact = false;
-				}
+				//bool isRedact = false;
+				//List<string> redactItems = new List<string>();
+				//if (taskCfg.TryGetValue("crane_redact", out var redact))
+				//{
+				//	if (string.IsNullOrEmpty(redact))
+				//	{
+				//		isRedact = false;
+				//	}
 
-				Dictionary<string, Dictionary<string, string>> consoleClone = new();
-				foreach (var group in collection)
-				{
-					Dictionary<string, string> groupClone = new();
-					foreach (var item in group.Value)
-					{
-						if (isRedact)
-						{
-							if (redactItems.Any(x => string.Equals(x, item.Key)))
-							{
-								groupClone.Add(item.Key, "*redacted*");
+				//	redactItems = redact.Split(',').ToList();
+				//	isRedact = true;
+				//}
+				//else
+				//{
+				//	isRedact = false;
+				//}
 
-								continue;
-							}
-						}
-						groupClone.Add(item.Key, item.Value);
-					}
-					consoleClone.Add(group.Key, groupClone);
-				}
+				//Dictionary<string, Dictionary<string, string>> consoleClone = new();
+				//foreach (var group in collection)
+				//{
+				//	Dictionary<string, string> groupClone = new();
+				//	foreach (var item in group.Value)
+				//	{
+				//		if (isRedact)
+				//		{
+				//			if (redactItems.Any(x => string.Equals(x, item.Key)))
+				//			{
+				//				groupClone.Add(item.Key, "*redacted*");
+
+				//				continue;
+				//			}
+				//		}
+				//		groupClone.Add(item.Key, item.Value);
+				//	}
+				//	consoleClone.Add(group.Key, groupClone);
+				//}
 
 				Console.WriteLine("Task Configuration:");
 				foreach (var group in consoleClone)

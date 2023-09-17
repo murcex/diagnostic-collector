@@ -8,7 +8,7 @@ namespace Crane.Application.Utility
 		static void Main(string[] args)
 		{
 			ICraneLogger logger = new CraneLogger();
-			ICraneConsole console = new CraneConsole();
+			ICraneConsole console = new CraneConsole(new CraneRedactor());
 			ICraneFileManager fileManager = new CraneFileManager();
 			ICraneTaskManager taskManager = new CraneTaskManager();
 

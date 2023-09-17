@@ -1,5 +1,6 @@
 ﻿using Crane.Internal.Engine.Components;
 using Crane.Internal.Engine.Interface;
+using Crane.Internal.Test.Core;
 using Crane.Internal.Test.Mock;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -8,11 +9,13 @@ namespace Crane.Internal.Test.Tests.CraneBase
 	[TestClass]
 	public class TestBaseFailures
 	{
-		string craneTestDir = @"C:\Data\CraneTest\failure";
+		string craneTestDir = Path.Combine(Setup.CraneTestRoot, "failure");
 
 		[TestInitialize]
 		public void Execute()
 		{
+			Setup.Basic();
+
 			//Directory.SetCurrentDirectory(craneTestDir);
 
 			// local\task.ini
