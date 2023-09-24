@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Crane.Internal.Test.Tests.CraneBase
 {
-    [TestClass]
+	[TestClass]
 	public class TestBaseExternal
 	{
 		private string craneTestDir;
@@ -21,53 +21,17 @@ namespace Crane.Internal.Test.Tests.CraneBase
 			Directory.SetCurrentDirectory(craneTestDir);
 
 			// config.ini
-			CreateTestFile("Config.ini", $"[crane]\r\ntask={Path.Combine(craneTestDir, "tasks")}\r\nlog={Path.Combine(craneTestDir, "logs")}");
+			Setup.CreateTestFile("Config.ini", $"[crane]\r\ntask={Path.Combine(craneTestDir, "tasks")}\r\nlog={Path.Combine(craneTestDir, "logs")}");
 
 			// logs\_
-			CreateTestFile("logs\\_", $"");
+			Setup.CreateTestFile("logs\\_", $"");
 
 			// tasks\test-task.ini
-			CreateTestFile("tasks\\test-task.ini", $"[task]\r\nid=external-test-task\r\ntype=test");
+			Setup.CreateTestFile("tasks\\test-task.ini", $"[task]\r\nid=external-test-task\r\ntype=test");
 
 			// log-test\_
-			CreateTestFile("log-test\\_", $"");
-			CleanDirectory("log-test");
-		}
-
-		private static void CreateTestFile(string file, string contents)
-		{
-			var root = Directory.GetCurrentDirectory();
-
-			var compoents = file.Split("\\").ToList();
-
-			if (compoents.Count > 1)
-			{
-				compoents.Remove(compoents[compoents.Count - 1]);
-
-				var testFilepath = string.Empty;
-				foreach (var compoent in compoents)
-				{
-					if (string.IsNullOrEmpty(testFilepath))
-					{
-						testFilepath = compoent;
-					}
-					else
-					{
-						testFilepath = Path.Combine(testFilepath, compoent);
-					}
-
-					var testFilePath_1 = Path.Combine(root, testFilepath);
-
-					if (!Directory.Exists(testFilePath_1))
-					{
-						Directory.CreateDirectory(testFilePath_1);
-					}
-				}
-			}
-
-			file = Path.Combine(root, file);
-
-			File.WriteAllText(file, contents);
+			Setup.CreateTestFile("log-test\\_", $"");
+			Setup.CleanDirectory("log-test");
 		}
 
 		private static void CleanDirectory(string pathway)
@@ -167,7 +131,7 @@ namespace Crane.Internal.Test.Tests.CraneBase
 		public void TestLogger_On_External()
 		{
 			var testLogPathway = Path.Combine(Directory.GetCurrentDirectory(), "log-test");
-			CleanDirectory(testLogPathway);
+			Setup.CleanDirectory(testLogPathway);
 			var dir = new DirectoryInfo(testLogPathway);
 
 			ICraneLogger logger = new CraneLogger(testLogPathway);

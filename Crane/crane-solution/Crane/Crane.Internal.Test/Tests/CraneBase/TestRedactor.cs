@@ -6,21 +6,34 @@ namespace Crane.Internal.Test.Tests.CraneBase
 	[TestClass]
 	public class TestRedactor
 	{
+		/// <summary>
+		/// 
+		/// </summary>
 		[TestMethod]
 		public void TestRedactor_Hit()
 		{
-			Dictionary<string, string> taskCfg = new();
-			taskCfg.Add("crane_redact", "testa1,testb2");
+			Dictionary<string, string> taskCfg = new()
+			{
+				{ "crane_redact", "testa1,testb2" }
+			};
 
-			Dictionary<string, string> testa = new();
-			testa.Add("testa1", "a1key");
-			testa.Add("testa2", "a2");
-			Dictionary<string, string> testb = new();
-			testb.Add("testb1", "b1");
-			testb.Add("testb2", "b2key");
-			Dictionary<string, Dictionary<string, string>> taskParameters = new();
-			taskParameters.Add("testa", testa);
-			taskParameters.Add("testb", testb);
+			Dictionary<string, string> testa = new()
+			{
+				{ "testa1", "a1key" },
+				{ "testa2", "a2" }
+			};
+
+			Dictionary<string, string> testb = new()
+			{
+				{ "testb1", "b1" },
+				{ "testb2", "b2key" }
+			};
+
+			Dictionary<string, Dictionary<string, string>> taskParameters = new()
+			{
+				{ "testa", testa },
+				{ "testb", testb }
+			};
 
 			CraneRedactor redactor = new();
 
@@ -41,20 +54,31 @@ namespace Crane.Internal.Test.Tests.CraneBase
 			Assert.AreEqual("*redacted*", b2);
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
 		[TestMethod]
 		public void TestRedactor_Miss_EmptyKey()
 		{
 			Dictionary<string, string> taskCfg = new();
 
-			Dictionary<string, string> testa = new();
-			testa.Add("testa1", "a1key");
-			testa.Add("testa2", "a2");
-			Dictionary<string, string> testb = new();
-			testb.Add("testb1", "b1");
-			testb.Add("testb2", "b2key");
-			Dictionary<string, Dictionary<string, string>> taskParameters = new();
-			taskParameters.Add("testa", testa);
-			taskParameters.Add("testb", testb);
+			Dictionary<string, string> testa = new()
+			{
+				{ "testa1", "a1key" },
+				{ "testa2", "a2" }
+			};
+
+			Dictionary<string, string> testb = new()
+			{
+				{ "testb1", "b1" },
+				{ "testb2", "b2key" }
+			};
+
+			Dictionary<string, Dictionary<string, string>> taskParameters = new()
+			{
+				{ "testa", testa },
+				{ "testb", testb }
+			};
 
 			CraneRedactor redactor = new();
 
@@ -75,21 +99,34 @@ namespace Crane.Internal.Test.Tests.CraneBase
 			Assert.AreEqual("b2key", b2);
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
 		[TestMethod]
 		public void TestRedactor_Miss_EmptyValue()
 		{
-			Dictionary<string, string> taskCfg = new();
-			taskCfg.Add("crane_redact", string.Empty);
+			Dictionary<string, string> taskCfg = new()
+			{
+				{ "crane_redact", string.Empty }
+			};
 
-			Dictionary<string, string> testa = new();
-			testa.Add("testa1", "a1key");
-			testa.Add("testa2", "a2");
-			Dictionary<string, string> testb = new();
-			testb.Add("testb1", "b1");
-			testb.Add("testb2", "b2key");
-			Dictionary<string, Dictionary<string, string>> taskParameters = new();
-			taskParameters.Add("testa", testa);
-			taskParameters.Add("testb", testb);
+			Dictionary<string, string> testa = new()
+			{
+				{ "testa1", "a1key" },
+				{ "testa2", "a2" }
+			};
+
+			Dictionary<string, string> testb = new()
+			{
+				{ "testb1", "b1" },
+				{ "testb2", "b2key" }
+			};
+
+			Dictionary<string, Dictionary<string, string>> taskParameters = new()
+			{
+				{ "testa", testa },
+				{ "testb", testb }
+			};
 
 			CraneRedactor redactor = new();
 

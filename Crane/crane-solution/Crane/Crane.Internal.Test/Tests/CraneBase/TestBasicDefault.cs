@@ -19,63 +19,12 @@ namespace Crane.Internal.Test.Tests.CraneBase
 			Directory.SetCurrentDirectory(craneTestDir);
 
 			// local\task.ini
-			CreateTestFile("Config.ini", "");
+			Setup.CreateTestFile("Config.ini", "");
 
 			// tasks\task.ini
-			CreateTestFile("test-task.ini", $"[task]\r\nid=default-test-task\r\ntype=test");
+			Setup.CreateTestFile("test-task.ini", $"[task]\r\nid=default-test-task\r\ntype=test");
 
-			CleanDirectory();
-		}
-
-		private static void CreateTestFile(string file, string contents)
-		{
-			var root = Directory.GetCurrentDirectory();
-
-			var compoents = file.Split("\\").ToList();
-
-			if (compoents.Count > 1)
-			{
-				compoents.Remove(compoents[compoents.Count - 1]);
-
-				var testFilepath = string.Empty;
-				foreach (var compoent in compoents)
-				{
-					if (string.IsNullOrEmpty(testFilepath))
-					{
-						testFilepath = compoent;
-					}
-					else
-					{
-						testFilepath = Path.Combine(testFilepath, compoent);
-					}
-
-					var testFilePath_1 = Path.Combine(root, testFilepath);
-
-					if (!Directory.Exists(testFilePath_1))
-					{
-						Directory.CreateDirectory(testFilePath_1);
-					}
-				}
-			}
-
-			file = Path.Combine(root, file);
-
-			File.WriteAllText(file, contents);
-		}
-
-		private static void CleanDirectory()
-		{
-			var pathway = Directory.GetCurrentDirectory();
-
-			var files = new DirectoryInfo(pathway).GetFiles();
-
-			foreach (var file in files)
-			{
-				if (!string.Equals("Config.ini", file.Name, StringComparison.OrdinalIgnoreCase) && !string.Equals("test-task.ini", file.Name, StringComparison.OrdinalIgnoreCase))
-				{
-					file.Delete();
-				}
-			}
+			Setup.CleanDirectory();
 		}
 
 		/// <summary>
@@ -121,7 +70,7 @@ namespace Crane.Internal.Test.Tests.CraneBase
 		public void TestLogger_Off_Default()
 		{
 			var testLogPathway = Directory.GetCurrentDirectory();
-			CleanDirectory();
+			Setup.CleanDirectory();
 			var dir = new DirectoryInfo(testLogPathway);
 
 			ICraneLogger logger = new CraneLogger();
@@ -172,7 +121,7 @@ namespace Crane.Internal.Test.Tests.CraneBase
 		public void TestLogger_On_Default()
 		{
 			var testLogPathway = Directory.GetCurrentDirectory();
-			CleanDirectory();
+			Setup.CleanDirectory();
 			var dir = new DirectoryInfo(testLogPathway);
 
 			ICraneLogger logger = new CraneLogger(testLogPathway);

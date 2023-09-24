@@ -25,51 +25,15 @@ namespace Crane.Internal.Test.CraneTypes
 			Directory.SetCurrentDirectory(craneTestDir);
 
 			// Database
-			CreateTestFile("Database\\proc\\proc.sql", "testproc");
-			CreateTestFile("Database\\security\\security.sql", "testsecurity");
-			CreateTestFile("Database\\table\\table.sql", "testtable");
-			CreateTestFile("Database\\view\\view.sql", "testview");
+			Setup.CreateTestFile("Database\\proc\\proc.sql", "testproc");
+			Setup.CreateTestFile("Database\\security\\security.sql", "testsecurity");
+			Setup.CreateTestFile("Database\\table\\table.sql", "testtable");
+			Setup.CreateTestFile("Database\\view\\view.sql", "testview");
 
 			// Database-2
-			CreateTestFile("Database-2\\proc\\proc.sql", "exception-2");
-			CreateTestFile("Database-2\\security\\security.sql", "testsecurity");
-			CreateTestFile("Database-2\\table\\table.sql", "exception-1");
-		}
-
-		private static void CreateTestFile(string file, string contents)
-		{
-			var root = Directory.GetCurrentDirectory();
-
-			var compoents = file.Split("\\").ToList();
-
-			if (compoents.Count > 1)
-			{
-				compoents.Remove(compoents[compoents.Count - 1]);
-
-				var testFilepath = string.Empty;
-				foreach (var compoent in compoents)
-				{
-					if (string.IsNullOrEmpty(testFilepath))
-					{
-						testFilepath = compoent;
-					}
-					else
-					{
-						testFilepath = Path.Combine(testFilepath, compoent);
-					}
-
-					var testFilePath_1 = Path.Combine(root, testFilepath);
-
-					if (!Directory.Exists(testFilePath_1))
-					{
-						Directory.CreateDirectory(testFilePath_1);
-					}
-				}
-			}
-
-			file = Path.Combine(root, file);
-
-			File.WriteAllText(file, contents);
+			Setup.CreateTestFile("Database-2\\proc\\proc.sql", "exception-2");
+			Setup.CreateTestFile("Database-2\\security\\security.sql", "testsecurity");
+			Setup.CreateTestFile("Database-2\\table\\table.sql", "exception-1");
 		}
 
 		/// <summary>

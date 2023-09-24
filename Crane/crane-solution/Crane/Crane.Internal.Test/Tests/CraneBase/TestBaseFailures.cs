@@ -15,52 +15,6 @@ namespace Crane.Internal.Test.Tests.CraneBase
 		public void Execute()
 		{
 			Setup.Basic();
-
-			//Directory.SetCurrentDirectory(craneTestDir);
-
-			// local\task.ini
-			//CreateTestFile("Config.ini", "");
-
-			// tasks\task.ini
-			//CreateTestFile("test-task.ini", $"[crane]\r\nid=default-test-task\r\ntype=test");
-
-			//CleanDirectory();
-		}
-
-		private static void CreateTestFile(string file, string contents)
-		{
-			var root = Directory.GetCurrentDirectory();
-
-			var compoents = file.Split("\\").ToList();
-
-			if (compoents.Count > 1)
-			{
-				compoents.Remove(compoents[compoents.Count - 1]);
-
-				var testFilepath = string.Empty;
-				foreach (var compoent in compoents)
-				{
-					if (string.IsNullOrEmpty(testFilepath))
-					{
-						testFilepath = compoent;
-					}
-					else
-					{
-						testFilepath = Path.Combine(testFilepath, compoent);
-					}
-
-					var testFilePath_1 = Path.Combine(root, testFilepath);
-
-					if (!Directory.Exists(testFilePath_1))
-					{
-						Directory.CreateDirectory(testFilePath_1);
-					}
-				}
-			}
-
-			file = Path.Combine(root, file);
-
-			File.WriteAllText(file, contents);
 		}
 
 		[TestMethod]
