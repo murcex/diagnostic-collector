@@ -1,5 +1,7 @@
 ﻿using Configurator;
+using KirokuG2.Internal.Loader.Components;
 using KirokuG2.Loader;
+using KirokuG2.Loader.Components;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 
 [assembly: FunctionsStartup(typeof(KirokuG2.Processor.Core.Startup))]
@@ -16,7 +18,12 @@ namespace KirokuG2.Processor.Core
 
             Configuration.Load(kiroku_cfg);
 
-            KLoaderManager.Configuration(Configuration.Storage, Configuration.Database);
+            LogProvider logProvider = new(Configuration.Storage);
+
+            SQLProvider sqlProvider = new();
+            sqlProvider.Initialized(Configuration.Database);
+
+            KLoaderManager.Configuration(logProvider, sqlProvider);
 
             KManager.Configure(true);
         }

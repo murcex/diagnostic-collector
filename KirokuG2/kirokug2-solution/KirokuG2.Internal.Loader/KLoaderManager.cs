@@ -1,29 +1,20 @@
 ﻿namespace KirokuG2.Loader
 {
-    using KirokuG2.Loader.Components;
-    using PlyQor.Client;
+    using KirokuG2.Internal.Loader.Interface;
 
     public class KLoaderManager
     {
-        private static PlyClient _plyClient;
+        private static ILogProvider _logProvider;
 
-        public static bool Configuration(PlyClient plyClient, string sqlConnection)
+        private static ISQLProvider _sqlProvider;
+
+        public static bool Configuration(ILogProvider logProvider, ISQLProvider sqlProvider)
         {
-            if (plyClient == null)
-            {
-                throw new ArgumentNullException($"PlyClient is Null");
-            }
+            _logProvider = logProvider ?? throw new ArgumentNullException($"LogProvider is Null");
 
-            if (string.IsNullOrEmpty(sqlConnection))
-            {
-                throw new ArgumentNullException($"SQL Connection value is NullOrEmpty");
-            }
+            _sqlProvider = sqlProvider ?? throw new ArgumentNullException($"SQLProvider is Null");
 
-            _plyClient = plyClient;
-
-            var sql_activation = SQLProvider.Initialized(sqlConnection);
-
-            return sql_activation;
+            return true;
         }
 
         /// <summary>
@@ -34,14 +25,14 @@
             try
             {
                 // get all id's for tag=upload
-                var log_ids = _plyClient.Select("upload", 100).GetPlyList();
+                var log_ids = _logProvider.Select("upload", 100);
 
                 foreach (var log_id in log_ids)
                 {
                     try
                     {
                         // get log instance
-                        var log = _plyClient.Select(log_id).GetPlyData();
+                        var log = _logProvider.Select(log_id);
 
                         // convert line to lines
                         var log_lines = ConvertToLines(log);
@@ -52,10 +43,10 @@
                         var normal_log_type = true;
 
                         // setup
-                        LogInstance logInstance = new LogInstance(instance);
-                        Dictionary<string, LogBlock> logBlocks = new Dictionary<string, LogBlock>();
-                        List<LogError> logErrors = new List<LogError>();
-                        List<LogMetric> logMetrics = new List<LogMetric>();
+                        LogInstance logInstance = new(instance);
+                        Dictionary<string, LogBlock> logBlocks = new();
+                        List<LogError> logErrors = new();
+                        List<LogMetric> logMetrics = new();
 
                         // foreach line
                         foreach (var log_line in log_lines)
@@ -100,7 +91,7 @@
                                 var block_tag = block_components[0].ToUpper();
                                 var block_name = block_components[1];
 
-                                LogBlock logBlock = new LogBlock(
+                                LogBlock logBlock = new(
                                     datetime,
                                     instance,
                                     block_tag,
@@ -129,7 +120,7 @@
                             // error
                             if (type == "E")
                             {
-                                LogError logError = new LogError
+                                LogError logError = new()
                                 {
                                     Timestamp = datetime,
                                     Source = source,
@@ -168,7 +159,7 @@
                             {
                                 normal_log_type = false;
 
-                                SQLProvider.InsertActivation(datetime, instance, data);
+                                _sqlProvider.InsertActivation(datetime, instance, data);
                             }
 
                             // critical
@@ -176,7 +167,7 @@
                             {
                                 normal_log_type = false;
 
-                                LogError logError = new LogError
+                                LogError logError = new()
                                 {
                                     Timestamp = datetime,
                                     Id = instance
@@ -191,7 +182,7 @@
                                 // log data contents
                                 logError.Message = data.Remove(0, activation_position);
 
-                                SQLProvider.InsertCritical(logError);
+                                _sqlProvider.InsertCritical(logError);
                             }
                         }
 
@@ -237,33 +228,33 @@
                                     logErrors.Add(error_log);
                                 }
 
-                                SQLProvider.InsertBlock(logBlock.Value);
+                                _sqlProvider.InsertBlock(logBlock.Value);
                             }
 
                             logInstance.AddErrorCount(logErrors.Count);
 
-                            SQLProvider.InsertInstance(logInstance);
+                            _sqlProvider.InsertInstance(logInstance);
 
                             // insert errors to sql
                             foreach (var logError in logErrors)
                             {
-                                SQLProvider.InsertError(logError);
+                                _sqlProvider.InsertError(logError);
                             }
 
                             // insert metrics to sql
                             foreach (var logMetric in logMetrics)
                             {
-                                SQLProvider.InsertMetric(logMetric);
+                                _sqlProvider.InsertMetric(logMetric);
                             }
                         }
 
-                        _plyClient.UpdateTag(log_id, "upload", "archive");
+                        _logProvider.UpdateTag(log_id, "upload", "archive");
                     }
                     catch (Exception ex)
                     {
-                        SQLProvider.InsertQuarantine(DateTime.UtcNow, log_id);
+                        _sqlProvider.InsertQuarantine(DateTime.UtcNow, log_id);
 
-                        _plyClient.UpdateTag(log_id, "upload", "quarantine");
+                        _logProvider.UpdateTag(log_id, "upload", "quarantine");
 
                         Console.WriteLine($"{log_id} EXCEPTION: {ex}");
                     }
@@ -284,7 +275,7 @@
         /// </summary>
         private static List<string> ConvertToLines(string input)
         {
-            List<string> lines = new List<string>();
+            List<string> lines = new();
 
             var line = string.Empty;
             using (var string_reader = new StringReader(input))
@@ -308,7 +299,7 @@
             string id,
             string data)
         {
-            LogError logError = new LogError
+            LogError logError = new()
             {
                 Timestamp = datetime,
                 Source = source,
