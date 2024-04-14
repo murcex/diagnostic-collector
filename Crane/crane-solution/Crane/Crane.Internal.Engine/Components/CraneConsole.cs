@@ -79,43 +79,6 @@ namespace Crane.Internal.Engine.Components
 			{
 				var consoleClone = redactor.Execute(taskCfg, collection);
 
-				//bool isRedact = false;
-				//List<string> redactItems = new List<string>();
-				//if (taskCfg.TryGetValue("crane_redact", out var redact))
-				//{
-				//	if (string.IsNullOrEmpty(redact))
-				//	{
-				//		isRedact = false;
-				//	}
-
-				//	redactItems = redact.Split(',').ToList();
-				//	isRedact = true;
-				//}
-				//else
-				//{
-				//	isRedact = false;
-				//}
-
-				//Dictionary<string, Dictionary<string, string>> consoleClone = new();
-				//foreach (var group in collection)
-				//{
-				//	Dictionary<string, string> groupClone = new();
-				//	foreach (var item in group.Value)
-				//	{
-				//		if (isRedact)
-				//		{
-				//			if (redactItems.Any(x => string.Equals(x, item.Key)))
-				//			{
-				//				groupClone.Add(item.Key, "*redacted*");
-
-				//				continue;
-				//			}
-				//		}
-				//		groupClone.Add(item.Key, item.Value);
-				//	}
-				//	consoleClone.Add(group.Key, groupClone);
-				//}
-
 				Console.WriteLine("Task Configuration:");
 				foreach (var group in consoleClone)
 				{

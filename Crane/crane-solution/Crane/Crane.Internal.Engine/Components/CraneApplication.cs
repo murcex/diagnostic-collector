@@ -52,13 +52,13 @@ namespace Crane.Internal.Engine.Components
 				// read task cfg
 				var taskCfg = fileManager.LoadCraneTask(logger, craneCfg, taskFile);
 
-				// conformation
+				// console conformation
 				if (fileManager.CheckForConformation(logger, craneCfg))
 				{
 					craneConsole.GeneralConformation(logger);
 				}
 
-				// switch type
+				// switch on type and execute task
 				var taskResult = taskManager.Execute(logger, craneConsole, taskCfg);
 
 				if (taskResult.result)
@@ -79,7 +79,9 @@ namespace Crane.Internal.Engine.Components
 					logger.Enable(Directory.GetCurrentDirectory());
 				}
 
-				craneConsole.Close();
+                logger.Error($"general_exception={craneEx}");
+
+                craneConsole.Close();
 			}
 			catch (Exception ex)
 			{

@@ -87,7 +87,7 @@ namespace Crane.Internal.Test.Tests.CraneBase
 		}
 
 		/// <summary>
-		/// Test the logger will use current executing directory when enabled/forced without a user provided / extenral directory
+		/// Test the logger will use current executing directory when enabled/forced without a user provided / external directory
 		/// * This would occur in the event the logger throw exception before the log path could be aquired from the Config.ini
 		/// </summary>
 		[TestMethod]
