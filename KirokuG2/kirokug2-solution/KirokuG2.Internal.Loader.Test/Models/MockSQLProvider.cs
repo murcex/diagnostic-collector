@@ -5,49 +5,58 @@ namespace KirokuG2.Internal.Loader.Test.Mocks
 {
     public class MockSQLProvider : ISQLProvider
     {
-        public MockSQLProvider()
-        {
+        private Dictionary<string, string> _tracker;
 
+        public MockSQLProvider(Dictionary<string, string> tracker)
+        {
+           _tracker = tracker;
         }
 
         public bool Initialized(string sqlConnection)
         {
-            throw new NotImplementedException();
+            return AddValueToTracker("Initialized", $"{sqlConnection}");
         }
 
         public bool InsertActivation(DateTime session, string record_id, string source)
         {
-            throw new NotImplementedException();
+            return AddValueToTracker("Activation", $"{session},{record_id},{source}");
         }
 
         public bool InsertBlock(LogBlock logBlock)
         {
-            throw new NotImplementedException();
+            return AddValueToTracker("Block", $"{logBlock.Id},{logBlock.Name},{logBlock.Tag}");
         }
 
         public bool InsertCritical(LogError logError)
         {
-            throw new NotImplementedException();
+            return AddValueToTracker("Critical", $"{logError.Id},{logError.Source}");
         }
 
         public bool InsertError(LogError logError)
         {
-            throw new NotImplementedException();
+            return AddValueToTracker("Error", $"{logError.Id}");
         }
 
         public bool InsertInstance(LogInstance logInstance)
         {
-            throw new NotImplementedException();
+            return AddValueToTracker("Instance", $"{logInstance.Id}");
         }
 
         public bool InsertMetric(LogMetric logMetric)
         {
-            throw new NotImplementedException();
+            return AddValueToTracker("Metric", $"{logMetric.Id},{logMetric.Value}");
         }
 
         public bool InsertQuarantine(DateTime session, string record_id)
         {
-            throw new NotImplementedException();
+            return AddValueToTracker("Quarantine", $"{session},{record_id}");
+        }
+
+        private bool AddValueToTracker(string group, string value)
+        {
+            _tracker.Add($"{group}-{Guid.NewGuid()}", value);
+
+            return true;
         }
     }
 }

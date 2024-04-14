@@ -9,13 +9,25 @@ namespace KirokuG2.Internal.Loader.Test
         [TestMethod]
         public void TestMethod1()
         {
-            MockLogProvider mockLogProvider = new();
+            var logId = Guid.NewGuid().ToString();
+            Dictionary<string, string> logs = new()
+            {
+                [logId] = ExampleKLogs.BasicLog()
+            };
 
-            MockSQLProvider mockSQLProvider = new();
+            Dictionary<string, string> logTracker = [];
+
+            MockLogProvider mockLogProvider = new(logs, logTracker);
+
+            Dictionary<string, string> sqlTracker = [];
+
+            MockSQLProvider mockSQLProvider = new(sqlTracker);
 
             KLoaderManager.Configuration(mockLogProvider, mockSQLProvider);
 
             KLoaderManager.ProcessLogs();
+
+            var test = 1;
         }
     }
 }
