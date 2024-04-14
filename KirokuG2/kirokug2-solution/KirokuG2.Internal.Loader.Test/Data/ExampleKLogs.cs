@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace KirokuG2.Internal.Loader.Test
+﻿namespace KirokuG2.Internal.Loader.Test.Data
 {
     public class ExampleKLogs
     {

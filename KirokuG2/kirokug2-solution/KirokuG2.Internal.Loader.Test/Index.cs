@@ -1,3 +1,4 @@
+using KirokuG2.Internal.Loader.Test.Data;
 using KirokuG2.Internal.Loader.Test.Mocks;
 using KirokuG2.Loader;
 
@@ -7,7 +8,7 @@ namespace KirokuG2.Internal.Loader.Test
     public class Index
     {
         [TestMethod]
-        public void TestMethod1()
+        public void BasicLog()
         {
             var logId = Guid.NewGuid().ToString();
             Dictionary<string, string> logs = new()
