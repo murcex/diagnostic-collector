@@ -7,14 +7,24 @@ namespace KirokuG2.Internal.Loader.Components
     {
         private static PlyClient _plyClient;
 
-        public LogProvider(PlyClient plyClient)
+        private static IKLogSeralializer _seralializer;
+
+        public LogProvider(PlyClient plyClient, IKLogSeralializer seralializer)
         {
             _plyClient = plyClient;
+            _seralializer = seralializer;
         }
 
-        public List<string> Select(string tag, int top)
+        public List<string> GetLogIds(string tag, int top)
         {
             return _plyClient.Select(tag, top).GetPlyList();
+        }
+
+        public Dictionary<string, (List<string> logs, string index)> GetLogsById(string id)
+        {
+            var logSet = _plyClient.Select(id).GetPlyData();
+
+            return _seralializer.DeseralizalizeLogSet(id, logSet);
         }
 
         public string Select(string id)

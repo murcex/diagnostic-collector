@@ -18,7 +18,7 @@ namespace KirokuG2.Processor.Core
 
             Configuration.Load(kiroku_cfg);
 
-            LogProvider logProvider = new(Configuration.Storage);
+            LogProvider logProvider = new(Configuration.Storage, new KLogSeralializer());
 
             SQLProvider sqlProvider = new();
             sqlProvider.Initialized(Configuration.Database);

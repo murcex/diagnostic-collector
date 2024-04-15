@@ -25,19 +25,32 @@
             try
             {
                 // get all id's for tag=upload
-                var log_ids = _logProvider.Select("upload", 100);
+                var log_ids = _logProvider.GetLogIds("upload", 100);
+
+                Dictionary<string, (List<string> logs, string index)> logDict = new();
 
                 foreach (var log_id in log_ids)
+                {
+                    var logSet = _logProvider.GetLogsById(log_id);
+
+                    foreach (var log in logSet)
+                    {
+                        logDict[log.Key] = log.Value;
+                    }
+                }
+
+                foreach (var rawLog in logDict)
                 {
                     try
                     {
                         // get log instance
-                        var log = _logProvider.Select(log_id);
+                        //var log = _logProvider.Select(rawLog);
+                        var log_lines = rawLog.Value.logs;
 
                         // convert line to lines
-                        var log_lines = ConvertToLines(log);
+                        //var log_lines = ConvertToLines(log);
 
-                        var instance = log_id.ToUpper();
+                        var instance = rawLog.Key.ToUpper();
                         var source = "NotSet";
                         var function = "NotSet";
                         var normal_log_type = true;
@@ -248,15 +261,15 @@
                             }
                         }
 
-                        _logProvider.UpdateTag(log_id, "upload", "archive");
+                        _logProvider.UpdateTag(rawLog.Key, "upload", "archive");
                     }
                     catch (Exception ex)
                     {
-                        _sqlProvider.InsertQuarantine(DateTime.UtcNow, log_id);
+                        _sqlProvider.InsertQuarantine(DateTime.UtcNow, rawLog.Key);
 
-                        _logProvider.UpdateTag(log_id, "upload", "quarantine");
+                        _logProvider.UpdateTag(rawLog.Key, "upload", "quarantine");
 
-                        Console.WriteLine($"{log_id} EXCEPTION: {ex}");
+                        Console.WriteLine($"{rawLog} EXCEPTION: {ex}");
                     }
                 }
             }
@@ -273,21 +286,21 @@
         /// <summary>
         /// Convert KLOG from a single string to list of strings for processing
         /// </summary>
-        private static List<string> ConvertToLines(string input)
-        {
-            List<string> lines = new();
+        //private static List<string> ConvertToLines(string input)
+        //{
+        //    List<string> lines = new();
 
-            var line = string.Empty;
-            using (var string_reader = new StringReader(input))
-            {
-                while ((line = string_reader.ReadLine()) != null)
-                {
-                    lines.Add(line);
-                }
-            }
+        //    var line = string.Empty;
+        //    using (var string_reader = new StringReader(input))
+        //    {
+        //        while ((line = string_reader.ReadLine()) != null)
+        //        {
+        //            lines.Add(line);
+        //        }
+        //    }
 
-            return lines;
-        }
+        //    return lines;
+        //}
 
         /// <summary>
         /// Create Error event inline with KLOG processing

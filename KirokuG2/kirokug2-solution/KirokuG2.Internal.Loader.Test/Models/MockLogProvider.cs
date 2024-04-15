@@ -24,7 +24,7 @@ namespace KirokuG2.Internal.Loader.Test.Mocks
             throw new Exception($"{id} Not Found");
         }
 
-        public List<string> Select(string tag, int top)
+        public List<string> GetLogIds(string tag, int top)
         {
             return _logs.Keys.ToList();
         }
@@ -32,6 +32,11 @@ namespace KirokuG2.Internal.Loader.Test.Mocks
         public void UpdateTag(string id, string tag, string newTag)
         {
             _tracker[id] = $"{tag}=>{newTag}";
+        }
+
+        public Dictionary<string, (List<string> logs, string index)> GetLogsById(string id)
+        {
+            throw new NotImplementedException();
         }
     }
 }
