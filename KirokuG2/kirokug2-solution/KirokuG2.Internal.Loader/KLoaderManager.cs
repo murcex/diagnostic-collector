@@ -27,212 +27,197 @@
                 // get all id's for tag=upload
                 var log_ids = _logProvider.GetLogIds("upload", 100);
 
-                Dictionary<string, (List<string> logs, string index)> logDict = new();
+                Dictionary<string, Dictionary<string, List<string>>> logSets = new();
 
                 foreach (var log_id in log_ids)
                 {
-                    var logSet = _logProvider.GetLogsById(log_id);
+                    var (id, logs) = _logProvider.GetLogsById(log_id);
 
-                    foreach (var log in logSet)
-                    {
-                        logDict[log.Key] = log.Value;
-                    }
+                    logSets[id] = logs;
                 }
 
-                foreach (var rawLog in logDict)
+                var logCount = 0;
+                foreach (var logSet in logSets)
                 {
-                    try
+                    var isMultiLog = logSet.Value.Count > 1;
+
+                    foreach (var log in logSet.Value)
                     {
-                        // get log instance
-                        //var log = _logProvider.Select(rawLog);
-                        var log_lines = rawLog.Value.logs;
-
-                        // convert line to lines
-                        //var log_lines = ConvertToLines(log);
-
-                        var instance = rawLog.Key.ToUpper();
-                        var source = "NotSet";
-                        var function = "NotSet";
-                        var normal_log_type = true;
-
-                        // setup
-                        LogInstance logInstance = new(instance);
-                        Dictionary<string, LogBlock> logBlocks = new();
-                        List<LogError> logErrors = new();
-                        List<LogMetric> logMetrics = new();
-
-                        // foreach line
-                        foreach (var log_line in log_lines)
+                        try
                         {
-                            var log_components = log_line.Split(',');
+                            // get log instance
+                            //var log = _logProvider.Select(rawLog);
+                            var log_lines = log.Value;
 
-                            // timestamp
-                            var datetime = DateTime.Parse(log_components[0]);
+                            // convert line to lines
+                            //var log_lines = ConvertToLines(log);
 
-                            // log event type
-                            var type = log_components[1].ToUpper();
+                            var instance = isMultiLog ? $"{logSet.Key.ToUpper()}.{log.Key.ToUpper()}" : logSet.Key.ToUpper();
+                            var source = "NotSet";
+                            var function = "NotSet";
+                            var normal_log_type = true;
 
-                            // clear preffix data
-                            var position = log_components[0].Count() + 1 + log_components[1].Count() + 1;
+                            // setup
+                            LogInstance logInstance = new(instance);
+                            Dictionary<string, LogBlock> logBlocks = new();
+                            List<LogError> logErrors = new();
+                            List<LogMetric> logMetrics = new();
 
-                            // log data contents
-                            var data = log_line.Remove(0, position);
-
-                            // start instance
-                            if (type == "I")
+                            // foreach line
+                            foreach (var log_line in log_lines)
                             {
-                                var start_instance_components = data.Split('$');
-                                source = start_instance_components[0];
-                                function = start_instance_components[1];
+                                var log_components = log_line.Split(',');
 
-                                logInstance.Update(
-                                    datetime,
-                                    source,
-                                    function);
-                            }
+                                // timestamp
+                                var datetime = DateTime.Parse(log_components[0]);
 
-                            // stop instance
-                            if (type == "SI")
-                            {
-                                logInstance.StopInstance(datetime);
-                            }
-
-                            // start block
-                            if (type == "B")
-                            {
-                                var block_components = data.Split('$');
-                                var block_tag = block_components[0].ToUpper();
-                                var block_name = block_components[1];
-
-                                LogBlock logBlock = new(
-                                    datetime,
-                                    instance,
-                                    block_tag,
-                                    block_name);
-
-                                logBlocks[block_tag] = logBlock;
-                            }
-
-                            // stop block
-                            if (type == "SB")
-                            {
-                                var block_tag = data.ToUpper();
-
-                                if (logBlocks.TryGetValue(block_tag, out LogBlock logBlockStop))
-                                {
-                                    logBlockStop.StopBlock(datetime);
-
-                                    logBlocks[block_tag] = logBlockStop;
-                                }
-                                else
-                                {
-                                    throw new Exception($"Block not found during Stop Block dictionary lookup");
-                                }
-                            }
-
-                            // error
-                            if (type == "E")
-                            {
-                                LogError logError = new()
-                                {
-                                    Timestamp = datetime,
-                                    Source = source,
-                                    Function = function,
-                                    Id = instance,
-                                    Message = data
-                                };
-
-                                logErrors.Add(logError);
-                            }
-
-                            // metrics
-                            if (type == "M")
-                            {
-                                var metric_components = data.Split('$');
-                                var metric_type = metric_components[0];
-                                var key = metric_components[1];
-                                var value = metric_components[2];
-
-                                LogMetric logMetric = new LogMetric
-                                {
-                                    Timestamp = datetime,
-                                    Source = source,
-                                    Function = function,
-                                    Id = instance,
-                                    Type = metric_type,
-                                    Key = key,
-                                    Value = value
-                                };
-
-                                logMetrics.Add(logMetric);
-                            }
-
-                            // activation
-                            if (type == "A")
-                            {
-                                normal_log_type = false;
-
-                                _sqlProvider.InsertActivation(datetime, instance, data);
-                            }
-
-                            // critical
-                            if (type == "C")
-                            {
-                                normal_log_type = false;
-
-                                LogError logError = new()
-                                {
-                                    Timestamp = datetime,
-                                    Id = instance
-                                };
-
-                                var activation_components = data.Split('$');
-                                logError.Source = activation_components[0];
+                                // log event type
+                                var type = log_components[1].ToUpper();
 
                                 // clear preffix data
-                                var activation_position = activation_components[0].Count() + 1;
+                                var position = log_components[0].Count() + 1 + log_components[1].Count() + 1;
 
                                 // log data contents
-                                logError.Message = data.Remove(0, activation_position);
+                                var data = log_line.Remove(0, position);
 
-                                _sqlProvider.InsertCritical(logError);
-                            }
-                        }
-
-
-
-                        // ------
-
-
-
-                        // if the log isn't activation or critical
-                        // act as a normal logging event that contains instance, blocks, errors, metrics, etc.
-                        if (normal_log_type)
-                        {
-                            // insert instance with duration into sql, add source and function
-                            if (!logInstance.Result)
-                            {
-                                var error_message = $"INSTANCE FAILURE";
-
-                                var error_log = CreateErrorLog(
-                                    logInstance.Start,
-                                    source,
-                                    function,
-                                    instance,
-                                    error_message);
-
-                                logErrors.Add(error_log);
-                            }
-
-                            // insert blocks with duration
-                            foreach (var logBlock in logBlocks)
-                            {
-                                if (!logBlock.Value.Result)
+                                // start instance
+                                if (type == "I")
                                 {
-                                    var error_message = $"BLOCK FAILURE";
+                                    var start_instance_components = data.Split('$');
+                                    source = start_instance_components[0];
+                                    function = start_instance_components[1];
+
+                                    logInstance.Update(
+                                        datetime,
+                                        source,
+                                        function);
+                                }
+
+                                // stop instance
+                                if (type == "SI")
+                                {
+                                    logInstance.StopInstance(datetime);
+                                }
+
+                                // start block
+                                if (type == "B")
+                                {
+                                    var block_components = data.Split('$');
+                                    var block_tag = block_components[0].ToUpper();
+                                    var block_name = block_components[1];
+
+                                    LogBlock logBlock = new(
+                                        datetime,
+                                        instance,
+                                        block_tag,
+                                        block_name);
+
+                                    logBlocks[block_tag] = logBlock;
+                                }
+
+                                // stop block
+                                if (type == "SB")
+                                {
+                                    var block_tag = data.ToUpper();
+
+                                    if (logBlocks.TryGetValue(block_tag, out LogBlock logBlockStop))
+                                    {
+                                        logBlockStop.StopBlock(datetime);
+
+                                        logBlocks[block_tag] = logBlockStop;
+                                    }
+                                    else
+                                    {
+                                        throw new Exception($"Block not found during Stop Block dictionary lookup");
+                                    }
+                                }
+
+                                // error
+                                if (type == "E")
+                                {
+                                    LogError logError = new()
+                                    {
+                                        Timestamp = datetime,
+                                        Source = source,
+                                        Function = function,
+                                        Id = instance,
+                                        Message = data
+                                    };
+
+                                    logErrors.Add(logError);
+                                }
+
+                                // metrics
+                                if (type == "M")
+                                {
+                                    var metric_components = data.Split('$');
+                                    var metric_type = metric_components[0];
+                                    var key = metric_components[1];
+                                    var value = metric_components[2];
+
+                                    LogMetric logMetric = new LogMetric
+                                    {
+                                        Timestamp = datetime,
+                                        Source = source,
+                                        Function = function,
+                                        Id = instance,
+                                        Type = metric_type,
+                                        Key = key,
+                                        Value = value
+                                    };
+
+                                    logMetrics.Add(logMetric);
+                                }
+
+                                // activation
+                                if (type == "A")
+                                {
+                                    normal_log_type = false;
+
+                                    _sqlProvider.InsertActivation(datetime, instance, data);
+                                }
+
+                                // critical
+                                if (type == "C")
+                                {
+                                    normal_log_type = false;
+
+                                    LogError logError = new()
+                                    {
+                                        Timestamp = datetime,
+                                        Id = instance
+                                    };
+
+                                    var activation_components = data.Split('$');
+                                    logError.Source = activation_components[0];
+
+                                    // clear preffix data
+                                    var activation_position = activation_components[0].Count() + 1;
+
+                                    // log data contents
+                                    logError.Message = data.Remove(0, activation_position);
+
+                                    _sqlProvider.InsertCritical(logError);
+                                }
+                            }
+
+
+
+                            // ------
+
+
+
+                            // if the log isn't activation or critical
+                            // act as a normal logging event that contains instance, blocks, errors, metrics, etc.
+                            if (normal_log_type)
+                            {
+                                // insert instance with duration into sql, add source and function
+                                if (!logInstance.Result)
+                                {
+                                    var error_message = $"INSTANCE FAILURE";
 
                                     var error_log = CreateErrorLog(
-                                        logBlock.Value.Start,
+                                        logInstance.Start,
                                         source,
                                         function,
                                         instance,
@@ -241,35 +226,53 @@
                                     logErrors.Add(error_log);
                                 }
 
-                                _sqlProvider.InsertBlock(logBlock.Value);
+                                // insert blocks with duration
+                                foreach (var logBlock in logBlocks)
+                                {
+                                    if (!logBlock.Value.Result)
+                                    {
+                                        var error_message = $"BLOCK FAILURE";
+
+                                        var error_log = CreateErrorLog(
+                                            logBlock.Value.Start,
+                                            source,
+                                            function,
+                                            instance,
+                                            error_message);
+
+                                        logErrors.Add(error_log);
+                                    }
+
+                                    _sqlProvider.InsertBlock(logBlock.Value);
+                                }
+
+                                logInstance.AddErrorCount(logErrors.Count);
+
+                                _sqlProvider.InsertInstance(logInstance);
+
+                                // insert errors to sql
+                                foreach (var logError in logErrors)
+                                {
+                                    _sqlProvider.InsertError(logError);
+                                }
+
+                                // insert metrics to sql
+                                foreach (var logMetric in logMetrics)
+                                {
+                                    _sqlProvider.InsertMetric(logMetric);
+                                }
                             }
 
-                            logInstance.AddErrorCount(logErrors.Count);
-
-                            _sqlProvider.InsertInstance(logInstance);
-
-                            // insert errors to sql
-                            foreach (var logError in logErrors)
-                            {
-                                _sqlProvider.InsertError(logError);
-                            }
-
-                            // insert metrics to sql
-                            foreach (var logMetric in logMetrics)
-                            {
-                                _sqlProvider.InsertMetric(logMetric);
-                            }
+                            _logProvider.UpdateTag(logSet.Key, "upload", "archive");
                         }
+                        catch (Exception ex)
+                        {
+                            _sqlProvider.InsertQuarantine(DateTime.UtcNow, logSet.Key);
 
-                        _logProvider.UpdateTag(rawLog.Key, "upload", "archive");
-                    }
-                    catch (Exception ex)
-                    {
-                        _sqlProvider.InsertQuarantine(DateTime.UtcNow, rawLog.Key);
+                            _logProvider.UpdateTag(logSet.Key, "upload", "quarantine");
 
-                        _logProvider.UpdateTag(rawLog.Key, "upload", "quarantine");
-
-                        Console.WriteLine($"{rawLog} EXCEPTION: {ex}");
+                            Console.WriteLine($"{logSet} EXCEPTION: {ex}");
+                        }
                     }
                 }
             }

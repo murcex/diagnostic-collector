@@ -16,7 +16,7 @@ namespace KirokuG2.Internal.Loader.Components
             Dictionary<string, (List<string> logs, string index)> logSet = new();
 
             var isFirst = true;
-            var isMulti = false;
+            var count = 0;
             var isFirstMultiLog = true;
             var tempIndex = string.Empty;
             var tempLog = new List<string>();
@@ -24,16 +24,23 @@ namespace KirokuG2.Internal.Loader.Components
             {
                 if (isFirst)
                 {
-                    if (line.StartsWith("###start", StringComparison.OrdinalIgnoreCase))
+                    if (line.StartsWith("##multilog-start=", StringComparison.OrdinalIgnoreCase))
                     {
-                        isMulti = true;
-                    }
+                        _ = int.TryParse(line.Replace("##multilog-start=", string.Empty), out count);
+                        isFirst = false;
 
-                    isFirst = false;
+                        continue;
+                    }
+                    else
+                    {
+                        logSet[id] = (rawLogAsLines, string.Empty);
+
+                        return logSet;
+                    };
                 }
-                else if (isMulti)
+                else
                 {
-                    if (line.StartsWith("##") || line.StartsWith("###end"))
+                    if (line.StartsWith("#index=") || line.StartsWith("##multilog-end"))
                     {
                         if (!isFirstMultiLog)
                         {
@@ -56,12 +63,6 @@ namespace KirokuG2.Internal.Loader.Components
                         // add line as new document
                         tempLog.Add(line);
                     }
-                }
-                else
-                {
-                    logSet[id] = (rawLogAsLines, string.Empty);
-
-                    return logSet;
                 }
             }
 
@@ -89,7 +90,7 @@ namespace KirokuG2.Internal.Loader.Components
 
         private static string GetIndex(string line)
         {
-            return line.Replace("##", "").Trim();
+            return line.Replace("##index=", "").Trim();
         }
     }
 }
