@@ -34,24 +34,24 @@ namespace Crane.Internal.Test.Tests.CraneBase
 			Setup.CleanDirectory("log-test");
 		}
 
-		private static void CleanDirectory(string pathway)
-		{
-			pathway = Path.Combine(Directory.GetCurrentDirectory(), pathway);
+		//private static void CleanDirectory(string pathway)
+		//{
+		//	pathway = Path.Combine(Directory.GetCurrentDirectory(), pathway);
 
-			var dir = new DirectoryInfo(pathway);
+		//	var dir = new DirectoryInfo(pathway);
 
-			foreach (FileInfo file in dir.GetFiles())
-			{
-				file.Delete();
-			}
-			foreach (var nestedDir in dir.GetDirectories())
-			{
-				nestedDir.Delete(true);
-			}
-		}
+		//	foreach (FileInfo file in dir.GetFiles())
+		//	{
+		//		file.Delete();
+		//	}
+		//	foreach (var nestedDir in dir.GetDirectories())
+		//	{
+		//		nestedDir.Delete(true);
+		//	}
+		//}
 
 		/// <summary>
-		/// Test basic crane execution using user provided / external task directory
+		/// Test basic crane execution with user provided / external task directory
 		/// (1) Load "test-task.ini" from external directory
 		/// (2) Set Logger to external directory
 		/// </summary>
@@ -87,7 +87,7 @@ namespace Crane.Internal.Test.Tests.CraneBase
 		}
 
 		/// <summary>
-		/// Test the logger will use current executing directory when enabled/forced without a user provided / external directory
+		/// Test that the logger will use the current executing directory when enabled/forced without a user provided / external directory
 		/// * This would occur in the event the logger throw exception before the log path could be aquired from the Config.ini
 		/// </summary>
 		[TestMethod]
@@ -124,7 +124,7 @@ namespace Crane.Internal.Test.Tests.CraneBase
 		}
 
 		/// <summary>
-		/// Test the logger will use the user provided / external directory when provided
+		/// Test that the logger will use the user provided / external directory when provided
 		/// * This will only occur if the log=<directory> is provided in the Config.ini
 		/// </summary>
 		[TestMethod]

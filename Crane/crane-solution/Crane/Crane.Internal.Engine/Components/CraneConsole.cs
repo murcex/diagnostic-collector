@@ -5,7 +5,7 @@ namespace Crane.Internal.Engine.Components
 {
 	public class CraneConsole : ICraneConsole
 	{
-		ICraneRedactor redactor;
+        readonly ICraneRedactor redactor;
 
 		public CraneConsole(ICraneRedactor radactor)
 		{
