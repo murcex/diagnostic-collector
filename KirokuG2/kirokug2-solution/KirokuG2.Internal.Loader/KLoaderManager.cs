@@ -262,18 +262,25 @@
                                     _sqlProvider.InsertMetric(logMetric);
                                 }
                             }
-
-                            _logProvider.UpdateTag(logSet.Key, "upload", "archive");
                         }
                         catch (Exception ex)
                         {
-                            _sqlProvider.InsertQuarantine(DateTime.UtcNow, logSet.Key);
+                            if (isMultiLog)
+                            {
+                                // log error as multi log index
+                            }
+                            else
+                            {
+                                _sqlProvider.InsertQuarantine(DateTime.UtcNow, logSet.Key);
 
-                            _logProvider.UpdateTag(logSet.Key, "upload", "quarantine");
+                                _logProvider.UpdateTag(logSet.Key, "upload", "quarantine");
 
-                            Console.WriteLine($"{logSet} EXCEPTION: {ex}");
+                                Console.WriteLine($"{logSet} EXCEPTION: {ex}");
+                            }
                         }
                     }
+
+                    _logProvider.UpdateTag(logSet.Key, "upload", "archive");
                 }
             }
             catch (Exception ex)
