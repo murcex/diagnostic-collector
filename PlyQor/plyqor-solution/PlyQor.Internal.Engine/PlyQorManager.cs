@@ -1,178 +1,247 @@
 ﻿namespace PlyQor.Engine
 {
-    using PlyQor.Engine.Components.Query;
-    using PlyQor.Engine.Components.Validation;
-    using PlyQor.Engine.Core;
-    using PlyQor.Engine.Resources;
-    using PlyQor.Models;
-    using PlyQor.Resources;
-    using System;
-    using System.Collections.Generic;
-    using System.Text.Json;
+	using PlyQor.Engine.Components.Query;
+	using PlyQor.Engine.Components.Validation;
+	using PlyQor.Engine.Core;
+	using PlyQor.Engine.Resources;
+	using PlyQor.Internal.Engine.Components;
+	using PlyQor.Models;
+	using PlyQor.Resources;
+	using System;
+	using System.Collections.Generic;
+	using System.Text.Json;
 
-    public class PlyQorManager
-    {
-        public static bool Initialize(Dictionary<string, Dictionary<string, string>> configuration)
-        {
-            if (configuration == null || configuration.Count == 0)
-            {
-                // TODO: hold for pylon replacement
-                throw new Exception("PlyQorManager Initialize Failure");
-            }
+	public class PlyQorManager
+	{
+		public static bool Initialize(Dictionary<string, Dictionary<string, string>> configuration)
+		{
+			if (configuration == null || configuration.Count == 0)
+			{
+				// TODO: hold for pylon replacement
+				throw new Exception("PlyQorManager Initialize Failure");
+			}
 
-            return Initializer.Execute(configuration);
-        }
+			return Initializer.Execute(configuration);
+		}
 
-        public static string Query(string query)
-        {
-            var traceId = Guid.NewGuid().ToString();
-            Dictionary<string, string> resultDictionary = new Dictionary<string, string>();
+		public static string Query(string query)
+		{
+			var traceId = Guid.NewGuid().ToString();
+			Dictionary<string, string> resultDictionary = new Dictionary<string, string>();
 
-            using (PlyQorTrace trace = new PlyQorTrace(Configuration.DatabaseConnection, traceId))
-            {
-                try
-                {
-                    var requestDictionary = ValidationProvider.GenerateDictionary(query);
+			using (PlyQorTrace trace = new PlyQorTrace(Configuration.DatabaseConnection, traceId))
+			{
+				try
+				{
+					var requestDictionary = ValidationProvider.GenerateDictionary(query);
 
-                    RequestManager requestManager = new RequestManager(requestDictionary);
+					RequestManager requestManager = new RequestManager(requestDictionary);
 
-                    var token = requestManager.GetRequestStringValue(RequestKeys.Token);
+					var token = requestManager.GetRequestStringValue(RequestKeys.Token);
 
-                    var container = requestManager.GetRequestStringValue(RequestKeys.Container);
+					var container = requestManager.GetRequestStringValue(RequestKeys.Container);
 
-                    trace.AddContainer(container);
+					trace.AddContainer(container);
 
-                    ValidationProvider.CheckToken(container, token);
+					ValidationProvider.CheckToken(container, token);
 
-                    var operation = requestManager.GetRequestStringValue(RequestKeys.Operation);
+					var operation = requestManager.GetRequestStringValue(RequestKeys.Operation);
 
-                    trace.AddOperation(operation);
+					trace.AddOperation(operation);
 
-                    ValidationProvider.CheckOperation(operation);
+					ValidationProvider.CheckOperation(operation);
 
-                    resultDictionary = ExecuteQuery(operation, requestManager);
-                }
-                catch (PlyQorException javelinException)
-                {
-                    if (javelinException.Message == StatusCode.ERRMALFORM)
-                    {
-                        trace.AddCode(StatusCode.ERRMALFORM);
-                        return StatusCode.ERR400;
-                    }
+					resultDictionary = QueryOperator.Execute(operation, requestManager);
+				}
+				catch (PlyQorException javelinException)
+				{
+					if (javelinException.Message == StatusCode.ERRMALFORM)
+					{
+						trace.AddCode(StatusCode.ERRMALFORM);
+						return StatusCode.ERR400;
+					}
 
-                    if (javelinException.Message == StatusCode.ERRBLOCK)
-                    {
-                        trace.AddCode(StatusCode.ERRBLOCK);
-                        return StatusCode.ERR401;
-                    }
+					if (javelinException.Message == StatusCode.ERRBLOCK)
+					{
+						trace.AddCode(StatusCode.ERRBLOCK);
+						return StatusCode.ERR401;
+					}
 
-                    resultDictionary.Add(ResultKeys.Status, ResultValues.False);
-                    resultDictionary.Add(ResultKeys.Code, javelinException.Message);
-                    trace.AddCode(javelinException.Message);
-                }
+					resultDictionary.Add(ResultKeys.Status, ResultValues.False);
+					resultDictionary.Add(ResultKeys.Code, javelinException.Message);
+					trace.AddCode(javelinException.Message);
+				}
 
-                resultDictionary.Add(ResultKeys.Trace, traceId);
-                var result = JsonSerializer.Serialize(resultDictionary);
-                return result;
-            }
-        }
+				resultDictionary.Add(ResultKeys.Trace, traceId);
+				var result = JsonSerializer.Serialize(resultDictionary);
+				return result;
+			}
+		}
 
-        // TODO: move to validation class?
-        /// <summary>
-        /// Submit request to query engine for execution.
-        /// </summary>
-        private static Dictionary<string, string> ExecuteQuery(
-            string operation,
-            RequestManager request)
-        {
-            return operation switch
-            {
-                // TODO: (switch) move literal string to const
-                "InsertKey" => QueryProvider.InsertKey(request),
-                "InsertTag" => QueryProvider.InsertTag(request),
+		public static bool Retention()
+		{
+			// replace with global container-retention list
+			var containers = Configuration.RetentionPolicy;
 
-                "SelectKey" => QueryProvider.SelectKey(request),
-                "SelectTags" => QueryProvider.SelectTags(request),
-                "SelectTagCount" => QueryProvider.SelectTagCount(request),
-                "SelectKeyList" => QueryProvider.SelectKeyList(request),
-                "SelectKeyTags" => QueryProvider.SelectKeyTags(request),
+			// foreach container
+			foreach (var container in containers)
+			{
+				var dataRetentionActivityId = Guid.NewGuid().ToString();
 
-                "UpdateKey" => QueryProvider.UpdateKey(request),
-                "UpdateData" => QueryProvider.UpdateData(request),
-                "UpdateTag" => QueryProvider.UpdateTag(request),
-                "UpdateKeyTag" => QueryProvider.UpdateKeyTag(request),
+				using (PlyQorTrace trace = new PlyQorTrace(Configuration.DatabaseConnection, dataRetentionActivityId))
+				{
+					trace.AddContainer(container.Key);
+					trace.AddOperation(PlyQorManagerValues.DataRetentionOperation);
 
-                "DeleteKey" => QueryProvider.DeleteKey(request),
-                "DeleteTag" => QueryProvider.DeleteTag(request),
-                "DeleteKeyTags" => QueryProvider.DeleteKeyTags(request),
-                "DeleteKeyTag" => QueryProvider.DeleteKeyTag(request),
+					try
+					{
+						// build request dictionary
+						Dictionary<string, string> request = new Dictionary<string, string>
+						{
+							{ RequestKeys.Container, container.Key },
+							{ RequestKeys.Aux, container.Value.ToString() }
+						};
 
-                _ => new Dictionary<string, string>(),
-            };
-        }
+						// build request
+						RequestManager requestManager = new RequestManager(request);
 
-        public static bool Retention()
-        {
-            // replace with global container-retention list
-            var containers = Configuration.RetentionPolicy;
+						// execute
+						QueryProvider.DataRetention(requestManager);
+					}
+					catch (PlyQorException javelinException)
+					{
+						trace.AddCode(javelinException.Message);
+					}
+				}
+			}
 
-            // foreach container
-            foreach (var container in containers)
-            {
-                var dataRetentionActivityId = Guid.NewGuid().ToString();
+			var activityId = Guid.NewGuid().ToString();
 
-                using (PlyQorTrace trace = new PlyQorTrace(Configuration.DatabaseConnection, dataRetentionActivityId))
-                {
-                    trace.AddContainer(container.Key);
-                    trace.AddOperation(PlyQorManagerValues.DataRetentionOperation);
+			using (PlyQorTrace trace = new PlyQorTrace(Configuration.DatabaseConnection, activityId))
+			{
+				trace.AddContainer(PlyQorManagerValues.SystemContainer);
+				trace.AddOperation(PlyQorManagerValues.TraceRetentionOperation);
 
-                    try
-                    {
-                        // build request dictionary
-                        Dictionary<string, string> request = new Dictionary<string, string>();
-                        request.Add(RequestKeys.Container, container.Key);
-                        request.Add(RequestKeys.Aux, container.Value.ToString());
+				try
+				{
+					// build request dictionary
+					Dictionary<string, string> request = new Dictionary<string, string>();
+					request.Add(RequestKeys.Aux, Configuration.TraceRetention);
 
-                        // build request
-                        RequestManager requestManager = new RequestManager(request);
+					// build request
+					RequestManager requestManager = new RequestManager(request);
 
-                        // execute
-                        QueryProvider.DataRetention(requestManager);
-                    }
-                    catch (PlyQorException javelinException)
-                    {
-                        trace.AddCode(javelinException.Message);
-                    }
-                }
-            }
+					// execute
+					QueryProvider.TraceRetention(requestManager);
 
-            var activityId = Guid.NewGuid().ToString();
+				}
+				catch (PlyQorException plyqorException)
+				{
+					trace.AddCode(plyqorException.Message);
+				}
+			}
 
-            using (PlyQorTrace trace = new PlyQorTrace(Configuration.DatabaseConnection, activityId))
-            {
-                trace.AddContainer(PlyQorManagerValues.SystemContainer);
-                trace.AddOperation(PlyQorManagerValues.TraceRetentionOperation);
+			return true;
+		}
 
-                try
-                {
-                    // build request dictionary
-                    Dictionary<string, string> request = new Dictionary<string, string>();
-                    request.Add(RequestKeys.Aux, Configuration.TraceRetention);
+		public static string System(string query)
+		{
+			var traceId = Guid.NewGuid().ToString();
+			Dictionary<string, string> resultDictionary = new Dictionary<string, string>();
 
-                    // build request
-                    RequestManager requestManager = new RequestManager(request);
+			using (PlyQorTrace trace = new PlyQorTrace(Configuration.DatabaseConnection, traceId))
+			{
+				try
+				{
+					var requestDictionary = ValidationProvider.GenerateDictionary(query);
 
-                    // execute
-                    QueryProvider.TraceRetention(requestManager);
+					// TODO: switch to dictionary only
+					RequestManager requestManager = new RequestManager(requestDictionary);
 
-                }
-                catch (PlyQorException javelinException)
-                {
-                    trace.AddCode(javelinException.Message);
-                }
-            }
+					// TODO: switch to admin tokens
+					var token = requestManager.GetRequestStringValue(RequestKeys.Token);
 
-            return true;
-        }
-    }
+					// TODO: remove or hardcode
+					var container = requestManager.GetRequestStringValue(RequestKeys.Container);
+
+					trace.AddContainer(container);
+
+					ValidationProvider.CheckToken(container, token);
+
+					var operation = requestManager.GetRequestStringValue(RequestKeys.Operation);
+
+					trace.AddOperation(operation);
+
+					// TODO: add system ops for check
+					ValidationProvider.CheckOperation(operation);
+
+					// TODO: system version of execute query
+					resultDictionary = ExecuteSystemQuery(operation, requestManager);
+				}
+				catch (PlyQorException plyqorException)
+				{
+					if (plyqorException.Message == StatusCode.ERRMALFORM)
+					{
+						trace.AddCode(StatusCode.ERRMALFORM);
+						return StatusCode.ERR400;
+					}
+
+					if (plyqorException.Message == StatusCode.ERRBLOCK)
+					{
+						trace.AddCode(StatusCode.ERRBLOCK);
+						return StatusCode.ERR401;
+					}
+
+					resultDictionary.Add(ResultKeys.Status, ResultValues.False);
+					resultDictionary.Add(ResultKeys.Code, plyqorException.Message);
+					trace.AddCode(plyqorException.Message);
+				}
+
+				resultDictionary.Add(ResultKeys.Trace, traceId);
+				var result = JsonSerializer.Serialize(resultDictionary);
+				return result;
+			}
+		}
+
+		private static Dictionary<string, string> ExecuteSystemQuery(
+			string operation,
+			RequestManager request)
+		{
+			return operation switch
+			{
+
+				// CreateContainer
+				// ListContainers
+				// DeleteContainer
+
+				// ListTokens
+				// DeleteToken
+				// AddToken
+
+				// UpdateRetention
+
+				// TODO: (switch) move literal string to const
+				"InsertKey" => QueryProvider.InsertKey(request),
+				"InsertTag" => QueryProvider.InsertTag(request),
+
+				"SelectKey" => QueryProvider.SelectKey(request),
+				"SelectTags" => QueryProvider.SelectTags(request),
+				"SelectTagCount" => QueryProvider.SelectTagCount(request),
+				"SelectKeyList" => QueryProvider.SelectKeyList(request),
+				"SelectKeyTags" => QueryProvider.SelectKeyTags(request),
+
+				"UpdateKey" => QueryProvider.UpdateKey(request),
+				"UpdateData" => QueryProvider.UpdateData(request),
+				"UpdateTag" => QueryProvider.UpdateTag(request),
+				"UpdateKeyTag" => QueryProvider.UpdateKeyTag(request),
+
+				"DeleteKey" => QueryProvider.DeleteKey(request),
+				"DeleteTag" => QueryProvider.DeleteTag(request),
+				"DeleteKeyTags" => QueryProvider.DeleteKeyTags(request),
+				"DeleteKeyTag" => QueryProvider.DeleteKeyTag(request),
+
+				_ => new Dictionary<string, string>(),
+			};
+		}
+	}
 }
