@@ -28,6 +28,8 @@
                 // get all id's for tag=upload
                 var logIds = _logProvider.GetLogIds("upload", 100);
 
+                klog.Metric("kload_doc_cnt", logIds.Count);
+
                 Dictionary<string, Dictionary<string, List<string>>> logSets = new();
 
                 foreach (var logId in logIds)
@@ -276,10 +278,14 @@
                                 klog.Error($"{logSet} EXCEPTION: {ex}");
                             }
                         }
-                    }
+
+						logCount++;
+					}
 
                     _logProvider.UpdateTag(logSet.Key, "upload", "archive");
                 }
+
+                klog.Metric("kload_log_cnt", logCount);
             }
             catch (Exception ex)
             {

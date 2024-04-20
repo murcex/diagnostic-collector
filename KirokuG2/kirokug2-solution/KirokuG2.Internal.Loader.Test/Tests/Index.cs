@@ -5,7 +5,7 @@ using KirokuG2.Internal.Loader.Test.Models;
 using KirokuG2.Loader;
 using System.Text;
 
-namespace KirokuG2.Internal.Loader.Test
+namespace KirokuG2.Internal.Loader.Test.Tests
 {
     [TestClass]
     public class Index
@@ -36,42 +36,44 @@ namespace KirokuG2.Internal.Loader.Test
             KLoaderManager.ProcessLogs(mockKLog);
 
             Assert.AreEqual(4, sqlTracker.Count);
-            Assert.AreEqual(0, klogTracker.Count);
+            Assert.AreEqual(2, klogTracker.Count);
+
+            var results = Utilities.GetResults(sqlTracker);
 
             var test = 1;
         }
 
-		[TestMethod]
-		public void ProcessLogs_MultiInstance()
-		{
-			var logId = Guid.NewGuid().ToString();
+        [TestMethod]
+        public void ProcessLogs_MultiInstance()
+        {
+            var logId = Guid.NewGuid().ToString();
             var logId2 = Guid.NewGuid().ToString();
-			Dictionary<string, string> logs = new()
-			{
-				[logId] = ExampleKLogs.BasicInstanceLog(),
+            Dictionary<string, string> logs = new()
+            {
+                [logId] = ExampleKLogs.BasicInstanceLog(),
                 [logId2] = ExampleKLogs.MultiInstanceLog()
-			};
+            };
 
-			Dictionary<string, string> logTracker = [];
+            Dictionary<string, string> logTracker = [];
 
-			MockLogProvider mockLogProvider = new(logs, logTracker);
+            MockLogProvider mockLogProvider = new(logs, logTracker);
 
-			Dictionary<string, string> sqlTracker = [];
+            Dictionary<string, string> sqlTracker = [];
 
-			MockSQLProvider mockSQLProvider = new(sqlTracker);
+            MockSQLProvider mockSQLProvider = new(sqlTracker);
 
-			KLoaderManager.Configuration(mockLogProvider, mockSQLProvider);
+            KLoaderManager.Configuration(mockLogProvider, mockSQLProvider);
 
-			List<string> klogTracker = new();
+            List<string> klogTracker = new();
 
-			MockKLog mockKLog = new MockKLog(klogTracker);
+            MockKLog mockKLog = new MockKLog(klogTracker);
 
-			KLoaderManager.ProcessLogs(mockKLog);
+            KLoaderManager.ProcessLogs(mockKLog);
 
-			var test = 1;
-		}
+            var test = 1;
+        }
 
-		[TestMethod]
+        [TestMethod]
         public void Component_KLogSeralializer()
         {
             var seralializer = new KLogSeralializer();

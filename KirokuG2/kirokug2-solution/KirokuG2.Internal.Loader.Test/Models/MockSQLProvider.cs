@@ -5,10 +5,13 @@ namespace KirokuG2.Internal.Loader.Test.Mocks
 {
     public class MockSQLProvider : ISQLProvider
     {
+        private int _index;
+        
         private Dictionary<string, string> _tracker;
 
         public MockSQLProvider(Dictionary<string, string> tracker)
         {
+            _index = 0;
             _tracker = tracker;
         }
 
@@ -54,7 +57,9 @@ namespace KirokuG2.Internal.Loader.Test.Mocks
 
         private bool AddValueToTracker(string group, string value)
         {
-            _tracker.Add($"{group}-{Guid.NewGuid()}", value);
+            _tracker.Add($"{_index}-{group}", value);
+
+            _index++;
 
             return true;
         }

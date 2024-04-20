@@ -18,7 +18,7 @@ namespace KirokuG2.Processor.Functions
                 }
                 catch (Exception ex)
                 {
-                    klog.Error(ex.ToString());
+                    klog.Error($"ProcessorLogs EXCEPTION: {ex}");
                 }
             }
         }
