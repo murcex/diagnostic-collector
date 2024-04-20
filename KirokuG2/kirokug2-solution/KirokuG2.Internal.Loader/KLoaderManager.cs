@@ -1,6 +1,7 @@
 ﻿namespace KirokuG2.Loader
 {
-    using KirokuG2.Internal.Loader.Interface;
+	using KirokuG2.Internal;
+	using KirokuG2.Internal.Loader.Interface;
 
     public class KLoaderManager
     {
@@ -20,20 +21,20 @@
         /// <summary>
         /// Process KLOG's marked for uploading into Kiroku database
         /// </summary>
-        public static bool ProcessLogs()
+        public static bool ProcessLogs(IKLog klog)
         {
             try
             {
                 // get all id's for tag=upload
-                var log_ids = _logProvider.GetLogIds("upload", 100);
+                var logIds = _logProvider.GetLogIds("upload", 100);
 
                 Dictionary<string, Dictionary<string, List<string>>> logSets = new();
 
-                foreach (var log_id in log_ids)
+                foreach (var logId in logIds)
                 {
-                    var (id, logs) = _logProvider.GetLogsById(log_id);
+                    var logs = _logProvider.GetLogsById(logId);
 
-                    logSets[id] = logs;
+                    logSets[logId] = new Dictionary<string, List<string>>(logs);
                 }
 
                 var logCount = 0;
@@ -46,11 +47,7 @@
                         try
                         {
                             // get log instance
-                            //var log = _logProvider.Select(rawLog);
                             var log_lines = log.Value;
-
-                            // convert line to lines
-                            //var log_lines = ConvertToLines(log);
 
                             var instance = isMultiLog ? $"{logSet.Key.ToUpper()}.{log.Key.ToUpper()}" : logSet.Key.ToUpper();
                             var source = "NotSet";
@@ -268,6 +265,7 @@
                             if (isMultiLog)
                             {
                                 // log error as multi log index
+                                klog.Error($"{logSet.Key.ToUpper()}.{log.Key.ToUpper()} EXCEPTION: {ex}");
                             }
                             else
                             {
@@ -275,7 +273,7 @@
 
                                 _logProvider.UpdateTag(logSet.Key, "upload", "quarantine");
 
-                                Console.WriteLine($"{logSet} EXCEPTION: {ex}");
+                                klog.Error($"{logSet} EXCEPTION: {ex}");
                             }
                         }
                     }
@@ -285,32 +283,13 @@
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"SESSION EXCEPTION: {ex}");
+                klog.Error($"SESSION EXCEPTION: {ex}");
 
                 return false;
             }
 
             return true;
         }
-
-        /// <summary>
-        /// Convert KLOG from a single string to list of strings for processing
-        /// </summary>
-        //private static List<string> ConvertToLines(string input)
-        //{
-        //    List<string> lines = new();
-
-        //    var line = string.Empty;
-        //    using (var string_reader = new StringReader(input))
-        //    {
-        //        while ((line = string_reader.ReadLine()) != null)
-        //        {
-        //            lines.Add(line);
-        //        }
-        //    }
-
-        //    return lines;
-        //}
 
         /// <summary>
         /// Create Error event inline with KLOG processing

@@ -9,46 +9,44 @@ namespace KirokuG2.Internal.Loader.Components
 
         }
 
-        public Dictionary<string, (List<string> logs, string index)> DeseralizalizeLogSet(string id, string rawLog)
+        public Dictionary<string, List<string>> DeseralizalizeLogSet(string rawLog)
         {
             var rawLogAsLines = ConvertToLines(rawLog);
 
-            Dictionary<string, (List<string> logs, string index)> logSet = new();
+            Dictionary<string, List<string>> logs = new();
 
             var isFirst = true;
-            var count = 0;
             var isFirstMultiLog = true;
             var tempIndex = string.Empty;
-            var tempLog = new List<string>();
+            var tempLogs = new List<string>();
             foreach (var line in rawLogAsLines)
             {
                 if (isFirst)
                 {
-                    if (line.StartsWith("##multilog-start=", StringComparison.OrdinalIgnoreCase))
+                    if (line.StartsWith("##multi-log-start", StringComparison.OrdinalIgnoreCase))
                     {
-                        _ = int.TryParse(line.Replace("##multilog-start=", string.Empty), out count);
                         isFirst = false;
 
                         continue;
                     }
                     else
                     {
-                        logSet[id] = (rawLogAsLines, string.Empty);
+                        logs["1"] = rawLogAsLines;
 
-                        return logSet;
+                        return logs;
                     };
                 }
                 else
                 {
-                    if (line.StartsWith("#index=") || line.StartsWith("##multilog-end"))
+                    if (line.StartsWith("#index=") || line.StartsWith("##multi-log-end"))
                     {
                         if (!isFirstMultiLog)
                         {
                             // add log to log set
-                            logSet[$"{id}.{tempIndex}"] = (new List<string>(tempLog), tempIndex);
+                            logs[new string(tempIndex)] = new List<string>(tempLogs);
 
                             // clean old temp log
-                            tempLog.Clear();
+                            tempLogs.Clear();
                         }
                         else
                         {
@@ -61,12 +59,12 @@ namespace KirokuG2.Internal.Loader.Components
                     else
                     {
                         // add line as new document
-                        tempLog.Add(line);
+                        tempLogs.Add(line);
                     }
                 }
             }
 
-            return logSet;
+            return logs;
         }
 
         /// <summary>
@@ -90,7 +88,7 @@ namespace KirokuG2.Internal.Loader.Components
 
         private static string GetIndex(string line)
         {
-            return line.Replace("##index=", "").Trim();
+            return line.Replace("#index=", "").Trim();
         }
     }
 }

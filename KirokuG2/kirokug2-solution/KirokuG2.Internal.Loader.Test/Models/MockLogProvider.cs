@@ -1,4 +1,5 @@
-﻿using KirokuG2.Internal.Loader.Interface;
+﻿using KirokuG2.Internal.Loader.Components;
+using KirokuG2.Internal.Loader.Interface;
 
 namespace KirokuG2.Internal.Loader.Test.Mocks
 {
@@ -8,10 +9,14 @@ namespace KirokuG2.Internal.Loader.Test.Mocks
 
         private Dictionary<string, string> _tracker;
 
-        public MockLogProvider(Dictionary<string, string> logs, Dictionary<string, string> tracker)
+        private KLogSeralializer _logSeralializer;
+
+		public MockLogProvider(Dictionary<string, string> logs, Dictionary<string, string> tracker)
         {
             _logs = logs;
             _tracker = tracker;
+            _logSeralializer = new KLogSeralializer();
+            
         }
 
         public string Select(string id)
@@ -34,9 +39,14 @@ namespace KirokuG2.Internal.Loader.Test.Mocks
             _tracker[id] = $"{tag}=>{newTag}";
         }
 
-        public Dictionary<string, (List<string> logs, string index)> GetLogsById(string id)
+        public Dictionary<string, List<string>> GetLogsById(string id)
         {
-            throw new NotImplementedException();
-        }
+			if (_logs.TryGetValue(id, out var value))
+			{
+				return _logSeralializer.DeseralizalizeLogSet(value);
+			}
+
+			throw new Exception($"{id} Not Found");
+		}
     }
 }

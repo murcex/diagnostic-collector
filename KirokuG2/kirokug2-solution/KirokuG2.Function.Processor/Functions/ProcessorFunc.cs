@@ -14,7 +14,7 @@ namespace KirokuG2.Processor.Functions
             {
                 try
                 {
-                    KLoaderManager.ProcessLogs();
+                    KLoaderManager.ProcessLogs(klog);
                 }
                 catch (Exception ex)
                 {

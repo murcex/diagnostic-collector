@@ -20,11 +20,11 @@ namespace KirokuG2.Internal.Loader.Components
             return _plyClient.Select(tag, top).GetPlyList();
         }
 
-        public Dictionary<string, (List<string> logs, string index)> GetLogsById(string id)
+        public Dictionary<string, List<string>> GetLogsById(string id)
         {
-            var logSet = _plyClient.Select(id).GetPlyData();
+            var logData = _plyClient.Select(id).GetPlyData();
 
-            return _seralializer.DeseralizalizeLogSet(id, logSet);
+            return _seralializer.DeseralizalizeLogSet(logData);
         }
 
         public string Select(string id)

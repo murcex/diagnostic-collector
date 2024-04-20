@@ -2,6 +2,6 @@
 {
     public interface IKLogSeralializer
     {
-        Dictionary<string, (List<string> logs, string index)> DeseralizalizeLogSet(string id, string rawLog);
+		Dictionary<string, List<string>> DeseralizalizeLogSet(string rawLog);
     }
 }
