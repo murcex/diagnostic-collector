@@ -4,10 +4,10 @@ using Crane.Internal.Test.Core;
 using Crane.Internal.Test.Mock;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Crane.Internal.Test.Tests.CraneBase
+namespace Crane.Internal.Test.Tests.CraneComponents
 {
 	[TestClass]
-	public class TestBaseExternal
+	public class TestComponentsAsExternal
 	{
 		private string craneTestDir;
 
@@ -33,22 +33,6 @@ namespace Crane.Internal.Test.Tests.CraneBase
 			Setup.CreateTestFile("log-test\\_", $"");
 			Setup.CleanDirectory("log-test");
 		}
-
-		//private static void CleanDirectory(string pathway)
-		//{
-		//	pathway = Path.Combine(Directory.GetCurrentDirectory(), pathway);
-
-		//	var dir = new DirectoryInfo(pathway);
-
-		//	foreach (FileInfo file in dir.GetFiles())
-		//	{
-		//		file.Delete();
-		//	}
-		//	foreach (var nestedDir in dir.GetDirectories())
-		//	{
-		//		nestedDir.Delete(true);
-		//	}
-		//}
 
 		/// <summary>
 		/// Test basic crane execution with user provided / external task directory

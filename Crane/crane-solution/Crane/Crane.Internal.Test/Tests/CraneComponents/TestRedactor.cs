@@ -1,7 +1,7 @@
 ﻿using Crane.Internal.Engine.Components;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Crane.Internal.Test.Tests.CraneBase
+namespace Crane.Internal.Test.Tests.CraneComponents
 {
 	[TestClass]
 	public class TestRedactor
@@ -87,16 +87,16 @@ namespace Crane.Internal.Test.Tests.CraneBase
 			var consoleCollection = redactor.Execute(taskCfg, taskParameters);
 
 			consoleCollection.TryGetValue("testa", out var testaColsone);
-            Assert.IsNotNull(testaColsone);
-            Assert.AreEqual(2, testaColsone.Count);
+			Assert.IsNotNull(testaColsone);
+			Assert.AreEqual(2, testaColsone.Count);
 			var a1 = testaColsone["testa1"];
 			var a2 = testaColsone["testa2"];
 			Assert.AreEqual("a1key", a1);
 			Assert.AreEqual("a2", a2);
 
 			consoleCollection.TryGetValue("testb", out var testbColsone);
-            Assert.IsNotNull(testbColsone);
-            Assert.AreEqual(2, testbColsone.Count);
+			Assert.IsNotNull(testbColsone);
+			Assert.AreEqual(2, testbColsone.Count);
 			var b1 = testbColsone["testb1"];
 			var b2 = testbColsone["testb2"];
 			Assert.AreEqual("b1", b1);
@@ -137,16 +137,16 @@ namespace Crane.Internal.Test.Tests.CraneBase
 			var consoleCollection = redactor.Execute(taskCfg, taskParameters);
 
 			consoleCollection.TryGetValue("testa", out var testaColsone);
-            Assert.IsNotNull(testaColsone);
-            Assert.AreEqual(2, testaColsone.Count);
+			Assert.IsNotNull(testaColsone);
+			Assert.AreEqual(2, testaColsone.Count);
 			var a1 = testaColsone["testa1"];
 			var a2 = testaColsone["testa2"];
 			Assert.AreEqual("a1key", a1);
 			Assert.AreEqual("a2", a2);
 
 			consoleCollection.TryGetValue("testb", out var testbColsone);
-            Assert.IsNotNull(testbColsone);
-            Assert.AreEqual(2, testbColsone.Count);
+			Assert.IsNotNull(testbColsone);
+			Assert.AreEqual(2, testbColsone.Count);
 			var b1 = testbColsone["testb1"];
 			var b2 = testbColsone["testb2"];
 			Assert.AreEqual("b1", b1);

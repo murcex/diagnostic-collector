@@ -3,7 +3,7 @@
 namespace Crane.Internal.Test.Tests.CraneIntegration
 {
 	[TestClass]
-	public class TestEndToEnd
+	public class TestCraneApplication
 	{
 		[TestMethod]
 		// with success

@@ -3,97 +3,97 @@ using Crane.Internal.Engine.Model;
 
 namespace Crane.Internal.Engine
 {
-    public class CraneApplication
-    {
-        readonly ICraneLogger logger;
-        readonly ICraneFileManager fileManager;
-        readonly ICraneTaskManager taskManager;
-        readonly ICraneConsole craneConsole;
+	public class CraneApplication
+	{
+		readonly ICraneLogger _logger;
+		readonly ICraneFileManager _fileManager;
+		readonly ICraneTaskManager _taskManager;
+		readonly ICraneConsole _craneConsole;
 
-        public CraneApplication(ICraneLogger logger, ICraneConsole console, ICraneFileManager fileManger, ICraneTaskManager taskManager)
-        {
-            this.logger = logger;
-            fileManager = fileManger;
-            this.taskManager = taskManager;
-            craneConsole = console;
-        }
+		public CraneApplication(ICraneLogger logger, ICraneConsole console, ICraneFileManager fileManger, ICraneTaskManager taskManager)
+		{
+			_logger = logger;
+			_fileManager = fileManger;
+			_taskManager = taskManager;
+			_craneConsole = console;
+		}
 
-        public void Execute(string[] args)
-        {
-            try
-            {
-                craneConsole.Starter();
+		public void Execute(string[] args)
+		{
+			try
+			{
+				_craneConsole.Starter();
 
-                var taskFile = string.Empty;
-                if (args.Length > 0)
-                {
-                    taskFile = args[0];
+				var taskFile = string.Empty;
+				if (args.Length > 0)
+				{
+					taskFile = args[0];
 
-                    if (string.IsNullOrEmpty(taskFile))
-                    {
-                        logger.Error($"crane_error=task_arg_empty");
-                        throw new CraneException();
-                    }
-                }
-                else
-                {
-                    logger.Error($"crane_error=arg_count_zero");
-                    throw new CraneException();
-                }
+					if (string.IsNullOrEmpty(taskFile))
+					{
+						_logger.Error($"crane_error=task_arg_empty");
+						throw new CraneException();
+					}
+				}
+				else
+				{
+					_logger.Error($"crane_error=arg_count_zero");
+					throw new CraneException();
+				}
 
-                // load Config.ini
-                var craneCfg = fileManager.LoadCraneConfig(logger);
+				// load Config.ini
+				var craneCfg = _fileManager.LoadCraneConfig(_logger);
 
-                // setup logger
-                var loggerFilePath = fileManager.GetCraneLoggerFilePath(logger, craneCfg);
+				// setup logger
+				var loggerFilePath = _fileManager.GetCraneLoggerFilePath(_logger, craneCfg);
 
-                logger.Enable(loggerFilePath);
+				_logger.Enable(loggerFilePath);
 
-                // read task cfg
-                var taskCfg = fileManager.LoadCraneTask(logger, craneCfg, taskFile);
+				// read task cfg
+				var taskCfg = _fileManager.LoadCraneTask(_logger, craneCfg, taskFile);
 
-                // console conformation
-                if (fileManager.CheckForConformation(logger, craneCfg))
-                {
-                    craneConsole.GeneralConformation(logger);
-                }
+				// console conformation
+				if (_fileManager.CheckForConformation(_logger, craneCfg))
+				{
+					_craneConsole.GeneralConformation(_logger);
+				}
 
-                // switch on type and execute task
-                var taskResult = taskManager.Execute(logger, craneConsole, taskCfg);
+				// switch on type and execute task
+				var taskResult = _taskManager.Execute(_logger, _craneConsole, taskCfg);
 
-                if (taskResult.result)
-                {
-                    logger.Success($"crane_task_complete={taskResult.message}");
-                }
-                else
-                {
-                    logger.Error($"crane_task_complete={taskResult.message}");
-                }
+				if (taskResult.result)
+				{
+					_logger.Success($"crane_task_complete={taskResult.message}");
+				}
+				else
+				{
+					_logger.Error($"crane_task_complete={taskResult.message}");
+				}
 
-                craneConsole.Close();
-            }
-            catch (CraneException craneEx)
-            {
-                if (!logger.Enabled())
-                {
-                    logger.Enable(Directory.GetCurrentDirectory());
-                }
+				_craneConsole.Close();
+			}
+			catch (CraneException craneEx)
+			{
+				if (!_logger.Enabled())
+				{
+					_logger.Enable(Directory.GetCurrentDirectory());
+				}
 
-                logger.Error($"general_exception={craneEx}");
+				_logger.Error($"general_exception={craneEx}");
 
-                craneConsole.Close();
-            }
-            catch (Exception ex)
-            {
-                if (!logger.Enabled())
-                {
-                    logger.Enable(Directory.GetCurrentDirectory());
-                }
+				_craneConsole.Close();
+			}
+			catch (Exception ex)
+			{
+				if (!_logger.Enabled())
+				{
+					_logger.Enable(Directory.GetCurrentDirectory());
+				}
 
-                logger.Error($"general_exception={ex}");
+				_logger.Error($"general_exception={ex}");
 
-                craneConsole.Close();
-            }
-        }
-    }
+				_craneConsole.Close();
+			}
+		}
+	}
 }

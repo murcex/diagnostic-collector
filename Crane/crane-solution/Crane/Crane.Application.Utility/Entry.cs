@@ -4,7 +4,7 @@ using Crane.Internal.Engine.Interface;
 
 namespace Crane.Application.Utility
 {
-    public class Entry
+	public class Entry
 	{
 		static void Main(string[] args)
 		{

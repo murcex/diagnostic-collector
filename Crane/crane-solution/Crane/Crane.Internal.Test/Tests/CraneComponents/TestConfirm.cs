@@ -3,7 +3,7 @@ using Crane.Internal.Engine.Interface;
 using Crane.Internal.Test.Mock;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Crane.Internal.Test.Tests.CraneBase
+namespace Crane.Internal.Test.Tests.CraneComponents
 {
 	[TestClass]
 	public class TestConfirm

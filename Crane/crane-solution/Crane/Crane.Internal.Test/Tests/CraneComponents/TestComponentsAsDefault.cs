@@ -4,10 +4,10 @@ using Crane.Internal.Test.Core;
 using Crane.Internal.Test.Mock;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Crane.Internal.Test.Tests.CraneBase
+namespace Crane.Internal.Test.Tests.CraneComponents
 {
 	[TestClass]
-	public class TestBasicDefault
+	public class TestComponentsAsDefault
 	{
 		string craneTestDir = Path.Combine(Setup.CraneTestRoot, "local");
 
