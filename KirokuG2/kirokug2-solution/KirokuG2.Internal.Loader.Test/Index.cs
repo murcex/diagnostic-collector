@@ -35,6 +35,9 @@ namespace KirokuG2.Internal.Loader.Test
 
             KLoaderManager.ProcessLogs(mockKLog);
 
+            Assert.AreEqual(4, sqlTracker.Count);
+            Assert.AreEqual(0, klogTracker.Count);
+
             var test = 1;
         }
 
