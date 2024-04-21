@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Implements.Module.Deseriali
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Implements.Module.Logger", "Implements.Module.Logger\Implements.Module.Logger.csproj", "{EA4FA17C-FD9B-4B57-A0ED-9D6D23EF6A31}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Implements.Module.Transmitter", "Implements.Module.Transmitter\Implements.Module.Transmitter.csproj", "{1446BA5A-204E-4867-BEC6-25484433E0BC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{EA4FA17C-FD9B-4B57-A0ED-9D6D23EF6A31}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA4FA17C-FD9B-4B57-A0ED-9D6D23EF6A31}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA4FA17C-FD9B-4B57-A0ED-9D6D23EF6A31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1446BA5A-204E-4867-BEC6-25484433E0BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1446BA5A-204E-4867-BEC6-25484433E0BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1446BA5A-204E-4867-BEC6-25484433E0BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1446BA5A-204E-4867-BEC6-25484433E0BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
