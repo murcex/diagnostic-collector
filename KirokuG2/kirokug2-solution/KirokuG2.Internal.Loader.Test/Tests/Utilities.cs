@@ -4,7 +4,7 @@ using KirokuG2.Loader;
 
 namespace KirokuG2.Internal.Loader.Test.Tests
 {
-	public static class KResultExt
+	public static class Utilities
 	{
 		public static void TestProcessor(Dictionary<string, string> logs, Dictionary<string, string> logTracker, Dictionary<string, string> sqlTracker, List<string> klogTracker)
 		{

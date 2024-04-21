@@ -19,7 +19,7 @@ namespace KirokuG2.Internal.Loader.Test.Tests
 			Dictionary<string, string> sqlTracker = [];
 			List<string> klogTracker = [];
 
-			KResultExt.TestProcessor(logs, logTracker, sqlTracker, klogTracker);
+			Utilities.TestProcessor(logs, logTracker, sqlTracker, klogTracker);
 
 			Assert.AreEqual(4, sqlTracker.Count);
 			Assert.AreEqual(2, klogTracker.Count);
@@ -55,7 +55,7 @@ namespace KirokuG2.Internal.Loader.Test.Tests
 			Dictionary<string, string> sqlTracker = [];
 			List<string> klogTracker = [];
 
-			KResultExt.TestProcessor(logs, logTracker, sqlTracker, klogTracker);
+			Utilities.TestProcessor(logs, logTracker, sqlTracker, klogTracker);
 
 			Assert.AreEqual(8, sqlTracker.Count);
 			Assert.AreEqual(2, klogTracker.Count);
