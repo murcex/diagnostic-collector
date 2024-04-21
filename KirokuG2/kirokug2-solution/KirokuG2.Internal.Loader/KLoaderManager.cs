@@ -26,7 +26,7 @@
             try
             {
                 // get all id's for tag=upload
-                var logIds = _logProvider.GetLogIds("upload", 100);
+                var logIds = _logProvider.GetLogIds("upload", 500);
 
                 klog.Metric("kload_doc_cnt", logIds.Count);
 
