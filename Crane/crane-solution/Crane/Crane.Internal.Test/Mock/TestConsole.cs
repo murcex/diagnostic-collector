@@ -4,24 +4,31 @@ namespace Crane.Internal.Test.Mock
 {
 	public class TestConsole : ICraneConsole
 	{
+		private List<string> _tracker = new();
+
+		public TestConsole(List<string> consoleTracker)
+		{
+			_tracker = consoleTracker;
+		}
+
 		public void Close()
 		{
-			//throw new NotImplementedException();
+			_tracker.Add("Close");
 		}
 
 		public void GeneralConformation(ICraneLogger logger)
 		{
-			//throw new NotImplementedException();
+			_tracker.Add("GeneralConformation");
 		}
 
 		public void Starter()
 		{
-			//throw new NotImplementedException();
+			_tracker.Add("Starter");
 		}
 
 		public void TaskConfirmation(ICraneLogger logger, Dictionary<string, Dictionary<string, string>> collection)
 		{
-			//throw new NotImplementedException();
+			_tracker.Add("TaskConfirmation");
 		}
 	}
 }
