@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace KirokuG2.Internal.Loader.Test.Models
+﻿namespace KirokuG2.Internal.Loader.Test.Models
 {
 	public class MockKLog : IKLog
 	{
 		private List<string> _logs;
 
-		public MockKLog(List<string> logs) 
+		public MockKLog(List<string> logs)
 		{
 			_logs = logs;
 		}
