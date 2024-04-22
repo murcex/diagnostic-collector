@@ -72,6 +72,12 @@
 								// log event type
 								var type = log_components[1].ToUpper();
 
+								// skip on trace type -- save cycles
+								if (type == "T")
+								{
+									continue;
+								}
+
 								// clear preffix data
 								var position = log_components[0].Count() + 1 + log_components[1].Count() + 1;
 

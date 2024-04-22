@@ -18,11 +18,6 @@ namespace KirokuG2.Internal.Loader.Test.Tests
 			List<string> klogTracker = [];
 
 			Utilities.TestProcessor(logs, logTracker, sqlTracker, klogTracker);
-
-			//Assert.AreEqual(4, sqlTracker.Count);
-			//Assert.AreEqual(2, klogTracker.Count);
-
-			var test = 1;
 		}
 
 		[TestMethod]
@@ -38,11 +33,6 @@ namespace KirokuG2.Internal.Loader.Test.Tests
 			List<string> klogTracker = [];
 
 			Utilities.TestProcessor(logs, logTracker, sqlTracker, klogTracker);
-
-			//Assert.AreEqual(4, sqlTracker.Count);
-			//Assert.AreEqual(2, klogTracker.Count);
-
-			var test = 1;
 		}
 
 		[TestMethod]
@@ -58,11 +48,6 @@ namespace KirokuG2.Internal.Loader.Test.Tests
 			List<string> klogTracker = [];
 
 			Utilities.TestProcessor(logs, logTracker, sqlTracker, klogTracker);
-
-			//Assert.AreEqual(4, sqlTracker.Count);
-			//Assert.AreEqual(2, klogTracker.Count);
-
-			var test = 1;
 		}
 
 		[TestMethod]
@@ -78,11 +63,6 @@ namespace KirokuG2.Internal.Loader.Test.Tests
 			List<string> klogTracker = [];
 
 			Utilities.TestProcessor(logs, logTracker, sqlTracker, klogTracker);
-
-			//Assert.AreEqual(4, sqlTracker.Count);
-			//Assert.AreEqual(2, klogTracker.Count);
-
-			var test = 1;
 		}
 	}
 }
