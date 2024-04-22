@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KirokuG2.Function.Service",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KirokuG2.Function.Processor", "KirokuG2.Function.Processor\KirokuG2.Function.Processor.csproj", "{81465187-BA55-4E8F-BC51-1AB746D2E1C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KirokuG2.Internal.Loader.Test", "KirokuG2.Internal.Loader.Test\KirokuG2.Internal.Loader.Test.csproj", "{53ECB1DA-D669-4F6F-85C7-37760F388FD9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KirokuG2.Internal.Loader.Test", "KirokuG2.Internal.Loader.Test\KirokuG2.Internal.Loader.Test.csproj", "{53ECB1DA-D669-4F6F-85C7-37760F388FD9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

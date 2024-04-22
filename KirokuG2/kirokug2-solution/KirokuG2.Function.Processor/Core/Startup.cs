@@ -8,24 +8,24 @@ using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 
 namespace KirokuG2.Processor.Core
 {
-    public class Startup : FunctionsStartup
-    {
-        public override void Configure(IFunctionsHostBuilder builder)
-        {
-            var config = ConfiguratorManager.Execute();
+	public class Startup : FunctionsStartup
+	{
+		public override void Configure(IFunctionsHostBuilder builder)
+		{
+			var config = ConfiguratorManager.Execute();
 
-            var kiroku_cfg = config["kiroku-processor"];
+			var kiroku_cfg = config["kiroku-processor"];
 
-            Configuration.Load(kiroku_cfg);
+			Configuration.Load(kiroku_cfg);
 
-            LogProvider logProvider = new(Configuration.Storage, new KLogSeralializer());
+			LogProvider logProvider = new(Configuration.Storage, new KLogSeralializer());
 
-            SQLProvider sqlProvider = new();
-            sqlProvider.Initialized(Configuration.Database);
+			SQLProvider sqlProvider = new();
+			sqlProvider.Initialized(Configuration.Database);
 
-            KLoaderManager.Configuration(logProvider, sqlProvider);
+			KLoaderManager.Configuration(logProvider, sqlProvider);
 
-            KManager.Configure(true);
-        }
-    }
+			KManager.Configure(true);
+		}
+	}
 }

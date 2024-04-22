@@ -4,11 +4,11 @@
 
 namespace KirokuG2.Injektr.Core
 {
-    public class Startup : FunctionsStartup
-    {
-        public override void Configure(IFunctionsHostBuilder builder)
-        {
-            KManager.Configure(false);
-        }
-    }
+	public class Startup : FunctionsStartup
+	{
+		public override void Configure(IFunctionsHostBuilder builder)
+		{
+			KManager.Configure(false);
+		}
+	}
 }
