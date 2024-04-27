@@ -4,17 +4,25 @@ using System.Collections.Generic;
 
 namespace PlyQor.Internal.Engine.Components
 {
-	public class QueryOperator
+	public class SystemOperator
 	{
-		/// <summary>
-		/// Submit request to query engine for execution.
-		/// </summary>
-		public static Dictionary<string, string> Execute(
+		public static Dictionary<string, string> ExecuteSystemQuery(
 			string operation,
 			RequestManager request)
 		{
 			return operation switch
 			{
+
+				// CreateContainer
+				// ListContainers
+				// DeleteContainer
+
+				// ListTokens
+				// DeleteToken
+				// AddToken
+
+				// UpdateRetention
+
 				// TODO: (switch) move literal string to const
 				"InsertKey" => QueryProvider.InsertKey(request),
 				"InsertTag" => QueryProvider.InsertTag(request),
