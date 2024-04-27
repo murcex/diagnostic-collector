@@ -1,4 +1,5 @@
 ﻿using PlyQor.Engine.Components.Query;
+using PlyQor.Internal.Engine.Components.SystemQuery;
 using PlyQor.Models;
 using System.Collections.Generic;
 
@@ -14,6 +15,7 @@ namespace PlyQor.Internal.Engine.Components
 			{
 
 				// CreateContainer
+				"CreateContainer" => SystemQueryProvider.CreateContainer(request),
 				// ListContainers
 				// DeleteContainer
 
