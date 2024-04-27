@@ -8,27 +8,66 @@ namespace Implements.Module.Queue.Test
 		[TestMethod]
 		public async Task TestMethod1()
 		{
-			var queue = new QueueManager(10, 5000, TestFunc);
+			var batch = new Batch();
 
-			queue.Enqueue("testing1");
-			queue.Enqueue("testing2");
-			queue.Enqueue("testing3");
+			// TODO: method to auto create test test based on count
+			var sample = new List<string>()
+			{
+				"test_1",
+				"test_2",
+				"test_3"
+			};
+
+			var tracker = new List<string>();
+
+			var queue = new QueueManager(10, 1000, CreateTestAction(tracker, batch));
+
+			foreach (var item in sample)
+			{
+				queue.Enqueue(item);
+
+				await Task.Delay(2000);
+			}
 
 			await Task.Delay(10000);
+
+			// TODO: new tracker object to help check sample-to-tracker data, but keep batch data intact
+			var test2 = tracker.All(x => sample.Contains(x) == true);
 
 			var test = 1;
 		}
 
-		// TODO: add func to create func with embedded list for tracking test results
-
-		private void TestFunc(List<object> obj)
+		private Action<List<object>> CreateTestAction(List<string> tracker, Batch batch)
 		{
-			foreach (var item in obj)
+			return (List<object> objs) =>
 			{
-				var item2 = (string)item;
+				var currentBatch = GetBatch(batch);
+				foreach (var item in objs)
+				{
+					var str = item.ToString();
+					tracker.Add($"{currentBatch}-{item}");
+				}
+			};
+		}
 
-				Console.WriteLine(item2);
-			}
+		private int GetBatch(Batch batch)
+		{
+			return batch.Next();
+		}
+	}
+
+	public class Batch
+	{
+		private int current;
+
+		public Batch()
+		{
+			current = 0;
+		}
+
+		public int Next()
+		{
+			return current++;
 		}
 	}
 }

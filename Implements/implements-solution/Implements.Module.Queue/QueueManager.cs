@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Concurrent;
 
 namespace Implements.Module.Queue
 {
@@ -44,6 +39,8 @@ namespace Implements.Module.Queue
 				_cancellationTokenSource = new CancellationTokenSource();
 
 				Task.Factory.StartNew(() => AsyncTrigger(_cancellationTokenSource.Token), TaskCreationOptions.LongRunning).ConfigureAwait(false);
+
+				_active = true;
 			}
 		}
 
@@ -73,10 +70,17 @@ namespace Implements.Module.Queue
 			}
 
 			_active = false;
-			
+
 			_cancellationTokenSource = new CancellationTokenSource();
 
-			_action(clone);
+			try
+			{
+				_action(clone);
+			}
+			catch (Exception ex)
+			{
+				// swallow? log?
+			}
 		}
 	}
 }
