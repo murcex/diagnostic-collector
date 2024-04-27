@@ -16,7 +16,7 @@ namespace Implements.Module.Queue
 
 		private Action<List<object>> _action;
 
-		private Action<string> _report;
+		//private Action<string> _report;
 
 		public QueueManager(int limit, int duration, Action<List<object>> action)
 		{
@@ -32,7 +32,10 @@ namespace Implements.Module.Queue
 
 			if (_active)
 			{
-				// no action required
+				if (_queue.Count >= _limit)
+				{
+					_cancellationTokenSource.Cancel();
+				}
 			}
 			else
 			{
