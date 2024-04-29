@@ -7,15 +7,15 @@ using PlyQor.Engine;
 
 namespace PlyQor.Storage.Core
 {
-    public class Startup : FunctionsStartup
-    {
-        public override void Configure(IFunctionsHostBuilder builder)
-        {
-            var config = ConfiguratorManager.Execute();
+	public class Startup : FunctionsStartup
+	{
+		public override void Configure(IFunctionsHostBuilder builder)
+		{
+			var config = ConfiguratorManager.Execute();
 
-            PlyQorManager.Initialize(config);
+			PlyQorManager.Initialize(config);
 
-            //KManager.Configure(true);
-        }
-    }
+			//KManager.Configure(true);
+		}
+	}
 }

@@ -5,22 +5,22 @@ using System.Linq;
 
 namespace PlyQor.Audit.Core
 {
-    class Initializer
-    {
-        public static void Execute()
-        {
-            var _file = Directory.GetCurrentDirectory() + @"\Config.ini";
+	class Initializer
+	{
+		public static void Execute()
+		{
+			var _file = Directory.GetCurrentDirectory() + @"\Config.ini";
 
-            var lines = File.ReadAllLines(_file).ToList();
+			var lines = File.ReadAllLines(_file).ToList();
 
-            using (ConfigurationUtility configurationUtility = new())
-            {
-                var cfg = configurationUtility.Deserialize(lines);
+			using (ConfigurationUtility configurationUtility = new())
+			{
+				var cfg = configurationUtility.Deserialize(lines);
 
-                PlyQorManager.Initialize(cfg);
+				PlyQorManager.Initialize(cfg);
 
-                Configuration.Load(cfg);
-            }
-        }
-    }
+				Configuration.Load(cfg);
+			}
+		}
+	}
 }

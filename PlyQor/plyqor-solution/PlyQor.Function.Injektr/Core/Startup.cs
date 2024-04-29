@@ -7,15 +7,15 @@ using PlyQor.Injektr.Core;
 
 namespace PlyQor.Injektr.Core
 {
-    public class Startup : FunctionsStartup
-    {
-        public override void Configure(IFunctionsHostBuilder builder)
-        {
-            var config = ConfiguratorManager.Execute();
+	public class Startup : FunctionsStartup
+	{
+		public override void Configure(IFunctionsHostBuilder builder)
+		{
+			var config = ConfiguratorManager.Execute();
 
-            Configuration.Load(config);
+			Configuration.Load(config);
 
-            KManager.Configure(true);
-        }
-    }
+			KManager.Configure(true);
+		}
+	}
 }

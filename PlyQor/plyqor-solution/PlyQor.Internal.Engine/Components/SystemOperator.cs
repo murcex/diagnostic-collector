@@ -1,5 +1,4 @@
-﻿using PlyQor.Engine.Components.Query;
-using PlyQor.Internal.Engine.Components.SystemQuery;
+﻿using PlyQor.Internal.Engine.Components.SystemQuery;
 using PlyQor.Models;
 using System.Collections.Generic;
 
@@ -13,37 +12,13 @@ namespace PlyQor.Internal.Engine.Components
 		{
 			return operation switch
 			{
-
-				// CreateContainer
 				"CreateContainer" => SystemQueryProvider.CreateContainer(request),
-				// ListContainers
-				// DeleteContainer
-
-				// ListTokens
-				// DeleteToken
-				// AddToken
-
-				// UpdateRetention
-
-				// TODO: (switch) move literal string to const
-				"InsertKey" => QueryProvider.InsertKey(request),
-				"InsertTag" => QueryProvider.InsertTag(request),
-
-				"SelectKey" => QueryProvider.SelectKey(request),
-				"SelectTags" => QueryProvider.SelectTags(request),
-				"SelectTagCount" => QueryProvider.SelectTagCount(request),
-				"SelectKeyList" => QueryProvider.SelectKeyList(request),
-				"SelectKeyTags" => QueryProvider.SelectKeyTags(request),
-
-				"UpdateKey" => QueryProvider.UpdateKey(request),
-				"UpdateData" => QueryProvider.UpdateData(request),
-				"UpdateTag" => QueryProvider.UpdateTag(request),
-				"UpdateKeyTag" => QueryProvider.UpdateKeyTag(request),
-
-				"DeleteKey" => QueryProvider.DeleteKey(request),
-				"DeleteTag" => QueryProvider.DeleteTag(request),
-				"DeleteKeyTags" => QueryProvider.DeleteKeyTags(request),
-				"DeleteKeyTag" => QueryProvider.DeleteKeyTag(request),
+				"ListContainers" => SystemQueryProvider.ListContainers(request),
+				"DeleteContainer" => SystemQueryProvider.DeleteContainer(request),
+				"ListTokens" => SystemQueryProvider.ListTokens(request),
+				"DeleteToken" => SystemQueryProvider.DeleteToken(request),
+				"AddToken" => SystemQueryProvider.AddToken(request),
+				"UpdateRetention" => SystemQueryProvider.UpdateRetention(request),
 
 				_ => new Dictionary<string, string>(),
 			};

@@ -6,7 +6,7 @@ using System.Text.Json;
 
 namespace PlyQor.Internal.Engine.Components.SystemQuery.Internals
 {
-	public class CreateContainerQuery
+	public class ListContainersQuery
 	{
 		public static Dictionary<string, string> Execute(RequestManager requestManager)
 		{
@@ -26,33 +26,9 @@ namespace PlyQor.Internal.Engine.Components.SystemQuery.Internals
 
 			var containers = JsonSerializer.Deserialize<Dictionary<string, Dictionary<string, string>>>(json);
 
-			// does container exist
-			if (containers.ContainsKey(container))
-			{
-				throw new System.Exception("container already exist in system");
-			}
+			//var data = container.
 
-			// lock system lease
-			// TODO: add locking system?
-
-			// get container cfg
-			Dictionary<string, string> newContainer = new();
-
-			List<string> tokens = new List<string>
-			{
-				token
-			};
-
-			var toJson = token.ToString();
-
-			newContainer.Add("Tokens", toJson);
-			newContainer.Add("Retention", retention);
-
-			containers.Add(container, newContainer);
-
-			// var json = containers
-
-			// build result
+			// return data
 
 			return resultManager.ExportDataSet();
 		}

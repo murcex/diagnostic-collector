@@ -9,17 +9,17 @@ using System.Threading.Tasks;
 
 namespace PlyQor.Functions
 {
-    public static class StorageFunc
-    {
-        [FunctionName("Storage")]
-        public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req, ILogger log)
-        {
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+	public static class StorageFunc
+	{
+		[FunctionName("Storage")]
+		public static async Task<IActionResult> Run(
+			[HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req, ILogger log)
+		{
+			string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
 
-            var result = PlyQorManager.Query(requestBody);
+			var result = PlyQorManager.Query(requestBody);
 
-            return new OkObjectResult(result);
-        }
-    }
+			return new OkObjectResult(result);
+		}
+	}
 }

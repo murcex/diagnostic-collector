@@ -1,48 +1,48 @@
 ﻿namespace PlyQor.Audit.TestCases.StorageProvider
 {
-    using System;
+	using System;
 
-    class StorageProviderTestProvider
-    {
-        public static void Execute()
-        {
-            Console.WriteLine("");
+	class StorageProviderTestProvider
+	{
+		public static void Execute()
+		{
+			Console.WriteLine("");
 
-            // Insert
+			// Insert
 
-            InsertKey.Execute();
+			InsertKey.Execute();
 
-            InsertTag.Execute();
+			InsertTag.Execute();
 
-            // Selete
+			// Selete
 
-            SelectKey.Execute();
+			SelectKey.Execute();
 
-            SelectTags.Execute();
+			SelectTags.Execute();
 
-            SelectKeyList.Execute();
+			SelectKeyList.Execute();
 
-            SelectTagsByKey.Execute();
+			SelectTagsByKey.Execute();
 
-            SelectTagCount.Execute();
+			SelectTagCount.Execute();
 
-            // Update
+			// Update
 
-            UpdateKey.Execute();
+			UpdateKey.Execute();
 
-            UpdateData.Execute();
+			UpdateData.Execute();
 
-            UpdateTagByKey.Execute();
+			UpdateTagByKey.Execute();
 
-            UpdateTag.Execute();
+			UpdateTag.Execute();
 
-            // Delete
+			// Delete
 
-            DeleteKeyAndTags.Execute();
+			DeleteKeyAndTags.Execute();
 
-            DeleteTagByKey.Execute();
+			DeleteTagByKey.Execute();
 
-            DeleteTag.Execute();
-        }
-    }
+			DeleteTag.Execute();
+		}
+	}
 }

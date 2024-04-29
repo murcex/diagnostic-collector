@@ -3,55 +3,55 @@ using System;
 
 namespace PlyQor.Audit.TestCases.PlyManager
 {
-    class PlyManagerTestProvider
-    {
-        public static void Execute()
-        {
-            Console.WriteLine($"{Configuration.Key_1}, {Configuration.Key_2}");
-            Configuration.DeleteTestKeys = CreateTestKeysWithTag.Execute();
+	class PlyManagerTestProvider
+	{
+		public static void Execute()
+		{
+			Console.WriteLine($"{Configuration.Key_1}, {Configuration.Key_2}");
+			Configuration.DeleteTestKeys = CreateTestKeysWithTag.Execute();
 
-            // Insert
+			// Insert
 
-            InsertKey.Execute();
-            InsertKey.Execute(); // PK Check (should fail)
+			InsertKey.Execute();
+			InsertKey.Execute(); // PK Check (should fail)
 
-            InsertTag.Execute();
+			InsertTag.Execute();
 
-            // Select
+			// Select
 
-            SelectKey.Execute();
+			SelectKey.Execute();
 
-            SelectTags.Execute();
+			SelectTags.Execute();
 
-            SelectTagCount.Execute();
+			SelectTagCount.Execute();
 
-            SelectKeyList.Execute();
+			SelectKeyList.Execute();
 
-            // Update
+			// Update
 
-            UpdateKey.Execute();
+			UpdateKey.Execute();
 
-            UpdateData.Execute();
+			UpdateData.Execute();
 
-            UpdateTagByKey.Execute();
+			UpdateTagByKey.Execute();
 
-            UpdateTag.Execute();
+			UpdateTag.Execute();
 
-            // Delete
+			// Delete
 
-            DeleteKey.Execute();
+			DeleteKey.Execute();
 
-            DeleteTagByKey.Execute();
+			DeleteTagByKey.Execute();
 
-            DeleteTagsByKey.Execute();
+			DeleteTagsByKey.Execute();
 
-            DeleteTag.Execute();
+			DeleteTag.Execute();
 
-            // Retention
+			// Retention
 
-            DataRetention.Execute();
+			DataRetention.Execute();
 
-            TraceRetention.Execute();
-        }
-    }
+			TraceRetention.Execute();
+		}
+	}
 }

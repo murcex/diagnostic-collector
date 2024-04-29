@@ -155,27 +155,18 @@
 				{
 					var requestDictionary = ValidationProvider.GenerateDictionary(query);
 
-					// TODO: switch to dictionary only
 					RequestManager requestManager = new RequestManager(requestDictionary);
 
-					// TODO: switch to admin tokens
 					var token = requestManager.GetRequestStringValue(RequestKeys.Token);
 
-					// TODO: remove or hardcode
-					var container = requestManager.GetRequestStringValue(RequestKeys.Container);
-
-					trace.AddContainer(container);
-
-					ValidationProvider.CheckToken(container, token);
+					ValidationProvider.CheckAdminToken(token);
 
 					var operation = requestManager.GetRequestStringValue(RequestKeys.Operation);
 
 					trace.AddOperation(operation);
 
-					// TODO: add system ops for check
-					ValidationProvider.CheckOperation(operation);
+					ValidationProvider.CheckSystemOperation(operation);
 
-					// TODO: system version of execute query
 					resultDictionary = SystemOperator.ExecuteSystemQuery(operation, requestManager);
 				}
 				catch (PlyQorException plyqorException)
