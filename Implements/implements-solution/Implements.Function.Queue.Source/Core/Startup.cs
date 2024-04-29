@@ -7,7 +7,11 @@ namespace Implements.Function.Queue.Source.Core
 	{
 		public override void Configure(IFunctionsHostBuilder builder)
 		{
-			throw new NotImplementedException();
+			Configuration.AccessToken = Environment.GetEnvironmentVariable("AccessToken");
+
+			Configuration.ConnectionString = Environment.GetEnvironmentVariable("SQLConnectionString");
+
+			Configuration.Endpoint = Environment.GetEnvironmentVariable("Endpoint");
 		}
 	}
 }

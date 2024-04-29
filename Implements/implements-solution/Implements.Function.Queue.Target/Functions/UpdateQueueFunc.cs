@@ -1,4 +1,5 @@
 using Implements.Function.Queue.Target.Components;
+using Implements.Function.Queue.Target.Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -22,10 +23,10 @@ namespace Implements.Function.Queue.Target.Functions
 			string responseMessage = "400";
 
 			// check token
-			if (token == "test")
+			if (string.Equals(Configuration.AccessToken, token))
 			{
 				// add to queue
-				if (RecordQueue.Enqueue(id))
+				if (Configuration.Queue.Enqueue(id))
 				{
 					responseMessage = "200";
 				}

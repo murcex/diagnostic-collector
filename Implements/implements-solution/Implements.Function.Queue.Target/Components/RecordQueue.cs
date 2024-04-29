@@ -1,9 +1,14 @@
-﻿namespace Implements.Function.Queue.Target.Components
+﻿using System;
+using System.Collections.Generic;
+
+namespace Implements.Function.Queue.Target.Components
 {
 	public class RecordQueue
 	{
-		public static bool Enqueue(string id)
+		public static bool ProcessRecords(List<object> records)
 		{
+			
+
 			return true;
 		}
 	}

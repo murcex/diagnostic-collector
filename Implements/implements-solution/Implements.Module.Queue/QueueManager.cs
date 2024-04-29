@@ -26,7 +26,7 @@ namespace Implements.Module.Queue
 			_queue = new ConcurrentQueue<object>();
 		}
 
-		public void Enqueue(object obj)
+		public bool Enqueue(object obj)
 		{
 			_queue.Enqueue(obj);
 
@@ -45,6 +45,8 @@ namespace Implements.Module.Queue
 
 				_active = true;
 			}
+
+			return true;
 		}
 
 		public void Close()
