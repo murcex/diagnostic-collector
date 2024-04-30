@@ -3,6 +3,7 @@ using PlyQor.Engine.Resources;
 using PlyQor.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
 
 namespace PlyQor.Internal.Engine.Components.SystemQuery.Internals
@@ -11,7 +12,7 @@ namespace PlyQor.Internal.Engine.Components.SystemQuery.Internals
 	{
 		public static Dictionary<string, string> Execute(RequestManager requestManager)
 		{
-			ResultManager resultManager = new ResultManager();
+			ResultManager resultManager = new();
 
 			try
 			{
@@ -24,36 +25,28 @@ namespace PlyQor.Internal.Engine.Components.SystemQuery.Internals
 
 				var containerConfigurations = JsonSerializer.Deserialize<Dictionary<string, Dictionary<string, string>>>(json);
 
-				if (containerConfigurations.TryGetValue(container.ToUpper(), out var containerConfiguration))
+				if (containerConfigurations.TryGetValue(container, out var test))
 				{
-					if (containerConfiguration == null)
+					if (test.TryGetValue("Tokens", out var jsonTokens))
 					{
+						var tokens = JsonSerializer.Deserialize<List<string>>(jsonTokens);
 
+						var data = string.Join(",", tokens);
+
+						resultManager.AddResultData(data);
+						resultManager.AddResultSuccess();
 					}
 					else
 					{
-						if (containerConfiguration.TryGetValue("Token", out var tokens))
-						{
-							//resultManager.AddResultData(tokens);
-							resultManager.AddResultData("Tokens");
-							resultManager.AddResultSuccess();
-						}
-						else
-						{
-							resultManager.AddResultData("NoTokensForContainer");
-							resultManager.AddResultSuccess();
-						}
+						resultManager.AddResultData("NOHIT_Tokens");
+						resultManager.AddResultSuccess();
 					}
 				}
 				else
 				{
-					resultManager.AddResultData("NoContainer");
+					resultManager.AddResultData($"NOHIT_{container}");
 					resultManager.AddResultSuccess();
 				}
-
-				// -- build result --
-				resultManager.AddResultData("Test");
-				resultManager.AddResultSuccess();
 			}
 			catch (Exception ex)
 			{

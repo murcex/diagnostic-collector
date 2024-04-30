@@ -12,7 +12,7 @@ namespace PlyQor.Internal.Engine.Components
 		{
 			return operation switch
 			{
-				//"CreateContainer" => SystemQueryProvider.CreateContainer(request),
+				"CreateContainer" => SystemQueryProvider.CreateContainer(request),
 				"ListContainers" => SystemQueryProvider.ListContainers(request),
 				//"DeleteContainer" => SystemQueryProvider.DeleteContainer(request),
 				"ListTokens" => SystemQueryProvider.ListTokens(request),

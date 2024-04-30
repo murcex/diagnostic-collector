@@ -1,6 +1,7 @@
 ﻿using PlyQor.Engine.Components.Storage;
 using PlyQor.Engine.Resources;
 using PlyQor.Models;
+using System;
 using System.Collections.Generic;
 using System.Text.Json;
 
@@ -13,11 +14,9 @@ namespace PlyQor.Internal.Engine.Components.SystemQuery.Internals
 			ResultManager resultManager = new ResultManager();
 
 			// get values from request
-			var container = requestManager.GetRequestStringValue("");
-			var token = requestManager.GetRequestStringValue("");
-			var retention = requestManager.GetRequestStringValue("");
-
-			container = container.ToUpper();
+			var container = requestManager.GetRequestStringValue("Container");
+			var token = requestManager.GetRequestStringValue("AddToken");
+			var retention = requestManager.GetRequestStringValue("Retention");
 
 			// execute internal query
 
@@ -29,7 +28,7 @@ namespace PlyQor.Internal.Engine.Components.SystemQuery.Internals
 			// does container exist
 			if (containers.ContainsKey(container))
 			{
-				throw new System.Exception("container already exist in system");
+				throw new Exception("container already exist in system");
 			}
 
 			// lock system lease
@@ -43,14 +42,16 @@ namespace PlyQor.Internal.Engine.Components.SystemQuery.Internals
 				token
 			};
 
-			var toJson = token.ToString();
+			var toJson = JsonSerializer.Serialize(tokens);
 
 			newContainer.Add("Tokens", toJson);
 			newContainer.Add("Retention", retention);
 
 			containers.Add(container, newContainer);
 
-			// var json = containers
+			json = JsonSerializer.Serialize(containers);
+
+			StorageProvider.UpdateData(InitializerValues.SystemContainer, InitializerValues.ContainersValue, json);
 
 			// build result
 
