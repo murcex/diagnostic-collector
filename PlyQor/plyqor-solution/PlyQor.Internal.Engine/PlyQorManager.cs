@@ -9,6 +9,7 @@
 	using PlyQor.Resources;
 	using System;
 	using System.Collections.Generic;
+	using System.ComponentModel;
 	using System.Text.Json;
 
 	public class PlyQorManager
@@ -158,6 +159,8 @@
 					RequestManager requestManager = new RequestManager(requestDictionary);
 
 					var token = requestManager.GetRequestStringValue(RequestKeys.Token);
+
+					trace.AddContainer("SYSTEM");
 
 					ValidationProvider.CheckAdminToken(token);
 

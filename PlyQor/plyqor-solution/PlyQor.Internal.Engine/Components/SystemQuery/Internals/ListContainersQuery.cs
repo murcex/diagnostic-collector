@@ -2,6 +2,7 @@
 using PlyQor.Engine.Resources;
 using PlyQor.Models;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
 
 namespace PlyQor.Internal.Engine.Components.SystemQuery.Internals
@@ -12,23 +13,22 @@ namespace PlyQor.Internal.Engine.Components.SystemQuery.Internals
 		{
 			ResultManager resultManager = new ResultManager();
 
-			// get values from request
-			var container = requestManager.GetRequestStringValue("");
-			var token = requestManager.GetRequestStringValue("");
-			var retention = requestManager.GetRequestStringValue("");
+			// -- get values from request --
+			// not required
 
-			container = container.ToUpper();
-
-			// execute internal query
-
+			// -- execute internal query --
 			// get container config
 			var json = StorageProvider.SelectKey(InitializerValues.SystemContainer, InitializerValues.ContainersValue);
 
-			var containers = JsonSerializer.Deserialize<Dictionary<string, Dictionary<string, string>>>(json);
+			var containerConfigurations = JsonSerializer.Deserialize<Dictionary<string, Dictionary<string, string>>>(json);
 
-			//var data = container.
+			var containerNames = containerConfigurations.Keys.ToList();
 
-			// return data
+			var data = string.Join(",", containerNames);
+
+			// -- build result --
+			resultManager.AddResultData(data);
+			resultManager.AddResultSuccess();
 
 			return resultManager.ExportDataSet();
 		}

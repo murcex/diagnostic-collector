@@ -12,15 +12,15 @@ namespace PlyQor.Internal.Engine.Components
 		{
 			return operation switch
 			{
-				"CreateContainer" => SystemQueryProvider.CreateContainer(request),
+				//"CreateContainer" => SystemQueryProvider.CreateContainer(request),
 				"ListContainers" => SystemQueryProvider.ListContainers(request),
-				"DeleteContainer" => SystemQueryProvider.DeleteContainer(request),
+				//"DeleteContainer" => SystemQueryProvider.DeleteContainer(request),
 				"ListTokens" => SystemQueryProvider.ListTokens(request),
-				"DeleteToken" => SystemQueryProvider.DeleteToken(request),
-				"AddToken" => SystemQueryProvider.AddToken(request),
-				"UpdateRetention" => SystemQueryProvider.UpdateRetention(request),
+				//"DeleteToken" => SystemQueryProvider.DeleteToken(request),
+				//"AddToken" => SystemQueryProvider.AddToken(request),
+				//"UpdateRetention" => SystemQueryProvider.UpdateRetention(request),
 
-				_ => new Dictionary<string, string>(),
+				_ => new Dictionary<string, string>()
 			};
 		}
 	}
