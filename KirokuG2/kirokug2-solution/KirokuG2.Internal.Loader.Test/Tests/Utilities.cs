@@ -63,5 +63,25 @@ namespace KirokuG2.Internal.Loader.Test.Tests
 
 			return false;
 		}
+
+		public static bool CheckTrackContains(this Dictionary<string,List<string>> tracker, string key, params string[] inputs)
+		{
+			if (tracker.TryGetValue(key, out var value))
+			{
+				foreach(var input in inputs)
+				{
+					if (!value.Contains(input))
+					{
+						return false;
+					}
+				}
+			}
+			else
+			{
+				return false;
+			}
+
+			return true;
+		}
 	}
 }
