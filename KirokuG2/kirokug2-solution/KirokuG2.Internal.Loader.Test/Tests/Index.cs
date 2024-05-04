@@ -1,10 +1,11 @@
 using KirokuG2.Internal.Loader.Components;
+using KirokuG2.Internal.Loader.Test.Components;
 using KirokuG2.Internal.Loader.Test.Data;
 using System.Text;
 
 namespace KirokuG2.Internal.Loader.Test.Tests
 {
-	[TestClass]
+    [TestClass]
 	public class Index
 	{
 		[TestMethod]
@@ -134,8 +135,6 @@ namespace KirokuG2.Internal.Loader.Test.Tests
 
 			Assert.IsTrue(klogTracker.Contains("Metric: kload_doc_cnt,2"));
 			Assert.IsTrue(klogTracker.Contains("Metric: kload_log_cnt,3"));
-
-			var test = 1;
 		}
 
 		[TestMethod]
