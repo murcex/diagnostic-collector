@@ -6,15 +6,13 @@ namespace Crane.Internal.Test.Tests.CraneIntegration
 	public class TestCraneApplication
 	{
 		[TestMethod]
-		// with success
-		public void TestOne()
+		public void Success()
 		{
 
 		}
 
 		[TestMethod]
-		// with failures
-		public void TestTwo()
+		public void Failure()
 		{
 
 		}
