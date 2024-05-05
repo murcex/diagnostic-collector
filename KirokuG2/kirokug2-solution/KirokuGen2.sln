@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KirokuG2.Function.Service",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KirokuG2.Function.Processor", "KirokuG2.Function.Processor\KirokuG2.Function.Processor.csproj", "{81465187-BA55-4E8F-BC51-1AB746D2E1C7}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KirokuG2.Internal.Loader.Test", "KirokuG2.Internal.Loader.Test\KirokuG2.Internal.Loader.Test.csproj", "{53ECB1DA-D669-4F6F-85C7-37760F388FD9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{81465187-BA55-4E8F-BC51-1AB746D2E1C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81465187-BA55-4E8F-BC51-1AB746D2E1C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81465187-BA55-4E8F-BC51-1AB746D2E1C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53ECB1DA-D669-4F6F-85C7-37760F388FD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53ECB1DA-D669-4F6F-85C7-37760F388FD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53ECB1DA-D669-4F6F-85C7-37760F388FD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53ECB1DA-D669-4F6F-85C7-37760F388FD9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -12,4 +12,8 @@
     <PackageReference Include="Murcex.PlyQor.Client" Version="1.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\KirokuG2.Module.Client\KirokuG2.Module.Client.csproj" />
+  </ItemGroup>
+
 </Project>
