@@ -4,7 +4,12 @@ namespace Crane.Internal.Test.Mock
 {
 	public class TestConsole : ICraneConsole
 	{
-		private List<string> _tracker = new();
+		private List<string> _tracker;
+
+		public TestConsole()
+		{
+			_tracker = new List<string>();
+		}
 
 		public TestConsole(List<string> consoleTracker)
 		{
