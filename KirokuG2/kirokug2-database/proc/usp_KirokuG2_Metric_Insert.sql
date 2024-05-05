@@ -31,4 +31,3 @@ VALUES
 ,@nvc_value)
 
 END
-GO

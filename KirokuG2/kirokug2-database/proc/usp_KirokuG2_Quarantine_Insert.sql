@@ -15,4 +15,3 @@ VALUES
 ,@nvc_id)
 
 END
-GO

@@ -24,4 +24,3 @@ VALUES
 ,@nvc_message)
 
 END
-GO

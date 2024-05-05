@@ -7,4 +7,3 @@ CREATE TABLE [dbo].[tbl_KirokuG2_Metric](
 	[nvc_key] [nvarchar](20) NULL,
 	[nvc_value] [nvarchar](20) NULL
 ) ON [PRIMARY]
-GO

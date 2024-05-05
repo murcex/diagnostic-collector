@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Crane
 {
-	class Program
-	{
-		static void Main(string[] args)
-		{
+    class Program
+    {
+        static void Main(string[] args)
+        {
             Global.Set();
 
             bool operate = true;
@@ -82,9 +78,9 @@ namespace Crane
                     System.Threading.Thread.Sleep(1000);
                     Console.Clear();
                 }
-                
+
                 #endregion
             }
         }
-	}
+    }
 }

@@ -30,4 +30,3 @@ VALUES
 ,@i_duration)
 
 END
-GO
