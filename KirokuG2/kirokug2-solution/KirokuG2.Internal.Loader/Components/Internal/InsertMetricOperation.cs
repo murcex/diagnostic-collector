@@ -18,7 +18,7 @@ namespace KirokuG2.Loader.Components.Internal
 				cmd.Parameters.AddWithValue("nvc_function", logMetric.Function);
 				cmd.Parameters.AddWithValue("i_type", logMetric.Type);
 				cmd.Parameters.AddWithValue("nvc_key", logMetric.Key);
-				cmd.Parameters.AddWithValue("nvc_value", logMetric.Value);
+				cmd.Parameters.AddWithValue("d_value", logMetric.Value);
 
 				cmd.CommandTimeout = 0;
 

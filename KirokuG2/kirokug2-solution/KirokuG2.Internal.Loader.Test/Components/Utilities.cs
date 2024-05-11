@@ -83,5 +83,33 @@ namespace KirokuG2.Internal.Loader.Test.Components
 
             return true;
         }
+
+        public static bool CheckTrackerContains(this List<string> tracker, params string[] inputs)
+        {
+            foreach (var record in tracker)
+            {
+				var missing = false;
+
+				foreach (var input in inputs)
+                {
+                    if (missing)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        if (!record.Contains(input, StringComparison.OrdinalIgnoreCase))
+                        {
+                            missing = true;
+                            break;
+                        }
+                    }
+
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }

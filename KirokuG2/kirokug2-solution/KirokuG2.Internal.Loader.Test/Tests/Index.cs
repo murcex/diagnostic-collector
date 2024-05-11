@@ -1,11 +1,13 @@
 using KirokuG2.Internal.Loader.Components;
 using KirokuG2.Internal.Loader.Test.Components;
 using KirokuG2.Internal.Loader.Test.Data;
+using Microsoft.Identity.Client;
+using NuGet.Frameworks;
 using System.Text;
 
 namespace KirokuG2.Internal.Loader.Test.Tests
 {
-    [TestClass]
+	[TestClass]
 	public class Index
 	{
 		[TestMethod]
@@ -158,6 +160,61 @@ namespace KirokuG2.Internal.Loader.Test.Tests
 
 			Assert.IsTrue(logSet.CheckTrackContains("1", "testline1", "testline2", "testline3"));
 			Assert.IsTrue(logSet.CheckTrackContains("2", "testline4"));
+		}
+
+		[TestMethod]
+		public void LogType_Metrics()
+		{
+			var logId = Guid.NewGuid().ToString();
+			Dictionary<string, string> logs = new()
+			{
+				[logId] = ExampleKLogs.MetricInstanceLog()
+			};
+			Dictionary<string, string> logTracker = [];
+			Dictionary<string, string> sqlTracker = [];
+			List<string> klogTracker = [];
+
+			Utilities.TestProcessor(logs, logTracker, sqlTracker, klogTracker);
+
+			Assert.AreEqual(14, sqlTracker.Count);
+			Assert.AreEqual(12, klogTracker.Count);
+
+			Assert.IsTrue(sqlTracker.CheckTrackerTypeCount("Initialized", 0));
+			Assert.IsTrue(sqlTracker.CheckTrackerTypeCount("Activation", 0));
+			Assert.IsTrue(sqlTracker.CheckTrackerTypeCount("Block", 0));
+			Assert.IsTrue(sqlTracker.CheckTrackerTypeCount("Critical", 0));
+			Assert.IsTrue(sqlTracker.CheckTrackerTypeCount("Error", 0));
+			Assert.IsTrue(sqlTracker.CheckTrackerTypeCount("Instance", 1));
+			Assert.IsTrue(sqlTracker.CheckTrackerTypeCount("Metric", 13));
+			Assert.IsTrue(sqlTracker.CheckTrackerTypeCount("Quarantine", 0));
+
+			Assert.IsTrue(sqlTracker.CheckTrackerContains("Instance", logId, "test-kiroku-injektr-wus3", "Kiroku-Audit"));
+			Assert.IsTrue(sqlTracker.CheckTrackerContains("Metric", logId, "test-kiroku-injektr-wus3", "Kiroku-Audit", "test metric01", "1"));
+			Assert.IsTrue(sqlTracker.CheckTrackerContains("Metric", logId, "test-kiroku-injektr-wus3", "Kiroku-Audit", "test metric02", "1.0"));
+			Assert.IsTrue(sqlTracker.CheckTrackerContains("Metric", logId, "test-kiroku-injektr-wus3", "Kiroku-Audit", "test metric03", "123456789"));
+			Assert.IsTrue(sqlTracker.CheckTrackerContains("Metric", logId, "test-kiroku-injektr-wus3", "Kiroku-Audit", "test metric04", "0.01"));
+			Assert.IsTrue(sqlTracker.CheckTrackerContains("Metric", logId, "test-kiroku-injektr-wus3", "Kiroku-Audit", "test metric05", "0.02"));
+			Assert.IsTrue(sqlTracker.CheckTrackerContains("Metric", logId, "test-kiroku-injektr-wus3", "Kiroku-Audit", "test metric06", "123456789.01"));
+			Assert.IsTrue(sqlTracker.CheckTrackerContains("Metric", logId, "test-kiroku-injektr-wus3", "Kiroku-Audit", "test metric07", "-1"));
+			Assert.IsTrue(sqlTracker.CheckTrackerContains("Metric", logId, "test-kiroku-injektr-wus3", "Kiroku-Audit", "test metric08", "-1.0"));
+			Assert.IsTrue(sqlTracker.CheckTrackerContains("Metric", logId, "test-kiroku-injektr-wus3", "Kiroku-Audit", "test metric09", "-123456789"));
+			Assert.IsTrue(sqlTracker.CheckTrackerContains("Metric", logId, "test-kiroku-injektr-wus3", "Kiroku-Audit", "test metric10", "-0.01"));
+			Assert.IsTrue(sqlTracker.CheckTrackerContains("Metric", logId, "test-kiroku-injektr-wus3", "Kiroku-Audit", "test metric11", "-0.02"));
+			Assert.IsTrue(sqlTracker.CheckTrackerContains("Metric", logId, "test-kiroku-injektr-wus3", "Kiroku-Audit", "test metric12", "-123456789.01"));
+
+			Assert.IsTrue(klogTracker.CheckTrackerContains("Metric: kload_doc_cnt,1"));
+			Assert.IsTrue(klogTracker.CheckTrackerContains(logId, "is empty", "test metric0"));
+			Assert.IsTrue(klogTracker.CheckTrackerContains(logId, "invalid format on part one", "test metric13", "12345678910"));
+			Assert.IsTrue(klogTracker.CheckTrackerContains(logId, "invalid format on part one", "test metric14", "12345678910.12"));
+			Assert.IsTrue(klogTracker.CheckTrackerContains(logId, "invalid format on part two", "test metric15", "1234567891.123"));
+			Assert.IsTrue(klogTracker.CheckTrackerContains(logId, "invalid format on part one", "test metric16", "12345678910.123"));
+			Assert.IsTrue(klogTracker.CheckTrackerContains(logId, "invalid format on part one", "test metric17", "-12345678910"));
+			Assert.IsTrue(klogTracker.CheckTrackerContains(logId, "invalid format on part one", "test metric18", "-12345678910.12"));
+			Assert.IsTrue(klogTracker.CheckTrackerContains(logId, "invalid format on part two", "test metric19", "-1234567891.123"));
+			Assert.IsTrue(klogTracker.CheckTrackerContains(logId, "invalid format on part one", "test metric20", "-12345678910.123"));
+			Assert.IsTrue(klogTracker.CheckTrackerContains(logId, "failed to parse", "test metric21", "test"));
+			Assert.IsTrue(klogTracker.CheckTrackerContains(logId, "is empty", "test metric22"));
+			Assert.IsTrue(klogTracker.CheckTrackerContains("Metric: kload_log_cnt,1"));
 		}
 	}
 }
