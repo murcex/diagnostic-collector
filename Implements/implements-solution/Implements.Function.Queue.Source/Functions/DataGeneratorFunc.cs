@@ -22,6 +22,12 @@ namespace Implements.Function.Queue.Source.Functions
 				{
 					samples.Add(sample);
 				}
+				else
+				{
+					Console.WriteLine($"{sample} failed to insert to database");
+				}
+
+				capacity++;
 			}
 
 			foreach (var sample in samples)
@@ -30,8 +36,20 @@ namespace Implements.Function.Queue.Source.Functions
 				if (HttpRequest.SendRequest(sample))
 				{
 					// sql update
-					SQLStorage.UpdateRecord(sample);
+					if (!SQLStorage.UpdateRecord(sample))
+					{
+						Console.WriteLine($"{sample} failed to update to database");
+					}
 				}
+				else
+				{
+					Console.WriteLine($"{sample} failed to be sent");
+				}
+			}
+
+			if (!SQLStorage.Retention())
+			{
+				Console.WriteLine($"Retention failed to complete");
 			}
 		}
 	}

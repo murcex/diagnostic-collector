@@ -8,7 +8,7 @@ namespace Implements.Function.Queue.Source.Components
 
 		public static bool SendRequest(string id)
 		{
-
+			return true;
 		}
 	}
 }
