@@ -1,8 +1,6 @@
 using KirokuG2.Internal.Loader.Components;
 using KirokuG2.Internal.Loader.Test.Components;
 using KirokuG2.Internal.Loader.Test.Data;
-using Microsoft.Identity.Client;
-using NuGet.Frameworks;
 using System.Text;
 
 namespace KirokuG2.Internal.Loader.Test.Tests
