@@ -14,6 +14,6 @@
 
 		public string Key { get; set; }
 
-		public string Value { get; set; }
+		public decimal Value { get; set; }
 	}
 }

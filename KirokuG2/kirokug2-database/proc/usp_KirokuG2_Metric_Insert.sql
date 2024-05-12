@@ -5,9 +5,8 @@ CREATE PROCEDURE [dbo].[usp_KirokuG2_Metric_Insert]
 ,@nvc_source nvarchar(50)
 ,@nvc_function nvarchar(50)
 ,@i_type int
-,@nvc_key nvarchar(20)
-,@nvc_value nvarchar(20)
-
+,@nvc_key nvarchar(50)
+,@d_value decimal(10,2)
 
 AS
 
@@ -20,7 +19,7 @@ INSERT INTO [dbo].[tbl_KirokuG2_Metric]
 ,[nvc_function]
 ,[i_type]
 ,[nvc_key]
-,[nvc_value])
+,[d_value])
 VALUES
 (@dt_session
 ,@nvc_id
@@ -28,6 +27,6 @@ VALUES
 ,@nvc_function
 ,@i_type
 ,@nvc_key
-,@nvc_value)
+,@d_value)
 
 END

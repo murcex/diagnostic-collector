@@ -159,18 +159,47 @@
 									var key = metric_components[1];
 									var value = metric_components[2];
 
-									LogMetric logMetric = new LogMetric
+									if (string.IsNullOrEmpty(value))
 									{
-										Timestamp = datetime,
-										Source = source,
-										Function = function,
-										Id = instance,
-										Type = metric_type,
-										Key = key,
-										Value = value
-									};
+										klog.Error($"Instance: {instance} | Metric is empty -> {key}");
+									}
+									else
+									{
+										if (Decimal.TryParse(value, out var metricValue))
+										{
+											var parts = value.Split('.');
+											var partOne = parts[0].Replace("-", "");
+											var partTwo = parts.Length == 2 ? parts[1].Replace("-", "") : string.Empty;
 
-									logMetrics.Add(logMetric);
+											if (partOne.Length > 10)
+											{
+												klog.Error($"Instance: {instance} | Metric has invalid format on part one-> {key} = {value}");
+											}
+											else if (!string.IsNullOrEmpty(partTwo) && partTwo.Length > 2)
+											{
+												klog.Error($"Instance: {instance} | Metric has invalid format on part two -> {key} = {value}");
+											}
+											else
+											{
+												LogMetric logMetric = new LogMetric
+												{
+													Timestamp = datetime,
+													Source = source,
+													Function = function,
+													Id = instance,
+													Type = metric_type,
+													Key = key,
+													Value = metricValue
+												};
+
+												logMetrics.Add(logMetric);
+											}
+										}
+										else
+										{
+											klog.Error($"Instance: {instance} | Metric failed to parse -> {key} = {value}");
+										}
+									}
 								}
 
 								// activation

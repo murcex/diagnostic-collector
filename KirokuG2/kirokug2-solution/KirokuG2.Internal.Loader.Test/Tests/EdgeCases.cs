@@ -3,7 +3,7 @@ using KirokuG2.Internal.Loader.Test.Data;
 
 namespace KirokuG2.Internal.Loader.Test.Tests
 {
-    [TestClass]
+	[TestClass]
 	public class EdgeCases
 	{
 		[TestMethod]
