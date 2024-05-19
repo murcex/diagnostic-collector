@@ -1,6 +1,6 @@
-﻿using Implements.Module.Queue;
-using Microsoft.Azure.Functions.Extensions.DependencyInjection;
+﻿using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using System;
+using System.Collections.Generic;
 
 [assembly: FunctionsStartup(typeof(Implements.Function.Queue.Target.Core.Startup))]
 
@@ -10,11 +10,17 @@ namespace Implements.Function.Queue.Target.Core
 	{
 		public override void Configure(IFunctionsHostBuilder builder)
 		{
-			Configuration.Queue = new QueueManager(10, 10000, null);
+			//var config = ConfiguratorManager.Execute();
 
-			Configuration.AccessToken = Environment.GetEnvironmentVariable("AccessToken");
+			Dictionary<string, string> config = new()
+			{
+				{ "DATABASE", Environment.GetEnvironmentVariable("Database") },
+				{ "TOKEN", Environment.GetEnvironmentVariable("Token") }
+			};
 
-			Configuration.ConnectionString = Environment.GetEnvironmentVariable("SQLConnectionString");
+			Configuration.Load(config);
+
+			//KManager.Configure(true);
 		}
 	}
 }

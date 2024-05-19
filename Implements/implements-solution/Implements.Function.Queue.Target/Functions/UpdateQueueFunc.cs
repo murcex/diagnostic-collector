@@ -1,10 +1,10 @@
-using Implements.Function.Queue.Target.Components;
 using Implements.Function.Queue.Target.Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Threading.Tasks;
 
 namespace Implements.Function.Queue.Target.Functions
@@ -23,11 +23,12 @@ namespace Implements.Function.Queue.Target.Functions
 			string responseMessage = "400";
 
 			// check token
-			if (string.Equals(Configuration.AccessToken, token))
+			if (string.Equals(Configuration.Token, token))
 			{
 				// add to queue
 				if (Configuration.Queue.Enqueue(id))
 				{
+					Console.WriteLine($"Adding {id} to queue");
 					responseMessage = "200";
 				}
 				else

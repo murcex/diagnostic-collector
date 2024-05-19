@@ -33,8 +33,8 @@ namespace Implements.Function.Queue.Source.Components
 				return true;
 			}
 			catch (Exception ex)
-			{ 
-				return false; 
+			{
+				return false;
 			}
 		}
 
@@ -65,8 +65,8 @@ namespace Implements.Function.Queue.Source.Components
 				return true;
 			}
 			catch (Exception ex)
-			{ 
-				return false; 
+			{
+				return false;
 			}
 		}
 

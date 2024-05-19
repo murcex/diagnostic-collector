@@ -8,6 +8,8 @@ namespace Implements.Module.Queue
 
 		private bool _active;
 
+		private bool _processing;
+
 		private int _limit;
 
 		private int _duration;
@@ -16,34 +18,49 @@ namespace Implements.Module.Queue
 
 		private Action<List<object>> _action;
 
-		//private Action<string> _report;
+		private Action<string> _logger;
 
-		public QueueManager(int limit, int duration, Action<List<object>> action)
+		public QueueManager(int limit, int duration, Action<List<object>> action, Action<string> logger = null)
 		{
+			_active = false;
+			_cancellationTokenSource = new CancellationTokenSource();
 			_limit = limit;
 			_duration = duration;
 			_action = action;
 			_queue = new ConcurrentQueue<object>();
+			_logger = logger == null ? (_) => { } : logger;
 		}
 
 		public bool Enqueue(object obj)
 		{
 			_queue.Enqueue(obj);
 
+			_logger($"Adding Item Queue - Count: {_queue.Count}");
+
 			if (_active)
 			{
 				if (_queue.Count >= _limit)
 				{
 					_cancellationTokenSource.Cancel();
+
+					var id = GetInstanceId();
+
+					_logger($"{id} Queue Limit Triggered - Count: {_queue.Count}");
+
+					Task.Factory.StartNew(() => Trigger(id), TaskCreationOptions.None).ConfigureAwait(false);
 				}
 			}
 			else
 			{
 				_cancellationTokenSource = new CancellationTokenSource();
 
-				Task.Factory.StartNew(() => AsyncTrigger(_cancellationTokenSource.Token), TaskCreationOptions.LongRunning).ConfigureAwait(false);
+				var id = GetInstanceId();
+
+				Task.Factory.StartNew(() => AsyncTrigger(id, _cancellationTokenSource.Token), TaskCreationOptions.LongRunning).ConfigureAwait(false);
 
 				_active = true;
+
+				_logger($"{id} Activating Async Trigger");
 			}
 
 			return true;
@@ -57,13 +74,31 @@ namespace Implements.Module.Queue
 			}
 		}
 
-		private async Task AsyncTrigger(CancellationToken token)
+		private async Task Trigger(string id)
 		{
-			await Task.Delay(_duration, token).ContinueWith(_ => { ExecuteTrigger(); }, token);
+			await Task.Run(() => { ExecuteTrigger(id); });
 		}
 
-		private void ExecuteTrigger()
+		private async Task AsyncTrigger(string id, CancellationToken token)
 		{
+			await Task.Delay(_duration, token).ContinueWith(_ => { ExecuteTrigger(id); });
+		}
+
+		private void ExecuteTrigger(string id)
+		{
+			_logger($"{id} Queue Triggered");
+
+			if (_processing)
+			{
+				_logger($"{id} Processor Locked");
+				return;
+			}
+			else
+			{
+				_processing = true;
+				_logger($"{id} Locking Processor");
+			}
+
 			List<object> clone = new();
 
 			while (_queue.Any())
@@ -74,18 +109,29 @@ namespace Implements.Module.Queue
 				}
 			}
 
+			_processing = false;
+
 			_active = false;
+
+			_logger($"{id} Processor Released - Count: {_queue.Count}");
 
 			_cancellationTokenSource = new CancellationTokenSource();
 
 			try
 			{
 				_action(clone);
+
+				_logger($"{id} Action Completed");
 			}
 			catch (Exception ex)
 			{
-				// swallow? log?
+				_logger($"{id} Trigger Action Exception: {ex}");
 			}
+		}
+
+		private static string GetInstanceId()
+		{
+			return Guid.NewGuid().ToString().Split('-')[0].ToUpper();
 		}
 	}
 }

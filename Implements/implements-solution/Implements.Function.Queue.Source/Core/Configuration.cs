@@ -40,6 +40,5 @@ namespace Implements.Function.Queue.Source.Core
 		{
 			return true;
 		}
-
 	}
 }

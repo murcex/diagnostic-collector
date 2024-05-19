@@ -1,18 +1,47 @@
-﻿using Implements.Module.Queue;
-using System;
+﻿using Implements.Function.Queue.Target.Components;
+using Implements.Module.Queue;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Implements.Function.Queue.Target.Core
 {
 	public class Configuration
 	{
-		public static QueueManager Queue { get; set; }
+		private static QueueManager _queue;
 
-		public static string ConnectionString { get; set; }
+		private static string _database;
 
-		public static string AccessToken { get; set; }
+		private static string _token;
+
+		public static QueueManager Queue => _queue;
+
+		public static string Database => _database;
+
+		public static string Token => _token;
+
+		public static bool Load(Dictionary<string, string> configuration)
+		{
+			foreach (var kvp in configuration)
+			{
+				Sort(kvp.Key, kvp.Value);
+			}
+
+			PostLoad();
+
+			return true;
+		}
+
+		private static string Sort(string key, string value) => key.ToUpper() switch
+		{
+			"DATABASE" => _database = value,
+			"TOKEN" => _token = value,
+			_ => null,
+		};
+
+		private static bool PostLoad()
+		{
+			_queue = new QueueManager(6, 10000, QueueProcessor.Execute, QueueProcessor.Logger);
+
+			return true;
+		}
 	}
 }

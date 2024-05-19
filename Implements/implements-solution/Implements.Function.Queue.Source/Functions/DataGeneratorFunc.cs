@@ -3,6 +3,7 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Implements.Function.Queue.Source.Functions
 {
@@ -21,11 +22,14 @@ namespace Implements.Function.Queue.Source.Functions
 				if (SQLStorage.InsertRecord(sample))
 				{
 					samples.Add(sample);
+					Console.WriteLine($"{sample} added to SQL");
 				}
 				else
 				{
 					Console.WriteLine($"{sample} failed to insert to database");
 				}
+
+				Thread.Sleep(1000);
 
 				capacity++;
 			}
@@ -39,6 +43,10 @@ namespace Implements.Function.Queue.Source.Functions
 					if (!SQLStorage.UpdateRecord(sample))
 					{
 						Console.WriteLine($"{sample} failed to update to database");
+					}
+					else
+					{
+						Console.WriteLine($"{sample} sent and updated in SQL");
 					}
 				}
 				else
