@@ -45,14 +45,14 @@ namespace Implements.Module.Queue
 
 					var id = GetInstanceId();
 
-					_logger($"{id} Queue Limit Triggered - Count: {_queue.Count}");
-
 					Task.Factory.StartNew(() => Trigger(id), TaskCreationOptions.None).ConfigureAwait(false);
+
+					_logger($"{id} Queue Limit Triggered - Count: {_queue.Count}");
 				}
 			}
 			else
 			{
-				_cancellationTokenSource = new CancellationTokenSource();
+				_cancellationTokenSource = new();
 
 				var id = GetInstanceId();
 
@@ -76,21 +76,21 @@ namespace Implements.Module.Queue
 
 		private async Task Trigger(string id)
 		{
-			await Task.Run(() => { ExecuteTrigger(id); });
+			await Task.Run(() => { ExecuteTrigger(id, TriggerType.Limit); });
 		}
 
 		private async Task AsyncTrigger(string id, CancellationToken token)
 		{
-			await Task.Delay(_duration, token).ContinueWith(_ => { ExecuteTrigger(id); });
+			await Task.Delay(_duration, token).ContinueWith(_ => { ExecuteTrigger(id, TriggerType.Duration); }, token);
 		}
 
-		private void ExecuteTrigger(string id)
+		private void ExecuteTrigger(string id, TriggerType type)
 		{
-			_logger($"{id} Queue Triggered");
+			_logger($"{id} Queue Processor: {type}");
 
 			if (_processing)
 			{
-				_logger($"{id} Processor Locked");
+				_logger($"{id} !!!! Processor Already Locked !!!!!");
 				return;
 			}
 			else
@@ -115,10 +115,12 @@ namespace Implements.Module.Queue
 
 			_logger($"{id} Processor Released - Count: {_queue.Count}");
 
-			_cancellationTokenSource = new CancellationTokenSource();
+			_cancellationTokenSource = new();
 
 			try
 			{
+				//Task.Run(() => { _action(clone); });
+
 				_action(clone);
 
 				_logger($"{id} Action Completed");
@@ -133,5 +135,11 @@ namespace Implements.Module.Queue
 		{
 			return Guid.NewGuid().ToString().Split('-')[0].ToUpper();
 		}
+	}
+
+	enum TriggerType
+	{
+		Limit,
+		Duration
 	}
 }

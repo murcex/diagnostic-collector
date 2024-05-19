@@ -18,20 +18,30 @@ namespace Implements.Function.Queue.Source.Functions
 			{
 				var sample = Guid.NewGuid().ToString();
 
-				// sql insert
-				if (SQLStorage.InsertRecord(sample))
-				{
+				//// sql insert
+				//if (SQLStorage.InsertRecord(sample))
+				//{
 					samples.Add(sample);
-					Console.WriteLine($"{sample} added to SQL");
-				}
-				else
-				{
-					Console.WriteLine($"{sample} failed to insert to database");
-				}
+				//	Console.WriteLine($"{sample} added to SQL");
+				//}
+				//else
+				//{
+				//	Console.WriteLine($"{sample} failed to insert to database");
+				//}
 
-				Thread.Sleep(1000);
+				//Thread.Sleep(1000);
 
 				capacity++;
+			}
+
+			// sql insert
+			if (SQLStorage.BulkInsertRecords(samples))
+			{
+				Console.WriteLine($"samples bulk inserted to SQL ({samples.Count})");
+			}
+			else
+			{
+				Console.WriteLine($"samples failed to bulk insert to database");
 			}
 
 			foreach (var sample in samples)

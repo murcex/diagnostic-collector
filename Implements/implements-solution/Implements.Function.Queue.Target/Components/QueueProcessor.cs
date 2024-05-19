@@ -16,7 +16,7 @@ namespace Implements.Function.Queue.Target.Components
 
 					var result = SQLStorage.UpdateRecord(id);
 
-					Console.WriteLine($"Updating {id} => {result}");
+					//Console.WriteLine($"Updating {id} => {result}");
 
 					Thread.Sleep(1000);
 				}

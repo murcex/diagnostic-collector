@@ -1,6 +1,8 @@
 ﻿using Implements.Function.Queue.Source.Core;
 using Microsoft.Data.SqlClient;
 using System;
+using System.Collections.Generic;
+using System.Data;
 
 namespace Implements.Function.Queue.Source.Components
 {
@@ -34,6 +36,45 @@ namespace Implements.Function.Queue.Source.Components
 			}
 			catch (Exception ex)
 			{
+				return false;
+			}
+		}
+
+		public static bool BulkInsertRecords(List<string> samples)
+		{
+			try
+			{
+				var timestamp = DateTime.UtcNow;
+
+				// Create a DataTable with columns matching the destination table
+				DataTable dataTable = new DataTable();
+				dataTable.Columns.Add("dt_timestamp", typeof(DateTime));
+				dataTable.Columns.Add("nvc_id", typeof(string));
+				dataTable.Columns.Add("i_sent", typeof(int));
+				dataTable.Columns.Add("i_update", typeof(int));
+
+				// Add rows to the DataTable
+				foreach (var sample in samples)
+				{
+					dataTable.Rows.Add(timestamp, sample, 0, 0);
+				}
+
+				// Initialize SqlBulkCopy
+				using (SqlConnection connection = new SqlConnection(Configuration.Database))
+				{
+					connection.Open();
+					using (SqlBulkCopy bulkCopy = new SqlBulkCopy(connection))
+					{
+						bulkCopy.DestinationTableName = "tbl_AxQueue_Tracking"; // Specify your table name
+						bulkCopy.WriteToServer(dataTable);
+					}
+				}
+
+				return true;
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex.ToString());
 				return false;
 			}
 		}

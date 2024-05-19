@@ -16,7 +16,7 @@ namespace Implements.Function.Queue.Target.Functions
 			[HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
 			ILogger log)
 		{
-			log.LogInformation("C# HTTP trigger function processed a request.");
+			//log.LogInformation("C# HTTP trigger function processed a request.");
 
 			string token = req.Query["token"];
 			string id = req.Query["id"];
@@ -28,7 +28,7 @@ namespace Implements.Function.Queue.Target.Functions
 				// add to queue
 				if (Configuration.Queue.Enqueue(id))
 				{
-					Console.WriteLine($"Adding {id} to queue");
+					//Console.WriteLine($"Adding {id} to queue");
 					responseMessage = "200";
 				}
 				else
