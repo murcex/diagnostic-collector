@@ -39,7 +39,7 @@ namespace Implements.Function.Queue.Target.Core
 
 		private static bool PostLoad()
 		{
-			_queue = new QueueManager(6, 10000, QueueProcessor.Execute, QueueProcessor.Logger);
+			_queue = new QueueManager(2, 10000, QueueProcessor.Execute, QueueProcessor.Logger);
 
 			return true;
 		}
