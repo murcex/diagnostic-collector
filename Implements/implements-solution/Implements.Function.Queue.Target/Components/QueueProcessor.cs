@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Implements.Function.Queue.Target.Core;
+using Implements.Module.Queue;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 
@@ -26,7 +28,20 @@ namespace Implements.Function.Queue.Target.Components
 
 		public static void Logger(string message)
 		{
-			Console.WriteLine($"LOGGER: {message}");
+			var record = Configuration.Loglizer.Execute(message);
+
+			switch (record.Type)
+			{
+				case 1:
+					Console.WriteLine($"LOG | Timestamp: {record.Timestamp} => Key: {record.Key}");
+					break;
+				case 2:
+					Console.WriteLine($"LOG | Timestamp: {record.Timestamp} => Key: {record.Key}, Value: {record.Value}");
+					break;
+				case 3:
+					Console.WriteLine($"LOG | Timestamp: {record.Timestamp} => Instance: {record.Instance}, Key: {record.Key}, Value: {record.Value}");
+					break;
+			}
 		}
 	}
 }

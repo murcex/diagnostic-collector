@@ -4,108 +4,144 @@ namespace Implements.Module.Queue
 {
 	public class QueueManager
 	{
-		private ConcurrentQueue<object> _queue;
+		// --- queue configuration ---
+		private readonly ConcurrentQueue<object> _queue;
 
+		private readonly int _limit;
+
+		private readonly int _duration;
+
+		private readonly Action<List<object>> _action;
+
+		private readonly Action<string> _logger;
+
+		// --- state management ---
 		private bool _active;
 
 		private bool _processing;
 
-		private int _limit;
+		private CancellationTokenSource _token;
 
-		private int _duration;
-
-		private CancellationTokenSource _cancellationTokenSource;
-
-		private Action<List<object>> _action;
-
-		private Action<string> _logger;
-
-		public QueueManager(int limit, int duration, Action<List<object>> action, Action<string> logger = null)
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="limit"></param>
+		/// <param name="duration"></param>
+		/// <param name="action"></param>
+		/// <param name="logger"></param>
+		public QueueManager(int limit, int duration, Action<List<object>> action, Action<string>? logger = null)
 		{
-			_active = false;
-			_cancellationTokenSource = new CancellationTokenSource();
+			_queue = new();
 			_limit = limit;
 			_duration = duration;
 			_action = action;
-			_queue = new ConcurrentQueue<object>();
-			_logger = logger == null ? (_) => { } : logger;
+			_logger = logger ?? ((_) => { });
+			_active = false;
+			_processing = false;
+			_token = new();
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="obj"></param>
+		/// <returns></returns>
 		public bool Enqueue(object obj)
 		{
 			_queue.Enqueue(obj);
 
-			_logger($"Adding Item Queue - Count: {_queue.Count}");
+			_logger($"t={DateTime.UtcNow},k=add_item,v=queue_count:{_queue.Count}");
 
 			if (_active)
 			{
 				if (_queue.Count >= _limit)
 				{
-					_cancellationTokenSource.Cancel();
+					_token.Cancel();
 
 					var id = GetInstanceId();
 
 					Task.Factory.StartNew(() => Trigger(id), TaskCreationOptions.None).ConfigureAwait(false);
 
-					_logger($"{id} Queue Limit Triggered - Count: {_queue.Count}");
+					_logger($"t={DateTime.UtcNow},i={id},k=queue_limit_triggered,v=queue_count:{_queue.Count}");
 				}
 			}
 			else
 			{
-				_cancellationTokenSource = new();
+				_token = new();
 
 				var id = GetInstanceId();
 
-				Task.Factory.StartNew(() => AsyncTrigger(id, _cancellationTokenSource.Token), TaskCreationOptions.LongRunning).ConfigureAwait(false);
+				Task.Factory.StartNew(() => AsyncTrigger(id, _token.Token), TaskCreationOptions.LongRunning).ConfigureAwait(false);
 
 				_active = true;
 
-				_logger($"{id} Activating Async Trigger");
+				_logger($"t={DateTime.UtcNow},i={id},k=active_async_trigger");
 			}
 
 			return true;
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
 		public void Close()
 		{
 			if (_active)
 			{
-				_cancellationTokenSource.Cancel();
+				_token.Cancel();
 			}
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
 		private async Task Trigger(string id)
 		{
 			await Task.Run(() => { ExecuteTrigger(id, TriggerType.Limit); });
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="id"></param>
+		/// <param name="token"></param>
+		/// <returns></returns>
 		private async Task AsyncTrigger(string id, CancellationToken token)
 		{
 			await Task.Delay(_duration, token).ContinueWith(_ => { ExecuteTrigger(id, TriggerType.Duration); }, token);
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="id"></param>
+		/// <param name="type"></param>
 		private void ExecuteTrigger(string id, TriggerType type)
 		{
-			_logger($"{id} Queue Processor: {type}");
+			_logger($"t={DateTime.UtcNow},i={id},k=execute_queue_processor,v=type:{type}");
 
 			if (_processing)
 			{
-				_logger($"{id} !!!! Processor Already Locked !!!!!");
+				_logger($"t={DateTime.UtcNow},i={id},k=processor_status,v=locked");
 				return;
 			}
 			else
 			{
 				_processing = true;
-				_logger($"{id} Locking Processor");
+				_logger($"t={DateTime.UtcNow},i={id},k=processor_status,v=locking");
 			}
 
-			List<object> clone = new();
+			List<object> objs = new();
+			int dequeue = 0;
 
 			while (_queue.Any())
 			{
 				if (_queue.TryDequeue(out var obj))
 				{
-					clone.Add(obj);
+					objs.Add(obj);
+					dequeue++;
 				}
 			}
 
@@ -113,30 +149,39 @@ namespace Implements.Module.Queue
 
 			_active = false;
 
-			_logger($"{id} Processor Released - Count: {_queue.Count}");
+			_logger($"t={DateTime.UtcNow},i={id},k=processor_released,v=queue_count:{_queue.Count}/{dequeue}");
 
-			_cancellationTokenSource = new();
+			_token = new();
 
 			try
 			{
 				//Task.Run(() => { _action(clone); });
 
-				_action(clone);
+				_action(objs);
 
-				_logger($"{id} Action Completed");
+				_logger($"t={DateTime.UtcNow},i={id},k=action_complete");
 			}
 			catch (Exception ex)
 			{
-				_logger($"{id} Trigger Action Exception: {ex}");
+				var data = ex.ToString().Replace(",", "").Replace("=", "");
+
+				_logger($"t={DateTime.UtcNow},i={id},k=action_exception,v=exception:{data}");
 			}
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
 		private static string GetInstanceId()
 		{
 			return Guid.NewGuid().ToString().Split('-')[0].ToUpper();
 		}
 	}
 
+	/// <summary>
+	/// 
+	/// </summary>
 	enum TriggerType
 	{
 		Limit,
