@@ -50,7 +50,7 @@ namespace Implements.Module.Queue
 		{
 			_queue.Enqueue(obj);
 
-			_logger($"t={DateTime.UtcNow},k=add_item,v=queue_count:{_queue.Count}");
+			_logger($"t={DateTime.UtcNow},k=add_item,v={_queue.Count}");
 
 			if (_active)
 			{
@@ -62,7 +62,7 @@ namespace Implements.Module.Queue
 
 					Task.Factory.StartNew(() => Trigger(id), TaskCreationOptions.None).ConfigureAwait(false);
 
-					_logger($"t={DateTime.UtcNow},i={id},k=queue_limit_triggered,v=queue_count:{_queue.Count}");
+					_logger($"t={DateTime.UtcNow},i={id},k=queue_limit_triggered,v={_queue.Count}");
 				}
 			}
 			else
@@ -120,7 +120,7 @@ namespace Implements.Module.Queue
 		/// <param name="type"></param>
 		private void ExecuteTrigger(string id, TriggerType type)
 		{
-			_logger($"t={DateTime.UtcNow},i={id},k=execute_queue_processor,v=type:{type}");
+			_logger($"t={DateTime.UtcNow},i={id},k=execute_queue_processor,v={type}");
 
 			if (_processing)
 			{
@@ -134,14 +134,12 @@ namespace Implements.Module.Queue
 			}
 
 			List<object> objs = new();
-			int dequeue = 0;
 
 			while (_queue.Any())
 			{
 				if (_queue.TryDequeue(out var obj))
 				{
 					objs.Add(obj);
-					dequeue++;
 				}
 			}
 
@@ -149,7 +147,7 @@ namespace Implements.Module.Queue
 
 			_active = false;
 
-			_logger($"t={DateTime.UtcNow},i={id},k=processor_released,v=queue_count:{_queue.Count}/{dequeue}");
+			_logger($"t={DateTime.UtcNow},i={id},k=processor_status,v=released");
 
 			_token = new();
 
@@ -159,13 +157,15 @@ namespace Implements.Module.Queue
 
 				_action(objs);
 
-				_logger($"t={DateTime.UtcNow},i={id},k=action_complete");
+				_logger($"t={DateTime.UtcNow},i={id},k=action_stauts,v=completed");
+				_logger($"t={DateTime.UtcNow},i={id},k=action_metadata,v={_queue.Count}/{objs.Count}");
 			}
 			catch (Exception ex)
 			{
 				var data = ex.ToString().Replace(",", "").Replace("=", "");
 
-				_logger($"t={DateTime.UtcNow},i={id},k=action_exception,v=exception:{data}");
+				_logger($"t={DateTime.UtcNow},i={id},k=action_stauts,v=exception");
+				_logger($"t={DateTime.UtcNow},i={id},k=action_exception,v={data}");
 			}
 		}
 
