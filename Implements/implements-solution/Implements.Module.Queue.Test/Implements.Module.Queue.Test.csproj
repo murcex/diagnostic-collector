@@ -19,4 +19,8 @@
     <ProjectReference Include="..\Implements.Module.Queue\Implements.Module.Queue.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Model\" />
+  </ItemGroup>
+
 </Project>

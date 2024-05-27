@@ -75,7 +75,7 @@ namespace Implements.Module.Queue
 
 				_active = true;
 
-				_logger($"t={DateTime.UtcNow},i={id},k=active_async_trigger");
+				_logger($"t={DateTime.UtcNow},k=queue_async_triggered,v={id}");
 			}
 
 			return true;
@@ -147,18 +147,21 @@ namespace Implements.Module.Queue
 
 			_active = false;
 
-			_logger($"t={DateTime.UtcNow},i={id},k=processor_status,v=released");
-
 			_token = new();
+
+			_logger($"t={DateTime.UtcNow},i={id},k=processor_status,v=unlocked");
+			_logger($"t={DateTime.UtcNow},i={id},k=processor_action_count,v={objs.Count}");
+			_logger($"t={DateTime.UtcNow},i={id},k=processor_queue_count,v={_queue.Count}");
 
 			try
 			{
+				_logger($"t={DateTime.UtcNow},i={id},k=action_stauts,v=executing");
+
 				//Task.Run(() => { _action(clone); });
 
 				_action(objs);
 
 				_logger($"t={DateTime.UtcNow},i={id},k=action_stauts,v=completed");
-				_logger($"t={DateTime.UtcNow},i={id},k=action_metadata,v={_queue.Count}/{objs.Count}");
 			}
 			catch (Exception ex)
 			{

@@ -5,69 +5,103 @@ namespace Implements.Module.Queue.Test
 	[TestClass]
 	public class Index
 	{
+		//[TestMethod]
+		//[DynamicData(nameof(TestConfigurations.GetTestDataOne), typeof(TestConfigurations), DynamicDataSourceType.Method)]
+		//public async Task QueueCoreTest(QueueTestConfig config)
+		//{
+		//	var results = await InternalExecutorAsync(config);
+
+		//	Assert.IsTrue(Utilities.CheckTrackerContains(results.samples, results.objTracker));
+
+		//	var records = QueueLoglizer.Execute(results.logTracker);
+
+		//	var test = 1;
+		//}
+
 		[TestMethod]
-		public async Task TestMethod1()
+		public async Task Duration_Single()
 		{
+			var cfg = new QueueTestConfig(10, 5000, 5, 10, 10000);
+
+			var results = await InternalExecutorAsync(cfg);
+
+			Assert.IsTrue(Utilities.CheckTrackerContains(results.samples, results.objTracker));
+
+			var records = QueueLoglizer.Execute(results.logTracker);
+		}
+
+		[TestMethod]
+		public async Task Duration_Multi()
+		{
+			var cfg = new QueueTestConfig(10, 5500, 1000, 10, 10000);
+
+			var results = await InternalExecutorAsync(cfg);
+
+			Assert.IsTrue(Utilities.CheckTrackerContains(results.samples, results.objTracker));
+
+			var records = QueueLoglizer.Execute(results.logTracker);
+		}
+
+		[TestMethod]
+		public async Task Limit_Single()
+		{
+			var cfg = new QueueTestConfig(5, 1000, 9, 10, 10000);
+
+			var results = await InternalExecutorAsync(cfg);
+
+			Assert.IsTrue(Utilities.CheckTrackerContains(results.samples, results.objTracker));
+
+			var records = QueueLoglizer.Execute(results.logTracker);
+		}
+
+		[TestMethod]
+		public async Task Limit_Multi()
+		{
+			var cfg = new QueueTestConfig(5, 1000, 11, 10, 10000);
+
+			var results = await InternalExecutorAsync(cfg);
+
+			Assert.IsTrue(Utilities.CheckTrackerContains(results.samples, results.objTracker));
+
+			var records = QueueLoglizer.Execute(results.logTracker);
+		}
+
+		[TestMethod]
+		public async Task Stress()
+		{
+		}
+
+		[TestMethod]
+		public async Task Exception()
+		{
+		}
+
+		[TestMethod]
+		public async Task Close()
+		{
+		}
+
+
+		private async Task<(List<string> samples, List<string> objTracker, List<string> logTracker)> InternalExecutorAsync(QueueTestConfig config)
+		{
+			var samples = Utilities.SampleGenerator(config.SampleSize);
+
+			var objTracker = new List<string>();
 			var batch = new Batch();
+			var logTracker = new List<string>();
 
-			// TODO: method to auto create test test based on count
-			var sample = new List<string>()
+			var queue = new QueueManager(config.Limit, config.Duration, Utilities.CreateTestAction(objTracker, batch), Utilities.CreateTestLogger(logTracker));
+
+			foreach (var sample in samples)
 			{
-				"test_1",
-				"test_2",
-				"test_3"
-			};
+				queue.Enqueue(sample);
 
-			var tracker = new List<string>();
-
-			var queue = new QueueManager(10, 1000, CreateTestAction(tracker, batch));
-
-			foreach (var item in sample)
-			{
-				queue.Enqueue(item);
-
-				await Task.Delay(2000);
+				await Task.Delay(config.EnqueueDelay);
 			}
 
-			await Task.Delay(10000);
+			await Task.Delay(config.DrainDelay);
 
-			// TODO: new tracker object to help check sample-to-tracker data, but keep batch data intact
-			var test2 = tracker.All(x => sample.Contains(x) == true);
-
-			var test = 1;
-		}
-
-		private Action<List<object>> CreateTestAction(List<string> tracker, Batch batch)
-		{
-			return (List<object> objs) =>
-			{
-				var currentBatch = GetBatch(batch);
-				foreach (var item in objs)
-				{
-					var str = item.ToString();
-					tracker.Add($"{currentBatch}-{item}");
-				}
-			};
-		}
-
-		private int GetBatch(Batch batch)
-		{
-			return batch.Next();
-		}
-	}
-
-	public class Batch
-	{
-		private int current;
-
-		public Batch()
-		{
-			current = 0;
-		}
-
-		public int Next()
-		{
-			return current++;
+			return (samples, objTracker, logTracker);
 		}
 	}
 }

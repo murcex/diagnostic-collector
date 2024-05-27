@@ -28,7 +28,7 @@ namespace Implements.Function.Queue.Target.Components
 
 		public static void Logger(string message)
 		{
-			var record = Configuration.Loglizer.Execute(message);
+			var record = QueueLoglizer.Execute(message);
 
 			switch (record.Type)
 			{

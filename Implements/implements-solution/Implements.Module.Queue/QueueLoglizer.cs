@@ -2,24 +2,24 @@
 {
 	public class QueueLoglizer
 	{
-		public QueueLogRecord Execute(string input)
+		public static QueueLogRecord Execute(string input)
 		{
-			return ParseRawLogInput(input);
+			return ParseInput(input);
 		}
 
-		public List<QueueLogRecord> Execute(List<string> inputs)
+		public static List<QueueLogRecord> Execute(List<string> inputs)
 		{
 			List<QueueLogRecord> records = new();
 
 			foreach (string input in inputs)
 			{
-				records.Add(ParseRawLogInput(input));
+				records.Add(ParseInput(input));
 			}
 
 			return records;
 		}
 
-		private QueueLogRecord ParseRawLogInput(string input)
+		private static QueueLogRecord ParseInput(string input)
 		{
 			var inputs = input.Split(',');
 
@@ -65,7 +65,7 @@
 			}
 		}
 
-		private DateTime AsDateTime(string input)
+		private static DateTime AsDateTime(string input)
 		{
 			DateTime.TryParse(input, out var dt);
 			return dt;

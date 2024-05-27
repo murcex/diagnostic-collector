@@ -18,8 +18,6 @@ namespace Implements.Function.Queue.Target.Core
 
 		public static string Token => _token;
 
-		public static QueueLoglizer Loglizer = new QueueLoglizer();
-
 		public static bool Load(Dictionary<string, string> configuration)
 		{
 			foreach (var kvp in configuration)
