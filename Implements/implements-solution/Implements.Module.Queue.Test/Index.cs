@@ -9,15 +9,18 @@ namespace Implements.Module.Queue.Test
 		//[DynamicData(nameof(TestConfigurations.GetTestDataOne), typeof(TestConfigurations), DynamicDataSourceType.Method)]
 		//public async Task QueueCoreTest(QueueTestConfig config)
 		//{
-		//	var results = await InternalExecutorAsync(config);
+		//    var results = await InternalExecutorAsync(config);
 
-		//	Assert.IsTrue(Utilities.CheckTrackerContains(results.samples, results.objTracker));
+		//    Assert.IsTrue(Utilities.CheckTrackerContains(results.samples, results.objTracker));
 
-		//	var records = QueueLoglizer.Execute(results.logTracker);
+		//    var records = QueueLoglizer.Execute(results.logTracker);
 
-		//	var test = 1;
+		//    var test = 1;
 		//}
 
+		/// <summary>
+		/// This test checks the behavior of the queue when a single duration is specified.
+		/// </summary>
 		[TestMethod]
 		public async Task Duration_Single()
 		{
@@ -27,7 +30,7 @@ namespace Implements.Module.Queue.Test
 
 			Assert.IsTrue(Utilities.CheckTrackerContains(results.samples, results.objTracker));
 
-			var records = QueueLoglizer.Execute(results.logTracker);
+			//var records = QueueLoglizer.Execute(results.logTracker);
 		}
 
 		[TestMethod]
@@ -39,7 +42,7 @@ namespace Implements.Module.Queue.Test
 
 			Assert.IsTrue(Utilities.CheckTrackerContains(results.samples, results.objTracker));
 
-			var records = QueueLoglizer.Execute(results.logTracker);
+			//var records = QueueLoglizer.Execute(results.logTracker);
 		}
 
 		[TestMethod]
@@ -51,7 +54,7 @@ namespace Implements.Module.Queue.Test
 
 			Assert.IsTrue(Utilities.CheckTrackerContains(results.samples, results.objTracker));
 
-			var records = QueueLoglizer.Execute(results.logTracker);
+			//var records = QueueLoglizer.Execute(results.logTracker);
 		}
 
 		[TestMethod]
@@ -67,21 +70,49 @@ namespace Implements.Module.Queue.Test
 		}
 
 		[TestMethod]
-		public async Task Stress()
+		public async Task Stress_Test()
 		{
+			var cfg = new QueueTestConfig(100, 5000, 1000, 10, 10000);
+
+			var results = await InternalExecutorAsync(cfg);
+
+			Assert.IsTrue(Utilities.CheckTrackerContains(results.samples, results.objTracker));
+
+			var records = QueueLoglizer.Execute(results.logTracker);
 		}
 
 		[TestMethod]
-		public async Task Exception()
+		public async Task Exception_empty()
 		{
+			// Arrange
+			var cfg = new QueueTestConfig(0, 0, 0, 0, 0);
+
+			// Act
+			var exceptionThrown = false;
+			try
+			{
+				await InternalExecutorAsync(cfg);
+			}
+			catch
+			{
+				exceptionThrown = true;
+			}
+
+			// Assert
+			Assert.IsTrue(exceptionThrown);
 		}
 
 		[TestMethod]
-		public async Task Close()
+		public async Task Close_empty()
 		{
 		}
 
 
+		/// <summary>
+		/// Executes the queue test asynchronously.
+		/// </summary>
+		/// <param name="config">The configuration for the queue test.</param>
+		/// <returns>A tuple containing the generated samples, object tracker, and log tracker.</returns>
 		private async Task<(List<string> samples, List<string> objTracker, List<string> logTracker)> InternalExecutorAsync(QueueTestConfig config)
 		{
 			var samples = Utilities.SampleGenerator(config.SampleSize);

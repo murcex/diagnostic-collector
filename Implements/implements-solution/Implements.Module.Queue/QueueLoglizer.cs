@@ -1,12 +1,25 @@
 ﻿namespace Implements.Module.Queue
 {
+	/// <summary>
+	/// 
+	/// </summary>
 	public class QueueLoglizer
 	{
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="input"></param>
+		/// <returns></returns>
 		public static QueueLogRecord Execute(string input)
 		{
 			return ParseInput(input);
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="inputs"></param>
+		/// <returns></returns>
 		public static List<QueueLogRecord> Execute(List<string> inputs)
 		{
 			List<QueueLogRecord> records = new();
@@ -19,6 +32,11 @@
 			return records;
 		}
 
+		/// <summary>
+		/// Parses the input string and returns a QueueLogRecord object.
+		/// </summary>
+		/// <param name="input">The input string to parse.</param>
+		/// <returns>A QueueLogRecord object.</returns>
 		private static QueueLogRecord ParseInput(string input)
 		{
 			var inputs = input.Split(',');
@@ -65,6 +83,11 @@
 			}
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="input"></param>
+		/// <returns></returns>
 		private static DateTime AsDateTime(string input)
 		{
 			DateTime.TryParse(input, out var dt);
