@@ -20,6 +20,10 @@ namespace Implements.Module.Queue.Test
 			//var records = QueueLoglizer.Execute(results.logTracker);
 		}
 
+		/// <summary>
+		/// This test checks the behavior of the queue when multiple durations are specified.
+		/// </summary>
+		/// <returns></returns>
 		[TestMethod]
 		public async Task Duration_Multi()
 		{
@@ -32,6 +36,10 @@ namespace Implements.Module.Queue.Test
 			//var records = QueueLoglizer.Execute(results.logTracker);
 		}
 
+		/// <summary>
+		/// This test checks the behavior of the queue when a single limit is specified.
+		/// </summary>
+		/// <returns></returns>
 		[TestMethod]
 		public async Task Limit_Single()
 		{
@@ -44,6 +52,10 @@ namespace Implements.Module.Queue.Test
 			//var records = QueueLoglizer.Execute(results.logTracker);
 		}
 
+		/// <summary>
+		/// This test checks the behavior of the queue when multiple limits are specified.
+		/// </summary>
+		/// <returns></returns>
 		[TestMethod]
 		public async Task Limit_Multi()
 		{
@@ -56,6 +68,10 @@ namespace Implements.Module.Queue.Test
 			//var records = QueueLoglizer.Execute(results.logTracker);
 		}
 
+		/// <summary>
+		/// This test checks the behavior of the queue under high load.
+		/// </summary>
+		/// <returns></returns>
 		[TestMethod]
 		public async Task High_Load()
 		{
@@ -68,6 +84,10 @@ namespace Implements.Module.Queue.Test
 			//var records = QueueLoglizer.Execute(results.logTracker);
 		}
 
+		/// <summary>
+		/// This test checks the behavior of the queue when an exception occurs.
+		/// </summary>
+		/// <returns></returns>
 		[TestMethod]
 		public async Task Exception()
 		{
@@ -80,6 +100,9 @@ namespace Implements.Module.Queue.Test
 			Assert.IsTrue(records.Any(record => record.Key == "action_exception"));
 		}
 
+		/// <summary>
+		/// This test checks the behavior of the queue when it is closed and empty.
+		/// </summary>
 		[TestMethod]
 		public async Task Close_empty()
 		{
