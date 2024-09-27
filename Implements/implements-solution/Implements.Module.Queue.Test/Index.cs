@@ -57,7 +57,7 @@ namespace Implements.Module.Queue.Test
 		}
 
 		[TestMethod]
-		public async Task Stress_Test()
+		public async Task High_Load()
 		{
 			var cfg = new QueueTestConfig(100, 5000, 1000, 5000, 10000);
 
@@ -69,8 +69,15 @@ namespace Implements.Module.Queue.Test
 		}
 
 		[TestMethod]
-		public async Task Exception_empty()
+		public async Task Exception()
 		{
+			var cfg = new QueueTestConfig(10, 5000, 5, 10, 10000);
+
+			var results = await InternalExceptionExecutorAsync(cfg);
+
+			var records = QueueLoglizer.Execute(results.logTracker);
+
+			Assert.IsTrue(records.Any(record => record.Key == "action_exception"));
 		}
 
 		[TestMethod]
@@ -152,6 +159,28 @@ namespace Implements.Module.Queue.Test
 			}
 
 			await Task.WhenAll(tasks);
+
+			await Task.Delay(config.DrainDelay);
+
+			return (samples, objTracker, logTracker);
+		}
+
+		private async Task<(List<string> samples, List<string> objTracker, List<string> logTracker)> InternalExceptionExecutorAsync(QueueTestConfig config)
+		{
+			var samples = Utilities.SampleGenerator(config.SampleSize);
+
+			var objTracker = new List<string>();
+			var batch = new Batch();
+			var logTracker = new List<string>();
+
+			var queue = new QueueManager(config.Limit, config.Duration, Utilities.CreateExceptionTestAction(objTracker, batch), Utilities.CreateTestLogger(logTracker));
+
+			foreach (var sample in samples)
+			{
+				queue.Enqueue(sample);
+
+				await Task.Delay(config.EnqueueDelay);
+			}
 
 			await Task.Delay(config.DrainDelay);
 

@@ -36,6 +36,14 @@
 			};
 		}
 
+		public static Action<List<object>> CreateExceptionTestAction(List<string> tracker, Batch batch)
+		{
+			return (List<object> objs) =>
+			{
+				throw new Exception("Test Exception");
+			};
+		}
+
 		private static int GetBatch(Batch batch)
 		{
 			return batch.Next();

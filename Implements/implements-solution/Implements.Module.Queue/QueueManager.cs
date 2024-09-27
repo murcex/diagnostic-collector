@@ -2,33 +2,44 @@
 
 namespace Implements.Module.Queue
 {
+	/// <summary>
+	// This class represents a queue manager that allows enqueueing objects and executing actions on the enqueued objects based on certain triggers.
+	/// </summary>
 	public class QueueManager
 	{
-		// --- queue configuration ---
+		// --- Queue Configuration ---
+		// Represents the queue that stores the enqueued objects.
 		private readonly ConcurrentQueue<object> _queue;
 
+		// Represents the maximum number of items allowed in the queue.
 		private readonly int _limit;
 
+		// Represents the duration in milliseconds after which the queue processor will be triggered.
 		private readonly int _duration;
 
+		// Represents the action to be executed on the items in the queue.
 		private readonly Action<List<object>> _action;
 
+		// Represents the optional logger function to log messages.
 		private readonly Action<string> _logger;
 
-		// --- state management ---
+		// --- State Management ---
+		// Represents the state of the queue manager indicating if it is active or not.
 		private bool _active;
 
+		// Represents the state of the queue manager indicating if it is currently processing items.
 		private bool _processing;
 
+		// Represents the cancellation token source used to cancel the queue processor.
 		private CancellationTokenSource _token;
 
 		/// <summary>
-		/// 
+		/// Initializes a new instance of the QueueManager class.
 		/// </summary>
-		/// <param name="limit"></param>
-		/// <param name="duration"></param>
-		/// <param name="action"></param>
-		/// <param name="logger"></param>
+		/// <param name="limit">The maximum number of items allowed in the queue.</param>
+		/// <param name="duration">The duration in milliseconds after which the queue processor will be triggered.</param>
+		/// <param name="action">The action to be executed on the items in the queue.</param>
+		/// <param name="logger">The optional logger function to log messages.</param>
 		public QueueManager(int limit, int duration, Action<List<object>> action, Action<string>? logger = null)
 		{
 			_queue = new();
@@ -42,10 +53,10 @@ namespace Implements.Module.Queue
 		}
 
 		/// <summary>
-		/// 
+		/// Enqueues an object to the queue.
 		/// </summary>
-		/// <param name="obj"></param>
-		/// <returns></returns>
+		/// <param name="obj">The object to enqueue.</param>
+		/// <returns>True if the object was successfully enqueued, false otherwise.</returns>
 		public bool Enqueue(object obj)
 		{
 			_queue.Enqueue(obj);
@@ -93,31 +104,31 @@ namespace Implements.Module.Queue
 		}
 
 		/// <summary>
-		/// 
+		/// Executes the trigger for a specific ID.
 		/// </summary>
-		/// <param name="id"></param>
-		/// <returns></returns>
+		/// <param name="id">The ID of the trigger.</param>
+		/// <returns>A task representing the asynchronous operation.</returns>
 		private async Task Trigger(string id)
 		{
 			await Task.Run(() => { ExecuteTrigger(id, TriggerType.Limit); });
 		}
 
 		/// <summary>
-		/// 
+		/// Asynchronously triggers the execution of the queue processor after a specified duration.
 		/// </summary>
-		/// <param name="id"></param>
-		/// <param name="token"></param>
-		/// <returns></returns>
+		/// <param name="id">The ID of the trigger.</param>
+		/// <param name="token">The cancellation token.</param>
+		/// <returns>A task representing the asynchronous operation.</returns>
 		private async Task AsyncTrigger(string id, CancellationToken token)
 		{
 			await Task.Delay(_duration, token).ContinueWith(_ => { ExecuteTrigger(id, TriggerType.Duration); }, token);
 		}
 
 		/// <summary>
-		/// 
+		/// Executes the trigger for a specific ID.
 		/// </summary>
-		/// <param name="id"></param>
-		/// <param name="type"></param>
+		/// <param name="id">The ID of the trigger.</param>
+		/// <param name="type">The type of the trigger.</param>
 		private void ExecuteTrigger(string id, TriggerType type)
 		{
 			_logger($"t={DateTime.UtcNow},i={id},k=execute_queue_processor,v={type}");
@@ -155,27 +166,27 @@ namespace Implements.Module.Queue
 
 			try
 			{
-				_logger($"t={DateTime.UtcNow},i={id},k=action_stauts,v=executing");
+				_logger($"t={DateTime.UtcNow},i={id},k=action_status,v=executing");
 
 				//Task.Run(() => { _action(clone); });
 
 				_action(objs);
 
-				_logger($"t={DateTime.UtcNow},i={id},k=action_stauts,v=completed");
+				_logger($"t={DateTime.UtcNow},i={id},k=action_status,v=completed");
 			}
 			catch (Exception ex)
 			{
 				var data = ex.ToString().Replace(",", "").Replace("=", "");
 
-				_logger($"t={DateTime.UtcNow},i={id},k=action_stauts,v=exception");
+				_logger($"t={DateTime.UtcNow},i={id},k=action_status,v=exception");
 				_logger($"t={DateTime.UtcNow},i={id},k=action_exception,v={data}");
 			}
 		}
 
 		/// <summary>
-		/// 
+		/// Generates a unique instance ID.
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>The generated instance ID.</returns>
 		private static string GetInstanceId()
 		{
 			return Guid.NewGuid().ToString().Split('-')[0].ToUpper();
@@ -183,7 +194,7 @@ namespace Implements.Module.Queue
 	}
 
 	/// <summary>
-	/// 
+	/// Represents the type of trigger for the queue manager.
 	/// </summary>
 	enum TriggerType
 	{

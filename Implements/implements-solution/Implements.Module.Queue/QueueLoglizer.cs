@@ -1,25 +1,25 @@
 ﻿namespace Implements.Module.Queue
 {
 	/// <summary>
-	/// 
+	/// Represents a class for parsing and processing queue log data.
 	/// </summary>
 	public class QueueLoglizer
 	{
 		/// <summary>
-		/// 
+		/// Executes the parsing of a single input string and returns a QueueLogRecord object.
 		/// </summary>
-		/// <param name="input"></param>
-		/// <returns></returns>
+		/// <param name="input">The input string to parse.</param>
+		/// <returns>A QueueLogRecord object.</returns>
 		public static QueueLogRecord Execute(string input)
 		{
 			return ParseInput(input);
 		}
 
 		/// <summary>
-		/// 
+		/// Executes the parsing of a list of input strings and returns a list of QueueLogRecord objects.
 		/// </summary>
-		/// <param name="inputs"></param>
-		/// <returns></returns>
+		/// <param name="inputs">The list of input strings to parse.</param>
+		/// <returns>A list of QueueLogRecord objects.</returns>
 		public static List<QueueLogRecord> Execute(List<string> inputs)
 		{
 			List<QueueLogRecord> records = new();
@@ -84,10 +84,10 @@
 		}
 
 		/// <summary>
-		/// 
+		/// Converts the input string to a DateTime object.
 		/// </summary>
-		/// <param name="input"></param>
-		/// <returns></returns>
+		/// <param name="input">The input string to convert.</param>
+		/// <returns>A DateTime object.</returns>
 		private static DateTime AsDateTime(string input)
 		{
 			DateTime.TryParse(input, out var dt);
