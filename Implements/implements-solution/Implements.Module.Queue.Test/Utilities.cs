@@ -45,5 +45,12 @@
 		{
 			return output.All(x => input.Contains(x.Split("-")[1]) == true);
 		}
+
+		public static async Task EnqueueAsync(QueueManager queue, string sample, int delay)
+		{
+			await Task.Delay(delay);
+
+			queue.Enqueue(sample);
+		}
 	}
 }
