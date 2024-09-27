@@ -7,30 +7,52 @@ namespace Implements.Module.Queue
 	/// </summary>
 	public class QueueManager
 	{
-		// --- Queue Configuration ---
-		// Represents the queue that stores the enqueued objects.
+		///
+		/// --- Queue Configuration ---
+		///
+
+		/// <summary>
+		/// Represents the queue that stores the enqueued objects.
+		/// </summary>
 		private readonly ConcurrentQueue<object> _queue;
 
-		// Represents the maximum number of items allowed in the queue.
+		/// <summary>
+		/// Represents the maximum number of items allowed in the queue.
+		/// </summary>
 		private readonly int _limit;
 
-		// Represents the duration in milliseconds after which the queue processor will be triggered.
+		/// <summary>
+		/// Represents the duration in milliseconds after which the queue processor will be triggered.
+		/// </summary>
 		private readonly int _duration;
 
-		// Represents the action to be executed on the items in the queue.
+		/// <summary>
+		/// Represents the action to be executed on the items in the queue.
+		/// </summary>
 		private readonly Action<List<object>> _action;
 
-		// Represents the optional logger function to log messages.
+		/// <summary>
+		/// Represents the optional logger function to log messages.
+		/// </summary>
 		private readonly Action<string> _logger;
 
-		// --- State Management ---
-		// Represents the state of the queue manager indicating if it is active or not.
+		///
+		/// --- State Management ---
+		///
+
+		/// <summary>
+		/// Represents the state of the queue manager indicating if it is active or not.
+		/// </summary>
 		private bool _active;
 
-		// Represents the state of the queue manager indicating if it is currently processing items.
+		/// <summary>
+		/// Represents the state of the queue manager indicating if it is currently processing items.
+		/// </summary>
 		private bool _processing;
 
-		// Represents the cancellation token source used to cancel the queue processor.
+		/// <summary>
+		/// Represents the cancellation token source used to cancel the queue processor.
+		/// </summary>
 		private CancellationTokenSource _token;
 
 		/// <summary>
@@ -95,8 +117,13 @@ namespace Implements.Module.Queue
 		/// <summary>
 		/// 
 		/// </summary>
-		public void Close()
+		public void Shutdown()
 		{
+			// add new _shutdown flag
+			// mark _shutdown as true
+			// add _shutdown flag to Enqueue pre-check
+			// return false and do not proceed adding objec to queue if _shutdown is true
+
 			if (_active)
 			{
 				_token.Cancel();
@@ -167,8 +194,6 @@ namespace Implements.Module.Queue
 			try
 			{
 				_logger($"t={DateTime.UtcNow},i={id},k=action_status,v=executing");
-
-				//Task.Run(() => { _action(clone); });
 
 				_action(objs);
 

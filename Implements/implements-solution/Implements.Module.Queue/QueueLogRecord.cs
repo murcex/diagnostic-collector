@@ -1,5 +1,8 @@
 ﻿namespace Implements.Module.Queue
 {
+	/// <summary>
+	/// Represents a log record in the queue.
+	/// </summary>
 	public class QueueLogRecord
 	{
 		/// <summary>
