@@ -3,7 +3,6 @@
 	using System;
 	using System.Collections.Concurrent;
 	using System.Collections.Generic;
-	using System.ComponentModel.Design;
 	using System.Linq;
 
 	/// <summary>
@@ -200,7 +199,7 @@
 			key = key.ToUpper();
 
 			if (Storage.TryGetValue(key, out string oldValue))
-			{
+			{				
 				TimeStamp[key] = DateTime.UtcNow;
 				Storage[key] = value;
 
