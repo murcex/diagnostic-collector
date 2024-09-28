@@ -91,13 +91,15 @@ namespace Implements.Module.Queue.Test
 		[TestMethod]
 		public async Task Load_Burst()
 		{
-			var cfg = new QueueTestConfig(10, 5000, 10, 10, 10000);
+			var cfg = new QueueTestConfig(10, 5000, 2500, 10, 10000);
 
-			var results = await InternalExecutorAsync(cfg);
+			var results = await InternalBurstExecutorAsync(cfg);
 
 			Assert.IsTrue(Utilities.CheckTrackerContains(results.samples, results.objTracker));
 
 			//var records = QueueLoglizer.Execute(results.logTracker);
+
+			var test = 0;
 		}
 
 		/// <summary>
@@ -147,7 +149,6 @@ namespace Implements.Module.Queue.Test
 		public async Task Standard_IsActive()
 		{
 		}
-
 
 		/// <summary>
 		/// Executes the queue test asynchronously.
@@ -224,6 +225,41 @@ namespace Implements.Module.Queue.Test
 			await Task.WhenAll(tasks);
 
 			await Task.Delay(config.DrainDelay);
+
+			return (samples, objTracker, logTracker);
+		}
+
+		/// <summary>
+		/// Executes the queue test asynchronously.
+		/// </summary>
+		/// <param name="config">The configuration for the queue test.</param>
+		/// <returns>A tuple containing the generated samples, object tracker, and log tracker.</returns>
+		private async Task<(List<string> samples, List<string> objTracker, List<string> logTracker)> InternalBurstExecutorAsync(QueueTestConfig config)
+		{
+			var objTracker = new List<string>();
+			var batch = new Batch();
+			var logTracker = new List<string>();
+
+			var queue = new QueueManager(config.Limit, config.Duration, Utilities.CreateTestAction(objTracker, batch), Utilities.CreateTestLogger(logTracker));
+
+			var samples = new List<string>();
+
+			var cycles = 1;
+			while (cycles < 4)
+			{
+				var cycleSamples = Utilities.SampleGenerator(config.SampleSize);
+				samples.AddRange(cycleSamples);
+
+				foreach (var sample in cycleSamples)
+				{
+					queue.Enqueue(sample);
+
+					await Task.Delay(config.EnqueueDelay);
+				}
+
+				await Task.Delay(config.DrainDelay);
+				cycles++;
+			}
 
 			return (samples, objTracker, logTracker);
 		}
