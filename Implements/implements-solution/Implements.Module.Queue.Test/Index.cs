@@ -69,11 +69,43 @@ namespace Implements.Module.Queue.Test
 		}
 
 		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		[TestMethod]
+		public async Task Load_Blast()
+		{
+			var cfg = new QueueTestConfig(10, 5000, 10000, 10, 10000);
+
+			var results = await InternalExecutorAsync(cfg);
+
+			Assert.IsTrue(Utilities.CheckTrackerContains(results.samples, results.objTracker));
+
+			//var records = QueueLoglizer.Execute(results.logTracker);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		[TestMethod]
+		public async Task Load_Burst()
+		{
+			var cfg = new QueueTestConfig(10, 5000, 10, 10, 10000);
+
+			var results = await InternalExecutorAsync(cfg);
+
+			Assert.IsTrue(Utilities.CheckTrackerContains(results.samples, results.objTracker));
+
+			//var records = QueueLoglizer.Execute(results.logTracker);
+		}
+
+		/// <summary>
 		/// This test checks the behavior of the queue under high load.
 		/// </summary>
 		/// <returns></returns>
 		[TestMethod]
-		public async Task High_Load()
+		public async Task Load_Multi()
 		{
 			var cfg = new QueueTestConfig(100, 5000, 1000, 5000, 10000);
 
@@ -89,7 +121,7 @@ namespace Implements.Module.Queue.Test
 		/// </summary>
 		/// <returns></returns>
 		[TestMethod]
-		public async Task Exception()
+		public async Task Standard_Exception()
 		{
 			var cfg = new QueueTestConfig(10, 5000, 5, 10, 10000);
 
@@ -104,7 +136,15 @@ namespace Implements.Module.Queue.Test
 		/// This test checks the behavior of the queue when it is closed and empty.
 		/// </summary>
 		[TestMethod]
-		public async Task Close_empty()
+		public async Task Standard_Shutdown()
+		{
+		}
+
+		/// <summary>
+		/// This test checks the behavior of the queue when it is closed and empty.
+		/// </summary>
+		[TestMethod]
+		public async Task Standard_IsActive()
 		{
 		}
 

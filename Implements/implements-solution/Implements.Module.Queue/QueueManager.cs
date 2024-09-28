@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using System.Transactions;
 
 namespace Implements.Module.Queue
 {
@@ -56,6 +57,11 @@ namespace Implements.Module.Queue
 		private CancellationTokenSource _token;
 
 		/// <summary>
+		/// Represents the flag indicating if the queue manager has been shut down.
+		/// </summary>
+		private bool _shutdown;
+
+		/// <summary>
 		/// Initializes a new instance of the QueueManager class.
 		/// </summary>
 		/// <param name="limit">The maximum number of items allowed in the queue.</param>
@@ -81,6 +87,11 @@ namespace Implements.Module.Queue
 		/// <returns>True if the object was successfully enqueued, false otherwise.</returns>
 		public bool Enqueue(object obj)
 		{
+			if (_shutdown)
+			{
+				return false;
+			}
+
 			_queue.Enqueue(obj);
 
 			_logger($"t={DateTime.UtcNow},k=add_item,v={_queue.Count}");
@@ -115,19 +126,30 @@ namespace Implements.Module.Queue
 		}
 
 		/// <summary>
-		/// 
+		/// Shuts down the queue manager.
 		/// </summary>
-		public void Shutdown()
+		/// <returns>True if the queue manager was successfully shut down, false otherwise.</returns>
+		public bool Shutdown()
 		{
-			// add new _shutdown flag
-			// mark _shutdown as true
-			// add _shutdown flag to Enqueue pre-check
-			// return false and do not proceed adding objec to queue if _shutdown is true
-
-			if (_active)
+			if (_shutdown)
 			{
-				_token.Cancel();
+				return false;
 			}
+			else
+			{
+				_shutdown = true;
+				_token.Cancel();
+				return true;
+			}
+		}
+
+		/// <summary>
+		/// Checks if the queue manager is active.
+		/// </summary>
+		/// <returns>True if the queue manager is active, false otherwise.</returns>
+		public bool IsActive()
+		{
+			return _active;
 		}
 
 		/// <summary>
