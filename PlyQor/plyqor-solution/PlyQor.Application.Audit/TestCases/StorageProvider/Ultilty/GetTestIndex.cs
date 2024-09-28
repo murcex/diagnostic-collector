@@ -1,10 +1,10 @@
 ﻿namespace PlyQor.Audit.Ultilties
 {
-	using PlyQor.Audit.Core;
-	using PlyQor.Engine.Components.Storage;
-	using System.Linq;
+    using PlyQor.Audit.Core;
+    using PlyQor.Internal.Engine.Components.StorageAdapter;
+    using System.Linq;
 
-	class GetTestIndex
+    class GetTestIndex
 	{
 		public static string Execute()
 		{

@@ -1,11 +1,11 @@
 ﻿namespace PlyQor.Audit.TestCases.StorageProvider
 {
-	using PlyQor.Audit.Core;
-	using PlyQor.Engine.Components.Storage;
-	using System;
-	using System.Linq;
+    using PlyQor.Audit.Core;
+    using PlyQor.Internal.Engine.Components.StorageAdapter;
+    using System;
+    using System.Linq;
 
-	class UpdateTagByKey
+    class UpdateTagByKey
 	{
 		public static void Execute()
 		{

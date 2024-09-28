@@ -1,11 +1,19 @@
-﻿namespace PlyQor.Engine.Components.Storage
-{
-	using PlyQor.Engine.Components.Storage.Internals;
-	using System;
-	using System.Collections.Generic;
+﻿using PlyQor.Internal.Engine.Components.Storage.Adapter;
+using System;
+using System.Collections.Generic;
 
+namespace PlyQor.Internal.Engine.Components.Storage
+{
 	public class StorageProvider
 	{
+		private static IStorageAdapter _adapter;
+
+		public static bool Initialize(IStorageAdapter adapter)
+		{
+			_adapter = adapter;
+			return true;
+		}
+
 		/// <summary>
 		/// 
 		/// </summary>
@@ -17,23 +25,37 @@
 		{
 			var timestamp = DateTime.UtcNow;
 
-			var count = InsertKeyStorage.Execute(
-				timestamp,
-				container.ToUpper(),
-				id.ToUpper(),
-				data);
+			var count = _adapter.InsertKey(container, id, data, indexes);
 
 			if (indexes != null && indexes.Count > 0)
 			{
 				foreach (var indexId in indexes)
 				{
-					count = +InsertTagStorage.Execute(
+					count += _adapter.InsertTagStorage(
 						timestamp,
 						container.ToUpper(),
 						id.ToUpper(),
 						indexId.ToUpper());
 				}
 			}
+
+			//var count = InsertKeyStorage.Execute(
+			//	timestamp,
+			//	container.ToUpper(),
+			//	id.ToUpper(),
+			//	data);
+
+			//if (indexes != null && indexes.Count > 0)
+			//{
+			//	foreach (var indexId in indexes)
+			//	{
+			//		count = +InsertTagStorage.Execute(
+			//			timestamp,
+			//			container.ToUpper(),
+			//			id.ToUpper(),
+			//			indexId.ToUpper());
+			//	}
+			//}
 
 			return count;
 		}
@@ -45,9 +67,11 @@
 			string conatiner,
 			string id)
 		{
-			return SelectKeyStorage.Execute(
-				conatiner.ToUpper(),
-				id.ToUpper());
+			return _adapter.SelectKey(conatiner, id);
+
+			//return SelectKeyStorage.Execute(
+			//	conatiner.ToUpper(),
+			//	id.ToUpper());
 		}
 
 		/// <summary>
@@ -55,7 +79,9 @@
 		/// </summary>
 		public static List<string> SelectTags(string container)
 		{
-			return SelectTagsStorage.Execute(container.ToUpper());
+			return _adapter.SelectTags(container);
+
+			//return SelectTagsStorage.Execute(container.ToUpper());
 		}
 
 		/// <summary>
@@ -65,9 +91,11 @@
 			string container,
 			string index)
 		{
-			return SelectTagCountStorage.Execute(
-				container.ToUpper(),
-				index.ToUpper());
+			return _adapter.SelectTagCount(container, index);
+
+			//return SelectTagCountStorage.Execute(
+			//	container.ToUpper(),
+			//	index.ToUpper());
 		}
 
 		/// <summary>
@@ -78,10 +106,12 @@
 			string tag,
 			int count)
 		{
-			return SelectKeyListStorage.Execute(
-				container.ToUpper(),
-				tag.ToUpper(),
-				count);
+			return _adapter.SelectKeyList(container, tag, count);
+
+			//return SelectKeyListStorage.Execute(
+			//	container.ToUpper(),
+			//	tag.ToUpper(),
+			//	count);
 		}
 
 		/// <summary>
@@ -91,9 +121,11 @@
 			string container,
 			string id)
 		{
-			return SelectKeyTagsStorage.Execute(
-				container.ToUpper(),
-				id.ToUpper());
+			return _adapter.SelectKeyTags(container, id);
+
+			//return SelectKeyTagsStorage.Execute(
+			//	container.ToUpper(),
+			//	id.ToUpper());
 		}
 
 		/// <summary>
@@ -104,15 +136,19 @@
 			string oldid,
 			string newid)
 		{
-			var count = UpdateKeyStorage.Execute(
-				container,
-				oldid,
-				newid);
+			var count = _adapter.UpdateKey(container, oldid, newid);
 
-			count = +UpdateKeyTagsStorage.Execute(
-				 container.ToUpper(),
-				 oldid.ToUpper(),
-				 newid.ToUpper());
+			//var count = UpdateKeyStorage.Execute(
+			//	container,
+			//	oldid,
+			//	newid);
+
+			count += _adapter.UpdateKeyTags(container, oldid, newid);
+
+			//count = +UpdateKeyTagsStorage.Execute(
+			//	 container.ToUpper(),
+			//	 oldid.ToUpper(),
+			//	 newid.ToUpper());
 
 			return count;
 		}
@@ -125,10 +161,12 @@
 			string id,
 			string newdata)
 		{
-			return UpdateDataStorage.Execute(
-				container.ToUpper(),
-				id.ToUpper(),
-				newdata);
+			return _adapter.UpdateData(container, id, newdata);
+
+			//return UpdateDataStorage.Execute(
+			//	container.ToUpper(),
+			//	id.ToUpper(),
+			//	newdata);
 		}
 
 		/// <summary>
@@ -140,11 +178,13 @@
 			string oldindex,
 			string newindex)
 		{
-			return UpdateKeyTagStorage.Execute(
-				container.ToUpper(),
-				id.ToUpper(),
-				oldindex.ToUpper(),
-				newindex.ToUpper());
+			return _adapter.UpdateKeyTag(container, id, oldindex, newindex);
+
+			//return UpdateKeyTagStorage.Execute(
+			//	container.ToUpper(),
+			//	id.ToUpper(),
+			//	oldindex.ToUpper(),
+			//	newindex.ToUpper());
 		}
 
 		/// <summary>
@@ -155,10 +195,12 @@
 			string oldIndex,
 			string newIndex)
 		{
-			return UpdateTagStorage.Execute(
-				container.ToUpper(),
-				oldIndex.ToUpper(),
-				newIndex.ToUpper());
+			return _adapter.UpdateTag(container, oldIndex, newIndex);
+
+			//return UpdateTagStorage.Execute(
+			//	container.ToUpper(),
+			//	oldIndex.ToUpper(),
+			//	newIndex.ToUpper());
 		}
 
 		/// <summary>
@@ -168,17 +210,23 @@
 			string container,
 			string id)
 		{
-			// delete key
-			var count = DeleteKeyStorage.Execute(
-				container,
-				id);
+			var count = _adapter.DeleteKey(container, id);
 
-			// delete all tags for a key
-			count += DeleteKeyTagsStorage.Execute(
-				container.ToUpper(),
-				id.ToUpper());
+			count += _adapter.DeleteKeyTags(container, id);
 
 			return count;
+
+			//// delete key
+			//var count = DeleteKeyStorage.Execute(
+			//	container,
+			//	id);
+
+			//// delete all tags for a key
+			//count += DeleteKeyTagsStorage.Execute(
+			//	container.ToUpper(),
+			//	id.ToUpper());
+
+			//return count;
 		}
 
 		/// <summary>
@@ -188,9 +236,11 @@
 			string container,
 			string index)
 		{
-			return DeleteTagStorage.Execute(
-				container.ToUpper(),
-				index.ToUpper());
+			return _adapter.DeleteTag(container, index);
+
+			//return DeleteTagStorage.Execute(
+			//	container.ToUpper(),
+			//	index.ToUpper());
 		}
 
 		/// <summary>
@@ -200,11 +250,13 @@
 			string container,
 			string id)
 		{
-			var count = DeleteKeyTagsStorage.Execute(
-				container.ToUpper(),
-				id.ToUpper());
+			return _adapter.DeleteKeyTags(container, id);
 
-			return count;
+			//var count = DeleteKeyTagsStorage.Execute(
+			//	container.ToUpper(),
+			//	id.ToUpper());
+
+			//return count;
 		}
 
 		/// <summary>
@@ -215,10 +267,12 @@
 			string id,
 			string index)
 		{
-			return DeleteKeyTagStorage.Execute(
-				container.ToUpper(),
-				id.ToUpper(),
-				index.ToUpper());
+			return _adapter.DeleteKeyTag(container, id, index);
+
+			//return DeleteKeyTagStorage.Execute(
+			//	container.ToUpper(),
+			//	id.ToUpper(),
+			//	index.ToUpper());
 		}
 
 		/// <summary>
@@ -231,11 +285,13 @@
 		{
 			var timestamp = DateTime.UtcNow;
 
-			return InsertTagStorage.Execute(
-				timestamp,
-				container.ToUpper(),
-				id.ToUpper(),
-				index.ToUpper());
+			return _adapter.InsertTagStorage(timestamp, container, id, index);
+
+			//return InsertTagStorage.Execute(
+			//	timestamp,
+			//	container.ToUpper(),
+			//	id.ToUpper(),
+			//	index.ToUpper());
 		}
 
 		/// <summary>
@@ -245,9 +301,11 @@
 			string container,
 			int days)
 		{
-			return SelectRetentionKeysStorage.Execute(
-				container.ToUpper(),
-				days);
+			return _adapter.SelectRetentionKeys(container, days);
+
+			//return SelectRetentionKeysStorage.Execute(
+			//	container.ToUpper(),
+			//	days);
 		}
 
 		/// <summary>
@@ -255,8 +313,10 @@
 		/// </summary>
 		public static int TraceRetention(int days)
 		{
-			return TraceRetentionStorage.Execute(
-				days);
+			return _adapter.TraceRetention(days);
+
+			//return TraceRetentionStorage.Execute(
+			//	days);
 		}
 	}
 }

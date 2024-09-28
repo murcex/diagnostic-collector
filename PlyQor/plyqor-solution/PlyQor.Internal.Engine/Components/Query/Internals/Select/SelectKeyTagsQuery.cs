@@ -1,6 +1,6 @@
 ﻿namespace PlyQor.Engine.Components.Query.Internals
 {
-	using PlyQor.Engine.Components.Storage;
+	using PlyQor.Internal.Engine.Components.Storage;
 	using PlyQor.Models;
 	using PlyQor.Resources;
 	using System.Collections.Generic;

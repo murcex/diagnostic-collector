@@ -1,7 +1,8 @@
 ﻿namespace PlyQor.Engine.Core
 {
-	using PlyQor.Engine.Components.Storage;
 	using PlyQor.Engine.Resources;
+	using PlyQor.Internal.Engine.Components.Storage;
+	using PlyQor.Internal.Engine.Components.Storage.Adapter;
 	using System;
 	using System.Collections.Generic;
 	using System.Text.Json;
@@ -21,21 +22,23 @@
 		{
 			if (configuration.TryGetValue(InitializerValues.PlyQorConfigKey, out Dictionary<string, string> plyqorConfiguration))
 			{
-				if (Configuration.Load(plyqorConfiguration))
-				{
-					var containerTokens = GetContainerTokens();
-
-					return Configuration.SetContainerTokens(containerTokens);
-				}
+				return Configuration.Load(plyqorConfiguration);
 			}
-
-			// TODO: hold for pylon replacement
-			throw new Exception("SetApplication Failure");
+			else
+			{
+				throw new Exception("SetApplication Failure");
+			}
 		}
 
 		private static bool SetAppliances(Dictionary<string, Dictionary<string, string>> configuration)
 		{
-			return true;
+			var adapter = StorageAdapterProvider.GetStorageAdapter(Configuration.StorageAdapter);
+
+			StorageProvider.Initialize(adapter);
+
+			var containerTokens = GetContainerTokens();
+
+			return Configuration.SetContainerTokens(containerTokens);
 		}
 
 		private static Dictionary<string, List<string>> GetContainerTokens()

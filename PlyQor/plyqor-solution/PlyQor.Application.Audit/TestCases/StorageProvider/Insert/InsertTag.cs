@@ -1,11 +1,11 @@
 ﻿namespace PlyQor.Audit.TestCases.StorageProvider
 {
-	using PlyQor.Audit.Core;
-	using PlyQor.Audit.Ultilties;
-	using PlyQor.Engine.Components.Storage;
-	using System;
+    using PlyQor.Audit.Core;
+    using PlyQor.Audit.Ultilties;
+    using PlyQor.Internal.Engine.Components.StorageAdapter;
+    using System;
 
-	class InsertTag
+    class InsertTag
 	{
 		public static void Execute()
 		{

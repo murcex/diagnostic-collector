@@ -1,10 +1,10 @@
 ﻿namespace PlyQor.Audit.TestCases.StorageProvider
 {
-	using PlyQor.Audit.Core;
-	using PlyQor.Engine.Components.Storage;
-	using System;
+    using PlyQor.Audit.Core;
+    using PlyQor.Internal.Engine.Components.StorageAdapter;
+    using System;
 
-	class SelectKey
+    class SelectKey
 	{
 		public static void Execute()
 		{

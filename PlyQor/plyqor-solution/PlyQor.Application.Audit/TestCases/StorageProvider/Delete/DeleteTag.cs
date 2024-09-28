@@ -1,9 +1,9 @@
 ﻿namespace PlyQor.Audit.TestCases.StorageProvider
 {
-	using PlyQor.Audit.Core;
-	using PlyQor.Engine.Components.Storage;
-	using System;
-	class DeleteTag
+    using PlyQor.Audit.Core;
+    using PlyQor.Internal.Engine.Components.StorageAdapter;
+    using System;
+    class DeleteTag
 	{
 		public static void Execute()
 		{

@@ -15,6 +15,8 @@
 
 		private static string _traceRetention;
 
+		private static string _storageAdapter;
+
 		private static List<string> _operations =
 			new List<string>()
 			{
@@ -61,6 +63,8 @@
 
 		public static List<string> SystemOperations => _systemOperations;
 
+		public static string StorageAdapter => _storageAdapter;
+
 		public static bool Load(Dictionary<string, string> configuration)
 		{
 			foreach (var item in configuration)
@@ -78,6 +82,9 @@
 						break;
 					case "TRACE_RETENTION":
 						_traceRetention = item.Value;
+						break;
+					case "STORAGE_ADAPTER":
+						_storageAdapter = item.Value;
 						break;
 
 					default:

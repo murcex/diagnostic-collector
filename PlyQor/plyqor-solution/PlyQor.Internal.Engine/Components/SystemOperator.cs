@@ -1,4 +1,4 @@
-﻿using PlyQor.Internal.Engine.Components.SystemQuery;
+﻿using PlyQor.Internal.Engine.Components.Query;
 using PlyQor.Models;
 using System.Collections.Generic;
 

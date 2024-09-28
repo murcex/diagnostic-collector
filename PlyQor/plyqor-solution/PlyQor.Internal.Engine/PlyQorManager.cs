@@ -1,17 +1,16 @@
-﻿namespace PlyQor.Engine
-{
-	using PlyQor.Engine.Components.Query;
-	using PlyQor.Engine.Components.Validation;
-	using PlyQor.Engine.Core;
-	using PlyQor.Engine.Resources;
-	using PlyQor.Internal.Engine.Components;
-	using PlyQor.Models;
-	using PlyQor.Resources;
-	using System;
-	using System.Collections.Generic;
-	using System.ComponentModel;
-	using System.Text.Json;
+﻿using PlyQor.Engine.Components.Query;
+using PlyQor.Engine.Components.Validation;
+using PlyQor.Engine.Core;
+using PlyQor.Engine.Resources;
+using PlyQor.Internal.Engine.Components;
+using PlyQor.Models;
+using PlyQor.Resources;
+using System;
+using System.Collections.Generic;
+using System.Text.Json;
 
+namespace PlyQor.Engine
+{
 	public class PlyQorManager
 	{
 		public static bool Initialize(Dictionary<string, Dictionary<string, string>> configuration)
