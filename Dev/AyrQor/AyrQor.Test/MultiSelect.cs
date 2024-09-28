@@ -101,7 +101,7 @@ namespace AyrQor.Test
 			}
 
 			// Select only
-			var package_1 = container.MultiSelect(5, OrderBy.ASC);
+			var package_1 = container.MultiSelect(top: 5, order: OrderBy.ASC);
 			var count_1 = container.Count();
 
 			var match_1 = 0;
@@ -114,7 +114,7 @@ namespace AyrQor.Test
 			}
 
 			// Select with removal
-			var package_2 = container.MultiSelect(5, OrderBy.ASC, remove: true);
+			var package_2 = container.MultiSelect(top: 5, order: OrderBy.ASC, remove: true);
 			var count_2 = container.Count();
 
 			var match_2 = 0;

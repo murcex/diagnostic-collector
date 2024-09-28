@@ -33,7 +33,7 @@ namespace AyrQor
 			return false;
 		}
 
-		public bool Import(string name, List<(DateTime timestamp, string id, string data)> records)
+		public bool Import(string name, List<(DateTime timestamp, string id, string data, List<string> tags)> records)
 		{
 			if (containers.TryGetValue(name, out var container))
 			{
@@ -43,7 +43,7 @@ namespace AyrQor
 			return false;
 		}
 
-		public List<(DateTime timestamp, string id, string data)> Export(string name)
+		public List<(DateTime timestamp, string id, string data, List<string> tags)> Export(string name)
 		{
 			if (containers.TryGetValue(name, out var container))
 			{
@@ -107,21 +107,21 @@ namespace AyrQor
 			return null;
 		}
 
-		public Dictionary<string, string> MultiSelectLIFO(string name, int top = 0, bool remove = false)
+		public Dictionary<string, string> MultiSelectLIFO(string name, string tag = null, int top = 0, bool remove = false)
 		{
 			if (containers.TryGetValue(name, out var container))
 			{
-				return container.MultiSelect(top, OrderBy.DESC, remove);
+				return container.MultiSelect(tag, top, OrderBy.DESC, remove);
 			}
 
 			return null;
 		}
 
-		public Dictionary<string, string> MultiSelectFIFO(string name, int top = 0, bool remove = false)
+		public Dictionary<string, string> MultiSelectFIFO(string name, string tag = null, int top = 0, bool remove = false)
 		{
 			if (containers.TryGetValue(name, out var container))
 			{
-				return container.MultiSelect(top, OrderBy.ASC, remove);
+				return container.MultiSelect(tag, top, OrderBy.ASC, remove);
 			}
 
 			return null;

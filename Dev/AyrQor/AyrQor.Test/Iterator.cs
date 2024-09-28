@@ -1,6 +1,6 @@
 ﻿namespace AyrQor.Test
 {
-	public class Looper
+	public class Iterator
 	{
 		private int _current;
 
@@ -8,7 +8,7 @@
 
 		public int Current => _current;
 
-		public Looper(int limit, int start = 0)
+		public Iterator(int limit, int start = 0)
 		{
 			this._current = start;
 			this._limit = limit;

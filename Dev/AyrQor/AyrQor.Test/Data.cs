@@ -10,23 +10,23 @@ namespace AyrQor.Test
 		[TestMethod]
 		public void Import()
 		{
-			List<(DateTime timestamp, string id, string data)> records = new();
+			List<(DateTime timestamp, string id, string data, List<string> tags)> records = new();
 
-			Looper looper = new(10);
+			Iterator iterator = new(10);
 			Dictionary<string, string> data_set = new();
 
-			while (looper.IsActive())
+			while (iterator.IsActive())
 			{
 				var test_id = Guid.NewGuid().ToString();
 				var test_data = Guid.NewGuid().ToString();
 
-				records.Add((DateTime.Now, test_id, test_data));
+				records.Add((DateTime.Now, test_id, test_data, new List<string>()));
 				data_set.Add(test_id, test_data);
 
-				looper.Next();
+				iterator.Next();
 			}
 
-			records.Add((DateTime.Now, "test", "abc"));
+			records.Add((DateTime.Now, "test", "abc", new List<string>()));
 
 			AyrQorContainer container = new("Test1");
 			container.Import(records);
@@ -46,18 +46,18 @@ namespace AyrQor.Test
 		[TestMethod]
 		public void Export()
 		{
-			Looper looper = new(10);
+			Iterator interator = new(10);
 			Dictionary<string, string> data_set = new();
 			AyrQorContainer container = new("Test1");
 
-			while (looper.IsActive())
+			while (interator.IsActive())
 			{
 				var test_id = Guid.NewGuid().ToString();
 				var test_data = Guid.NewGuid().ToString();
 				container.Insert(test_id, test_data);
 				data_set.Add(test_id, test_data);
 
-				looper.Next();
+				interator.Next();
 			}
 
 			var records = container.Export();
