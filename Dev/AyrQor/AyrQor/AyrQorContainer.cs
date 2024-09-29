@@ -118,9 +118,9 @@
 					else
 					{
 						tagDictionary = new ConcurrentDictionary<string, DateTime>();
-						tagDictionary.TryAdd(tag, timeStamp);
+						tagDictionary.TryAdd(key, timeStamp);
 
-						Tags.TryAdd(tag, new ConcurrentDictionary<string, DateTime>());
+						Tags.TryAdd(tag, tagDictionary);
 					}
 				}
 			}
@@ -199,7 +199,7 @@
 			key = key.ToUpper();
 
 			if (Storage.TryGetValue(key, out string oldValue))
-			{				
+			{
 				TimeStamp[key] = DateTime.UtcNow;
 				Storage[key] = value;
 
@@ -244,20 +244,50 @@
 			{
 				if (tagged)
 				{
-					//...
+					if (order == OrderBy.DESC)
+					{
+						if (Tags.TryGetValue(tag, out var tagDictionary))
+						{
+							var datetimesDescending = tagDictionary.OrderByDescending(x => x.Value)
+								.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+
+							foreach (var record in datetimesDescending)
+							{
+								data.Add(record.Key, Select(record.Key, remove: remove));
+							}
+						}
+					}
+					else
+					{
+						if (Tags.TryGetValue(tag, out var tagDictionary))
+						{
+							var datetimesAscending = tagDictionary.OrderBy(x => x.Value)
+								.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+
+							foreach (var record in datetimesAscending)
+							{
+								data.Add(record.Key, Select(record.Key, remove: remove));
+							}
+						}
+					}
 				}
 				else
 				{
-					foreach (var record in Storage)
+					var datetimeOrderedBy = new Dictionary<string, DateTime>();
+					if (order == OrderBy.DESC)
 					{
-						data.Add(record.Key, record.Value);
+						datetimeOrderedBy = TimeStamp.OrderByDescending(x => x.Value)
+							.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 					}
-					if (remove)
+					else
 					{
-						Storage.Clear();
-						TimeStamp.Clear();
+						datetimeOrderedBy = TimeStamp.OrderBy(x => x.Value)
+							.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+					}
 
-						size = 0;
+					foreach (var record in datetimeOrderedBy)
+					{
+						data.Add(record.Key, Select(record.Key, remove: remove));
 					}
 				}
 
