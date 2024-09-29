@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace PlyQor.Internal.Engine.Components.Query
 {
-    public class SystemQueryProvider
+	public class SystemQueryProvider
 	{
 		public static Dictionary<string, string> CreateContainer(RequestManager requestManager)
 		{
