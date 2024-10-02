@@ -155,27 +155,43 @@
 		/// </summary>
 		/// <param name="key">The key of the record</param>
 		/// <returns>True if the record is deleted successfully, otherwise false</returns>
-		public bool Delete(string key)
+		public bool Delete(string key, bool tag = false)
 		{
 			key = key.ToUpper();
 
-			if (Storage.TryGetValue(key, out string value))
+			if (tag)
 			{
-				TimeStamp.TryRemove(key, out _);
-				Storage.TryRemove(key, out _);
-
-				foreach (var tagDictionary in Tags.Values)
+				if (Tags.ContainsKey(key))
 				{
-					tagDictionary.TryRemove(key, out _);
+					Tags.TryRemove(key, out _);
+
+					return true;
 				}
-
-				size -= value.Length;
-
-				return true;
+				else
+				{
+					return false;
+				}
 			}
 			else
 			{
-				return false;
+				if (Storage.TryGetValue(key, out string value))
+				{
+					TimeStamp.TryRemove(key, out _);
+					Storage.TryRemove(key, out _);
+
+					foreach (var tagDictionary in Tags.Values)
+					{
+						tagDictionary.TryRemove(key, out _);
+					}
+
+					size -= value.Length;
+
+					return true;
+				}
+				else
+				{
+					return false;
+				}
 			}
 		}
 
@@ -185,31 +201,48 @@
 		/// <param name="key">The key of the record</param>
 		/// <param name="value">The new value of the record</param>
 		/// <returns>True if the record is updated successfully, otherwise false</returns>
-		public bool Update(string key, string value)
+		public bool Update(string key, string value, bool tag = false)
 		{
 			key = key.ToUpper();
 
-			if (Storage.TryGetValue(key, out string oldValue))
+			if (tag)
 			{
-				TimeStamp[key] = DateTime.UtcNow;
-				Storage[key] = value;
-
-				foreach (var tagDictionary in Tags.Values)
+				if (Tags.ContainsKey(key))
 				{
-					if (tagDictionary.ContainsKey(key))
-					{
-						tagDictionary[key] = DateTime.UtcNow;
-					}
+					Tags.TryAdd(value.ToUpper(), Tags[key]);
+					Tags.TryRemove(key, out _);
+
+					return true;
 				}
-
-				size -= oldValue.Length;
-				size += value.Length;
-
-				return true;
+				else
+				{
+					return false;
+				}
 			}
 			else
 			{
-				return false;
+				if (Storage.TryGetValue(key, out string oldValue))
+				{
+					TimeStamp[key] = DateTime.UtcNow;
+					Storage[key] = value;
+
+					foreach (var tagDictionary in Tags.Values)
+					{
+						if (tagDictionary.ContainsKey(key))
+						{
+							tagDictionary[key] = DateTime.UtcNow;
+						}
+					}
+
+					size -= oldValue.Length;
+					size += value.Length;
+
+					return true;
+				}
+				else
+				{
+					return false;
+				}
 			}
 		}
 

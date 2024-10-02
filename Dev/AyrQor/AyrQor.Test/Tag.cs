@@ -69,31 +69,47 @@ namespace AyrQor.Test
 		public void Tag_Update()
 		{
 			AyrQorContainer container = new AyrQorContainer(containerName);
+			var newTag = "NewTag";
 
 			var countStart = container.Count();
 			var sizeStart = container.Size;
 
 			container.Insert("A", "1", tag);
-			container.Insert("B", "2", tag);
-			container.Insert("C", "3", tag);
 
-			container.Update("A", "4");
+			var selectStart = container.MultiSelect(tag);
 
-			var selectDescResult = container.MultiSelect(tag, top: 3);
-			var selectDescArray = selectDescResult.ToArray();
+			var updateResult = container.Update(tag, newTag, tag: true);
 
-			var selectAscResult = container.MultiSelect(tag, top: 3, order: OrderBy.ASC);
-			var selectAscArray = selectAscResult.ToArray();
+			var selectEnd = container.MultiSelect(tag);
+			var selectNew = container.MultiSelect(newTag);
 
-			var desc1 = selectDescArray[0];
-			var desc2 = selectDescArray[1];
-			var desc3 = selectDescArray[2];
+			Assert.AreEqual(selectStart.Count, 1);
+			Assert.IsTrue(updateResult);
+			Assert.AreEqual(selectEnd.Count, 0);
+			Assert.AreEqual(selectNew.Count, 1);
+		}
 
-			var asc1 = selectAscArray[0];
-			var asc2 = selectAscArray[1];
-			var asc3 = selectAscArray[2];
+		[TestMethod]
+		public void Tag_Delete()
+		{
+			AyrQorContainer container = new AyrQorContainer(containerName);
 
-			var test = 0;
+			var countStart = container.Count();
+			var sizeStart = container.Size;
+
+			container.Insert("A", "1", tag);
+
+			var selectStart = container.MultiSelect(tag);
+
+			var deleteResult = container.Delete(tag, tag: true);
+
+			var selectEnd = container.MultiSelect();
+			var selectTag = container.MultiSelect(tag);
+
+			Assert.AreEqual(selectStart.Count, 1);
+			Assert.IsTrue(deleteResult);
+			Assert.AreEqual(selectEnd.Count, 1);
+			Assert.AreEqual(selectTag.Count, 0);
 		}
 	}
 }
