@@ -55,15 +55,6 @@
 		public int Size => size;
 
 		/// <summary>
-		/// Get the count of records in the container
-		/// </summary>
-		/// <returns>The count of records</returns>
-		public int Count()
-		{
-			return Storage.Count;
-		}
-
-		/// <summary>
 		/// Initializes a new instance of the AyrQorContainer class with the specified name and options.
 		/// </summary>
 		/// <param name="name">The name of the container</param>
@@ -439,6 +430,29 @@
 			}
 
 			return records;
+		}
+
+		/// <summary>
+		/// Get the count of records in the container
+		/// </summary>
+		/// <returns>The count of records</returns>
+		public int Count(string tag = null)
+		{
+			if (!string.IsNullOrEmpty(tag))
+			{
+				if (Tags.TryGetValue(tag, out var tagDictionary))
+				{
+					return tagDictionary.Count;
+				}
+				else
+				{
+					return 0;
+				}
+			}
+			else
+			{
+				return Storage.Count;
+			}
 		}
 
 		/// <summary>

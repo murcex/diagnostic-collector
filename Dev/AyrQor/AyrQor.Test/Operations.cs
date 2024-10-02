@@ -119,5 +119,30 @@ namespace AyrQor.Test
 			Assert.AreEqual(count_1, 0);
 			Assert.AreEqual(size_1, 0);
 		}
+
+		[TestMethod]
+		[DataRow(true)]
+		[DataRow(false)]
+		public void Count(bool tagged)
+		{
+			AyrQorContainer container = new AyrQorContainer(containerName);
+			var tag = tagged ? "Test".ToUpper() : null;
+
+			container.Insert(id, value, tag);
+
+			var count_1 = container.Count(tag);
+
+			container.Insert(Guid.NewGuid().ToString(), value_2, tag);
+
+			var count_2 = container.Count(tag);
+
+			container.Delete(id);
+
+			var count_3 = container.Count(tag);
+
+			Assert.AreEqual(count_1, 1);
+			Assert.AreEqual(count_2, 2);
+			Assert.AreEqual(count_3, 1);
+		}
 	}
 }
