@@ -14,29 +14,6 @@ namespace AyrQor.Test
 		static readonly string tag = "TestTag";
 
 		[TestMethod]
-		public void Tag_Insert()
-		{
-			AyrQorContainer container = new AyrQorContainer(containerName);
-
-			var countStart = container.Count();
-			var sizeStart = container.Size;
-
-			var insertResult = container.Insert(id, value, tag);
-
-			var countEnd = container.Count();
-			var sizeEnd = container.Size;
-
-			var selectResult = container.MultiSelect(tag);
-
-			Assert.AreEqual(countStart, 0);
-			Assert.AreEqual(sizeStart, 0);
-			Assert.IsTrue(insertResult);
-			Assert.AreEqual(countEnd, 1);
-			Assert.AreEqual(sizeEnd, value.Length);
-			Assert.AreEqual(selectResult.Count(), 1);
-		}
-
-		[TestMethod]
 		public void Tag_Select()
 		{
 			AyrQorContainer container = new AyrQorContainer(containerName);
@@ -94,40 +71,6 @@ namespace AyrQor.Test
 			var asc3 = selectAscArray[2];
 
 			var test = 0;
-		}
-
-		[TestMethod]
-		public void Tag_Delete()
-		{
-			AyrQorContainer container = new AyrQorContainer(containerName);
-
-			var countStart = container.Count();
-			var sizeStart = container.Size;
-
-			var insertResult = container.Insert(id, value, tag);
-
-			var countEnd = container.Count();
-			var sizeEnd = container.Size;
-
-			var selectResult1 = container.MultiSelect(tag);
-
-			var deleteResult = container.Delete(id);
-
-			var selectResult2 = container.MultiSelect(tag);
-
-			var test = 0;
-		}
-
-		[TestMethod]
-		public void Tag_Import()
-		{
-
-		}
-
-		[TestMethod]
-		public void Tag_Export()
-		{
-
 		}
 	}
 }

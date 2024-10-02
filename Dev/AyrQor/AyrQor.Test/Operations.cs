@@ -12,18 +12,33 @@ namespace AyrQor.Test
 		static readonly string value_2 = "EfGh567%";
 
 		[TestMethod]
-		public void Insert()
+		[DataRow(true)]
+		[DataRow(false)]
+		public void Insert(bool tagged)
 		{
 			AyrQorContainer container = new AyrQorContainer(containerName);
+			var tag = tagged ? "Test".ToUpper() : null;
 
 			var countStart = container.Count();
 			var sizeStart = container.Size;
 
-			var insertResult = container.Insert(id, value);
+			var insertResult = container.Insert(id, value, tag);
+
+			var countEnd = container.Count();
+			var sizeEnd = container.Size;
 
 			Assert.AreEqual(countStart, 0);
 			Assert.AreEqual(sizeStart, 0);
 			Assert.IsTrue(insertResult);
+			Assert.AreEqual(countEnd, 1);
+			Assert.AreEqual(sizeEnd, value.Length);
+
+			if (tagged)
+			{
+				var tagged_data = container.MultiSelect(tag);
+
+				Assert.AreEqual(1, tagged_data.Count);
+			}
 		}
 
 		[TestMethod]
@@ -55,11 +70,14 @@ namespace AyrQor.Test
 		}
 
 		[TestMethod]
-		public void Update()
+		[DataRow(true)]
+		[DataRow(false)]
+		public void Update(bool tagged)
 		{
 			AyrQorContainer container = new AyrQorContainer(containerName);
+			var tag = tagged ? "Test".ToUpper() : null;
 
-			container.Insert(id, value);
+			container.Insert(id, value, tag);
 
 			var update_1 = container.Update(id, value_2);
 			var update_2 = container.Update("test", value_2);
@@ -76,19 +94,27 @@ namespace AyrQor.Test
 		}
 
 		[TestMethod]
-		public void Delete()
+		[DataRow(true)]
+		[DataRow(false)]
+		public void Delete(bool tagged)
 		{
 			AyrQorContainer container = new AyrQorContainer(containerName);
+			var tag = tagged ? "Test".ToUpper() : null;
 
-			container.Insert(id, value);
+			container.Insert(id, value, tag);
 
 			var delete = container.Delete(id);
 
 			var select_1 = container.Select(id);
+			var multi_select = tagged ? container.MultiSelect(tag) : null;
 			var count_1 = container.Count();
 			var size_1 = container.Size;
 
 			Assert.IsTrue(delete);
+			if (tagged)
+			{
+				Assert.AreEqual(multi_select.Count, 0);
+			}
 			Assert.AreEqual(select_1, null);
 			Assert.AreEqual(count_1, 0);
 			Assert.AreEqual(size_1, 0);
