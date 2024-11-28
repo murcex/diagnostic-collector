@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Linq;
 
 namespace AyrQor.Test
 {
@@ -67,6 +68,61 @@ namespace AyrQor.Test
 			Assert.AreEqual(size_2, 0);
 
 			Assert.AreEqual(select_3, null);
+		}
+
+		[TestMethod]
+		[DataRow(0, false, null)]
+		[DataRow(3, false, null)]
+		[DataRow(0, true, null)]
+		[DataRow(3, true, null)]
+		[DataRow(0, false, "Test")]
+		[DataRow(3, false, "Test")]
+		[DataRow(0, true, "Test")]
+		[DataRow(3, true, "Test")]
+		public void MultiSelect(int top, bool update, string tag)
+		{
+			AyrQorContainer container = new AyrQorContainer(containerName);
+
+			var countStart = container.Count();
+			var sizeStart = container.Size;
+
+			var a = "A";
+			var b = "B";
+			var c = "C";
+
+			container.Insert(a, "1", tag);
+			container.Insert(b, "2", tag);
+			container.Insert(c, "3", tag);
+
+			if (update)
+			{
+				container.Update(b, "4");
+			}
+
+			var selectDescResult = container.MultiSelect(tag, top: top);
+			var selectDescArray = selectDescResult.ToArray();
+
+			var selectAscResult = container.MultiSelect(tag, top: top, order: OrderBy.ASC);
+			var selectAscArray = selectAscResult.ToArray();
+
+			if (update)
+			{
+				Assert.AreEqual(selectDescArray[0].Key, b);
+				Assert.AreEqual(selectDescArray[1].Key, c);
+				Assert.AreEqual(selectDescArray[2].Key, a);
+				Assert.AreEqual(selectAscArray[0].Key, a);
+				Assert.AreEqual(selectAscArray[1].Key, c);
+				Assert.AreEqual(selectAscArray[2].Key, b);
+			}
+			else
+			{
+				Assert.AreEqual(selectDescArray[0].Key, c);
+				Assert.AreEqual(selectDescArray[1].Key, b);
+				Assert.AreEqual(selectDescArray[2].Key, a);
+				Assert.AreEqual(selectAscArray[0].Key, a);
+				Assert.AreEqual(selectAscArray[1].Key, b);
+				Assert.AreEqual(selectAscArray[2].Key, c);
+			}
 		}
 
 		[TestMethod]

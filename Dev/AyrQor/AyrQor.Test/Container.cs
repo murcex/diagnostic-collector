@@ -5,8 +5,18 @@ using System.Collections.Generic;
 namespace AyrQor.Test
 {
 	[TestClass]
-	public class Data
+	public class Container
 	{
+		[TestMethod]
+		public void Create()
+		{
+			var containerName = "TestContainer";
+
+			AyrQorContainer container = new AyrQorContainer(containerName);
+
+			Assert.AreEqual(container.Name, containerName);
+		}
+
 		[TestMethod]
 		[DataRow(true)]
 		[DataRow(false)]

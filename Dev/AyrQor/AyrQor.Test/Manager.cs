@@ -6,7 +6,7 @@ namespace AyrQor.Test
 	public class Manager
 	{
 		[TestMethod]
-		public void Basic()
+		public void Operations()
 		{
 			AyrQorContainer container_1 = new("Test1");
 			AyrQorContainer container_2 = new("Test2");

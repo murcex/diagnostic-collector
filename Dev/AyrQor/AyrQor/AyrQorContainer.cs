@@ -506,14 +506,14 @@
 		/// <returns>True if the data satisfies the policy, otherwise false</returns>
 		private bool PolicyCheck(string data)
 		{
-			if (data.Length > options.MaxSize
-			&& options.MaxSize > 0)
+			if (data.Length > options.MaxDataSize
+			&& options.MaxDataSize > 0)
 			{
 				return false;
 			}
 
-			if (Storage.Count > options.MaxCount
-			&& options.MaxCount > 0)
+			if (Storage.Count > options.MaxRecordCount
+			&& options.MaxRecordCount > 0)
 			{
 				return false;
 			}

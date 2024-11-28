@@ -18,7 +18,7 @@ namespace AyrQor.Test
 		[DataRow(3, false)]
 		[DataRow(0, true)]
 		[DataRow(3, true)]
-		public void Tag_Select(int top, bool update)
+		public void Select(int top, bool update)
 		{
 			AyrQorContainer container = new AyrQorContainer(containerName);
 
@@ -62,11 +62,10 @@ namespace AyrQor.Test
 				Assert.AreEqual(selectAscArray[1].Key, b);
 				Assert.AreEqual(selectAscArray[2].Key, c);
 			}
-
 		}
 
 		[TestMethod]
-		public void Tag_Update()
+		public void Update()
 		{
 			AyrQorContainer container = new AyrQorContainer(containerName);
 			var newTag = "NewTag";
@@ -90,7 +89,7 @@ namespace AyrQor.Test
 		}
 
 		[TestMethod]
-		public void Tag_Delete()
+		public void Delete()
 		{
 			AyrQorContainer container = new AyrQorContainer(containerName);
 
